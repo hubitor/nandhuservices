@@ -1,0 +1,12 @@
+<form [formGroup]="ddlsubCategoryForm" novalidate>
+    <div>
+        <section>
+            <label class="label">Sub Category</label>
+            <label class="select">
+                <select formControlName="subcategory" (change)="subCategorySelected($event)">
+                <!--<option value="-1">Choose Sub Category</option>-->
+               <option *ngFor="let subcategory of subCategories" [value]="subcategory.id">{{subcategory.subcategory_name}}</option>
+                </select> <i></i> </label>
+        </section>
+    </div>
+</form>

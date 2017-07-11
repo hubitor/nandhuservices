@@ -1,0 +1,12 @@
+<form [formGroup]="ddlstatusForm" novalidate>
+    <div>
+        <section>
+            <label class="label">Status</label>
+            <label class="select">
+                <select formControlName="status"  (change)="statusSelected($event)">
+                <!--<option value="-1">Choose Status</option>-->
+               <option *ngFor="let sts of status" [value]="sts.value_field">{{sts.text_field}}</option>
+                </select> <i></i> </label>
+        </section>
+    </div>
+</form>

@@ -1,0 +1,42 @@
+<section>
+  <sa-widget>
+    <div class="row">
+      <h2>Subcategory Edit</h2>
+      <form [formGroup]="productSubcategoryEditForm">
+        <label>Select a category</label>
+        <select class="form-control" name="productCategory" #productCategory (change)="onProductCategorySelect(productCategory.value)">
+          <option></option>
+          <option *ngFor="let category of categories" value="{{category.id}}">{{category.category_name}}</option>
+        </select>
+        <br>
+        <label>Select a subcategory</label>
+        <select class="form-control" name="productSubcategory" #productSubcategory (change)="onProductSubcategorySelect(productSubcategory.value)">
+          <option></option>
+          <option *ngFor="let subcategory of subcategories" value="{{subcategory.id}}">{{subcategory.subcategory_name}}</option>
+        </select>
+        <br>
+        <label>Subcategory Name</label>
+        <input type="text" class="form-control" name="productSubcategoryName" formControlName="productSubcategoryName">
+        <br>
+        <label>Subcategory Description</label>
+        <textarea class="form-control" name="productSubcategoryDescription" formControlName="productSubcategoryDescription"></textarea>
+        <br>
+        <label>Subcategory Active Status</label>
+        <select class="form-control" name="productSubcategoryActiveStatus" formControlName="productSubcategoryActiveStatus">
+          <option value="true">Active</option>
+          <option value="false">Passive</option>
+        </select>
+        <br>
+        <input *ngIf="isImageDeleted" type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" >
+        <div *ngIf="imageSelector" style="position:relative;display:inline-block;text-align:center;">
+          <img src="{{subcategoryImage}}" height="200px" width="200px">
+          <br>
+          <a (click)="deleteImage()" style="position:absolute;bottom:5px;right:5px;width:70px;height:20px;background-color:white;color:black;">delete</a>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success" (click)="subcategoryUpdate()">Update</button>
+        <br>
+      </form>
+    </div>
+  </sa-widget>
+</section>

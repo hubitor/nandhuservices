@@ -1,0 +1,14 @@
+<form [formGroup]="ddlCategoryForm" novalidate>
+    <div>
+        <section>
+            <label class="label">Category</label>
+            <label class="select">
+                <select formControlName="category" (change)="categorySelected($event)">
+                <!--[attr.selected]="selectedExternalCategory"<option value="-1">Choose Category</option>-->
+               <option *ngFor="let category of categories" [value]="category.id"
+               
+               >{{category.category_name}}</option>
+                </select> <i></i> </label>
+        </section>
+    </div>
+</form>
