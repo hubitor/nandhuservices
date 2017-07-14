@@ -18,12 +18,14 @@ export class SubcategoryComponent implements OnInit {
   subcategories: SubCategory[];
   categories: Category;
   errorMessage: string;
+  user;
 
   constructor(private fb: FormBuilder, private subcategoryService: SubCategoryService, private categoryService: CategoryService) {
     this.subcategory = new SubCategory();
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.getAllCategory();
     this.productSubcategoryForm = new FormGroup({
       productCategoryId: new FormControl(""),

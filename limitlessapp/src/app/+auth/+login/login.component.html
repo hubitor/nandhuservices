@@ -19,12 +19,12 @@
             <h4 class="paragraph-header">It's Okay to be Smart. Experience the simplicity of haappyapp,
               everywhere you go!</h4>
 
-            <div class="login-app-icons">
+            <!--div class="login-app-icons">
               <a routerLink="/dashboard/analytics" class="btn btn-danger btn-sm">Frontend Template</a>
               <a routerLink="/smartadmin/app-layouts" class="btn btn-danger btn-sm">Find out more</a>
-            </div>
+            </div-->
           </div>
-          <img src="assets/img/demo/iphoneview.png" class="pull-right display-image" alt="" style="width:210px">
+          <!--img src="assets/img/demo/iphoneview.png" class="pull-right display-image" alt="" style="width:210px"-->
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -36,18 +36,18 @@
             </p>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <h5 class="about-heading">Not just your average template!</h5>
+            <!--h5 class="about-heading">Not just your average template!</h5>
 
             <p>
               Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta
               nobis est eligendi voluptatem accusantium!
-            </p>
+            </p-->
           </div>
         </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
         <div class="well no-padding">
-          <form class="smart-form client-form">
+          <form [formGroup]="userLoginForm" class="smart-form client-form">
             <header>
               Sign In
             </header>
@@ -55,14 +55,14 @@
               <section>
                 <label class="label">E-mail</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input type="email" name="email" data-smart-validate-input="" data-required="" data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address">
+                  <input type="email" formControlName="userEmail" name="email" data-smart-validate-input="" data-required="" data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i>
                     Please enter email address/username</b></label>
               </section>
               <section>
                 <label class="label">Password</label>
                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                  <input type="password" name="password" data-smart-validate-input="" data-required="" data-minlength="3" data-maxnlength="20" data-message="Please enter your email password">
+                  <input type="password" formControlName="userPasswd" name="password" data-smart-validate-input="" data-required="" data-minlength="3" data-maxnlength="20" data-message="Please enter your email password">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter
                     your password</b> </label>
 
@@ -77,7 +77,7 @@
               </section>
             </fieldset>
             <footer>
-              <button (click)="login($event)" class="btn btn-primary">
+              <button (click)="login()" class="btn btn-primary">
                 Sign in
               </button>
             </footer>

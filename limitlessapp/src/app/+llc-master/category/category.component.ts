@@ -23,12 +23,14 @@ export class CategoryComponent implements OnInit {
   categoryUpdateResponse: CategoryUpdateResponse;
   mode = 'Observable';
   categoryId;
+  user;
   constructor(private categoryService: CategoryService, private fb: FormBuilder) {
     this.category = new Category();
   }
 
   ngOnInit() {
     //console.log('intialize categories');
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.getAllCategory();
     //this.getCategoryById();
     this.productCategoryForm = new FormGroup({
@@ -56,12 +58,12 @@ export class CategoryComponent implements OnInit {
         var imageUrl = splitter[0];
         var fileName = splitter[1];
         this.category = new Category();
-        this.category.application_id = 1;
+        this.category.application_id = this.user.user_app_id;
         this.category.category_name = productCatgory.productCategoryName;
         this.category.category_description = productCatgory.productCategoryDescription;
         this.category.category_image = imageUrl;
         this.category.image_file_name = fileName;
-        this.category.seller_id = 1;
+        this.category.seller_id = this.user.user_id;
         this.category.is_active = productCatgory.productCategoryActiveStatus;
         this.category.created_by = "user";
         this.category.updated_by = "user";
