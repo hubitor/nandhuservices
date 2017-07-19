@@ -5,6 +5,7 @@ import { SubCategory } from '../../shared/models/sub-category';
 import { SubCategoryService } from '../../shared/server/service/sub-category-service';
 import { CategoryService } from "../../shared/server/service/category-service";
 import { Category } from "../../shared/models/category";
+import { AppSettings } from "../../shared/server/api/api-settings"
 
 @Component({
   selector: 'app-subcategory',
@@ -12,7 +13,7 @@ import { Category } from "../../shared/models/category";
   providers: [SubCategoryService, CategoryService]
 })
 export class SubcategoryComponent implements OnInit {
-  public uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/upload/image/ecomm/subcategory/1' });
+  public uploader: FileUploader = new FileUploader({ url: AppSettings.API_ENDPOINT+ 'upload/image/ecomm/subcategory/1' });
   productSubcategoryForm;
   subcategory: SubCategory;
   subcategories: SubCategory[];

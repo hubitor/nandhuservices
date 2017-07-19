@@ -4,6 +4,7 @@ import { ProductService } from "../../shared/server/service/product-service"
 import { Observable }     from 'rxjs/Observable';
 import { Product } from "../../shared/models/product"
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { AppSettings } from "../../shared/server/api/api-settings"
 @Component({
   selector: 'llc-product',
   templateUrl: './product.component.html',
@@ -11,7 +12,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
    
 })
 export class ProductComponent implements OnInit {
-  public uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/product/category/image/2/1' });
+  public uploader: FileUploader = new FileUploader({ url: AppSettings.API_ENDPOINT + 'product/category/image/2/1' });
   public p_categoryId:0;
   private s_statusId:boolean;
   private s_subCategoryId:number;

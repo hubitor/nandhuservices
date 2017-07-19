@@ -9,6 +9,7 @@ import { SubCategory } from "../../models/sub-category";
 import { headerDict} from "../../models/header";
 import { CreateResponse } from "../../models/createResponse";
 import { FileDeleteRequest } from "../../models/fileDeleteRequest"
+import {AppSettings} from '../api/api-settings'
 
 @Injectable()
 export class SubCategoryService {
@@ -46,7 +47,7 @@ export class SubCategoryService {
    };
 
    deleteSubcategoryImage(fileDeleteRequest:FileDeleteRequest): Observable<any> {
-     return this.http.put("http://localhost:3000/upload/image/delete", fileDeleteRequest, {headers: this.headers})
+     return this.http.put(AppSettings.API_ENDPOINT+ "upload/image/delete", fileDeleteRequest, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
    };

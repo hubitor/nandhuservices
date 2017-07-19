@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
-
+import {AppSettings} from '../api/api-settings'
 import { ResponseData } from "../service/response-data";
 import { AppConfig } from "../api/app-config";
 import { Observable } from 'rxjs/Observable';
@@ -22,7 +22,7 @@ export class AuthServiceService {
   }
 
   userLogin(loginRequest: LoginRequest): Observable<LoginResponse> {
-    return this.http.post("http://localhost:3000/user/login", loginRequest, { headers: this.headers })
+    return this.http.post(AppSettings.API_ENDPOINT+"user/login", loginRequest, { headers: this.headers })
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   };

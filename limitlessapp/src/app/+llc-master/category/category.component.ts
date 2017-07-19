@@ -7,13 +7,16 @@ import { Category } from "../../shared/models/category"
 import { CreateResponse } from "../../shared/models/createResponse";
 import { CategoryUpdateResponse } from "../../shared/models/categoryUpdateResponse";
 
+import { AppSettings } from "../../shared/server/api/api-settings"
+
 @Component({
   selector: 'llc-category',
   templateUrl: './category.component.html',
   providers: [CategoryService]
 })
 export class CategoryComponent implements OnInit {
-  public uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/upload/image/ecomm/category/1' });
+  
+  public uploader: FileUploader = new FileUploader({ url: AppSettings.API_ENDPOINT+  'upload/image/ecomm/category/1' });
   productCategoryForm;
   errorMessage: string;
   appid: number;

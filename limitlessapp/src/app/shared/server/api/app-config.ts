@@ -2,6 +2,7 @@ import {AppSettings} from '../api/api-settings'
 
 export class AppConfig  { 
 
+
   // Application Config   
   public static get_Appl=AppSettings.API_ENDPOINT +"application";
   public static new_Appl=AppSettings.API_ENDPOINT +"new";
