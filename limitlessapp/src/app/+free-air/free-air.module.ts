@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 // import { OrdersComponent } from './orders/orders.component';
 import { ChannelVideoComponent } from './channel-video/channel-video.component';
 import { ChannelAlbumComponent } from './channel-album/channel-album.component';
+import { ChannelStreamComponent } from './channel-stream/channel-stream.component';
 import {SmartadminLayoutModule} from "../shared/layout/layout.module";
 import {SmartadminWidgetsModule} from "../shared/widgets/smartadmin-widgets.module";
 import {StatsModule} from "../shared/stats/stats.module";
@@ -26,8 +27,9 @@ import {CarouselModule} from "ngx-bootstrap";
   declarations: [
     //ShoppingCartComponent,
     //OrdersComponent,
-    ChannelVideoComponent
-    , ChannelAlbumComponent
+    ChannelVideoComponent,
+     ChannelAlbumComponent,
+    ChannelStreamComponent
    
   ]
 })

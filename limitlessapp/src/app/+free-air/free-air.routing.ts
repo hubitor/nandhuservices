@@ -2,7 +2,8 @@ import {ModuleWithProviders} from "@angular/core"
 import {Routes, RouterModule} from "@angular/router";
 
 import {ChannelVideoComponent} from "./channel-video/channel-video.component";
- import {ChannelAlbumComponent} from "./channel-album/channel-album.component";
+import {ChannelAlbumComponent} from "./channel-album/channel-album.component";
+import {ChannelStreamComponent} from "./channel-stream/channel-stream.component";
 
 export const routes:Routes = [
 //   {
@@ -17,6 +18,11 @@ export const routes:Routes = [
   {
     path: 'channel-album',
     component: ChannelAlbumComponent
+  }
+  ,
+  {
+    path: 'channel-stream',
+    component: ChannelStreamComponent
   }
 ];
 
