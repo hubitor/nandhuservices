@@ -22,7 +22,15 @@ export class AppConfig  {
 
   //Product Config
   public static get_Products=AppSettings.API_ENDPOINT +"product/all";
-  public static get_ProductById=AppSettings.API_ENDPOINT +"product/get/:id";
+  public static get_ProductById=AppSettings.API_ENDPOINT +"product/get/";
   public static new_Product=AppSettings.API_ENDPOINT +"new";
   public static amend_Product=AppSettings.API_ENDPOINT +"update";
+
+  //Broadcasters Config
+   public static get_Broadcasters=AppSettings.API_ENDPOINT +"broadcaster/all";
+   public static get_BroadcastersById=AppSettings.API_ENDPOINT +"broadcaster/get/";
+   public static get_BroadcastersByCategoryId=AppSettings.API_ENDPOINT +"broadcaster/get/";
+   public static update_BroadcasterVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterVideo/update"; //to pass "new"" as to server
+   public static new_BroadcasterVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterVideo/new"; //to pass "new"" as to server
+
 };

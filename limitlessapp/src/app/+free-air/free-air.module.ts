@@ -10,11 +10,13 @@ import {StatsModule} from "../shared/stats/stats.module";
 import {routing} from "./free-air.routing";
 import {SmartadminDatatableModule} from "../shared/ui/datatable/smartadmin-datatable.module";
 //import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CarouselModule} from "ngx-bootstrap";
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     routing,
     SmartadminLayoutModule,
     SmartadminWidgetsModule,

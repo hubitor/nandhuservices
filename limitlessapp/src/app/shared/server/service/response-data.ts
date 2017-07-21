@@ -3,7 +3,8 @@ import { Response }       from '@angular/http';
 
 export class ResponseData
 {
-    public static extractData(res: Response) {   
+    public static extractData(res: Response) { 
+      ;  
     let body = res.json();
     return body || { };
     //return body.data || { };

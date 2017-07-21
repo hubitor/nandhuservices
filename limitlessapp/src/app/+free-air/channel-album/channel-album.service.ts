@@ -49,7 +49,7 @@ getAlbums(): Observable<ChannelAlbum[]> {
   }
 
 private extractData(res: Response) {
-    debugger;
+    ;
     let body = res.json();
     return body.data || { };
   }

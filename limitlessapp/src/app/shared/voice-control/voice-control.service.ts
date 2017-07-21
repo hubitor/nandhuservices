@@ -96,7 +96,7 @@ export class VoiceControlService {
 
   public showHelp() {
     setTimeout(()=> {
-      // debugger
+      // 
 
       VoiceControlService.helpModal._component.show();
       this.helpShown.next(true);
