@@ -10,6 +10,8 @@ import { BroadcasterVideos } from "../../shared/models/broadcasterVideos"
 import { CreateResponse } from "../../shared/models/createResponse";
 import { AppSettings } from "../../shared/server/api/api-settings"
 import 'rxjs/add/observable/of';
+import {NotificationService} from "../../shared/utils/notification.service";
+import { StreamTargetRequest } from "../../shared/models/stream-target-request"
 
 @Component({
   selector: 'app-channel-stream',
@@ -24,10 +26,14 @@ export class ChannelStreamComponent implements OnInit {
   channelCategories:ChannelCategory;
   createResponse: CreateResponse;
   channelVideoKeyRequest:ChannelVideoKeyRequest;
+  streamTargetRequest:StreamTargetRequest;
   mode:'Observable';
   user;
   broadcasterVideos;
-  constructor(private broadcasterService:BroadcasterService,private fb:FormBuilder) { 
+  g_broadcasterId;
+  constructor(private broadcasterService:BroadcasterService
+  ,private fb:FormBuilder
+  ,private notificationService: NotificationService) { 
 
   }
 
@@ -52,7 +58,9 @@ export class ChannelStreamComponent implements OnInit {
   }
 
     onBroadcasterSelect(broadcasterId) {
-
+     const broadcasterVal = this.channelStreamForm.value;
+     broadcasterVal.broadcasterName=broadcasterId;
+     this.g_broadcasterId=broadcasterId;
     this.broadcasterService.getAllBroadcastersById(broadcasterId).subscribe(
       channelCategories => this.channelCategories = channelCategories[0].broadcast_channel_categories,
       error => this.errorMessage = error
@@ -75,7 +83,9 @@ export class ChannelStreamComponent implements OnInit {
       ;
     this.channelStreamForm = this.fb.group({
             channelCurrentStreamKey: this.broadcasterVideos[0].yt_streamkey,
+             broadcasterChannelCategoryName:this.broadcasterVideos[0].broadcaster_channel_id,
             channelNewStreamKey:'',
+            broadcasterName:this.g_broadcasterId,
             channelVideoId:this.broadcasterVideos[0].id
     });
   }
@@ -90,8 +100,34 @@ export class ChannelStreamComponent implements OnInit {
     this.channelVideoKeyRequest.yt_streamkey=broadcasterVideoVal.channelNewStreamKey;
     this.broadcasterService.updateCategoryVideosKey(this.channelVideoKeyRequest)
       .subscribe(
-      createresponse => this.createResponse = createresponse,
+      createresponse => this.showPopup(this.createResponse = createresponse),
       error => this.errorMessage = <any>error);
+  }
+
+   
+
+    showPopup(createResponse){
+    this.notificationService.smartMessageBox({
+      title : "Channel Stream Key",
+      content : "Channel stream key has been updated successfully!Your stream will be start automatically.",
+      buttons : '[No][Yes]'
+
+    }, (ButtonPressed) => {
+      if (ButtonPressed == "Yes") {
+
+       this.broadcasterService.deleteStreamTarget("AppName")
+      .subscribe(
+      response => Response,
+      error => this.errorMessage = <any>error)
+
+      this.broadcasterService.createStreamTarget( this.streamTargetRequest,"AppName")
+      .subscribe(
+      response => Response,
+      error => this.errorMessage = <any>error)
+
+        location.reload();
+      }
+    });
   }
 
 }

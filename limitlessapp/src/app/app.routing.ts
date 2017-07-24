@@ -15,7 +15,7 @@ export const routes: Routes = [
     data: {pageTitle: 'Home'},
     children: [
       {
-        path: '', redirectTo: 'llc-master/product', pathMatch: 'full'
+        path: '', redirectTo: 'auth/login', pathMatch: 'full'
       },
       
       {

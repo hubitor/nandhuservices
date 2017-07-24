@@ -2,6 +2,10 @@ import {AppSettings} from '../api/api-settings'
 
 export class AppConfig  { 
 
+//Delete stream target
+public static delete_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static create_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
   // Application Config   
   public static get_Appl=AppSettings.API_ENDPOINT +"application";

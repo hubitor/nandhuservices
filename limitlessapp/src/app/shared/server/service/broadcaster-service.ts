@@ -11,9 +11,16 @@ import { ChannelVideoKeyRequest } from "../../models/channelVideoKeyRequest";
 import { BroadcasterVideos } from "../../models/broadcasterVideos";
 import { CreateResponse } from "../../models/createResponse";
 import { headerDict} from "../../models/header";
+import { wowzaheaderDict} from "../../models/wowza-header";
+import { StreamTargetRequest } from "../../models/stream-target-request";
 
 const headerObj = {                                                                                                                                                                                 
-  headers: new Headers(headerDict), 
+  headers: new Headers(headerDict)
+  
+};
+
+const wowzaHeader={
+    wowzaHeader:new Headers(wowzaheaderDict)
 };
 
 @Injectable()
@@ -53,6 +60,20 @@ export class BroadcasterService {
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };
+
+    deleteStreamTarget(applicationName:string)
+    {
+          return this.http.get(AppConfig.delete_streamTarget+applicationName+"/applicationNamelive/pushpublish/mapentries/ppsource", wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string)
+    {
+          return this.http.post(AppConfig.create_streamTarget+applicationName+"/applicationNamelive/pushpublish/mapentries/ppsource", streamTargetRequest,wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
 
     
 }

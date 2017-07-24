@@ -75,7 +75,7 @@ export class CategoryComponent implements OnInit {
           .subscribe(
           createResponse => {
             alert("category created successfully...");
-            window.location.reload();
+            location.reload();
           },
           error => this.errorMessage = <any>error);
         
