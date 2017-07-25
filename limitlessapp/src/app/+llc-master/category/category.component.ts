@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { Category } from "../../shared/models/category"
 import { CreateResponse } from "../../shared/models/createResponse";
 import { CategoryUpdateResponse } from "../../shared/models/categoryUpdateResponse";
-
-import { AppSettings } from "../../shared/server/api/api-settings"
+import { LoginResponse } from "../../shared/models/loginResponse";
+import { AppSettings } from "../../shared/server/api/api-settings";
 
 @Component({
   selector: 'llc-category',
@@ -15,8 +15,8 @@ import { AppSettings } from "../../shared/server/api/api-settings"
   providers: [CategoryService]
 })
 export class CategoryComponent implements OnInit {
-  
-  public uploader: FileUploader = new FileUploader({ url: AppSettings.API_ENDPOINT+  'upload/image/ecomm/category/1' });
+  user:LoginResponse;
+  public uploader: FileUploader;
   productCategoryForm;
   errorMessage: string;
   appid: number;
@@ -26,14 +26,18 @@ export class CategoryComponent implements OnInit {
   categoryUpdateResponse: CategoryUpdateResponse;
   mode = 'Observable';
   categoryId;
-  user;
+  appSettings:AppSettings;
+
   constructor(private categoryService: CategoryService, private fb: FormBuilder) {
     this.category = new Category();
+    //this.user = new LoginResponse();
+    this.appSettings = new AppSettings();
+    this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
+    this.uploader = new FileUploader({ url: AppSettings.API_ENDPOINT+'upload/image/ecomm/category/'+this.user.user_id });
   }
 
   ngOnInit() {
     //console.log('intialize categories');
-    this.user = JSON.parse(localStorage.getItem('user'));
     this.getAllCategory();
     //this.getCategoryById();
     this.productCategoryForm = new FormGroup({
