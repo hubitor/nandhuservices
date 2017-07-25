@@ -5,7 +5,8 @@ import { SubCategory } from '../../shared/models/sub-category';
 import { SubCategoryService } from '../../shared/server/service/sub-category-service';
 import { CategoryService } from "../../shared/server/service/category-service";
 import { Category } from "../../shared/models/category";
-import { AppSettings } from "../../shared/server/api/api-settings"
+import { LoginResponse } from "../../shared/models/loginResponse";
+import { AppSettings } from "../../shared/server/api/api-settings";
 
 @Component({
   selector: 'app-subcategory',
@@ -13,20 +14,24 @@ import { AppSettings } from "../../shared/server/api/api-settings"
   providers: [SubCategoryService, CategoryService]
 })
 export class SubcategoryComponent implements OnInit {
-  public uploader: FileUploader = new FileUploader({ url: AppSettings.API_ENDPOINT+ 'upload/image/ecomm/subcategory/1' });
+  user:LoginResponse;
+  public uploader: FileUploader;
   productSubcategoryForm;
   subcategory: SubCategory;
   subcategories: SubCategory[];
   categories: Category;
   errorMessage: string;
-  user;
+  appSettings:AppSettings;
 
   constructor(private fb: FormBuilder, private subcategoryService: SubCategoryService, private categoryService: CategoryService) {
     this.subcategory = new SubCategory();
+    this.user = new LoginResponse();
+    this.appSettings = new AppSettings();
+    this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
+    this.uploader = new FileUploader({ url: AppSettings.API_ENDPOINT+'upload/image/ecomm/subcategory/'+this.user.user_id });
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user'));
     this.getAllCategory();
     this.productSubcategoryForm = new FormGroup({
       productCategoryId: new FormControl(""),

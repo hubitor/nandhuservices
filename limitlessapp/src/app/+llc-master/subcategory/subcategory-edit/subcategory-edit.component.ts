@@ -6,6 +6,8 @@ import { SubCategoryService } from '../../../shared/server/service/sub-category-
 import { CategoryService } from "../../../shared/server/service/category-service";
 import { Category } from "../../../shared/models/category";
 import { FileDeleteRequest } from "../../../shared/models/fileDeleteRequest";
+import { LoginResponse } from "../../../shared/models/loginResponse";
+import { AppSettings } from "../../../shared/server/api/api-settings";
 
 @Component({
   selector: 'app-subcategory-edit',
@@ -13,7 +15,8 @@ import { FileDeleteRequest } from "../../../shared/models/fileDeleteRequest";
   providers: [SubCategoryService, CategoryService]
 })
 export class SubcategoryEditComponent implements OnInit {
-  public uploader: FileUploader = new FileUploader({ url: 'http://localhost:3000/upload/image/ecomm/subcategory/1' });
+  user:LoginResponse;
+  public uploader: FileUploader;
   productSubcategoryEditForm;
   categories: Category;
   category: Category;
@@ -27,10 +30,14 @@ export class SubcategoryEditComponent implements OnInit {
   isImageDeleted: boolean;
   imageSelector: boolean;
   fileDeleteRequest: FileDeleteRequest;
+  appSettings:AppSettings;
 
   constructor(private fb: FormBuilder, private subcategoryService: SubCategoryService, private categoryService: CategoryService) {
     this.subcategory = new SubCategory();
     this.fileDeleteRequest = new FileDeleteRequest();
+    this.appSettings = new AppSettings();
+    this.user = JSON.parse(localStorage.getItem("haappyapp-user"));
+    this.uploader = new FileUploader({ url: AppSettings.API_ENDPOINT+'upload/image/ecomm/subcategory/'+this.user.user_id });
   }
 
   ngOnInit() {

@@ -8,7 +8,6 @@ import { ChannelVideoKeyRequest } from "../../shared/models/channelVideoKeyReque
 import { ChannelCategory } from "../../shared/models/channelCategory"
 import { BroadcasterVideos } from "../../shared/models/broadcasterVideos"
 import { CreateResponse } from "../../shared/models/createResponse";
-import { AppSettings } from "../../shared/server/api/api-settings"
 import 'rxjs/add/observable/of';
 
 @Component({

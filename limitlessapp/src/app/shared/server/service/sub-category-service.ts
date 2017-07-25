@@ -9,7 +9,7 @@ import { SubCategory } from "../../models/sub-category";
 import { headerDict} from "../../models/header";
 import { CreateResponse } from "../../models/createResponse";
 import { FileDeleteRequest } from "../../models/fileDeleteRequest"
-import {AppSettings} from '../api/api-settings'
+import { AppSettings } from "../api/api-settings";
 
 @Injectable()
 export class SubCategoryService {

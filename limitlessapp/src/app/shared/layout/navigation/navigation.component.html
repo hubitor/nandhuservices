@@ -303,7 +303,7 @@
         </ul>
       </li>-->
 
-      <li>
+      <li *ngIf="eCommerce">
         <a href="#">
           <i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span
           class="menu-item-parent">{{'LLC-Master' | i18n}}</span></a>
@@ -328,7 +328,7 @@
         </ul>
       </li>
 
-       <li>
+       <li *ngIf="broadcaster">
         <a href="#">
           <i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span
           class="menu-item-parent">{{'Free-Air' | i18n}}</span></a>

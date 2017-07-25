@@ -13,9 +13,9 @@ export class MainLayoutComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.user = localStorage.getItem('user');
-    console.log(this.user);
-    if(this.user==null){
+    this.user = localStorage.getItem('haappyapp-user');
+    //console.log(this.user);
+    if(this.user===null){
       this.router.navigate(['/auth/login']);
     }
   }
