@@ -65,7 +65,7 @@
           
           <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName (change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" >
             <!--<option>Choose Channel Category</option>-->
-            <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.category_name}}</option>
+            <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
           </select>
         </label>
                                                 </section>

@@ -8,7 +8,7 @@ import { ChannelVideoKeyRequest } from "../../shared/models/channelVideoKeyReque
 import { ChannelCategory } from "../../shared/models/channelCategory"
 import { BroadcasterVideos } from "../../shared/models/broadcasterVideos"
 import { CreateResponse } from "../../shared/models/createResponse";
-import { AppSettings } from "../../shared/server/api/api-settings"
+
 import 'rxjs/add/observable/of';
 import {NotificationService} from "../../shared/utils/notification.service";
 import { StreamTargetRequest } from "../../shared/models/stream-target-request"
@@ -31,6 +31,7 @@ export class ChannelStreamComponent implements OnInit {
   user;
   broadcasterVideos;
   g_broadcasterId;
+  w_applicationName:string;
   constructor(private broadcasterService:BroadcasterService
   ,private fb:FormBuilder
   ,private notificationService: NotificationService) { 
@@ -62,7 +63,7 @@ export class ChannelStreamComponent implements OnInit {
      broadcasterVal.broadcasterName=broadcasterId;
      this.g_broadcasterId=broadcasterId;
     this.broadcasterService.getAllBroadcastersById(broadcasterId).subscribe(
-      channelCategories => this.channelCategories = channelCategories[0].broadcast_channel_categories,
+      channelCategories => this.channelCategories = channelCategories[0].broadcaster_channels,
       error => this.errorMessage = error
     );
    
@@ -73,7 +74,7 @@ export class ChannelStreamComponent implements OnInit {
       const broadcasterVal = this.channelStreamForm.value;
       var broadcasterId=broadcasterVal.broadcasterName;
        this.broadcasterService.getAllBroadcastersByCategoryId(broadcasterId,channelCategoryId)
-       .subscribe(broadcasterVideos => this.updatingResponse(this.broadcasterVideos = broadcasterVideos[0].broadcast_channel_categories[0].broadcaster_videos),
+       .subscribe(broadcasterVideos => this.updatingResponse(this.broadcasterVideos = broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos),
         error => this.errorMessage = error
     );
   }
@@ -106,7 +107,7 @@ export class ChannelStreamComponent implements OnInit {
 
    
 
-    showPopup(createResponse){
+    showPopup(newKeyResponse){
     this.notificationService.smartMessageBox({
       title : "Channel Stream Key",
       content : "Channel stream key has been updated successfully!Your stream will be start automatically.",
@@ -115,19 +116,41 @@ export class ChannelStreamComponent implements OnInit {
     }, (ButtonPressed) => {
       if (ButtonPressed == "Yes") {
 
-       this.broadcasterService.deleteStreamTarget("AppName")
+       this.broadcasterService.getStreamTarget(this.w_applicationName)
       .subscribe(
-      response => Response,
-      error => this.errorMessage = <any>error)
-
-      this.broadcasterService.createStreamTarget( this.streamTargetRequest,"AppName")
-      .subscribe(
-      response => Response,
-      error => this.errorMessage = <any>error)
-
-        location.reload();
+      response =>this.streamTargetgetResponse(Response,newKeyResponse),
+      error => this.errorMessage = <any>error)     
+       
       }
     });
   }
+
+   streamTargetgetResponse(getresponse,newKeyResponse)
+   {
+       var streamTargetVal=getresponse.mapEntries;
+       this.streamTargetRequest=new StreamTargetRequest();
+      this.streamTargetRequest.serverName=getresponse.serverName;
+      this.streamTargetRequest.sourceStreamName=streamTargetVal.sourceStreamName;
+      this.streamTargetRequest.entryName=streamTargetVal.entryName;
+      this.streamTargetRequest.profile=streamTargetVal.profile;
+      this.streamTargetRequest.host= streamTargetVal.host;
+      this.streamTargetRequest.application= streamTargetVal.application;
+      this.streamTargetRequest.userName= streamTargetVal.userName;
+      this.streamTargetRequest.password=streamTargetVal.password;
+      this.streamTargetRequest.streamName=newKeyResponse.yt_streamkey
+
+      this.broadcasterService.createStreamTarget( this.streamTargetRequest,this.w_applicationName,this.streamTargetRequest.entryName)
+      .subscribe(
+      response => this.streamTargetcreateResponse(Response,this.streamTargetRequest.entryName),
+      error => this.errorMessage = <any>error)
+
+   }
+   streamTargetcreateResponse(response,entryName:string)
+   {
+       this.broadcasterService.deleteStreamTarget(this.w_applicationName,entryName)
+      .subscribe(
+      response =>function(Response){location.reload()},
+      error => this.errorMessage = <any>error)
+   }
 
 }

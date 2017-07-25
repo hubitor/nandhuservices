@@ -61,16 +61,23 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
-    deleteStreamTarget(applicationName:string)
+    getStreamTarget(applicationName:string)
     {
-          return this.http.get(AppConfig.delete_streamTarget+applicationName+"/applicationNamelive/pushpublish/mapentries/ppsource", wowzaHeader)
+         return this.http.get(AppConfig.get_streamTarget+applicationName+"/pushpublish/mapentries", wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }
 
-     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string)
+    deleteStreamTarget(applicationName:string,entryName:string)
     {
-          return this.http.post(AppConfig.create_streamTarget+applicationName+"/applicationNamelive/pushpublish/mapentries/ppsource", streamTargetRequest,wowzaHeader)
+          return this.http.delete(AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName, wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string)
+    {
+          return this.http.post(AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName, streamTargetRequest,wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }

@@ -7,6 +7,8 @@ public static delete_streamTarget="http://live.haappyapp.com:8087/v2/servers/_de
 
 public static create_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
+public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
   // Application Config   
   public static get_Appl=AppSettings.API_ENDPOINT +"application";
   public static new_Appl=AppSettings.API_ENDPOINT +"new";
