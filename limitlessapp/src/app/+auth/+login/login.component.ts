@@ -48,7 +48,9 @@ export class LoginComponent implements OnInit {
         }
         this.getUserRoles(this.loginResponse.user_id);
       },
-      error => console.log(error)
+      error => {
+        alert("Login failed. Check login credentials.");
+      }
     );
   }
 

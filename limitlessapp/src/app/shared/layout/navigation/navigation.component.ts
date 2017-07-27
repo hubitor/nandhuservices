@@ -21,6 +21,7 @@ export class NavigationComponent implements OnInit {
   productInvetory: boolean;
   channelStream: boolean;
   channelVideos: boolean;
+  channelAlbum: boolean;
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -36,6 +37,7 @@ export class NavigationComponent implements OnInit {
     this.productInvetory = false;
     this.channelStream = false;
     this.channelVideos = false;
+    this.channelAlbum = false;
   }
 
   ngOnInit() {
@@ -71,7 +73,7 @@ export class NavigationComponent implements OnInit {
         this.broadcaster = true;
         this.eCommerce = false;
         for (var i = 0; i < userRolesLength; i++) {
-          this.userRoles[i] = JSON.parse(localStorage.getItem("haappyapp-role-" + i));
+          this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
             this.channelStream = true;
           } else if (this.userRoles[i].module_name === "Channel Video") {
