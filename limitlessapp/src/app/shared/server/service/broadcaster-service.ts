@@ -13,6 +13,7 @@ import { CreateResponse } from "../../models/createResponse";
 import { headerDict} from "../../models/header";
 import { wowzaheaderDict} from "../../models/wowza-header";
 import { StreamTargetRequest } from "../../models/stream-target-request";
+import { BroadcasterDestination } from "../../models/broadcaster-destination";
 
 const headerObj = {                                                                                                                                                                                 
   headers: new Headers(headerDict)
@@ -27,6 +28,13 @@ const wowzaHeader={
 export class BroadcasterService {
     constructor(private http: Http) {
     }
+
+    getAllBroadcasterDestination(): Observable<BroadcasterDestination> {
+
+        return this.http.get(AppConfig.get_BroadcasterDest, headerObj)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    };
 
     getAllBroadcasters(): Observable<Broadcasters> {
 
@@ -54,9 +62,33 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
-    updateCategoryVideosKey(channelvideokeyrequest:ChannelVideoKeyRequest): Observable<CreateResponse> {
+    updateCategoryVideosKey(channelvideokeyrequest:ChannelVideoKeyRequest,type:string): Observable<CreateResponse> {
+        var endpoint_video_url;
+        var dest = type;
+            switch (dest) {
+              case "yt": {
+                  endpoint_video_url=AppConfig.update_BroadcasterytVideokey;
+                  break;
+              }
+              
+              case "fb": {
+                  endpoint_video_url=AppConfig.update_BroadcasterfbVideokey;
+                  break;
+              }
+              
+              case "ha": {
+                  endpoint_video_url=AppConfig.update_BroadcasterhaVideokey;
+                  break;
+              }
 
-        return this.http.put(AppConfig.update_BroadcasterVideokey,channelvideokeyrequest,headerObj)
+              default: {
+                  endpoint_video_url=AppConfig.update_BroadcasterytVideokey;
+                  break;
+              }
+            }
+
+
+        return this.http.put(endpoint_video_url,channelvideokeyrequest,headerObj)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };

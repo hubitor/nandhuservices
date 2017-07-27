@@ -17,95 +17,106 @@
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <!-- Widget ID (each widget will need unique ID)-->
                 <sa-widget>
-                    <!-- widget options:
-              usage: <sa-widget id="wid-id-0" [editbutton]="false">
-              [colorbutton]="false"
-              [editbutton]="false"
-              [togglebutton]="false"
-              [deletebutton]="false"
-              [fullscreenbutton]="false"
-              [custombutton]="false"
-              [collapsed]="true"
-              [sortable]="false"
-          -->
+                   
                     <header>
                         <span class="widget-icon"></span>
                         <h2>Add Stream key </h2>
-                        <div class="widget-toolbar">
-                            <!--<button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Import</span></button>-->
-                            
-                        </div>
+                       
                     </header>
-                    <!-- widget div-->
                     <div>
-                        <!-- widget content -->
-                        <div class="widget-body">
-                            <!-- this is what the user will see -->
-                            <div class="widget-body no-padding">
-
-                              <form   class="form-control" [formGroup]="channelStreamForm">
+                        <!--(change)="onBroadcasterSelect(broadcasterName.value,true)"-->
+                        <form novalidate  class="smart-form" [formGroup]="channelStreamForm" >
 
                                         <fieldset>
                                             <div class="row">
-                                                <section class="col col-6">
-                                                    <label class="label">Broadcaster</label>
+                                                <section class="col col-3">
+                                                    <label class="label">Broadcasters</label>
                                                     <label class="input">
-          <i class="icon-append fa fa-user"></i>
+          <i class="icon-append fa fa-tv"></i>
           
-          <select class="form-control" formControlName="broadcasterName" name="broadcasterName" #broadcasterName (change)="onBroadcasterSelect(broadcasterName.value)" >
-            <option>Choose Broadcaster</option>
+          <select class="form-control" formControlName="broadcasterName" name="broadcasterName" #broadcasterName  >
+            
             <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
           </select>
         </label>
                                                 </section>
-                                                <section class="col col-6">
-                                                    <label class="label">Channel Category</label>
+                                            </div>
+                                                <div class="row">
+                                                <section class="col col-3">
+                                                    <label class="label">Channels</label>
                                                     <label class="input">
-          <i class="icon-append fa fa-envelope-o"></i>
-          
-          <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName (change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" >
+          <i class="icon-append fa fa-tv"></i>
+          <!--(change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" -->
+          <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName >
             <!--<option>Choose Channel Category</option>-->
             <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
           </select>
         </label>
                                                 </section>
+
+                                               
                                             </div>
 
                                             <div class="row">
-                                                <section class="col col-6">
-                                                    <label class="label">Current Stream Key</label>
+                                                 <section class="col col-3">
+                                                    <label class="label">Destination</label>
                                                     <label class="input">
-        <i class="icon-append fa fa-tag"></i>
-        <input type="text" formControlName="channelCurrentStreamKey" name="channelCurrentStreamKey"  readonly />
-      </label>
+          <i class="icon-append fa fa-send"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterDestination" name="broadcasterDestination" #broadcasterDestination   >
+            <option *ngFor="let broadcasterDestination of broadcasterDestinations" value="{{broadcasterDestination.id}}">{{broadcasterDestination.destination_name}}</option>
+          </select>
+        </label>
                                                 </section>
 
-                                                <section class="col col-6">
-                                                    <label class="label">New Stream Key</label>
+                                                <section class="col col-1">
+                                                     <label class="input">
+          
+                                                     <button type="submit" style="margin-top:61%;" class="btn btn-primary" (click)="refreshStreamKey()" value="GetKeys">Refresh</button>           
+                                                     </label>
+                                                </section>
+                                            </div>
+                                                <div class="row">
+                                                <section class="col col-3">
+                                                     <label class="label">Current Stream Key</label>
                                                     <label class="input">
-         <i class="icon-append fa fa-tag"></i>
-         <input type="hidden" formControlName="channelVideoId" name="channelVideoId"  />
-        <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey" />
+        <i class="icon-append fa fa-youtube"></i>
+        <input type="text" formControlName="channelCurrentStreamKey" name="channelCurrentStreamKey"  readonly />
       </label>
                                                 </section>
                                             </div>
 
+                                            <div class="row">
+                                                
+                                                
+                                                <section class="col col-3">
+                                                   <label class="label">New Stream Key</label>
+                                                    <label class="input">
+         <i class="icon-append fa fa-youtube-square"></i>
+         <input type="hidden" formControlName="channelVideoId" name="channelVideoId"  />
+        <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey" required />
+       
+  
+      </label>
+                                                </section>
+                                            </div>
+                                            
+                                               
 
 
                                         </fieldset>
                                         <footer>
-
-                                            <button type="submit" class="btn btn-success" (click)="amendChannelVideoKey()" value="create">Save</button>
-                                            <button type="submit" class="btn btn-primary" (click)="cancelStreamKey()" value="updateCategory">Cancel</button>
+                                            <div class="form-group">
+                                            <button type="submit" class="btn btn-success"  (click)="amendChannelVideoKey()">Save</button>
+                                            </div>
+                                            <!--<button type="submit" class="btn btn-primary" (click)="amendChannelVideoKey()" (click)="cancelStreamKey()" value="updateCategory">Cancel</button>-->
                                         </footer>
 
                                     </form>
+                    </div>    
 
-                            </div>
-                        </div>
-                        <!-- end widget content -->
-                    </div>
-                    <!-- end widget div -->
+                   
                 </sa-widget>
                 <!-- end widget -->
             </article>
