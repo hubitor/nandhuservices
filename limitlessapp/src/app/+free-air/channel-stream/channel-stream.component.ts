@@ -164,29 +164,29 @@ export class ChannelStreamComponent implements OnInit {
       const broadcasterVideoVal = this.channelStreamForm.value;
       this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
          var type;
-          var dest = broadcasterVideoVal.broadcasterDestination;
+          var dest = broadcasterVideoVal.broadcasterDestination.toString().trim();
             switch (dest) {
               case "1": {
                   type="fb";
-                  this.channelVideoKeyRequest.fb_streamkey = broadcasterVideoVal.channelNewStreamKey;
+                  this.channelVideoKeyRequest.fb_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
                   break;
               }
               
               case "2": {
                   type="yt";
-                  this.channelVideoKeyRequest.yt_streamkey = broadcasterVideoVal.channelNewStreamKey;
+                  this.channelVideoKeyRequest.yt_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
                   break;
               }
               
               case "3": {
                   type="ha";
-                  this.channelVideoKeyRequest.ha_streamkey = broadcasterVideoVal.channelNewStreamKey;
+                  this.channelVideoKeyRequest.ha_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
                   break;
               }
 
               default: {
                   type="yt";
-                  this.channelVideoKeyRequest.yt_streamkey = broadcasterVideoVal.channelNewStreamKey;
+                  this.channelVideoKeyRequest.yt_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
                   break;
               }
             }
@@ -204,7 +204,7 @@ export class ChannelStreamComponent implements OnInit {
 
   streamTargetKeyResponse(newKeyResponse) {
 
-    this.broadcasterService.getStreamTarget(this.user.w_appname)
+    this.broadcasterService.getStreamTarget(this.user.w_appname.trim())
       .subscribe(
       response => this.streamTargetGetResponse(response=response,newKeyResponse) ,
       error => this.errorMessage = <any>error);
@@ -213,22 +213,22 @@ export class ChannelStreamComponent implements OnInit {
   {
     var myDate = new Date();
     var newKeyDate = this.datePipe.transform(myDate, 'yyMMddhmmss');
-    var newStreamEntryName = this.user.w_appname + "-" + newKeyDate;
+    var newStreamEntryName = this.user.w_appname.trim() + "-" + newKeyDate;
     if (getresponse.mapEntries.length > 0) {
       var streamTargetVal = getresponse.mapEntries[0];
       this.streamTargetRequest = new StreamTargetRequest();
-      this.streamTargetRequest.serverName = getresponse.serverName;
-      this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName;
-      this.streamTargetRequest.entryName = newStreamEntryName;
+      this.streamTargetRequest.serverName = getresponse.serverName.trim();
+      this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
+      this.streamTargetRequest.entryName = newStreamEntryName.trim();
       this.streamTargetRequest.profile = streamTargetVal.profile;
-      this.streamTargetRequest.host = streamTargetVal.host;
-      this.streamTargetRequest.application = streamTargetVal.application;
-      this.streamTargetRequest.userName = streamTargetVal.userName;
-      this.streamTargetRequest.password = streamTargetVal.password;
-      this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey
+      this.streamTargetRequest.host = streamTargetVal.host.trim();
+      this.streamTargetRequest.application = streamTargetVal.application.trim();
+      this.streamTargetRequest.userName = streamTargetVal.userName?streamTargetVal.userName:'';
+      this.streamTargetRequest.password = streamTargetVal.password?streamTargetVal.password:'';
+      this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey.trim();
     }
 
-    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.user.w_appname, this.streamTargetRequest.entryName)
+    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.user.w_appname.trim(), this.streamTargetRequest.entryName)
       .subscribe(
       response => this.streamTargetcreateResponse(response, streamTargetVal.entryName),
       error => this.errorMessage = <any>error)

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder,Validators } from '@angular/forms';
 import { AuthServiceService } from '../../shared/server/service/auth-service.service';
 import { LoginRequest } from '../../shared/models/loginRequest';
 import { LoginResponse } from '../../shared/models/loginResponse';
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginRequest:LoginRequest;
   loginResponse:LoginResponse;
   userModels:UserRolesModel[];
-  constructor(private router: Router, private authService: AuthServiceService) { 
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthServiceService) { 
     this.loginRequest = new LoginRequest();
   }
 
@@ -27,6 +27,14 @@ export class LoginComponent implements OnInit {
       userPasswd: new FormControl("")
     });
   }
+
+  // createForm()
+  // {
+  //   this.userLoginForm=this.fb.group({
+  //     userEmail:[null,[Validators.required,Validators.pattern("")]],
+  //     userPasswd:[null,[Validators.required]]
+  //   });
+  // }
 
   login(){
     const userLogin = this.userLoginForm.value;
