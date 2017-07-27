@@ -38,6 +38,14 @@ export class LoginComponent implements OnInit {
         //console.log(loginResponse);
         this.loginResponse = loginResponse;
         localStorage.setItem("haappyapp-user", JSON.stringify(loginResponse).toString());
+        if(this.loginResponse.user_type === "eCommerce"){
+          localStorage.setItem("shop_id", this.loginResponse.client_id.toString());
+          localStorage.setItem("haappyapp-shop-name",this.loginResponse.shop_name);
+        } else if(this.loginResponse.user_type === "Entertainment"){
+          localStorage.setItem("broadcaster_id", this.loginResponse.client_id.toString());
+          localStorage.setItem("w_appname", this.loginResponse.w_appname);
+          localStorage.setItem("primary_channel_id", this.loginResponse.primary_channel_id.toString());
+        }
         this.getUserRoles(this.loginResponse.user_id);
       },
       error => console.log(error)

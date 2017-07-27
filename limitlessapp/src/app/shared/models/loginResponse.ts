@@ -11,4 +11,9 @@ export class LoginResponse{
     user_city:string;
     user_session_id:number;
     user_auth_token:string;
+    client_id:number;
+    shop_name:string;
+    shop_code:number;
+    w_appname:string;
+    primary_channel_id:number;
 }

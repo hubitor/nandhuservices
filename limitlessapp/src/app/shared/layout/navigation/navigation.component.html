@@ -303,18 +303,18 @@
         </ul>
       </li>-->
 
-      <li *ngIf="eCommerce">
+      <li *ngIf="eCommerce || shop">
         <a href="#">
           <i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span
           class="menu-item-parent">{{'LLC-Master' | i18n}}</span></a>
         <ul>
-          <li routerLinkActive="active">
+          <li *ngIf="application" routerLinkActive="active">
             <a routerLink="/llc-master/application" title="Application"> {{'Application' | i18n}}</a>
           </li>
-          <li routerLinkActive="active">
+          <li *ngIf="category" routerLinkActive="active">
             <a routerLink="/llc-master/category" title="Category"> {{'Category' | i18n}}</a>
           </li>
-          <li routerLinkActive="active">
+          <li *ngIf="subcategory" routerLinkActive="active">
             <a routerLink="/llc-master/subcategory" title="Subcategory"> {{'Subcategory' | i18n}}</a>
             <ul>
               <li routerLinkActive="active">
@@ -322,13 +322,13 @@
               </li>
             </ul>
           </li>
-           <li routerLinkActive="active">
+          <li *ngIf="products" routerLinkActive="active">
             <a routerLink="/llc-master/product" title="Product"> {{'Product' | i18n}}</a>
           </li>
         </ul>
       </li>
 
-       <li *ngIf="broadcaster">
+      <li *ngIf="broadcaster">
         <a href="#">
           <i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span
           class="menu-item-parent">{{'Free-Air' | i18n}}</span></a>
@@ -345,7 +345,7 @@
         </ul>
       </li>
 
-     
+
 
       <!--<li>
         <a href="#"><i class="fa fa-lg fa-fw fa-windows"></i> <span

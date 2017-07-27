@@ -29,7 +29,7 @@ export class AuthServiceService {
   };
 
   getUserRoles(userId: number): Observable<UserRolesModel[]> {
-    return this.http.get(AppSettings.LOCAL_API+"user/roles/"+userId, {headers: this.headers})
+    return this.http.get(AppSettings.API_ENDPOINT+"user/roles/"+userId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
