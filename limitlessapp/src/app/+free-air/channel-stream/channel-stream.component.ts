@@ -44,31 +44,24 @@ export class ChannelStreamComponent implements OnInit {
     ,private datePipe: DatePipe) {
       this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
       this.channelStreamForm = new FormGroup({
-      'broadcasterName': new FormControl(this.user.client_id),
-      'broadcasterChannelCategoryName': new FormControl(this.user.primary_channel_id),
-      'channelCurrentStreamKey': new FormControl(""),
-      'channelNewStreamKey': new FormControl("",Validators.required),
-      'channelVideoId': new FormControl(""),
-      'broadcasterDestination':new FormControl(""),
-      'firstName':new FormControl("",Validators.required)
+      broadcasterName: new FormControl(this.user.client_id),
+      broadcasterChannelCategoryName: new FormControl(this.user.primary_channel_id),
+      channelCurrentStreamKey: new FormControl(""),
+      channelNewStreamKey: new FormControl(""),
+      channelVideoId: new FormControl(""),
+      broadcasterDestination:new FormControl(""),
+      
     });
 
   }
 
   ngOnInit() {
-  
     this.w_applicationName = this.user.w_appname;
     this.client_id = this.user.client_id;
-
-    
-    
     this.getAllBroadcasterDestination();
-    
-    
   }
 
     getAllBroadcasterDestination() {
-
     this.broadcasterService.getAllBroadcasterDestination()
       .subscribe(
       broadcasterDestination =>this.updateDestinationId(this.broadcasterDestinations= broadcasterDestination),
