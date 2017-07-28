@@ -95,21 +95,21 @@
                                                     <label class="input">
          <i class="icon-append fa fa-youtube-square"></i>
          <input type="hidden" formControlName="channelVideoId" name="channelVideoId"  />
-        <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey"  />
-
-  
+        <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey" class="form-control"  />
       </label>
+      <p *ngIf="channelStreamForm.controls.channelNewStreamKey.errors" style="color:red;">*</p>
                                                 </section>
                                             </div>
-                                            
-                                               
-
 
                                         </fieldset>
+                                        <div>
+                <!--<p>Form value: {{ channelStreamForm.value | json }}</p>
+                <p>Form status: {{ channelStreamForm.status | json }}</p>-->
+              </div>
                                         <footer>
                                             
                                             <div class="form-group">
-                                            <button type="submit" class="btn btn-success"  (click)="amendChannelVideoKey()">Save</button>
+                                            <button type="submit" class="btn btn-success" [disabled]="!channelStreamForm.valid" (click)="amendChannelVideoKey()">Save</button>
                                             </div>
                                             <!--<button type="submit" class="btn btn-primary" (click)="amendChannelVideoKey()" (click)="cancelStreamKey()" value="updateCategory">Cancel</button>-->
                                         </footer>

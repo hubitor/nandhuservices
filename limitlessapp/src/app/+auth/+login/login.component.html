@@ -47,37 +47,78 @@
       </div>
       <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
         <div class="well no-padding">
-          <form [formGroup]="userLoginForm" class="smart-form client-form">
+          <form novalidate  [formGroup]="userLoginForm"  class="smart-form">
             <header>
               Sign In
             </header>
-            <fieldset>
+            <!--<fieldset>
+              
               <section>
+                <label class="col-md-3 control-label">E-mail</label>
+                <div class="col-md-8">
+                  <label class="input"> <i class="icon-append fa fa-user"></i>
+                  
+                  <input type="email" class="form-control" name="userEmail" formControlName="userEmail">
+                   
+                  <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i>
+                     Enter email address/username </b></label>
+                    
+                </div>
+                 <p *ngIf="userLoginForm.controls.userEmail.errors" style="color:red;">*</p>
+   
+            </section>
+
+              <section>
+                <label class="col-md-3 control-label">Password</label>
+                <div class="col-md-8">
+                 <label class="input"> <i class="icon-append fa fa-lock"></i>
+                  <input type="password" class="form-control" name="userPasswd" formControlName="userPasswd">
+                   
+                  <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter
+                    your password</b> </label>
+                 
+                </div>
+                <p *ngIf="userLoginForm.controls.userPasswd.errors" style="color:red;">*</p>
+              </section>
+            </fieldset>-->
+
+           
+
+            <fieldset>
+             <section>
                 <label class="label">E-mail</label>
                 <label class="input"> <i class="icon-append fa fa-user"></i>
-                  <input type="email" formControlName="userEmail" name="email" data-smart-validate-input="" data-required="" data-email="" data-message-required="Please enter your email address" data-message-email="Please enter a VALID email address">
+                  <input type="email" formControlName="userEmail" name="email" class="form-control" ><p *ngIf="userLoginForm.controls.userEmail.errors" style="color:red;">*</p>
                   <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i>
                     Please enter email address/username</b></label>
+                     
               </section>
+              
               <section>
                 <label class="label">Password</label>
                 <label class="input"> <i class="icon-append fa fa-lock"></i>
-                  <input type="password" formControlName="userPasswd" name="password" data-smart-validate-input="" data-required="" data-minlength="3" data-maxnlength="20" data-message="Please enter your email password">
+                  <input type="password" formControlName="userPasswd" name="password">
                   <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter
                     your password</b> </label>
-
+ <p *ngIf="userLoginForm.controls.userPasswd.errors" style="color:red;">*</p>
                 <!--div class="note">
                   <a routerLink="/auth/forgot-password">Forgot password?</a>
                 </div-->
               </section>
+              
               <section>
                 <!--label class="checkbox">
                   <input type="checkbox" name="remember" checked>
                   <i></i>Stay signed in</label-->
               </section>
+              <!--<div>
+                <p>Form value: {{ userLoginForm.value | json }}</p>
+                <p>Form status: {{ userLoginForm.status | json }}</p>
+              </div>-->
             </fieldset>
+            
             <footer>
-              <button (click)="login()" class="btn btn-primary">
+              <button (click)="login()" [disabled]="!userLoginForm.valid" class="btn btn-primary">
                 Sign in
               </button>
             </footer>

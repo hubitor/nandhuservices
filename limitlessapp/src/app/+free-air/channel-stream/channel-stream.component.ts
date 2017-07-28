@@ -43,16 +43,21 @@ export class ChannelStreamComponent implements OnInit {
     , private notificationService: NotificationService
     ,private datePipe: DatePipe) {
       this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
-      this.channelStreamForm = new FormGroup({
-      broadcasterName: new FormControl(this.user.client_id),
-      broadcasterChannelCategoryName: new FormControl(this.user.primary_channel_id),
-      channelCurrentStreamKey: new FormControl(""),
-      channelNewStreamKey: new FormControl(""),
-      channelVideoId: new FormControl(""),
-      broadcasterDestination:new FormControl(""),
-      
-    });
+      this.createForm();
+   
 
+  }
+
+  createForm()
+  {
+    this.channelStreamForm=this.fb.group({
+      broadcasterName: [this.user.client_id,Validators.required],
+      broadcasterChannelCategoryName: [this.user.primary_channel_id,Validators.required],
+      channelCurrentStreamKey: [null,Validators.required],
+      channelNewStreamKey:[null,[Validators.required,Validators.maxLength(300)]],
+      channelVideoId: [null],
+      broadcasterDestination:[null,Validators.required],
+    });
   }
 
   ngOnInit() {
@@ -122,15 +127,21 @@ export class ChannelStreamComponent implements OnInit {
       var broadcasterVideo = broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos;
 
       if (broadcasterVideo.length > 0) {
-        this.channelStreamForm = this.fb.group({
-          channelCurrentStreamKey:'',              // broadcasterVideo[0].yt_streamkey,
+
+       this.channelStreamForm.setValue({
+          channelCurrentStreamKey:null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
-          channelNewStreamKey: '',
+          channelNewStreamKey: null,
           broadcasterName: this.user.client_id,
           channelVideoId: broadcasterVideo[0].id,
           broadcasterDestination:this.broadcasterDestinations.length>0?this.broadcasterDestinations[1].id:2
+       });
+
+
+        // this.channelStreamForm = this.fb.group({
          
-        });
+         
+        // });
       }
       
     }

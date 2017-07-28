@@ -16,27 +16,32 @@ export class LoginComponent implements OnInit {
   loginRequest:LoginRequest;
   loginResponse:LoginResponse;
   userModels:UserRolesModel[];
+
   constructor(private router: Router, private fb: FormBuilder, private authService: AuthServiceService) { 
     this.loginRequest = new LoginRequest();
   }
 
   ngOnInit() {
     localStorage.clear();
-    this.userLoginForm = new FormGroup({
-      userEmail: new FormControl(""),
-      userPasswd: new FormControl("")
+    this.createForm();
+    // this.userLoginForm = new FormGroup({
+    //   userEmail: new FormControl(""),
+    //   userPasswd: new FormControl("")
+    // });
+  }
+  
+
+  createForm()
+  {
+    this.userLoginForm=this.fb.group({
+      userEmail:[null,[Validators.required,Validators.pattern("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]],
+      userPasswd:[null,[Validators.required]]
     });
   }
 
-  // createForm()
-  // {
-  //   this.userLoginForm=this.fb.group({
-  //     userEmail:[null,[Validators.required,Validators.pattern("")]],
-  //     userPasswd:[null,[Validators.required]]
-  //   });
-  // }
-
   login(){
+    
+
     const userLogin = this.userLoginForm.value;
     this.loginRequest.email_id = userLogin.userEmail;
     this.loginRequest.passwd = userLogin.userPasswd;
