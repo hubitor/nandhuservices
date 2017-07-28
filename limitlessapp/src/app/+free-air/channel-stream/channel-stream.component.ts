@@ -222,21 +222,53 @@ export class ChannelStreamComponent implements OnInit {
   }
   streamTargetGetResponse(getresponse,newKeyResponse)
   {
+    debugger;
+    
     var myDate = new Date();
+    var streamTargetVal;
+    var wowzaMapEntries:any[];
+    this.streamTargetRequest = new StreamTargetRequest();
     var newKeyDate = this.datePipe.transform(myDate, 'yyMMddhmmss');
     var newStreamEntryName = this.user.w_appname.trim() + "-" + newKeyDate;
     if (getresponse.mapEntries.length > 0) {
-      var streamTargetVal = getresponse.mapEntries[0];
-      this.streamTargetRequest = new StreamTargetRequest();
+      wowzaMapEntries=getresponse.mapEntries;
+      var destType=this.channelStreamForm.value.broadcasterDestination.toString();
+      if(destType ==="1")
+      {
+           streamTargetVal= wowzaMapEntries.filter(
+           destKey => destKey.host === "rtmp-api.facebook.com");
+
+           this.streamTargetRequest.streamName = newKeyResponse.fb_streamkey?newKeyResponse.fb_streamkey.toString().trim():'';
+      }
+      else if(destType ==="2")
+      {
+           streamTargetVal= wowzaMapEntries.filter(
+           destKey => destKey.host === "a.rtmp.youtube.com");
+
+           this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey?newKeyResponse.fb_streamkey.toString().trim():'';
+      }
+      else if(destType ==="3")
+      {
+           this.streamTargetRequest.streamName = newKeyResponse.ha_streamkey?newKeyResponse.ha_streamkey.toString().trim():'';
+      }
+      if(streamTargetVal.length >0)
+      {
+        streamTargetVal=streamTargetVal[0];
+      }
+       //streamTargetVal = getresponse.mapEntries[0];
+      
       this.streamTargetRequest.serverName = getresponse.serverName.trim();
       this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
       this.streamTargetRequest.entryName = newStreamEntryName.trim();
+      this.streamTargetRequest.port = streamTargetVal.port;
+      this.streamTargetRequest.enabled=streamTargetVal.enabled;
+      this.streamTargetRequest.autoStartTranscoder=streamTargetVal.autoStartTranscoder;
       this.streamTargetRequest.profile = streamTargetVal.profile;
       this.streamTargetRequest.host = streamTargetVal.host.trim();
-      this.streamTargetRequest.application = streamTargetVal.application.trim();
+      this.streamTargetRequest.application = streamTargetVal.application;
       this.streamTargetRequest.userName = streamTargetVal.userName?streamTargetVal.userName:'';
       this.streamTargetRequest.password = streamTargetVal.password?streamTargetVal.password:'';
-      this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey.trim();
+      
     }
 
     this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.user.w_appname.trim(), this.streamTargetRequest.entryName)
