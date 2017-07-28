@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { AuthServiceService } from '../../shared/server/service/auth-service.service';
 import { LoginRequest } from '../../shared/models/loginRequest';
 import { LoginResponse } from '../../shared/models/loginResponse';
 import { UserRolesModel } from '../../shared/models/userRolesModel';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +17,13 @@ export class LoginComponent implements OnInit {
   loginRequest:LoginRequest;
   loginResponse:LoginResponse;
   userModels:UserRolesModel[];
-  constructor(private router: Router, private authService: AuthServiceService) { 
+  constructor(private router: Router, private authService: AuthServiceService, private cookieService: CookieService) { 
+    localStorage.clear();
+    this.cookieService.removeAll();
     this.loginRequest = new LoginRequest();
   }
 
   ngOnInit() {
-    localStorage.clear();
     this.userLoginForm = new FormGroup({
       userEmail: new FormControl(""),
       userPasswd: new FormControl("")
@@ -38,6 +40,12 @@ export class LoginComponent implements OnInit {
         //console.log(loginResponse);
         this.loginResponse = loginResponse;
         localStorage.setItem("haappyapp-user", JSON.stringify(loginResponse).toString());
+        this.cookieService.put("HAUAK",this.loginResponse.user_auth_token, {
+          expires: this.loginResponse.auth_token_expire
+        });
+        this.cookieService.put("HAU", JSON.stringify(this.loginResponse), {
+          expires: this.loginResponse.auth_token_expire
+        });
         if(this.loginResponse.user_type === "eCommerce"){
           localStorage.setItem("shop_id", this.loginResponse.client_id.toString());
           localStorage.setItem("haappyapp-shop-name",this.loginResponse.shop_name);

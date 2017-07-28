@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { CookieModule } from 'ngx-cookie';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -46,9 +47,7 @@ type StoreType = {
     HttpModule,
     CoreModule,
     SmartadminLayoutModule,
-
-
-
+    CookieModule.forRoot(),
     routing
   ],
   exports: [

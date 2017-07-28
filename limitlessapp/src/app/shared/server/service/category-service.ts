@@ -9,17 +9,20 @@ import 'rxjs/add/operator/map';
 import { Category } from "../../models/category";
 import { CreateResponse } from "../../models/createResponse";
 import { CategoryUpdateResponse } from "../../models/categoryUpdateResponse";
+import { CookieService } from 'ngx-cookie';
 
 @Injectable()
 export class CategoryService {
     private headers: Headers;
+    authToken:string;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private cookieService: CookieService) {
         console.log('category service is initialized');
+        this.authToken = this.cookieService.get("HAUAK")
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
-        this.headers.append('Authorization', 'NzBhOGE1ZGYyZDdmNzE3ZjQ3M2RhNzM5YjcyNjhkOWY5ZTZkNTk4ODM5NWRhYjk3YmVmYmIyY2ViODg1NTZlOWMwNGFkOTNmYzM5NDIzZjJhMjQ4ZGZmNzRmYzRkZmUwZGJjMDVjZjhhNjYyYzVmM2NiZDU0NmU5NGY0MjI3NmMwZDg4MGUxOGE3ZDI0MGU0NmI2ZTVkNWJlMDliZWU5ZTY5NmJmMDgxYjQ3MzY3MzU2YmY5YTgwOTQ1MTMyN2IwNGI0NjYzMmRjZTI2NThhMzBmZjIzZDMzODgyZWM4ZGE3YmQ0MGI1MTQzMTY2Ng==');
+        this.headers.append('Authorization', this.authToken);
     }
 
     getAllCategory(): Observable<Category> {
