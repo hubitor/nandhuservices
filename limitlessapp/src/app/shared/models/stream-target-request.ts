@@ -9,4 +9,7 @@ export class StreamTargetRequest
     userName:string;
     password:string;
     streamName:string;
+    port:number;
+    autoStartTranscoder:boolean;
+    enabled:boolean;
 };

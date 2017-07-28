@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
-import { FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder,Validators } from '@angular/forms';
 import { AuthServiceService } from '../../shared/server/service/auth-service.service';
 import { LoginRequest } from '../../shared/models/loginRequest';
 import { LoginResponse } from '../../shared/models/loginResponse';
@@ -17,16 +17,27 @@ export class LoginComponent implements OnInit {
   loginRequest:LoginRequest;
   loginResponse:LoginResponse;
   userModels:UserRolesModel[];
-  constructor(private router: Router, private authService: AuthServiceService, private cookieService: CookieService) { 
-    localStorage.clear();
+
+  constructor(private router: Router, private fb: FormBuilder, private authService: AuthServiceService, private cookieService: CookieService) { 
+    this.loginRequest = new LoginRequest();
     this.cookieService.removeAll();
     this.loginRequest = new LoginRequest();
   }
 
   ngOnInit() {
-    this.userLoginForm = new FormGroup({
-      userEmail: new FormControl(""),
-      userPasswd: new FormControl("")
+    localStorage.clear();
+    this.createForm();
+    // this.userLoginForm = new FormGroup({
+    //   userEmail: new FormControl(""),
+    //   userPasswd: new FormControl("")
+    // });
+  }
+
+  createForm()
+  {
+    this.userLoginForm=this.fb.group({
+      userEmail:[null,[Validators.required,Validators.pattern("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]],
+      userPasswd:[null,[Validators.required]]
     });
   }
 

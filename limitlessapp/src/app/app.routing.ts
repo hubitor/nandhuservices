@@ -12,6 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    
     data: {pageTitle: 'Home'},
     children: [
       {
@@ -26,7 +27,7 @@ export const routes: Routes = [
       {
         path: 'free-air',
         loadChildren: 'app/+free-air/free-air.module#FreeAirModule',
-        data: {pageTitle: 'Free-Air'}
+        data: {pageTitle: 'Broadcaster'}
       }
     ]
   },

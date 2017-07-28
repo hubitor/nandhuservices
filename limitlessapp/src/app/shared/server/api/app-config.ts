@@ -33,10 +33,14 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
   public static amend_Product=AppSettings.API_ENDPOINT +"update";
 
   //Broadcasters Config
+  public static get_BroadcasterDest=AppSettings.API_ENDPOINT +"broadcaster/destination/all";
    public static get_Broadcasters=AppSettings.API_ENDPOINT +"broadcaster/all";
    public static get_BroadcastersById=AppSettings.API_ENDPOINT +"broadcaster/get/";
    public static get_BroadcastersByCategoryId=AppSettings.API_ENDPOINT +"broadcaster/get/";
-   public static update_BroadcasterVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterVideo/update"; //to pass "new"" as to server
+   public static update_BroadcasterytVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterytVideo/update"; //to pass "new"" as to server
+   public static update_BroadcasterfbVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterfbVideo/update"; //to pass "new"" as to server
+   public static update_BroadcasterhaVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterhaVideo/update"; //to pass "new"" as to server
+
    public static new_BroadcasterVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterVideo/new"; //to pass "new"" as to server
 
 };
