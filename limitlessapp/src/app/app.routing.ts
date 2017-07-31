@@ -18,6 +18,11 @@ export const routes: Routes = [
       {
         path: '', redirectTo: 'auth/login', pathMatch: 'full'
       },
+      {
+        path: 'admin',
+        loadChildren: 'app/+admin/admin.module#AdminModule',
+        data: {pageTitle: 'LLC-Master'}
+      },
       
       {
         path: 'llc-master',

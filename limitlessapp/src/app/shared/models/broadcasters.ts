@@ -11,7 +11,11 @@ export class Broadcasters {
     broadcaster_website:string;
     broadcaster_image:string;
     broadcaster_tags:string;
+    broadcast_loc_lattitude:number;
+    broadcast_loc_longtitude:number;
+    broadcast_kyc_doc_type:string;
+    broadcast_kyc_doc_value:string;
     broadcaster_total_videos:number;
-    createdby:string
+    createdby:string;
     updated_by:string; 
 }
