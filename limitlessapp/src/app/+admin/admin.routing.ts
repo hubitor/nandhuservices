@@ -1,6 +1,7 @@
 import {ModuleWithProviders} from "@angular/core"
 import {Routes, RouterModule} from "@angular/router";
 import {BroadcasterComponent} from "./broadcaster/broadcaster.component";
+import {EShopComponent} from "./eshop/eshop.component";
 
 export const routes:Routes = [
   {
@@ -8,10 +9,10 @@ export const routes:Routes = [
     component: BroadcasterComponent
   }
   ,
-//   {
-//     path: 'channel-album',
-//     component: ChannelAlbumComponent
-//   }
+  {
+    path: 'eshop',
+    component: EShopComponent
+  }
 //   ,
 //   {
 //     path: 'channel-stream',

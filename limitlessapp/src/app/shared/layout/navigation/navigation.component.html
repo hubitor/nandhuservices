@@ -286,15 +286,15 @@
         </ul>
       </li>-->
 
-      <li>
+      <li *ngIf="true">
         <a href="#">
-          <i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span
+          <i class="fa fa-lg fa-fw fa-lock"></i> <span
           class="menu-item-parent">{{'Admin' | i18n}}</span></a>
         <ul>
-          <li routerLinkActive="active">
+          <li  routerLinkActive="active">
             <a routerLink="/admin/broadcaster" title="Broadcaster"> {{'Broadcaster' | i18n}}</a>
           </li>
-          <li routerLinkActive="active">
+          <li  routerLinkActive="active">
             <a routerLink="/admin/eshop" title="E-Shop"> {{'E-Shop' | i18n}}</a>
           </li>
           <!--<li routerLinkActive="active">

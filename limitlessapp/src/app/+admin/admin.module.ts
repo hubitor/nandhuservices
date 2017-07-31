@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BroadcasterComponent } from './broadcaster/broadcaster.component';
+import { EShopComponent } from './eshop/eshop.component';
 import {SmartadminLayoutModule} from "../shared/layout/layout.module";
 import {SmartadminWidgetsModule} from "../shared/widgets/smartadmin-widgets.module";
 import {StatsModule} from "../shared/stats/stats.module";
@@ -23,7 +24,8 @@ import {CarouselModule} from "ngx-bootstrap";
 
   ],
   declarations: [
-    BroadcasterComponent
+    BroadcasterComponent,
+    EShopComponent
     // ,
     //  ChannelAlbumComponent,
     // ChannelStreamComponent
