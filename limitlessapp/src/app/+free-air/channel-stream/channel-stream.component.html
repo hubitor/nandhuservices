@@ -38,6 +38,7 @@
             
             <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
           </select>
+        <b class="tooltip tooltip-bottom-right">Choose Broadcaster</b>
         </label>
                                                 </section>
                                             </div>
@@ -51,6 +52,7 @@
             <!--<option>Choose Channel Category</option>-->
             <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
           </select>
+        <b class="tooltip tooltip-bottom-right">Choose Channel</b>
         </label>
                                                 </section>
 
@@ -67,6 +69,7 @@
           <select class="form-control" formControlName="broadcasterDestination" name="broadcasterDestination" #broadcasterDestination   >
             <option *ngFor="let broadcasterDestination of broadcasterDestinations" value="{{broadcasterDestination.id}}">{{broadcasterDestination.destination_name}}</option>
           </select>
+        <b class="tooltip tooltip-bottom-right">Choose Destination</b>
         </label>
                                                 </section>
 
@@ -83,6 +86,7 @@
                                                     <label class="input">
         <i class="icon-append fa fa-youtube"></i>
         <input type="text" formControlName="channelCurrentStreamKey" name="channelCurrentStreamKey"  readonly />
+        <b class="tooltip tooltip-bottom-right">Current Stream Key</b>
       </label>
                                                 </section>
                                             </div>
@@ -96,6 +100,7 @@
          <i class="icon-append fa fa-youtube-square"></i>
          <input type="hidden" formControlName="channelVideoId" name="channelVideoId"  />
         <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey" class="form-control"  />
+        <b class="tooltip tooltip-bottom-right">New Stream Key</b>
       </label>
       <p *ngIf="channelStreamForm.controls.channelNewStreamKey.errors" style="color:red;">*</p>
                                                 </section>

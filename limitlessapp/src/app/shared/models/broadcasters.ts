@@ -1,6 +1,5 @@
 export class Broadcasters {
     id:number;
-    seller_id :number;
     rank:number;
     is_active:boolean;
     roadcaster_name:string; 

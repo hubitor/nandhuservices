@@ -30,18 +30,25 @@ export class BroadcasterComponent implements OnInit {
         , private datePipe: DatePipe) {
         this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
         this.createForm();
-
-
     }
 
     createForm() {
         this.broadcasterForm = this.fb.group({
-            broadcasterName: [this.user.client_id, Validators.required],
-            broadcasterChannelCategoryName: [this.user.primary_channel_id, Validators.required],
-            channelCurrentStreamKey: [null, Validators.required],
-            channelNewStreamKey: [null, [Validators.required, Validators.maxLength(300)]],
-            channelVideoId: [null],
-            broadcasterDestination: [null, Validators.required],
+            broadcasterNamecontrol: [null, Validators.required],
+            broadcasterDescriptionControl: [null],
+            broadcasterPrimaryChannelControl: [null, Validators.required],
+            broadcasterEmailControl: [null, Validators.required],
+            broadcasterWebsiteControl: [null],
+            broadcasterTagControl: [null],
+            broadcasterLatitudeControl:["0.000000",Validators.required],
+            broadcasterLongtitudeControl:["0.000000",Validators.required],
+            broadcasterDocumentTypeControl:[null],
+            broadcasterDocumenttextControl:[null],
+            broadcasterPubDNSControl:[null],
+            broadcasterPrivateDNSControl:[null],
+            broadcasterWApplicationControl:[null,Validators.required],
+            broadcasterStatusControl:[null]
+
         });
     }
 
