@@ -15,5 +15,5 @@ export class BroadcasterVideos
     ha_streamkey:string;
     created_by:string; 
     updated_by:string;
-    updated_on:string;
+    
 }

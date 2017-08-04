@@ -106,16 +106,71 @@
                             </label>
                                                 </section>
 
-                                                <section class="col col-md-4">
+                                                 <section class="col col-4">
+                                                    
+                                                    <label class="input">
+          <i class="icon-append fa fa-television"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterChannelCategoryControl" name="broadcasterChannelCategoryControl" #broadcasterChannelCategoryControl   >
+            <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.category_name}}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose Category</b>
+        </label>
+                                                </section>
+
+                                               
+                                            </div>
+                                            <div class="row">
+                                                 <section class="col col-4">
+                                                    
+                                                    <label class="input">
+          <i class="icon-append fa fa-television"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterCountryControl" name="broadcasterCountryControl" #broadcasterCountryControl   >
+            <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_code}}-{{country.country_name}}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose Country</b>
+        </label>
+                                                </section> 
+    
+                                                <section class="col col-4">
+                                                    
+                                                    <label class="input">
+          <i class="icon-append fa fa-television"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterStateControl" name="broadcasterStateControl" #broadcasterStateControl   >
+            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_code}} -{{state.state_name}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose State</b>
+        </label>
+                                                </section>
+
+                                                <section class="col col-4">
+                                                    
+                                                    <label class="input">
+          <i class="icon-append fa fa-television"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterCityControl" name="broadcasterCityControl" #broadcasterCityControl   >
+            <option *ngFor="let city of cities" value="{{city.id}}">{{city.city_code}}-{{city.city_name}}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose City</b>
+        </label>
+                                                </section>
+                                            </div>
+
+                                            <div class="row">
+
+                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-user"></i>
                                 <input class="form-control" type="text" name="broadcasterPrimaryChannelControl" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl">
                                 <b class="tooltip tooltip-bottom-right">Primary Channel Name</b>
                             </label>
                             <p *ngIf="broadcasterForm.controls.broadcasterPrimaryChannelControl.errors" style="color:red;">*</p>
                                                 </section>
-                                            </div>
-
-                                            <div class="row">
 
                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
@@ -132,13 +187,16 @@
                             </label>
                                                 </section>
 
-                                                <section class="col col-md-4">
+                                               
+                                            </div>
+                                            <div class="row">
+
+                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-upload"></i>
                                 <input type="file" class="form-control" name="single" ng2FileSelect  />
                             </label>
                                                 </section>
-                                            </div>
-                                            <div class="row">
+
                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-tag"></i>
                                 <input class="form-control" type="text" name="broadcasterTagControl" placeholder="Tag" formControlName="broadcasterTagControl">
@@ -154,6 +212,11 @@
                             <p *ngIf="broadcasterForm.controls.broadcasterLatitudeControl.errors" style="color:red;">*</p>
                                                 </section>
 
+                                                
+
+                                            </div>
+
+                                            <div class="row">
                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
                                 <input class="form-control" type="text" name="broadcasterLongtitudeControl" placeholder="Longtitude" formControlName="broadcasterLongtitudeControl">
@@ -162,15 +225,26 @@
                             <p *ngIf="broadcasterForm.controls.broadcasterLongtitudeControl.errors" style="color:red;">*</p>
                                                 </section>
 
-                                            </div>
 
-                                            <div class="row">
-                                                <section class="col col-md-4">
+                                                 <section class="col col-4">
+                                                    <!-- <label class="label">Channel Category</label> -->
+                                                    <label class="input">
+          <i class="icon-append fa fa-file"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterDocumentTypeControl" name="broadcasterDocumentTypeControl" #broadcasterDocumentTypeControl>
+            <option *ngFor="let document of documents" value="{{document.id}}">{{document.document_name}}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose DocumentType</b>
+        </label>
+                                                </section>
+
+                                                <!-- <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-file"></i>
                                 <input class="form-control" type="text" name="broadcasterDocumentTypeControl" placeholder="Document Type" formControlName="broadcasterDocumentTypeControl">
                                 <b class="tooltip tooltip-bottom-right">Document Type</b>
                             </label>
-                                                </section>
+                                                </section> -->
 
                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-file"></i>
@@ -179,16 +253,18 @@
                             </label>
                                                 </section>
 
-                                                <section class="col col-md-4">
+                                               
+
+                                            </div>
+
+                                            <div class="row">
+                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-server"></i>
                                 <input class="form-control" type="text" name="broadcasterPubDNSControl" placeholder="Public DNS" formControlName="broadcasterPubDNSControl">
                                 <b class="tooltip tooltip-bottom-right">Public DNS Name</b>
                             </label>
                                                 </section>
 
-                                            </div>
-
-                                            <div class="row">
                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-server"></i>
                                 <input class="form-control" type="text" name="broadcasterPrivateDNSControl" placeholder="Private DNS" formControlName="broadcasterPrivateDNSControl">
@@ -203,7 +279,10 @@
                             </label>
                             <p *ngIf="broadcasterForm.controls.broadcasterWApplicationControl.errors" style="color:red;">*</p>
                                                 </section>
-                                                <section class="col col-md-4">
+                                               
+                                            </div>
+                                            <div class="row">
+                                                 <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-flag"></i>
                   <select class="form-control" name="broadcasterStatusControl" formControlName="broadcasterStatusControl">
                     <option>Choose Status</option>
