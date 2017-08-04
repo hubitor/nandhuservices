@@ -125,10 +125,10 @@
                                                  <section class="col col-4">
                                                     
                                                     <label class="input">
-          <i class="icon-append fa fa-television"></i>
+          <i class="icon-append fa fa-globe"></i>
           
           <!--(change)="onDestinationSelect()"-->
-          <select class="form-control" formControlName="broadcasterCountryControl" name="broadcasterCountryControl" #broadcasterCountryControl   >
+          <select class="form-control" formControlName="broadcasterCountryControl" name="broadcasterCountryControl" #broadcasterCountryControl (change)="getState(broadcasterCountryControl.value)">
             <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_code}}-{{country.country_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose Country</b>
@@ -138,11 +138,11 @@
                                                 <section class="col col-4">
                                                     
                                                     <label class="input">
-          <i class="icon-append fa fa-television"></i>
+          <i class="icon-append fa fa-globe"></i>
           
           <!--(change)="onDestinationSelect()"-->
-          <select class="form-control" formControlName="broadcasterStateControl" name="broadcasterStateControl" #broadcasterStateControl   >
-            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_code}} -{{state.state_name}</option>
+          <select class="form-control" formControlName="broadcasterStateControl" name="broadcasterStateControl" #broadcasterStateControl (change)="getCity(broadcasterStateControl.value)"   >
+            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_code}}-{{state.state_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose State</b>
         </label>
@@ -151,7 +151,7 @@
                                                 <section class="col col-4">
                                                     
                                                     <label class="input">
-          <i class="icon-append fa fa-television"></i>
+          <i class="icon-append fa fa-globe"></i>
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterCityControl" name="broadcasterCityControl" #broadcasterCityControl   >

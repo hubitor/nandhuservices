@@ -14,6 +14,9 @@ import { DatePipe } from '@angular/common';
 import { BroadcasterOnBoardRequest } from "../../shared/models/broadcasterOnBoardRequest";
 import { BroadcasterChannel } from "../../shared/models/broadcaster-channel";
 import { Document } from "../../shared/models/document";
+import { Country } from "../../shared/models/country";
+import { State } from "../../shared/models/state";
+import { City } from "../../shared/models/city";
 import { ChannelCategory } from "../../shared/models/channelCategory";
 import { BroadcasterVideos } from "../../shared/models/broadcasterVideos";
 
@@ -47,6 +50,7 @@ export class BroadcasterComponent implements OnInit {
         this.createForm();
         this.getChannelCategory();
         this.getDocumentType();
+        this.getCountry();
     }
 
     createForm() {
@@ -123,6 +127,7 @@ export class BroadcasterComponent implements OnInit {
       .subscribe(
        countryResponse=>{
             this.countries=countryResponse;
+            
        }),
       error => this.errorMessage = <any>error;
     };
