@@ -14,6 +14,9 @@ import { headerDict} from "../../models/header";
 import { wowzaheaderDict} from "../../models/wowza-header";
 import { StreamTargetRequest } from "../../models/stream-target-request";
 import { BroadcasterDestination } from "../../models/broadcaster-destination";
+import { BroadcasterOnBoardRequest } from "../../models/broadcasterOnBoardRequest";
+import { BroadcasterChannel } from "../../models/broadcaster-channel";
+import { ChannelCategory } from "../../models/channelCategory";
 
 const headerObj = {                                                                                                                                                                                 
   headers: new Headers(headerDict)
@@ -26,7 +29,9 @@ const wowzaHeader={
 
 @Injectable()
 export class BroadcasterService {
+    broadcasterChannel:BroadcasterChannel[]
     constructor(private http: Http) {
+        
     }
 
     getAllBroadcasterDestination(): Observable<BroadcasterDestination> {
@@ -35,6 +40,22 @@ export class BroadcasterService {
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };
+
+    getAllBroadcasterChannel(): Observable<BroadcasterChannel> {
+
+        return this.http.get(AppConfig.get_BroadcasterChannel, headerObj)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    };
+
+    getAllChannelCategory(): Observable<ChannelCategory> {
+
+        return this.http.get(AppConfig.get_ChannelCategory, headerObj)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    };
+
+
 
     getAllBroadcasters(): Observable<Broadcasters> {
 
@@ -110,6 +131,13 @@ export class BroadcasterService {
      createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string)
     {
           return this.http.post(AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName, streamTargetRequest,wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+    createBroadcasterOnboardFlow(broadcasterOnBoardRequest:BroadcasterOnBoardRequest)
+    {
+        return this.http.post(AppConfig.new_BroadcasterOnBoard,broadcasterOnBoardRequest, headerObj)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }

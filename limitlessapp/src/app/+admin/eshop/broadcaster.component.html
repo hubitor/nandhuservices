@@ -1,0 +1,223 @@
+
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Admin', 'Broadcaster']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <!--<sa-stats></sa-stats>-->
+    </div>
+    <!--
+      The ID "widget-grid" will start to initialize all widgets below
+      You do not need to use widgets if you dont want to. Simply remove
+      the <section></section> and you can use wells or panels instead
+      -->
+    <!-- widget grid -->
+    <sa-widgets-grid>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <sa-widget>
+                    <!-- widget options:
+              usage: <sa-widget id="wid-id-0" [editbutton]="false">
+              [colorbutton]="false"
+              [editbutton]="false"
+              [togglebutton]="false"
+              [deletebutton]="false"
+              [fullscreenbutton]="false"
+              [custombutton]="false"
+              [collapsed]="true"
+              [sortable]="false"
+          -->
+                    <header>
+                        <span class="widget-icon"></span>
+                        <h2>Add Broadcaster </h2>
+                        <div class="widget-toolbar">
+                            <!--<button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Import</span></button>-->
+                            <button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Add New</span></button>
+                        </div>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <!-- this is what the user will see -->
+                            <div class="widget-body no-padding">
+
+                              <sa-datatable tableClass="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th data-class="expand">Name</th>
+                                    <th>Description</th>
+                                    <!--<th data-hide="phone">Company</th>
+                                    <th data-hide="phone,tablet">Zip</th>
+                                    <th data-hide="phone,tablet">City</th>
+                                    <th data-hide="phone,tablet">Date</th>-->
+                                </tr>
+                            </thead>
+                        </sa-datatable>
+
+                            </div>
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </sa-widget>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+        <!-- row -->
+        <div class="row">
+            <!-- a blank row to get started -->
+            <div class="col-sm-12">
+                <!-- your contents here -->
+                <!-- widget grid -->
+                <sa-widgets-grid id="widget-cat-detail">
+                    <!-- row -->
+                    <div class="row">
+                        <!-- NEW WIDGET START -->
+                        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- Widget ID (each widget will need unique ID)-->
+                            <sa-widget>
+
+                                <header>
+                                    <span class="widget-icon"></span>
+                                    <h2>Broadcaster Details </h2>
+                                </header>
+                                <!-- widget div-->
+                                <div>
+                                    <!-- widget content -->
+                                    <form [formGroup]="broadcasterForm" novalidate class="smart-form">
+
+                                         <fieldset>
+                <div class="row">
+                    <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-user"></i>
+                                    <input class="form-control" type="text" name="broadcasterName" placeholder="Broadcaster Name" formControlName="broadcasterNamecontrol">
+                                </label>
+                    </section>
+                    <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-user"></i>
+                                <input class="form-control" type="text" name="broadcasterDescription" placeholder=" Broadcaster Description" formControlName="broadcasterDescriptionControl">
+                            </label>
+                    </section>
+
+                    <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-user"></i>
+                                <input class="form-control" type="text" name="broadcasterDescription" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl">
+                            </label>
+                    </section>
+                </div>
+
+                <div class="row">
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
+                                <input class="form-control" type="email" name="broadcasterEmail" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl">
+                            </label>
+                    </section>
+
+                      <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-chrome"></i>
+                                <input class="form-control" type="text" name="broadcasterWebsite" placeholder="Website" formControlName="broadcasterWebsiteControl">
+                            </label>
+                    </section>
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-upload"></i>
+                                <input type="file" class="form-control" name="single" ng2FileSelect  />
+                            </label>
+                    </section>
+                </div>
+                <div class="row">
+                      <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-tag"></i>
+                                <input class="form-control" type="text" name="broadcasterTag" placeholder="Tag" formControlName="broadcasterTagControl">
+                            </label>
+                    </section>
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
+                                <input class="form-control" type="text" name="broadcasterLatitude" placeholder="Latitude" formControlName="broadcasterLatitudeControl">
+                            </label>
+                    </section>
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
+                                <input class="form-control" type="text" name="broadcasterLongtitude" placeholder="Longtitude" formControlName="broadcasterLongtitudeControl">
+                            </label>
+                    </section>
+
+                </div>
+
+                <div class="row">
+                      <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-file"></i>
+                                <input class="form-control" type="text" name="broadcasterKYCType" placeholder="Document Type" formControlName="broadcasterDocumentTypeControl">
+                            </label>
+                    </section>
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-file"></i>
+                                <input class="form-control" type="text" name="broadcasterKYCValue" placeholder="Document text" formControlName="broadcasterLatitudeControl">
+                            </label>
+                    </section>
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-server"></i>
+                                <input class="form-control" type="text" name="broadcasterLongtitude" placeholder="Public DNS" formControlName="broadcasterLongtitudeControl">
+                            </label>
+                    </section>
+
+                </div>
+
+                <div class="row">
+                      <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-server"></i>
+                                <input class="form-control" type="text" name="broadcasterLongtitude" placeholder="Private DNS" formControlName="broadcasterLongtitudeControl">
+                            </label>
+                    </section>
+
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-feed"></i>
+                                <input class="form-control" type="text" name="broadcasterLongtitude" placeholder="Application Name" formControlName="broadcasterLongtitudeControl" readonly >
+                            </label>
+                    </section>
+                     <section class="col col-md-4">
+                        <label class="input"> <i class="icon-prepend fa fa-flag"></i>
+                  <select class="form-control" name="productCategoryActiveStatus" formControlName="">
+                    <option>Choose Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Passive</option>
+                </select>
+                                                    </label>
+                    </section>
+                </div>
+            </fieldset>
+                                         <footer>
+
+                <button type="submit" class="btn btn-success" (click)="createCategory()">Save</button>
+                <button type="submit" class="btn btn-primary" (click)="amendCategory()">Cancel</button>
+            </footer>
+
+                                    </form>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
+                            </sa-widget>
+                            <!-- end widget -->
+                        </article>
+                        <!-- WIDGET END -->
+                    </div>
+                    <!-- end row -->
+
+                </sa-widgets-grid>
+                <!-- end widget grid -->
+            </div>
+        </div>
+        <!-- end row -->
+    </sa-widgets-grid>
+    <!-- end widget grid -->
+</div>

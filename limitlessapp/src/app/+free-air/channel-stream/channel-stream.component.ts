@@ -222,7 +222,7 @@ export class ChannelStreamComponent implements OnInit {
   }
   streamTargetGetResponse(getresponse,newKeyResponse)
   {
-    debugger;
+    
     
     var myDate = new Date();
     var streamTargetVal;
@@ -245,7 +245,7 @@ export class ChannelStreamComponent implements OnInit {
            streamTargetVal= wowzaMapEntries.filter(
            destKey => destKey.host === "a.rtmp.youtube.com");
 
-           this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey?newKeyResponse.fb_streamkey.toString().trim():'';
+           this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey?newKeyResponse.yt_streamkey.toString().trim():'';
       }
       else if(destType ==="3")
       {
@@ -287,7 +287,7 @@ export class ChannelStreamComponent implements OnInit {
 
   refreshStreamKey()
   {
-    debugger;
+    
   
      const broadcasterVideoKeyVal = this.channelStreamForm.value;
      var videoKeyValue;

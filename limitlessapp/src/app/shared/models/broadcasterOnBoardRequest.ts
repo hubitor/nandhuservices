@@ -1,5 +1,7 @@
-export class Broadcasters {
-    id:number;
+import { BroadcasterChannel } from "../models/broadcaster-channel";
+import { BroadcasterVideos } from "../models/broadcasterVideos";
+
+export class BroadcasterOnBoardRequest {
     rank:number;
     is_active:boolean;
     roadcaster_name:string; 
@@ -16,5 +18,7 @@ export class Broadcasters {
     broadcast_kyc_doc_value:string;
     broadcaster_total_videos:number;
     createdby:string;
-    updated_by:string; 
+    updated_by:string;
+    broadcaster_channels:BroadcasterChannel[];
+    broadcaster_videos:BroadcasterVideos[]; 
 }
