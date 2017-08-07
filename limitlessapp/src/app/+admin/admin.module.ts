@@ -8,6 +8,9 @@ import {Adminrouting} from "./admin.routing";
 import {SmartadminDatatableModule} from "../shared/ui/datatable/smartadmin-datatable.module";
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CarouselModule} from "ngx-bootstrap";
+import { EshopComponent } from './eshop/eshop.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { UserRolesComponent } from './user-roles/user-roles.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,10 @@ import {CarouselModule} from "ngx-bootstrap";
 
   ],
   declarations: [
-    BroadcasterComponent
+    BroadcasterComponent,
+    EshopComponent,
+    RegistrationComponent,
+    UserRolesComponent
     // ,
     //  ChannelAlbumComponent,
     // ChannelStreamComponent

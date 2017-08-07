@@ -22,6 +22,7 @@ export class NavigationComponent implements OnInit {
   channelStream: boolean;
   channelVideos: boolean;
   channelAlbum: boolean;
+  superAdmin: boolean;
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -38,6 +39,7 @@ export class NavigationComponent implements OnInit {
     this.channelStream = false;
     this.channelVideos = false;
     this.channelAlbum = false;
+    this.superAdmin = false;
   }
 
   ngOnInit() {
@@ -80,6 +82,8 @@ export class NavigationComponent implements OnInit {
             this.channelVideos = true;
           }
         }
+      } else if(this.loginResponse.user_type === "Super Admin") {
+        this.superAdmin = true;
       }
     }
   }
