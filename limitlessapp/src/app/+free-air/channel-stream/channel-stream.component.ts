@@ -59,7 +59,7 @@ export class ChannelStreamComponent implements OnInit {
       broadcasterDestination:[null,Validators.required],
     });
   }
-
+  
   ngOnInit() {
     this.w_applicationName = this.user.w_appname;
     this.client_id = this.user.client_id;

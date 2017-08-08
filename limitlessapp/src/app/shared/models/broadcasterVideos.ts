@@ -1,6 +1,6 @@
 export class BroadcasterVideos
 {
-    id:number;
+    
     broadcaster_channel_id:number;
     video_name:string;
     rank:number;

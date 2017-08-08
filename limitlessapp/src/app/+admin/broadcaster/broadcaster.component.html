@@ -129,7 +129,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterCountryControl" name="broadcasterCountryControl" #broadcasterCountryControl (change)="getState(broadcasterCountryControl.value)">
-            <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_code}}-{{country.country_name}}</option>
+            <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose Country</b>
         </label>
@@ -142,7 +142,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterStateControl" name="broadcasterStateControl" #broadcasterStateControl (change)="getCity(broadcasterStateControl.value)"   >
-            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_code}}-{{state.state_name}}</option>
+            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose State</b>
         </label>
@@ -155,7 +155,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterCityControl" name="broadcasterCityControl" #broadcasterCityControl   >
-            <option *ngFor="let city of cities" value="{{city.id}}">{{city.city_code}}-{{city.city_name}}</option>
+            <option *ngFor="let city of cities" value="{{city.id}}">{{city.city_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose City</b>
         </label>
@@ -166,7 +166,7 @@
 
                                                  <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-user"></i>
-                                <input class="form-control" type="text" name="broadcasterPrimaryChannelControl" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl">
+                                <input class="form-control" type="text" name="broadcasterPrimaryChannelControl" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl" >
                                 <b class="tooltip tooltip-bottom-right">Primary Channel Name</b>
                             </label>
                             <p *ngIf="broadcasterForm.controls.broadcasterPrimaryChannelControl.errors" style="color:red;">*</p>
@@ -282,6 +282,18 @@
                                                
                                             </div>
                                             <div class="row">
+                                                <section class="col col-4">
+                                                    
+                                                    <label class="input">
+          <i class="icon-append fa fa-globe"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterRankControl" name="broadcasterRankControl" #broadcasterRankControl>
+            <option *ngFor="let rank of ranks" value="{{rank.display_value}}">{{rank.display_value}}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose Rank</b>
+        </label>
+                                                </section> 
                                                  <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-flag"></i>
                   <select class="form-control" name="broadcasterStatusControl" formControlName="broadcasterStatusControl">

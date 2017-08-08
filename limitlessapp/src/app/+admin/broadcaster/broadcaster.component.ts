@@ -38,6 +38,7 @@ export class BroadcasterComponent implements OnInit {
     countries;
     states;
     cities;
+    ranks;
     broadcasterOnBoardRequest:BroadcasterOnBoardRequest;
     mode: 'Observable';
     constructor(private broadcasterService: BroadcasterService
@@ -51,6 +52,7 @@ export class BroadcasterComponent implements OnInit {
         this.getChannelCategory();
         this.getDocumentType();
         this.getCountry();
+        this.getRank();
     }
 
     createForm() {
@@ -59,7 +61,7 @@ export class BroadcasterComponent implements OnInit {
             broadcasterDescriptionControl: [null],
             broadcasterChannelCategoryControl:[null],
             broadcasterPrimaryChannelControl: [null, Validators.required],
-            broadcasterEmailControl: [null, Validators.required],
+            broadcasterEmailControl: [null, [Validators.required,Validators.pattern("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]],
             broadcasterWebsiteControl: [null],
             broadcasterTagControl: [null],
             broadcasterLatitudeControl:["0.000000",Validators.required],
@@ -68,11 +70,12 @@ export class BroadcasterComponent implements OnInit {
             broadcasterDocumenttextControl:[null],
             broadcasterPubDNSControl:[null],
             broadcasterPrivateDNSControl:[null],
-            broadcasterWApplicationControl:[null,Validators.required],
+            broadcasterWApplicationControl:[null],
             broadcasterStatusControl:[null],
             broadcasterCityControl:[null],
             broadcasterStateControl:[null],
-            broadcasterCountryControl:[null]
+            broadcasterCountryControl:[null],
+            broadcasterRankControl:[null,Validators.required]
 
         });
     }
@@ -127,6 +130,7 @@ export class BroadcasterComponent implements OnInit {
       .subscribe(
        countryResponse=>{
             this.countries=countryResponse;
+           
             
        }),
       error => this.errorMessage = <any>error;
@@ -138,9 +142,12 @@ export class BroadcasterComponent implements OnInit {
       .subscribe(
        stateResponse=>{
             this.states=stateResponse;
+              
        }),
+      
       error => this.errorMessage = <any>error;
-    };
+      
+    };    
 
     getCity(stateId:number)
     {
@@ -152,7 +159,18 @@ export class BroadcasterComponent implements OnInit {
       error => this.errorMessage = <any>error;
     };
 
-    
+    populateApplicationName(channelName:string)
+    {
+        
+              var stateCode=this.states.filter(st=>st.id.toString() === this.broadcasterForm.value.broadcasterStateControl);
+              //var categoryCode=this.channelCategories.filter(cg=>cg.id.toString() === this.broadcasterForm.value.broadcasterChannelCategoryControl);
+              var appName="";
+              appName=stateCode.length>0?stateCode[0].state_code:"" +" - "+ channelName;
+              this.broadcasterForm.patchValue({
+                    broadcasterWApplicationControl:appName
+                });
+    }
+
     getDocumentType()
     {
         this.documentService.getAllDcoumentType()
@@ -163,9 +181,20 @@ export class BroadcasterComponent implements OnInit {
       error => this.errorMessage = <any>error;
     }
 
+    getRank()
+    {
+        this.utilityService.getRank()
+      .subscribe(
+       rankResponse=>{
+            this.ranks=rankResponse;
+       }),
+      error => this.errorMessage = <any>error;
+    };
+
     createBroadcasterOnBoardFlow()
     {
        var bc_onboardRequest=new BroadcasterOnBoardRequest();
+       
     }
 
     hasReload(response) {
