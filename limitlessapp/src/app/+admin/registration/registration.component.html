@@ -1,0 +1,65 @@
+<div id="content">
+  <div class="row">
+
+  </div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Add Client</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="newClientForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section class="col col-6">
+                      <label>Select Application</label>
+                      <select class="form-control" name="userApplication" #userApplication (change)="onApplicationSelect(userApplication.value)">
+                        <option></option>
+                        <option *ngFor="let application of applications" value="{{application.id}}">{{application.application_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-6">
+                      <label>Select User Type</label>
+                      <select class="form-control" name="usertypes" #usertypes (change)="onUserTypeSelect(usertypes.value)">
+                        <option></option>
+                        <option *ngFor="let userType of userTypes" value="{{userType}}">{{userType}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-6">
+                      <label>Client Name</label>
+                      <input type="text" class="form-control" required name="userName" formControlName="userName">
+                    </section>
+                    <section class="col col-6">
+                      <label>Client Short Name</label>
+                      <input type="text" class="form-control" required name="userShortName" formControlName="userShortName">
+                    </section>
+                    <section class="col col-6">
+                      <label>City</label>
+                      <input type="text" class="form-control" required name="userCity" formControlName="userCity">
+                    </section>
+                    <section class="col col-6">
+                      <label>ZIP</label>
+                      <input type="text" class="form-control" required name="zip" formControlName="userZip">
+                    </section>
+                    <section class="col col-6">
+                      <label>Mobile</label>
+                      <input type="text" class="form-control" required name="userMobile" formControlName="userMobile">
+                    </section>
+                    <section class="col col-6">
+                      <label>E-mail ID</label>
+                      <input type="email" class="form-control" required name="userEmail" formControlName="userEmail">
+                    </section>
+                  </div>
+                  <button type="submit" class="btn btn-success" (click)="registerUser()">Register User</button>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>

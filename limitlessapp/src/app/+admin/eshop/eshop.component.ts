@@ -1,79 +1,73 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
-import { BroadcasterService } from "../../shared/server/service/broadcaster-service"
-import { Observable } from 'rxjs/Observable';
-import { Broadcasters } from "../../shared/models/broadcasters"
-import { CreateResponse } from "../../shared/models/createResponse";
-import { LoginResponse } from "../../shared/models/loginResponse";
-import 'rxjs/add/observable/of';
-import { NotificationService } from "../../shared/utils/notification.service";
-import { DatePipe } from '@angular/common';
+import { ApplicationService } from '../../shared/server/service/application-service';
+import { Application } from '../../shared/models/application';
+import { Shop } from '../../shared/models/shop';
 
 @Component({
-    selector: 'app-eshop',
-    templateUrl: './broadcaster.component.html',
-    providers: [BroadcasterService, DatePipe]
+  selector: 'app-eshop',
+  templateUrl: './eshop.component.html',
+  providers: [ApplicationService]
 })
-export class EShopComponent implements OnInit {
-    user: LoginResponse;
-    broadcasterForm: FormGroup;
-    errorMessage: string;
-    appid: number;
-    client_id: number;
-    broadcasters: Broadcasters;
-    createResponse: CreateResponse;
-    mode: 'Observable';
-    constructor(private broadcasterService: BroadcasterService
-        , private fb: FormBuilder
-        , private notificationService: NotificationService
-        , private datePipe: DatePipe) {
-        this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
-        this.createForm();
+export class EshopComponent implements OnInit {
+  newShopForm;
+  kycDocList = ['PAN', 'AADHAAR'];
+  shop: Shop;
+  applications: Application[];
+  application: Application;
+  applicationId: number;
+  kycDocType: string;
 
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService) {
+    this.shop = new Shop();
+    this.application = new Application();
+  }
 
-    }
+  ngOnInit() {
+    this.initForm();
+    this.getApplicationsList();
+  }
 
-    createForm() {
-        this.broadcasterForm = this.fb.group({
-            broadcasterName: [this.user.client_id, Validators.required],
-            broadcasterChannelCategoryName: [this.user.primary_channel_id, Validators.required],
-            channelCurrentStreamKey: [null, Validators.required],
-            channelNewStreamKey: [null, [Validators.required, Validators.maxLength(300)]],
-            channelVideoId: [null],
-            broadcasterDestination: [null, Validators.required],
-        });
-    }
+  initForm() {
+    this.newShopForm = this.fb.group({
+      shopName: [null, [Validators.required]],
+      aboutShop: [null, [Validators.required]],
+      shopCode: [null, [Validators.required]],
+      sellerKycValue: [null, [Validators.required]]
+    });
+  }
 
-    ngOnInit() {
+  getApplicationsList() {
+    this.applicationService.getApplicationList().subscribe(
+      applications => {
+        this.applications = applications;
+      },
+      error => {
+        alert("something went wrong. Try after sometime.");
+      }
+    );
+  }
 
-        this.client_id = this.user.client_id;
+  onAppliationSelect(applicationId: number){
+    this.applicationId = applicationId;
+  }
 
-    }
+  onKycDocTypeSelect(kycDocType: string){
+    this.kycDocType = kycDocType;
+  }
 
-    showPopup() {
-
-        var contentValue = "";
-
-
-        this.notificationService.smartMessageBox({
-            title: "Channel Stream Key",
-            content: "Do you want to update new <i  style='color:green'><b>" + contentValue + "<b></i> Stream key?Your stream will be start automatically.",
-            buttons: '[No][Yes]'
-
-        }, (ButtonPressed) => {
-            if (ButtonPressed == "Yes") {
-
-            }
-        });
-    }
-
-
-
-    hasReload(response) {
-        if (response) {
-            location.reload();
-        }
-    }
+  addNewShop(){
+    const newShop = this.newShopForm.value;
+    this.shop.seller_shop_name = newShop.shopName;
+    this.shop.about_shop = newShop.aboutShop;
+    this.shop.shop_code = newShop.shopCode;
+    this.shop.seller_location_latitude = 0;
+    this.shop.seller_location_longitude = 0;
+    this.shop.seller_kyc_doc_type = this.kycDocType;
+    this.shop.seller_kyc_doc_value = newShop.sellerKycValue;
+    this.shop.is_deleted = false;
+    this.shop.created_by = "SA";
+    this.shop.updated_by = "SA";
+  }
 
 }

@@ -1,22 +1,10 @@
 export class Application
 {
-    applicationName:string;
-    applicationShortName:string;
-    description:string;
-    isActive:boolean;
-    createdBy:string;
-    createdOn:Date;
-    lastUpdatedBy:string;
-    lastUpdatedOn:Date;
-
-    constructor(application:any) {
-    this.applicationName = application.applicationName;
-    this.applicationShortName = application.applicationShortName;
-    this.description=application.description;
-    this.isActive=application.isActive;
-    this.createdBy=application.createdBy;
-    this.lastUpdatedBy=application.lastUpdatedBy;
-    //this.rating = this.calculateRating(userInfo);
-  }
-
+    id: number;
+    application_name: string;
+    application_short_name: string;
+    description: string;
+    is_active: boolean;
+    created_by: string;
+    last_updated_by: string;
 }
