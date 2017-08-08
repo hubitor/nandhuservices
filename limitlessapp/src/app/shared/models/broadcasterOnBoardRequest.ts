@@ -4,7 +4,7 @@ import { BroadcasterVideos } from "../models/broadcasterVideos";
 export class BroadcasterOnBoardRequest {
     rank:number;
     is_active:boolean;
-    roadcaster_name:string; 
+    broadcaster_name:string; 
     broadcaster_channel_name:string;
     category_id:number;
     broadcaster_email:string;
@@ -19,6 +19,14 @@ export class BroadcasterOnBoardRequest {
     broadcaster_total_videos:number;
     createdby:string;
     updated_by:string;
-    broadcaster_channels:BroadcasterChannel[];
-    broadcaster_videos:BroadcasterVideos[]; 
+    server_pu_dns_name:string;
+    server_pr_dns_name:string;
+    mapped_domain_name:string;
+    w_application_name:string;
+    primary_channel_id:number;
+    country_code:string;
+    state_code:string;
+    city_code:string;
+    broadcaster_channels:BroadcasterChannel;
+    broadcaster_videos:BroadcasterVideos; 
 }
