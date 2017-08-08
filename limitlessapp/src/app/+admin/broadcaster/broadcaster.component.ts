@@ -39,6 +39,7 @@ export class BroadcasterComponent implements OnInit {
     states;
     cities;
     ranks;
+    broacasterall:Broadcasters;
     broadcasterOnBoardRequest:BroadcasterOnBoardRequest;
     mode: 'Observable';
     constructor(private broadcasterService: BroadcasterService
@@ -49,6 +50,7 @@ export class BroadcasterComponent implements OnInit {
         , private utilityService:UtilityService) {
         this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
         this.createForm();
+        this.getBroadcasterAllGrid();
         this.getChannelCategory();
         this.getDocumentType();
         this.getCountry();
@@ -102,6 +104,17 @@ export class BroadcasterComponent implements OnInit {
             }
         });
     }
+
+      getBroadcasterAllGrid()
+    {
+        this.broadcasterService.getAllBroadcasters()
+      .subscribe(
+       broadcasterResponse=>{
+           debugger;
+            this.broacasterall=broadcasterResponse;
+       }),
+      error => this.errorMessage = <any>error;
+    };
 
     getBroadcasterChannel()
     {
@@ -161,7 +174,7 @@ export class BroadcasterComponent implements OnInit {
 
     populateApplicationName(channelName:string,statecode:string):string
     {
-         return statecode +" - "+ channelName;
+         return channelName.toLowerCase() +"-"+ statecode.toLowerCase();
     }
 
      populateVideoURLName(applicationName:string,streamName:string):string
@@ -216,6 +229,7 @@ export class BroadcasterComponent implements OnInit {
        bc_onboardRequest.w_application_name=this.populateApplicationName(bc_onboardRequest.state_code,bc_onboardRequest.broadcaster_channel_name);
        bc_onboardRequest.rank=b_ControlValue.broadcasterRankControl;
        bc_onboardRequest.is_active=b_ControlValue.broadcasterStatusControl;
+       bc_onboardRequest.broadcaster_image=bc_onboardRequest.broadcaster_channel_name;
         var bc=new BroadcasterChannel();
         bc.application_id=this.user.user_app_id;
         bc.broadcaster_id=0;
@@ -239,8 +253,8 @@ export class BroadcasterComponent implements OnInit {
        bv.video_thumbnail="https://d3a4m2h1w49sov.cloudfront.net/ProductImages/s5000170/livetv.png";
        bv.video_description=bv.video_name;
        var category=this.channelCategories.filter(ct=>ct.id.toString() === bc.category_id.toString())
-       var streamName=bc_onboardRequest.broadcaster_channel_name +"-"+ (category.length>0?category[0].channel_name:"");
-       bv.video_url=this.populateVideoURLName(bc_onboardRequest.w_application_name,streamName);
+       var streamName=bc_onboardRequest.broadcaster_channel_name +"-"+ (category.length>0?category[0].category_name:"");
+       bv.video_url=this.populateVideoURLName(bc_onboardRequest.w_application_name.toLowerCase(),streamName.toLowerCase());
        bv.is_active=true;
        bv.is_live=true;
        bv.is_youtube=false;
