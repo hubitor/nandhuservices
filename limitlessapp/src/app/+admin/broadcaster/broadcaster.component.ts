@@ -50,7 +50,7 @@ export class BroadcasterComponent implements OnInit {
         , private utilityService:UtilityService) {
         this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
         this.createForm();
-        this.getBroadcasterAllGrid();
+        
         this.getChannelCategory();
         this.getDocumentType();
         this.getCountry();
@@ -85,7 +85,7 @@ export class BroadcasterComponent implements OnInit {
     ngOnInit() {
 
         this.client_id = this.user.client_id;
-
+        this.getBroadcasterAllGrid();
     }
 
     showPopup() {
