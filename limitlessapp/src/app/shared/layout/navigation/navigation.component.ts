@@ -84,6 +84,16 @@ export class NavigationComponent implements OnInit {
         }
       } else if(this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
+        this.broadcaster = true;
+        this.eCommerce = true;
+        this.shop = true;
+        this.products = true;
+        this.category = true;
+        this.subcategory = true;
+        this.order = true;
+        this.productInvetory = true;
+        this.channelStream = true;
+        this.channelVideos = true;
       }
     }
   }

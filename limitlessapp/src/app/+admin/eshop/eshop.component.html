@@ -32,8 +32,32 @@
                       <input type="text" class="form-control" name="shopCode" formControlName="shopCode">
                     </section>
                     <section class="col col-6">
+                      <label>Seller Name</label>
+                      <input type="text" class="form-control" name="userName" formControlName="userName">
+                    </section>
+                    <section class="col col-6">
+                      <label>Seller Short Name (<sup>*</sup>Lastname or Surname)</label>
+                      <input type="text" class="form-control" name="userShortName" formControlName="userShortName">
+                    </section>
+                    <section class="col col-6">
+                      <label>Seller City</label>
+                      <input type="text" class="form-control" name="userCity" formControlName="userCity">
+                    </section>
+                    <section class="col col-6">
+                      <label>ZIP</label>
+                      <input type="text" class="form-control" name="userZip" formControlName="userZip">
+                    </section>
+                    <section class="col col-6">
+                      <label>Seller Mobile</label>
+                      <input type="text" class="form-control" name="userMobile" formControlName="userMobile">
+                    </section>
+                    <section class="col col-6">
+                      <label>Seller Email</label>
+                      <input type="email" class="form-control" name="userEmail" formControlName="userEmail">
+                    </section>
+                    <section class="col col-6">
                       <label>Seller KYC Type</label>
-                      <select class="form-control" #kycDocList (change)="onKycDocTypeSelect(kycDocList.value)" name="sellerKycType">
+                      <select class="form-control" #kycDocsList (change)="onKycDocTypeSelect(kycDocsList.value)" name="sellerKycType">
                         <option></option>
                         <option *ngFor="let kycDoc of kycDocList" value="{{kycDoc}}">{{kycDoc}}</option>
                       </select>
