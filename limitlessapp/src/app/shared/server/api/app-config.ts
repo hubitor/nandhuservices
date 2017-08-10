@@ -55,6 +55,7 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static get_country=AppSettings.API_ENDPOINT +"common/country/all"; //to get all countries
    public static get_state=AppSettings.API_ENDPOINT +"common/state/all/"; //to get all state
    public static get_city=AppSettings.API_ENDPOINT +"common/city/all/"; //to get all city
+   public static get_rank=AppSettings.API_ENDPOINT +"common/rank/all/"; //to get all ranks
 
 
 };

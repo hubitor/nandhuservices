@@ -17,4 +17,12 @@ export class Broadcasters {
     broadcaster_total_videos:number;
     createdby:string;
     updated_by:string; 
+    server_pu_dns_name:string;
+    server_pr_dns_name:string;
+    mapped_domain_name:string;
+    w_application_name:string;
+    primary_channel_id:number;
+    country_code:string;
+    state_code:string;
+    city_code:string;
 }

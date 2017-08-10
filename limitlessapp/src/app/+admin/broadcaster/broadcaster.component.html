@@ -42,16 +42,33 @@
                             <!-- this is what the user will see -->
                             <div class="widget-body no-padding">
 
-                                <sa-datatable tableClass="table table-striped table-bordered table-hover">
+                                <sa-datatable [options]="{
+                            data: broacasterall,
+                 columns: [
+                 {data:'id'},
+                 {data:'broadcaster_name'},
+                 {data:'broadcaster_channel_name'},
+                 {data:'broadcaster_email'},
+                 {data:'w_application_name'},
+                 {data:'state_code'}
+                 ],
+                 buttons: [
+                 'colvis'
+                 ]
+                 }" tableClass="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th data-class="expand">Name</th>
-                                            <th>Description</th>
-                                            <!--<th data-hide="phone">Company</th>
-                                    <th data-hide="phone,tablet">Zip</th>
-                                    <th data-hide="phone,tablet">City</th>
-                                    <th data-hide="phone,tablet">Date</th>-->
+                                            <th data-class="expand">Id</th>
+                                            <th data-class="expand">Broadcaster Name</th>
+                                            <th data-class="expand">Channel Name</th>
+                                            <!-- <th data-class="expand">Category Name</th> -->
+                                            <th data-class="expand">Email</th>
+                                            <th data-class="expand">Application Name</th>
+                                            <th data-class="expand">State,City</th>
+                                            <!-- <th data-class="expand">Video URL</th>
+                                            <th data-class="expand">YouTube Key</th>
+                                            <th data-class="expand">FaceBook Key</th>
+                                            <th data-class="expand">Haappyapp Key</th> -->
                                         </tr>
                                     </thead>
                                 </sa-datatable>
@@ -129,7 +146,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterCountryControl" name="broadcasterCountryControl" #broadcasterCountryControl (change)="getState(broadcasterCountryControl.value)">
-            <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_code}}-{{country.country_name}}</option>
+            <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose Country</b>
         </label>
@@ -142,7 +159,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterStateControl" name="broadcasterStateControl" #broadcasterStateControl (change)="getCity(broadcasterStateControl.value)"   >
-            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_code}}-{{state.state_name}}</option>
+            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose State</b>
         </label>
@@ -155,7 +172,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterCityControl" name="broadcasterCityControl" #broadcasterCityControl   >
-            <option *ngFor="let city of cities" value="{{city.id}}">{{city.city_code}}-{{city.city_name}}</option>
+            <option *ngFor="let city of cities" value="{{city.id}}">{{city.city_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose City</b>
         </label>
@@ -166,7 +183,7 @@
 
                                                  <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-user"></i>
-                                <input class="form-control" type="text" name="broadcasterPrimaryChannelControl" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl">
+                                <input class="form-control" type="text" name="broadcasterPrimaryChannelControl" placeholder=" Primary Channel Name" formControlName="broadcasterPrimaryChannelControl" >
                                 <b class="tooltip tooltip-bottom-right">Primary Channel Name</b>
                             </label>
                             <p *ngIf="broadcasterForm.controls.broadcasterPrimaryChannelControl.errors" style="color:red;">*</p>
@@ -282,6 +299,18 @@
                                                
                                             </div>
                                             <div class="row">
+                                                <section class="col col-4">
+                                                    
+                                                    <label class="input">
+          <i class="icon-append fa fa-globe"></i>
+          
+          <!--(change)="onDestinationSelect()"-->
+          <select class="form-control" formControlName="broadcasterRankControl" name="broadcasterRankControl" #broadcasterRankControl>
+            <option *ngFor="let rank of ranks" value="{{rank.display_value}}">{{rank.display_value}}</option>
+          </select>
+        <b class="tooltip tooltip-bottom-right">Choose Rank</b>
+        </label>
+                                                </section> 
                                                  <section class="col col-md-4">
                                                     <label class="input"> <i class="icon-prepend fa fa-flag"></i>
                   <select class="form-control" name="broadcasterStatusControl" formControlName="broadcasterStatusControl">
@@ -295,8 +324,8 @@
                                         </fieldset>
                                         <footer>
 
-                                            <button type="submit" class="btn btn-success" [disabled]="!broadcasterForm.valid" (click)="createCategory()">Save</button>
-                                            <button type="submit" class="btn btn-primary" [disabled]="!broadcasterForm.valid" (click)="amendCategory()">Cancel</button>
+                                            <button type="submit" class="btn btn-success" [disabled]="!broadcasterForm.valid" (click)="createBroadcasterOnBoardFlow()">Save</button>
+                                            <!-- <button type="submit" class="btn btn-primary" [disabled]="!broadcasterForm.valid" (click)="amendCategory()">Cancel</button> -->
                                         </footer>
 
                                     </form>

@@ -11,6 +11,7 @@ import { headerDict} from "../../models/header";
 import { Country } from "../../models/country";
 import { State } from "../../models/state";
 import { City } from "../../models/city";
+import { Rank } from "../../models/rank";
 
 const headerObj = {                                                                                                                                                                                 
   headers: new Headers(headerDict)
@@ -40,6 +41,13 @@ export class UtilityService {
       getCity(stateId:number): Observable<City> {
 
         return this.http.get(AppConfig.get_city+stateId, headerObj)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    };
+
+     getRank(): Observable<Rank> {
+
+        return this.http.get(AppConfig.get_rank, headerObj)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };

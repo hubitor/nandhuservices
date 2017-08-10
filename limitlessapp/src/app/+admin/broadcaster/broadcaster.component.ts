@@ -38,6 +38,8 @@ export class BroadcasterComponent implements OnInit {
     countries;
     states;
     cities;
+    ranks;
+    broacasterall:Broadcasters;
     broadcasterOnBoardRequest:BroadcasterOnBoardRequest;
     mode: 'Observable';
     constructor(private broadcasterService: BroadcasterService
@@ -48,9 +50,11 @@ export class BroadcasterComponent implements OnInit {
         , private utilityService:UtilityService) {
         this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
         this.createForm();
+        
         this.getChannelCategory();
         this.getDocumentType();
         this.getCountry();
+        this.getRank();
     }
 
     createForm() {
@@ -59,7 +63,7 @@ export class BroadcasterComponent implements OnInit {
             broadcasterDescriptionControl: [null],
             broadcasterChannelCategoryControl:[null],
             broadcasterPrimaryChannelControl: [null, Validators.required],
-            broadcasterEmailControl: [null, Validators.required],
+            broadcasterEmailControl: [null, [Validators.required,Validators.pattern("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]],
             broadcasterWebsiteControl: [null],
             broadcasterTagControl: [null],
             broadcasterLatitudeControl:["0.000000",Validators.required],
@@ -68,11 +72,12 @@ export class BroadcasterComponent implements OnInit {
             broadcasterDocumenttextControl:[null],
             broadcasterPubDNSControl:[null],
             broadcasterPrivateDNSControl:[null],
-            broadcasterWApplicationControl:[null,Validators.required],
+            broadcasterWApplicationControl:[null],
             broadcasterStatusControl:[null],
             broadcasterCityControl:[null],
             broadcasterStateControl:[null],
-            broadcasterCountryControl:[null]
+            broadcasterCountryControl:[null],
+            broadcasterRankControl:[null,Validators.required]
 
         });
     }
@@ -80,7 +85,7 @@ export class BroadcasterComponent implements OnInit {
     ngOnInit() {
 
         this.client_id = this.user.client_id;
-
+        this.getBroadcasterAllGrid();
     }
 
     showPopup() {
@@ -99,6 +104,17 @@ export class BroadcasterComponent implements OnInit {
             }
         });
     }
+
+      getBroadcasterAllGrid()
+    {
+        this.broadcasterService.getAllBroadcasters()
+      .subscribe(
+       broadcasterResponse=>{
+           debugger;
+            this.broacasterall=broadcasterResponse;
+       }),
+      error => this.errorMessage = <any>error;
+    };
 
     getBroadcasterChannel()
     {
@@ -127,6 +143,7 @@ export class BroadcasterComponent implements OnInit {
       .subscribe(
        countryResponse=>{
             this.countries=countryResponse;
+           
             
        }),
       error => this.errorMessage = <any>error;
@@ -138,9 +155,12 @@ export class BroadcasterComponent implements OnInit {
       .subscribe(
        stateResponse=>{
             this.states=stateResponse;
+              
        }),
+      
       error => this.errorMessage = <any>error;
-    };
+      
+    };    
 
     getCity(stateId:number)
     {
@@ -152,7 +172,16 @@ export class BroadcasterComponent implements OnInit {
       error => this.errorMessage = <any>error;
     };
 
-    
+    populateApplicationName(channelName:string,statecode:string):string
+    {
+         return channelName.toLowerCase() +"-"+ statecode.toLowerCase();
+    }
+
+     populateVideoURLName(applicationName:string,streamName:string):string
+    {
+         return "http://live.haappyapp.com:1935/"+ applicationName+"/"+ streamName +"/"+ streamName +"/playlist.m3u8";
+    }
+
     getDocumentType()
     {
         this.documentService.getAllDcoumentType()
@@ -163,9 +192,85 @@ export class BroadcasterComponent implements OnInit {
       error => this.errorMessage = <any>error;
     }
 
+    getRank()
+    {
+        this.utilityService.getRank()
+      .subscribe(
+       rankResponse=>{
+            this.ranks=rankResponse;
+       }),
+      error => this.errorMessage = <any>error;
+    };
+
     createBroadcasterOnBoardFlow()
     {
+      var cntry,state,city;
        var bc_onboardRequest=new BroadcasterOnBoardRequest();
+       var b_ControlValue=this.broadcasterForm.value;
+       bc_onboardRequest.broadcaster_name=b_ControlValue.broadcasterNamecontrol;
+       bc_onboardRequest.broadcaster_description=b_ControlValue.broadcasterDescriptionControl;
+       bc_onboardRequest.category_id= cntry = b_ControlValue.broadcasterChannelCategoryControl;
+       cntry=  this.countries.filter(c=>c.id.toString() === b_ControlValue.broadcasterCountryControl ) ;
+       bc_onboardRequest.country_code=cntry.length>0?cntry[0].country_code:"";
+       state=  this.states.filter(s=>s.id.toString() === b_ControlValue.broadcasterStateControl ) ;
+       bc_onboardRequest.state_code=state.length>0?state[0].state_code:"";
+       city=  this.cities.filter(ci=>ci.id.toString() === b_ControlValue.broadcasterCityControl ) ;
+       bc_onboardRequest.city_code=city.length>0?city[0].city_code:"";
+       bc_onboardRequest.broadcaster_channel_name=b_ControlValue.broadcasterPrimaryChannelControl;
+       bc_onboardRequest.broadcaster_email=b_ControlValue.broadcasterEmailControl;
+       bc_onboardRequest.broadcaster_website=b_ControlValue.broadcasterWebsiteControl;
+       bc_onboardRequest.broadcaster_tags=b_ControlValue.broadcasterTagControl;
+       bc_onboardRequest.broadcast_loc_lattitude=b_ControlValue.broadcasterLatitudeControl;
+       bc_onboardRequest.broadcast_loc_longtitude=b_ControlValue.broadcasterLongtitudeControl;
+       bc_onboardRequest.broadcast_kyc_doc_type=b_ControlValue.broadcasterDocumentTypeControl;
+       bc_onboardRequest.broadcast_kyc_doc_value=b_ControlValue.broadcasterDocumenttextControl;
+       bc_onboardRequest.server_pu_dns_name=b_ControlValue.broadcasterPubDNSControl;
+       bc_onboardRequest.server_pr_dns_name=b_ControlValue.broadcasterPrivateDNSControl;
+       bc_onboardRequest.w_application_name=this.populateApplicationName(bc_onboardRequest.state_code,bc_onboardRequest.broadcaster_channel_name);
+       bc_onboardRequest.rank=b_ControlValue.broadcasterRankControl;
+       bc_onboardRequest.is_active=b_ControlValue.broadcasterStatusControl;
+       bc_onboardRequest.broadcaster_image=bc_onboardRequest.broadcaster_channel_name;
+        var bc=new BroadcasterChannel();
+        bc.application_id=this.user.user_app_id;
+        bc.broadcaster_id=0;
+        bc.category_id=bc_onboardRequest.category_id;
+        bc.channel_name=bc_onboardRequest.broadcaster_channel_name;
+        bc.yt_streamtarget_name="";
+        bc.fb_streamtarget_name="";
+        bc.ha_streamtarget_name="";
+        bc.channel_image="";
+        bc.image_file_name="";
+        bc.rank=0;
+        bc.is_active=true;
+        bc.created_by=this.user.user_name;
+        bc.updated_by=this.user.user_name;
+       bc_onboardRequest.broadcaster_channels=bc
+
+       var bv=new BroadcasterVideos();
+       bv.broadcaster_channel_id=0;
+       bv.video_name=bc_onboardRequest.broadcaster_channel_name;
+       bv.rank=0;
+       bv.video_thumbnail="https://d3a4m2h1w49sov.cloudfront.net/ProductImages/s5000170/livetv.png";
+       bv.video_description=bv.video_name;
+       var category=this.channelCategories.filter(ct=>ct.id.toString() === bc.category_id.toString())
+       var streamName=bc_onboardRequest.broadcaster_channel_name +"-"+ (category.length>0?category[0].category_name:"");
+       bv.video_url=this.populateVideoURLName(bc_onboardRequest.w_application_name.toLowerCase(),streamName.toLowerCase());
+       bv.is_active=true;
+       bv.is_live=true;
+       bv.is_youtube=false;
+       bv.yt_streamkey="";
+       bv.fb_streamkey="";
+       bv.ha_streamkey="";
+       bv.created_by=this.user.user_name;
+       bv.updated_by=this.user.user_name;
+       bc_onboardRequest.broadcaster_videos=bv;
+
+       this.broadcasterService.createBroadcasterOnboardFlow(bc_onboardRequest)
+      .subscribe(
+      response => {
+            location.reload();
+      }),
+      error => this.errorMessage = <any>error;
     }
 
     hasReload(response) {

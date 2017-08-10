@@ -59,7 +59,7 @@ export class ChannelStreamComponent implements OnInit {
       broadcasterDestination:[null,Validators.required],
     });
   }
-
+  
   ngOnInit() {
     this.w_applicationName = this.user.w_appname;
     this.client_id = this.user.client_id;
@@ -229,7 +229,8 @@ export class ChannelStreamComponent implements OnInit {
     var wowzaMapEntries:any[];
     this.streamTargetRequest = new StreamTargetRequest();
     var newKeyDate = this.datePipe.transform(myDate, 'yyMMddhmmss');
-    var newStreamEntryName = this.user.w_appname.trim() + "-" + newKeyDate;
+    var newStreamEntryName = this.user.w_appname.trim() ;
+    //+ "-" + newKeyDate;
     if (getresponse.mapEntries.length > 0) {
       wowzaMapEntries=getresponse.mapEntries;
       var destType=this.channelStreamForm.value.broadcasterDestination.toString();
@@ -237,18 +238,19 @@ export class ChannelStreamComponent implements OnInit {
       {
            streamTargetVal= wowzaMapEntries.filter(
            destKey => destKey.host === "rtmp-api.facebook.com");
-
+           newStreamEntryName=newStreamEntryName+"-facebook";
            this.streamTargetRequest.streamName = newKeyResponse.fb_streamkey?newKeyResponse.fb_streamkey.toString().trim():'';
       }
       else if(destType ==="2")
       {
            streamTargetVal= wowzaMapEntries.filter(
            destKey => destKey.host === "a.rtmp.youtube.com");
-
+           newStreamEntryName=newStreamEntryName+"-youtube";
            this.streamTargetRequest.streamName = newKeyResponse.yt_streamkey?newKeyResponse.yt_streamkey.toString().trim():'';
       }
       else if(destType ==="3")
       {
+           newStreamEntryName=newStreamEntryName+"-haappyapp";
            this.streamTargetRequest.streamName = newKeyResponse.ha_streamkey?newKeyResponse.ha_streamkey.toString().trim():'';
       }
       if(streamTargetVal.length >0)
@@ -259,7 +261,7 @@ export class ChannelStreamComponent implements OnInit {
       
       this.streamTargetRequest.serverName = getresponse.serverName.trim();
       this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
-      this.streamTargetRequest.entryName = newStreamEntryName.trim();
+      this.streamTargetRequest.entryName = newStreamEntryName + "-" + newKeyDate.trim();
       this.streamTargetRequest.port = streamTargetVal.port;
       this.streamTargetRequest.enabled=streamTargetVal.enabled;
       this.streamTargetRequest.autoStartTranscoder=streamTargetVal.autoStartTranscoder;
