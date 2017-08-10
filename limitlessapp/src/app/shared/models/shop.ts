@@ -1,3 +1,5 @@
+import { User } from '../models/userModel';
+
 export class Shop{
     id: number;
     application_id: number;
@@ -11,4 +13,5 @@ export class Shop{
     is_deleted: boolean;
     created_by: string;
     updated_by: string;
+    user: User;
 }
