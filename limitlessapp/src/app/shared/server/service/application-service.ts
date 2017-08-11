@@ -45,7 +45,7 @@ export class ApplicationService {
             .catch(ResponseData.handleError);
     }
 
-    getAllRoles(): Observable<any>{
+    getAllRoles(): Observable<ApplicationUsersRole[]>{
         return this.http.get("http://localhost:3000/applications/app/role/all", {headers: this.headers})
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);

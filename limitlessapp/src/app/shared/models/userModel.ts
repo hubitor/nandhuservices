@@ -16,4 +16,5 @@ export class User{
     is_active: boolean;
     created_by: string;
     last_updated_by: string;
+    roleId: number;
 }

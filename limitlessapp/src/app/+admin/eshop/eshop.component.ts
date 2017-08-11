@@ -7,6 +7,7 @@ import { Shop } from '../../shared/models/shop';
 import { User } from '../../shared/models/userModel';
 import { ShopService } from '../../shared/server/service/shop.service';
 import { ShopCreateResponse } from '../../shared/models/shopCreateResponse';
+import { ApplicationUsersRole } from '../../shared/models/applicationUsersRole';
 
 @Component({
   selector: 'app-eshop',
@@ -23,6 +24,8 @@ export class EshopComponent implements OnInit {
   applicationId: number;
   kycDocType: string;
   shopCreateResponse: ShopCreateResponse;
+  applicationUsersRoles: ApplicationUsersRole[];
+  roleId: number;
 
   constructor(private fb: FormBuilder, private applicationService: ApplicationService, private router: Router, private shopService: ShopService) {
     this.shop = new Shop();
@@ -34,6 +37,7 @@ export class EshopComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.getApplicationsList();
+    this.getAllApplicationUsersRoles();
   }
 
   initForm() {
@@ -62,12 +66,27 @@ export class EshopComponent implements OnInit {
     );
   }
 
+  getAllApplicationUsersRoles(){
+    this.applicationService.getAllRoles().subscribe(
+      allRoles => {
+        this.applicationUsersRoles = allRoles;
+      },
+      error => {
+        console.log('roles not found');
+      }
+    );
+  }
+
   onApplicationSelect(applicationId: number){
     this.applicationId = applicationId;
   }
 
   onKycDocTypeSelect(kycDocType: string){
     this.kycDocType = kycDocType;
+  }
+
+  onRoleSelect(roleId: number){
+    this.roleId= roleId;
   }
 
   addNewShop(){
@@ -101,6 +120,7 @@ export class EshopComponent implements OnInit {
     this.user.is_active = true;
     this.user.created_by = 'SA';
     this.user.last_updated_by = 'SA';
+    this.user.roleId = this.roleId;
     //assigning user to shop
     this.shop.user = this.user;
     this.shopService.createShop(this.shop).subscribe(
