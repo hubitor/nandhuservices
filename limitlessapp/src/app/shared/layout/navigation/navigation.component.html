@@ -336,6 +336,9 @@
           <i class="fa fa-lg fa-fw fa-tv"></i> <span
           class="menu-item-parent">{{'Broadcaster' | i18n}}</span></a>
         <ul>
+           <li *ngIf="channelHome" routerLinkActive="active">
+            <a routerLink="/free-air/channel-home" title="Channel Home"> {{'Channel Home' | i18n}}</a>
+          </li>
           <li *ngIf="channelStream" routerLinkActive="active">
             <a routerLink="/free-air/channel-stream" title="Channel Stream"> {{'Channel Stream' | i18n}}</a>
           </li>

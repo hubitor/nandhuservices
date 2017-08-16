@@ -110,7 +110,7 @@ export class ChannelStreamComponent implements OnInit {
 
   onBroadcasterSelect(broadcasterId,isLoad:boolean) {
     const broadcasterVal = this.channelStreamForm.value;
-    debugger;
+  
     if (!isLoad && this.user.user_type == "Super Admin" ) {
       this.broadcasterService.getAllBroadcasters().subscribe(
         channelCategories => this.setChannelselectedValue(channelCategories = channelCategories),
@@ -133,7 +133,7 @@ export class ChannelStreamComponent implements OnInit {
       this.broadcasters=broadcasters;
       if(this.user.user_type ==="Super Admin")
         {
-          debugger;
+        
             var filterChannel=broadcasters.filter(sachannel=>sachannel.id.toString() === this.channelStreamForm.value.broadcasterName.toString());
             this.channelCategories=filterChannel.length>0?filterChannel[0].broadcaster_channels:[];
             this.bChannelVideos=filterChannel.length>0?filterChannel[0].broadcaster_channels:[];
@@ -159,12 +159,12 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
-    debugger;
+  
     if (broadcasterVideos.length > 0) {
       var broadcasterVideo = broadcasterVideos.length>0 && broadcasterVideos[0].broadcaster_channels.length>0 ?broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos:[];
 
       if (broadcasterVideo.length > 0) {
-        debugger;
+      
        this.channelStreamForm.setValue({
           channelCurrentStreamKey:null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,

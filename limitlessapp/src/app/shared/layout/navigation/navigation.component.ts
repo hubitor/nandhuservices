@@ -23,7 +23,7 @@ export class NavigationComponent implements OnInit {
   channelVideos: boolean;
   channelAlbum: boolean;
   superAdmin: boolean;
-
+  channelHome:boolean;
   constructor() {
     this.loginResponse = new LoginResponse();
     this.userRoles = Array();
@@ -40,6 +40,7 @@ export class NavigationComponent implements OnInit {
     this.channelVideos = false;
     this.channelAlbum = false;
     this.superAdmin = false;
+    this.channelHome=false;
   }
 
   ngOnInit() {
@@ -81,6 +82,9 @@ export class NavigationComponent implements OnInit {
           } else if (this.userRoles[i].module_name === "Channel Video") {
             this.channelVideos = true;
           }
+          else if (this.userRoles[i].module_name === "Channel Home") {
+            this.channelHome = true;
+          }
         }
       } else if(this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
@@ -94,6 +98,7 @@ export class NavigationComponent implements OnInit {
         this.productInvetory = true;
         this.channelStream = true;
         this.channelVideos = true;
+        this.channelHome=true;
       }
     }
   }
