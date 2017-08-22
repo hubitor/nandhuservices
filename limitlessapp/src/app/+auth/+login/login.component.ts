@@ -63,11 +63,16 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("haappyapp-shop-name",this.loginResponse.shop_name);
           this.getUserRoles(this.loginResponse.user_id);
         } else if(this.loginResponse.user_type === "Entertainment"){
+          
           localStorage.setItem("broadcaster_id", this.loginResponse.client_id.toString());
           localStorage.setItem("w_appname", this.loginResponse.w_appname);
           localStorage.setItem("primary_channel_id", this.loginResponse.primary_channel_id.toString());
           this.getUserRoles(this.loginResponse.user_id);
+          
         } else if(this.loginResponse.user_type === "Super Admin"){
+          localStorage.setItem("broadcaster_id", "1027");
+          localStorage.setItem("w_appname", "dev");
+          localStorage.setItem("primary_channel_id", "20");
           this.router.navigate(['/admin/register']);
         }
       },
@@ -86,7 +91,8 @@ export class LoginComponent implements OnInit {
         for(var i=0; i<this.userModels.length; i++){
           localStorage.setItem("haappyapp-role-"+i, JSON.stringify(this.userModels[i]));
         }
-        this.router.navigate(['/']);
+       // this.router.navigate(['/']);
+       this.router.navigate(['/free-air/channel-video']);
       },
       error => {
         alert("something went wrong...");

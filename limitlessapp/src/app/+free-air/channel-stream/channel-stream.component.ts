@@ -14,6 +14,7 @@ import { NotificationService } from "../../shared/utils/notification.service";
 import { StreamTargetRequest } from "../../shared/models/stream-target-request"
 import { BroadcasterDestination } from "../../shared/models/broadcaster-destination"
 import { DatePipe } from '@angular/common';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-channel-stream',
@@ -22,6 +23,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ChannelStreamComponent implements OnInit {
   user: LoginResponse;
+  url:'https://www.youtube.com/watch?v=AXcxZXJ73ZA';
   channelStreamForm:FormGroup;
   errorMessage: string;
   appid: number;
@@ -51,8 +53,8 @@ export class ChannelStreamComponent implements OnInit {
   createForm()
   {
     this.channelStreamForm=this.fb.group({
-      broadcasterName: [this.user.client_id,Validators.required],
-      broadcasterChannelCategoryName: [this.user.primary_channel_id,Validators.required],
+      broadcasterName: [this.user.client_id?this.user.client_id:1027,Validators.required],
+      broadcasterChannelCategoryName: [this.user.primary_channel_id?this.user.primary_channel_id:20,Validators.required],
       channelCurrentStreamKey: [null,Validators.required],
       channelNewStreamKey:[null,[Validators.required,Validators.maxLength(300)]],
       channelVideoId: [null],
@@ -77,29 +79,51 @@ export class ChannelStreamComponent implements OnInit {
   updateDestinationId(destinations)
   {
     this.broadcasterDestinations=destinations;
+    if(this.user.user_type ==="Super Admin")
+      {
+         this.client_id=1027;
+         this.user.client_id=1027;
+         
+      }
+     
     this.getAllBroadcastersById(this.client_id);
   }
 
   getAllBroadcastersById(broadcaterId) {
-
-    this.broadcasterService.getAllBroadcastersById(broadcaterId)
-      .subscribe(
-      broadcasters => this.setChannelselectedValue(broadcasters = broadcasters),
-      error => this.errorMessage = <any>error);
+    if(this.client_id === 1027)
+      {
+           this.broadcasterService.getAllBroadcasters()
+          .subscribe(
+          broadcasters => this.setChannelselectedValue(broadcasters = broadcasters),
+          error => this.errorMessage = <any>error);
+      }
+      else
+        {
+          this.broadcasterService.getAllBroadcastersById(broadcaterId)
+          .subscribe(
+          broadcasters => this.setChannelselectedValue(broadcasters = broadcasters),
+          error => this.errorMessage = <any>error);
+        }
+    
 
   }
 
   onBroadcasterSelect(broadcasterId,isLoad:boolean) {
     const broadcasterVal = this.channelStreamForm.value;
-    broadcasterVal.broadcasterName = broadcasterId;
-    broadcasterVal.broadcasterChannelCategoryName=this.user.primary_channel_id;
-    this.g_broadcasterId = broadcasterId;
-    if (!isLoad) {
-      this.broadcasterService.getAllBroadcastersById(broadcasterId).subscribe(
+  
+    if (!isLoad && this.user.user_type == "Super Admin" ) {
+      this.broadcasterService.getAllBroadcasters().subscribe(
         channelCategories => this.setChannelselectedValue(channelCategories = channelCategories),
         error => this.errorMessage = error
       );
     }
+    else
+      {
+          this.broadcasterService.getAllBroadcastersById(broadcasterId).subscribe(
+          channelCategories => this.setChannelselectedValue(channelCategories = channelCategories),
+         error => this.errorMessage = error
+      );
+      }
     
   }
 
@@ -107,9 +131,21 @@ export class ChannelStreamComponent implements OnInit {
     if(broadcasters.length >0)
     {
       this.broadcasters=broadcasters;
-      this.channelCategories=broadcasters[0].broadcaster_channels;
-      this.bChannelVideos=broadcasters[0].broadcaster_channels;
-      this.updatingResponse(broadcasters);
+      if(this.user.user_type ==="Super Admin")
+        {
+        
+            var filterChannel=broadcasters.filter(sachannel=>sachannel.id.toString() === this.channelStreamForm.value.broadcasterName.toString());
+            this.channelCategories=filterChannel.length>0?filterChannel[0].broadcaster_channels:[];
+            this.bChannelVideos=filterChannel.length>0?filterChannel[0].broadcaster_channels:[];
+            this.updatingResponse(filterChannel);
+
+        }
+      else {
+        this.channelCategories = broadcasters[0].broadcaster_channels;
+        this.bChannelVideos = broadcasters[0].broadcaster_channels;
+        this.updatingResponse(broadcasters);
+      }
+     
     }
   }
 
@@ -123,25 +159,23 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
+  
     if (broadcasterVideos.length > 0) {
-      var broadcasterVideo = broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos;
+      var broadcasterVideo = broadcasterVideos.length>0 && broadcasterVideos[0].broadcaster_channels.length>0 ?broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos:[];
 
       if (broadcasterVideo.length > 0) {
-
+      
        this.channelStreamForm.setValue({
           channelCurrentStreamKey:null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
           channelNewStreamKey: null,
-          broadcasterName: this.user.client_id,
+          broadcasterName:  broadcasterVideos[0].id,
           channelVideoId: broadcasterVideo[0].id,
           broadcasterDestination:this.broadcasterDestinations.length>0?this.broadcasterDestinations[1].id:2
        });
 
 
-        // this.channelStreamForm = this.fb.group({
-         
-         
-        // });
+       
       }
       
     }

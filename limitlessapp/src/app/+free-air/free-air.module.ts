@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ChannelVideoComponent } from './channel-video/channel-video.component';
 import { ChannelAlbumComponent } from './channel-album/channel-album.component';
 import { ChannelStreamComponent } from './channel-stream/channel-stream.component';
+import { ChannelHomeComponent } from './channel-home/channel-home.component';
 import {SmartadminLayoutModule} from "../shared/layout/layout.module";
 import {SmartadminWidgetsModule} from "../shared/widgets/smartadmin-widgets.module";
 import {StatsModule} from "../shared/stats/stats.module";
@@ -27,12 +28,10 @@ import {CarouselModule} from "ngx-bootstrap";
 
   ],
   declarations: [
-    //ShoppingCartComponent,
-    //OrdersComponent,
     ChannelVideoComponent,
-     ChannelAlbumComponent,
-    ChannelStreamComponent
-   
+    ChannelAlbumComponent,
+    ChannelStreamComponent,
+    ChannelHomeComponent
   ]
 })
 export class FreeAirModule { }

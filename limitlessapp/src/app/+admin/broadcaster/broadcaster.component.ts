@@ -110,7 +110,7 @@ export class BroadcasterComponent implements OnInit {
         this.broadcasterService.getAllBroadcasters()
       .subscribe(
        broadcasterResponse=>{
-           debugger;
+           
             this.broacasterall=broadcasterResponse;
        }),
       error => this.errorMessage = <any>error;
