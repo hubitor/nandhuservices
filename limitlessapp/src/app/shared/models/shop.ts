@@ -1,4 +1,6 @@
-import { User } from '../models/userModel';
+import {Category} from '../models/category';
+import {SubCategory} from '../models/sub-category';
+import {Product} from '../models/product';
 
 export class Shop{
     id: number;
@@ -13,5 +15,7 @@ export class Shop{
     is_deleted: boolean;
     created_by: string;
     updated_by: string;
-    user: User;
+    category: Category;
+    sub_category: SubCategory;
+    product: Product;
 }

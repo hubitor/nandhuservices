@@ -58,6 +58,7 @@
     "clockpicker": "0.0.7",
     "clone": "2.1.1",
     "core-js": "2.4.1",
+    "crypto-js": "^3.1.9-1",
     "debounce": "1.0.0",
     "dropzone": "4.3.0",
     "dygraphs": "1.1.1",
