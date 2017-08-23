@@ -1,0 +1,1 @@
+export {VideoPrerecordComponent} from './videopre-record.component';

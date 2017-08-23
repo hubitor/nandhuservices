@@ -220,8 +220,8 @@ export class BroadcasterComponent implements OnInit {
        bc_onboardRequest.broadcaster_email=b_ControlValue.broadcasterEmailControl;
        bc_onboardRequest.broadcaster_website=b_ControlValue.broadcasterWebsiteControl;
        bc_onboardRequest.broadcaster_tags=b_ControlValue.broadcasterTagControl;
-       bc_onboardRequest.broadcast_loc_lattitude=b_ControlValue.broadcasterLatitudeControl;
-       bc_onboardRequest.broadcast_loc_longtitude=b_ControlValue.broadcasterLongtitudeControl;
+       bc_onboardRequest.broadcaster_loc_latitude=b_ControlValue.broadcasterLatitudeControl;
+       bc_onboardRequest.broadcaster_loc_longitude=b_ControlValue.broadcasterLongtitudeControl;
        bc_onboardRequest.broadcast_kyc_doc_type=b_ControlValue.broadcasterDocumentTypeControl;
        bc_onboardRequest.broadcast_kyc_doc_value=b_ControlValue.broadcasterDocumenttextControl;
        bc_onboardRequest.server_pu_dns_name=b_ControlValue.broadcasterPubDNSControl;
@@ -230,6 +230,7 @@ export class BroadcasterComponent implements OnInit {
        bc_onboardRequest.rank=b_ControlValue.broadcasterRankControl;
        bc_onboardRequest.is_active=b_ControlValue.broadcasterStatusControl;
        bc_onboardRequest.broadcaster_image=bc_onboardRequest.broadcaster_channel_name;
+       bc_onboardRequest.seller_id=5000217;// Haappyapp broadecaster id 
         var bc=new BroadcasterChannel();
         bc.application_id=this.user.user_app_id;
         bc.broadcaster_id=0;
@@ -254,10 +255,18 @@ export class BroadcasterComponent implements OnInit {
        bv.video_description=bv.video_name;
        var category=this.channelCategories.filter(ct=>ct.id.toString() === bc.category_id.toString())
        var streamName=bc_onboardRequest.broadcaster_channel_name +"-"+ (category.length>0?category[0].category_name:"");
-       bv.video_url=this.populateVideoURLName(bc_onboardRequest.w_application_name.toLowerCase(),streamName.toLowerCase());
+       bv.url=this.populateVideoURLName(bc_onboardRequest.w_application_name.toLowerCase(),streamName.toLowerCase());
        bv.is_active=true;
        bv.is_live=true;
        bv.is_youtube=false;
+       bv.duration=0;
+       bv.live_ads=false;
+       bv.p160=false;
+       bv.p360=false;
+       bv.p720=false;
+       bv.p720=false;
+       bv.p1080=false;
+       bv.p_uhd=false;
        bv.yt_streamkey="";
        bv.fb_streamkey="";
        bv.ha_streamkey="";

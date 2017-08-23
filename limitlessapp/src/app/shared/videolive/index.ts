@@ -1,0 +1,1 @@
+export {VideoLiveComponent} from './videolive.component';

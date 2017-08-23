@@ -13,6 +13,8 @@ import {SmartadminDatatableModule} from "../shared/ui/datatable/smartadmin-datat
 //import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CarouselModule} from "ngx-bootstrap";
+import {VideoLiveModule} from "../shared/videolive/videolive.module";
+import {VideoPrerecordModule} from "../shared/videopre-record/videopre-record.module";
 
 @NgModule({
   imports: [
@@ -24,8 +26,8 @@ import {CarouselModule} from "ngx-bootstrap";
     StatsModule,
     SmartadminDatatableModule,
     CarouselModule,
-    
-
+    VideoLiveModule,
+    VideoPrerecordModule
   ],
   declarations: [
     ChannelVideoComponent,

@@ -10,7 +10,10 @@ import { DatePipe } from '@angular/common';
 })
 export class ChannelVideoComponent implements OnInit {
   channelHomeForm:FormGroup;
-
+  // array of video elements
+  public videos = ['http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8'];
+  public videoslve = 'http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8';
+  public videopre = ['https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/sangi_beauty_x264.mp4','https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/dry_fruits_salad.mp4'];
   constructor( private fb: FormBuilder) {
 
     this.channelHomeForm=this.fb.group({
