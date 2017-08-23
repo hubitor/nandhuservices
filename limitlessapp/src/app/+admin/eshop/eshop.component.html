@@ -12,67 +12,76 @@
               <form [formGroup]="newShopForm" class="smart-form">
                 <fieldset>
                   <div class="row">
-                    <section class="col col-6">
+                    <section class="col col-4">
                       <label>Application</label>
                       <select name="applicationList" #applicationList (change)="onApplicationSelect(applicationList.value)" class="form-control">
                         <option></option>
                         <option *ngFor="let app of applications" value="{{app.id}}">{{app.application_name}}</option>
                       </select>
                     </section>
-                    <section class="col col-6">
+                    <section class="col col-4">
                       <label>Shop Name</label>
                       <input type="text" class="form-control" name="shopName" formControlName="shopName">
                     </section>
-                    <section class="col col-6">
+                    <section class="col col-4">
                       <label>About Shop</label>
                       <input type="text" class="form-control" name="aboutShop" formControlName="aboutShop">
                     </section>
-                    <section class="col col-6">
+                    <section class="col col-4">
                       <label>Shop Code</label>
                       <input type="text" class="form-control" name="shopCode" formControlName="shopCode">
                     </section>
-                    <section class="col col-6">
-                      <label>Seller Name</label>
-                      <input type="text" class="form-control" name="userName" formControlName="userName">
-                    </section>
-                    <section class="col col-6">
-                      <label>Seller Short Name (<sup>*</sup>Lastname or Surname)</label>
-                      <input type="text" class="form-control" name="userShortName" formControlName="userShortName">
-                    </section>
-                    <section class="col col-6">
-                      <label>Seller City</label>
-                      <input type="text" class="form-control" name="userCity" formControlName="userCity">
-                    </section>
-                    <section class="col col-6">
-                      <label>ZIP</label>
-                      <input type="text" class="form-control" name="userZip" formControlName="userZip">
-                    </section>
-                    <section class="col col-6">
-                      <label>Seller Mobile</label>
-                      <input type="text" class="form-control" name="userMobile" formControlName="userMobile">
-                    </section>
-                    <section class="col col-6">
-                      <label>Seller Email</label>
-                      <input type="email" class="form-control" name="userEmail" formControlName="userEmail">
-                    </section>
-                    <section class="col col-6">
+                    <section class="col col-4">
                       <label>Seller KYC Type</label>
                       <select class="form-control" #kycDocsList (change)="onKycDocTypeSelect(kycDocsList.value)" name="sellerKycType">
                         <option></option>
                         <option *ngFor="let kycDoc of kycDocList" value="{{kycDoc}}">{{kycDoc}}</option>
                       </select>
                     </section>
-                    <section class="col col-6">
-                      <label>Seller KYC Number/Id</label>
+                    <section class="col col-4">
+                      <label>Seller KYC Number/ID</label>
                       <input type="text" class="form-control" name="sellerKycValue" formControlName="sellerKycValue">
                     </section>
-                    <section class="col col-6">
-                      <label>Select A Roles For User</label>
-                      <select class="form-control" name="userRolesList" #userRoleList (change)="onRoleSelect(userRoleList.value)">
-                        <option></option>
-                        <option *ngFor="let role of applicationUsersRoles" value="{{role.id}}">{{role.role_name}}</option>
-                      </select>
+                    <section class="col col-4">
+                      <label>Primary Category Name</label>
+                      <input type="text" class="form-control" name="primaryCategoryName">
                     </section>
+                    <section class="col col-4">
+                      <label>Primary Category Description</label>
+                      <input type="text" class="form-control" name="primaryCategoryDescription">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Cagtegory Image</label>
+                      <input type="file" class="form-control" name="primaryCategoryImage">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Subcategory Name</label>
+                      <input type="text" class="form-control" name="primarySubcategoryName">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Subcategory Description</label>
+                      <input type="text" class="form-control" name="primarySubcategoryDescription">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Subcagtegory Image</label>
+                      <input type="file" class="form-control" name="primarySubcategoryImage">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Product Name</label>
+                      <input type="text" class="form-control" name="primaryProductName">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Product Description</label>
+                      <input type="text" class="form-control" name="primaryProductDescription">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Product Image</label>
+                      <input type="file" class="form-control" name="primaryProductImage">
+                    </section>
+                    <section class="col col-4">
+                      <label>Primary Product Price</label>
+                      <input type="text" class="form-control" name="primaryProductPrice">
+                    </section> 
                   </div>
                   <button type="submit" class="btn btn-success" (click)="addNewShop()">Create Shop</button>
                 </fieldset>
