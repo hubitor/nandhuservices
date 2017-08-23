@@ -50,4 +50,5 @@ export class ApplicationService {
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }
+        
 }

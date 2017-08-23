@@ -3,11 +3,13 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { ApplicationService } from '../../shared/server/service/application-service';
 import { Application } from '../../shared/models/application';
 import { User } from '../../shared/models/userModel';
+import { ShopService } from '../../shared/server/service/shop.service';
+import { Shop } from '../../shared/models/shop';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  providers: [ApplicationService]
+  providers: [ApplicationService, ShopService]
 })
 export class RegistrationComponent implements OnInit {
   newClientForm;
@@ -17,8 +19,10 @@ export class RegistrationComponent implements OnInit {
   applicationId: number;
   userType: string;
   user: User;
+  shops: Shop[];
+  shopId: number;
 
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService) { 
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private shopService: ShopService) { 
     this.application = new Application();
     this.user = new User();
   }
@@ -50,8 +54,25 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  onApplicationSelect(applicationId: number){
-    this.applicationId = applicationId;
+  onApplicationSelect(application: String){
+    var selectedString = application.split(',');
+    this.applicationId = parseInt(selectedString[0]);
+    if(selectedString[1] === 'eCommerce'){
+      this.shopService.getAllShops().subscribe(
+        shops => {
+          this.shops = shops;
+        }, 
+        error => {
+          console.log('Something went wrong.');
+        }
+      );
+    } else if(this.application.application_name === 'Entertainment'){
+
+    }
+  }
+
+  onShopSelect(shopId: number){
+    this.shopId = shopId;
   }
 
   onUserTypeSelect(userType: string){
@@ -61,6 +82,7 @@ export class RegistrationComponent implements OnInit {
   registerUser(){
     const newUser = this.newClientForm.value;
     this.user.application_id = this.applicationId;
+    this.user.client_id = this.shopId;
     this.user.user_type = this.userType;
     this.user.user_name = newUser.userName;
     this.user.user_short_name = newUser.userShortName;
@@ -76,14 +98,15 @@ export class RegistrationComponent implements OnInit {
     this.user.is_active = true;
     this.user.created_by = "SA";
     this.user.last_updated_by = "SA";
-    this.applicationService.newUserRegisteration(this.user).subscribe(
+    console.log(this.user);
+    /*this.applicationService.newUserRegisteration(this.user).subscribe(
       createResponse => {
         alert("user registered successfully...");
       },
       error => {
         alert("Something went wrong!");
       }
-    );
+    );*/
   }
 
 }

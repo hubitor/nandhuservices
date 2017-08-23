@@ -154,6 +154,34 @@ export class EshopComponent implements OnInit {
                 //new category
                 this.category.application_id = this.applicationId;
                 this.category.category_name = newShop.primaryCategoryName;
+                this.category.category_description = newShop.primaryCategoryDescription;
+                this.category.category_image = this.categoryImageUrl;
+                this.category.image_file_name = this.categoryImageFileName;
+                this.category.is_active = true;
+                this.category.created_by = "SA";
+                this.category.updated_by = "SA";
+                //new subcategory
+                this.subcategory.subcategory_name = newShop.primarySubcategoryName;
+                this.subcategory.subcategory_description = newShop.primarySubcategoryDescription;
+                this.subcategory.subcategory_image = this.subcategoryImageUrl;
+                this.subcategory.image_file_name = this.subcategoryImageFileName;
+                this.subcategory.is_active = true;
+                this.subcategory.created_by = "SA";
+                this.subcategory.updated_by = "SA";
+                //new product
+                this.product.product_name = newShop.primaryProductName;
+                this.product.product_descripton = newShop.primaryProductDescription;
+                this.product.product_price = newShop.primaryProductPrice;
+                this.product.product_image = this.productImageUrl;
+                this.product.discount_rate = 0;
+                this.product.is_removed = true;
+                this.product.pod = true;
+                this.product.add_to_cart = true;
+
+                this.shop.category = this.category;
+                this.shop.sub_category = this.subcategory;
+                this.shop.product = this.product;
+                console.log(this.shop);
                 this.shopService.createShop(this.shop).subscribe(
                   createResponse => {
                     this.shopCreateResponse = createResponse;

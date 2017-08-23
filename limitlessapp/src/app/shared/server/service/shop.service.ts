@@ -31,4 +31,10 @@ export class ShopService {
       .catch(ResponseData.handleError);
   }
 
+  getAllShops(): Observable<Shop[]>{
+    return this.http.get("http://localhost:3000/user/shop/all", {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
 }

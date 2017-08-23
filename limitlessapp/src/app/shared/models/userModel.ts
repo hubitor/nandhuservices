@@ -1,6 +1,7 @@
 export class User{
     id: number;
     application_id: number;
+    client_id: number;
     user_type: string;
     user_name: string;
     user_short_name: string;
