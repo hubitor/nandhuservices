@@ -5,11 +5,13 @@ import { Application } from '../../shared/models/application';
 import { User } from '../../shared/models/userModel';
 import { ShopService } from '../../shared/server/service/shop.service';
 import { Shop } from '../../shared/models/shop';
+import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
+import { Broadcasters } from '../../shared/models/broadcasters';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  providers: [ApplicationService, ShopService]
+  providers: [ApplicationService, ShopService, BroadcasterService]
 })
 export class RegistrationComponent implements OnInit {
   newClientForm;
@@ -21,10 +23,17 @@ export class RegistrationComponent implements OnInit {
   user: User;
   shops: Shop[];
   shopId: number;
+  broadcasters: Broadcasters;
+  broadcasterId: number;
+  activateShopSelector: boolean;
+  activateBroadcasterSelector: boolean;
 
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private shopService: ShopService) { 
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, 
+    private shopService: ShopService, private broadcasterService: BroadcasterService) { 
     this.application = new Application();
     this.user = new User();
+    this.activateShopSelector = false;
+    this.activateBroadcasterSelector = false;
   }
 
   ngOnInit() {
@@ -58,6 +67,8 @@ export class RegistrationComponent implements OnInit {
     var selectedString = application.split(',');
     this.applicationId = parseInt(selectedString[0]);
     if(selectedString[1] === 'eCommerce'){
+      this.activateShopSelector = true;
+      this.activateBroadcasterSelector = false;
       this.shopService.getAllShops().subscribe(
         shops => {
           this.shops = shops;
@@ -66,13 +77,26 @@ export class RegistrationComponent implements OnInit {
           console.log('Something went wrong.');
         }
       );
-    } else if(this.application.application_name === 'Entertainment'){
-
+    } else if(selectedString[1] === 'Entertainment'){
+      this.activateBroadcasterSelector = true;
+      this.activateShopSelector = false;
+      this.broadcasterService.getAllBroadcasters().subscribe(
+        broadcasters => {
+          this.broadcasters = broadcasters;
+        },
+        error => {
+          console.log('Something went wrong.');
+        }
+      );
     }
   }
 
   onShopSelect(shopId: number){
     this.shopId = shopId;
+  }
+
+  onBroadcasterSelect(broadcasterId: number){
+    this.broadcasterId = broadcasterId;
   }
 
   onUserTypeSelect(userType: string){
@@ -82,7 +106,11 @@ export class RegistrationComponent implements OnInit {
   registerUser(){
     const newUser = this.newClientForm.value;
     this.user.application_id = this.applicationId;
-    this.user.client_id = this.shopId;
+    if(this.activateShopSelector){
+      this.user.client_id = this.shopId;
+    } else if(this.activateBroadcasterSelector){
+      this.user.client_id = this.broadcasterId;
+    }
     this.user.user_type = this.userType;
     this.user.user_name = newUser.userName;
     this.user.user_short_name = newUser.userShortName;
@@ -99,14 +127,14 @@ export class RegistrationComponent implements OnInit {
     this.user.created_by = "SA";
     this.user.last_updated_by = "SA";
     console.log(this.user);
-    /*this.applicationService.newUserRegisteration(this.user).subscribe(
+    this.applicationService.newUserRegisteration(this.user).subscribe(
       createResponse => {
         alert("user registered successfully...");
       },
       error => {
         alert("Something went wrong!");
       }
-    );*/
+    );
   }
 
 }

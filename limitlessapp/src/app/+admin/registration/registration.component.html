@@ -21,11 +21,18 @@
                         <option *ngFor="let application of applications" value="{{application.id}},{{application.application_name}}">{{application.application_name}}</option>
                       </select>
                     </section>
-                    <section class="col col-6">
+                    <section *ngIf="activateShopSelector" class="col col-6">
                       <label>Select Shop</label>
                       <select class="form-control" name="userShops" #userShop (change)="onShopSelect(userShop.value)">
                         <option></option>
                         <option *ngFor="let shop of shops" value="{{shop.id}}">{{shop.seller_shop_name}}</option>
+                      </select>
+                    </section>
+                    <section *ngIf="activateBroadcasterSelector" class="col col-6">
+                      <label>Select Broadcaster</label>
+                      <select class="form-control" name="userBroadcasters" #userBroadcaster (change)="onBroadcasterSelect(userBroadcaster.value)">
+                        <option></option>
+                        <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
                       </select>
                     </section>
                     <section class="col col-6">
@@ -36,28 +43,36 @@
                       </select>
                     </section>
                     <section class="col col-6">
-                      <label>Client Name</label>
-                      <input type="text" class="form-control" required name="userName" formControlName="userName">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-user"></i>
+                        <input type="text" placeholder="Client Name" class="form-control" required name="userName" formControlName="userName">
+                      </label>
                     </section>
                     <section class="col col-6">
-                      <label>Client Short Name</label>
-                      <input type="text" class="form-control" required name="userShortName" formControlName="userShortName">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-user"></i>
+                        <input type="text" placeholder="Client Short Name" class="form-control" required name="userShortName" formControlName="userShortName">
+                      </label>
                     </section>
                     <section class="col col-6">
-                      <label>City</label>
-                      <input type="text" class="form-control" required name="userCity" formControlName="userCity">
+                      <label class="input"><i class="icon-prepend fa fa-map-marker"></i>
+                        <input type="text" placeholder="City" class="form-control" required name="userCity" formControlName="userCity">
+                      </label>
                     </section>
                     <section class="col col-6">
-                      <label>ZIP</label>
-                      <input type="text" class="form-control" required name="zip" formControlName="userZip">
+                      <label class="input"><i class="icon-prepend fa fa-map-marker"></i>
+                        <input type="text" placeholder="ZIP" class="form-control" required name="zip" formControlName="userZip">
+                      </label>
                     </section>
                     <section class="col col-6">
-                      <label>Mobile</label>
-                      <input type="text" class="form-control" required name="userMobile" formControlName="userMobile">
+                      <label class="input"><i class="icon-prepend fa fa-mobile"></i>
+                        <input type="text" placeholder="Mobile" class="form-control" required name="userMobile" formControlName="userMobile">
+                      </label>
                     </section>
                     <section class="col col-6">
-                      <label>E-mail ID</label>
-                      <input type="email" class="form-control" required name="userEmail" formControlName="userEmail">
+                      <label class="input"><i class="icon-prepend fa fa-envelope"></i>
+                        <input type="email" placeholder="Email ID" class="form-control" required name="userEmail" formControlName="userEmail">
+                      </label>
                     </section>
                   </div>
                   <button type="submit" class="btn btn-success" (click)="registerUser()">Register User</button>
