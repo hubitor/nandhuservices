@@ -81,8 +81,8 @@ export class ChannelStreamComponent implements OnInit {
     this.broadcasterDestinations=destinations;
     if(this.user.user_type ==="Super Admin")
       {
-         this.client_id=1027;
-         this.user.client_id=1027;
+         this.client_id=1064;
+         this.user.client_id=1064;
          
       }
      
@@ -90,7 +90,7 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   getAllBroadcastersById(broadcaterId) {
-    if(this.client_id === 1027)
+    if(this.client_id === 1064)
       {
            this.broadcasterService.getAllBroadcasters()
           .subscribe(
@@ -164,7 +164,7 @@ export class ChannelStreamComponent implements OnInit {
       var broadcasterVideo = broadcasterVideos.length>0 && broadcasterVideos[0].broadcaster_channels.length>0 ?broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos:[];
 
       if (broadcasterVideo.length > 0) {
-      
+       this.user.w_appname=broadcasterVideos[0].w_application_name;
        this.channelStreamForm.setValue({
           channelCurrentStreamKey:null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
@@ -183,10 +183,40 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   amendChannelVideoKey(value: any) {
-    this.showPopup();
+    this.showPopup(value);
   }
 
-  showPopup() {
+  stopChannelVideoKey(value: any) {
+    var newKeyResponse;
+
+    var destType = this.channelStreamForm.value.broadcasterDestination.toString();
+    if (destType === "1") {
+      newKeyResponse = {
+        id: -1,
+        fb_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+
+      }
+    }
+    else if (destType === "2") {
+      newKeyResponse = {
+        id: -1,
+        yt_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+
+      }
+    }
+    else if (destType === "3") {
+      newKeyResponse = {
+        id: -1,
+        ha_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+
+      }
+    }
+    this.streamTargetKeyResponse(newKeyResponse, value);
+  }
+
+
+
+  showPopup(isStop:boolean) {
 
     var contentValue="";
     var selValue=this.channelStreamForm.value.broadcasterDestination.toString();
@@ -198,13 +228,27 @@ export class ChannelStreamComponent implements OnInit {
       contentValue="Haappyapp";
 
     this.notificationService.smartMessageBox({
-      title: "Channel Stream Key",
-      content: "Do you want to update new <i  style='color:green'><b>"+ contentValue +"<b></i> Stream key?Your stream will be start automatically.",
+      title: isStop?"Channel Stream Stop" : "Channel Stream Key",
+      content:isStop? "Do you want to stop a <i  style='color:green'><b>"+ contentValue +"<b></i> Stream ?Your stream will be stop automatically." :"Do you want to update new <i  style='color:green'><b>"+ contentValue +"<b></i> Stream key?Your stream will be start automatically.",
       buttons: '[No][Yes]'
 
     }, (ButtonPressed) => {
       if (ButtonPressed == "Yes") {
+        if(!isStop)
+          {
+             this.updateStreamkey();
+          }
+            else
+              {
+                this.stopChannelVideoKey(isStop);
+              }
+       
+      }
+    });
+  }
 
+  updateStreamkey()
+  {
       this.channelVideoKeyRequest = new ChannelVideoKeyRequest();
       const broadcasterVideoVal = this.channelStreamForm.value;
       this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
@@ -239,22 +283,19 @@ export class ChannelStreamComponent implements OnInit {
       
     this.broadcasterService.updateCategoryVideosKey(this.channelVideoKeyRequest,type)
       .subscribe(
-      createresponse =>this.streamTargetKeyResponse(this.createResponse = createresponse),
+      createresponse =>this.streamTargetKeyResponse(this.createResponse = createresponse,false),
       error => this.errorMessage = <any>error);
-
-        
-      }
-    });
   }
 
-  streamTargetKeyResponse(newKeyResponse) {
+
+  streamTargetKeyResponse(newKeyResponse,isStop:boolean) {
 
     this.broadcasterService.getStreamTarget(this.user.w_appname.trim())
       .subscribe(
-      response => this.streamTargetGetResponse(response=response,newKeyResponse) ,
+      response => this.streamTargetGetResponse(response=response,newKeyResponse,isStop) ,
       error => this.errorMessage = <any>error);
   }
-  streamTargetGetResponse(getresponse,newKeyResponse)
+  streamTargetGetResponse(getresponse,newKeyResponse,isStop)
   {
     
     
@@ -297,7 +338,7 @@ export class ChannelStreamComponent implements OnInit {
       this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
       this.streamTargetRequest.entryName = newStreamEntryName + "-" + newKeyDate.trim();
       this.streamTargetRequest.port = streamTargetVal.port;
-      this.streamTargetRequest.enabled=streamTargetVal.enabled;
+      this.streamTargetRequest.enabled=isStop?false:streamTargetVal.enabled;
       this.streamTargetRequest.autoStartTranscoder=streamTargetVal.autoStartTranscoder;
       this.streamTargetRequest.profile = streamTargetVal.profile;
       this.streamTargetRequest.host = streamTargetVal.host.trim();

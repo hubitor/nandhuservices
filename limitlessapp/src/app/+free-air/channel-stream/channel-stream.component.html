@@ -119,7 +119,8 @@
                                         <footer>
                                             
                                             <div class="form-group">
-                                            <button type="submit" class="btn btn-success" [disabled]="!channelStreamForm.valid" (click)="amendChannelVideoKey()">Save</button>
+                                            <button type="submit" class="btn btn-success" [disabled]="!channelStreamForm.valid" (click)="amendChannelVideoKey(false)">GoLive</button>
+                                            <button type="submit" class="btn btn-danger"  (click)="amendChannelVideoKey(true)">Stop</button>
                                             </div>
                                             <!--<button type="submit" class="btn btn-primary" (click)="amendChannelVideoKey()" (click)="cancelStreamKey()" value="updateCategory">Cancel</button>-->
                                         </footer>

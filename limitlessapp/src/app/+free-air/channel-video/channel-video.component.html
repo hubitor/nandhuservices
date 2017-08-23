@@ -1,3 +1,5 @@
+ 
+
 <div id="content">
   <div class="row">
     <sa-big-breadcrumbs [items]="['Broadcaster', 'Home']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
@@ -82,7 +84,7 @@
 
                         <section class="col col-md-4">
                           <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                                <video id="my-video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
+                                <video id="my-video21" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
                   type='application/x-mpegURL'>
 
@@ -93,7 +95,7 @@
                         </section>
                            <section class="col col-md-3">
                           <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                                <video id="my-video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
+                                <video id="my-video22" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
                   type='application/x-mpegURL'>
 
@@ -108,7 +110,7 @@
                      <legend>PRAJAA Studio</legend>
                       <section class="col col-md-4">
                           <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                                <video id="my-video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
+                                <video id="my-video23" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
                   type='application/x-mpegURL'>
 
@@ -120,7 +122,7 @@
 
                         <section class="col col-md-4">
                           <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                                <video id="my-video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
+                                <video id="my-video24" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/dry_fruits_salad.mp4"
                   type='video/mp4'>
 
@@ -132,7 +134,7 @@
 
                          <section class="col col-md-4">
                           <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                                <video id="my-video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
+                                <video id="my-video25" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/ganesha.mp4"
                   type='video/mp4'>
 
@@ -142,6 +144,53 @@
 
                         </section>
 
+                    </fieldset>
+
+                    <fieldset>
+                      <legend>Breaking News </legend>
+                      <div class="row">
+                        <section class="col col-md-4">
+                          <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
+                                <video id="my-video26" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
+                <source src=""
+                  type='application/x-mpegURL'>
+
+              </video>
+                               
+                            </label>
+
+                        </section>
+                      </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Pre-Roll Ads</legend>
+                        <div class="row">
+                        <section class="col col-md-4">
+                          <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
+                                <video id="examplePlayer" class="video-js vjs-default-skin" height="300" width="600" controls>
+
+                                  <source src="https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/sangi_beauty_x264.mp4" type="video/mp4">
+                                </video>
+
+                                <script >
+    // fire up the plugin
+    videojs('examplePlayer',{},function(){
+      var player = this;
+      player.preroll({
+        src:{src:"",type:"video/mp4"},
+        href:"http://videojs.com",
+        adsOptions: {debug:true}
+      });
+    });
+</script>
+                               
+                            </label>
+
+                        </section>
+                      </div>
+                     
                     </fieldset>
 
                     <footer>
