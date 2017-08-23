@@ -71,10 +71,8 @@ export class LoginComponent implements OnInit {
           this.getUserRoles(this.loginResponse.user_id);
           
         } else if(this.loginResponse.user_type === "Super Admin"){
-          //localStorage.setItem("broadcaster_id", "1027");
           localStorage.setItem("broadcaster_id", "1064");
           localStorage.setItem("w_appname", "dev");
-         // localStorage.setItem("primary_channel_id", "20");
           localStorage.setItem("primary_channel_id", "140");
           this.router.navigate(['/admin/register']);
         }

@@ -89,6 +89,7 @@
     "summernote": "0.8.3",
     "to-markdown": "3.0.4",
     "ts-helpers": "1.1.2",
+    "video.js": "^6.2.5",
     "web-animations-js": "^2.2.2",
     "zone.js": "0.8.5"
   },

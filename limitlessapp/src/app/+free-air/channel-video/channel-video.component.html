@@ -42,25 +42,24 @@
                       
                       <div class="row">
                         <section class="col col-md-5">
-                          <label class="input"> <i class="icon-prepend fa fa-television"></i>
+                           <label class="input"> <i class="icon-prepend fa fa-television"></i>
                                                      
-                                          <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="800" height="264" data-setup="{}">
+                                          <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="800" height="264" data-setup='{ "controls": true, "autoplay": true, "preload": "auto" }'>
                 <source src="http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
                   type='application/x-mpegURL'>
 
               </video> 
               
-            
-                                </label>
+                
+                                </label> 
+
+                                
+
+                                <!-- <video-live *ngFor="let video of videos; let idx = index" [idx]="idx" [url]="video"></video-live> -->
 
                         </section>
 
-                         <!-- <section class="col col-sm-1">
-                                                    <label class="input"> <i class="icon-prepend fa fa-tag"></i>
-                                <img src="https://s3.ap-south-1.amazonaws.com/haappy-images-asia/ads/ford-ad.png" id="img_ad1" alt="ford ad"/>
-                                
-                            </label>
-                                                </section> -->
+                         
 
 
                       </div>
@@ -108,48 +107,43 @@
                     </fieldset>
                     <fieldset>
                      <legend>PRAJAA Studio</legend>
+                     <video-pre *ngFor="let pre of videopre; let idx = index" [idx]="idx" [url]="pre"></video-pre> 
                       <section class="col col-md-4">
-                          <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
+                          <!-- <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
                                 <video id="my-video23" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
                   type='application/x-mpegURL'>
 
               </video>
                                
-                            </label>
+                            </label> -->
+
+                            
 
                         </section>
 
                         <section class="col col-md-4">
-                          <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
+                          <!-- <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
                                 <video id="my-video24" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src="https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/dry_fruits_salad.mp4"
                   type='video/mp4'>
 
               </video>
                                
-                            </label>
+                            </label> -->
+
+                             <video-pre *ngFor="let pre of videopre; let idx = index" [idx]="idx" [url]="pre"></video-pre> 
 
                         </section>
 
-                         <section class="col col-md-4">
-                          <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                                <video id="my-video25" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
-                <source src="https://s3.ap-south-1.amazonaws.com/haappy-videos-asia/ganesha.mp4"
-                  type='video/mp4'>
-
-              </video>
-                               
-                            </label>
-
-                        </section>
+                        
 
                     </fieldset>
 
                     <fieldset>
                       <legend>Breaking News </legend>
                       <div class="row">
-                        <section class="col col-md-4">
+                        <!-- <section class="col col-md-4">
                           <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
                                 <video id="my-video26" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="289" height="163" data-setup="{}">
                 <source src=""
@@ -159,12 +153,12 @@
                                
                             </label>
 
-                        </section>
+                        </section> -->
                       </div>
 
                     </fieldset>
 
-                    <fieldset>
+                    <!-- <fieldset>
                         <legend>Pre-Roll Ads</legend>
                         <div class="row">
                         <section class="col col-md-4">
@@ -191,7 +185,7 @@
                         </section>
                       </div>
                      
-                    </fieldset>
+                    </fieldset> -->
 
                     <footer>
 
