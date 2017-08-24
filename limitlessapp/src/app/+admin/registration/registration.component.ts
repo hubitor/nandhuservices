@@ -7,6 +7,7 @@ import { ShopService } from '../../shared/server/service/shop.service';
 import { Shop } from '../../shared/models/shop';
 import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
 import { Broadcasters } from '../../shared/models/broadcasters';
+import { ApplicationUsersRole } from '../../shared/models/applicationUsersRole';
 
 @Component({
   selector: 'app-registration',
@@ -15,21 +16,23 @@ import { Broadcasters } from '../../shared/models/broadcasters';
 })
 export class RegistrationComponent implements OnInit {
   newClientForm;
-  userTypes=['eCommerce', 'Entertainment'];
+  userTypes = ['eCommerce', 'Entertainment'];
   application: Application;
   applications: Application[];
   applicationId: number;
   userType: string;
   user: User;
   shops: Shop[];
+  applicationUsersRoles: ApplicationUsersRole[];
+  roleId: number;
   shopId: number;
   broadcasters: Broadcasters;
   broadcasterId: number;
   activateShopSelector: boolean;
   activateBroadcasterSelector: boolean;
 
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, 
-    private shopService: ShopService, private broadcasterService: BroadcasterService) { 
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService,
+    private shopService: ShopService, private broadcasterService: BroadcasterService) {
     this.application = new Application();
     this.user = new User();
     this.activateShopSelector = false;
@@ -38,10 +41,11 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.getApplicationsList();
+    this.getAllRoles();
     this.initForm();
   }
 
-  initForm(){
+  initForm() {
     this.newClientForm = this.fb.group({
       userName: [null, [Validators.required]],
       userShortName: [null, [Validators.required]],
@@ -52,7 +56,7 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  getApplicationsList(){
+  getApplicationsList() {
     this.applicationService.getApplicationList().subscribe(
       applications => {
         this.applications = applications;
@@ -63,21 +67,32 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  onApplicationSelect(application: String){
+  getAllRoles() {
+    this.applicationService.getAllRoles().subscribe(
+      applicationUsersRole => {
+        this.applicationUsersRoles = applicationUsersRole;
+      },
+      error => {
+        alert("something went wrong. Try after sometime.");
+      }
+    );
+  }
+
+  onApplicationSelect(application: String) {
     var selectedString = application.split(',');
     this.applicationId = parseInt(selectedString[0]);
-    if(selectedString[1] === 'eCommerce'){
+    if (selectedString[1] === 'eCommerce') {
       this.activateShopSelector = true;
       this.activateBroadcasterSelector = false;
       this.shopService.getAllShops().subscribe(
         shops => {
           this.shops = shops;
-        }, 
+        },
         error => {
-          console.log('Something went wrong.');
+          alert("something went wrong. Try after sometime.");
         }
       );
-    } else if(selectedString[1] === 'Entertainment'){
+    } else if (selectedString[1] === 'Entertainment') {
       this.activateBroadcasterSelector = true;
       this.activateShopSelector = false;
       this.broadcasterService.getAllBroadcasters().subscribe(
@@ -85,30 +100,34 @@ export class RegistrationComponent implements OnInit {
           this.broadcasters = broadcasters;
         },
         error => {
-          console.log('Something went wrong.');
+          alert("something went wrong. Try after sometime.");
         }
       );
     }
   }
 
-  onShopSelect(shopId: number){
+  onShopSelect(shopId: number) {
     this.shopId = shopId;
   }
 
-  onBroadcasterSelect(broadcasterId: number){
+  onBroadcasterSelect(broadcasterId: number) {
     this.broadcasterId = broadcasterId;
   }
 
-  onUserTypeSelect(userType: string){
+  onUserTypeSelect(userType: string) {
     this.userType = userType;
   }
 
-  registerUser(){
+  onUserRoleSelect(roleId: number) {
+    this.roleId = roleId;
+  }
+
+  registerUser() {
     const newUser = this.newClientForm.value;
     this.user.application_id = this.applicationId;
-    if(this.activateShopSelector){
+    if (this.activateShopSelector) {
       this.user.client_id = this.shopId;
-    } else if(this.activateBroadcasterSelector){
+    } else if (this.activateBroadcasterSelector) {
       this.user.client_id = this.broadcasterId;
     }
     this.user.user_type = this.userType;
@@ -126,7 +145,7 @@ export class RegistrationComponent implements OnInit {
     this.user.is_active = true;
     this.user.created_by = "SA";
     this.user.last_updated_by = "SA";
-    console.log(this.user);
+    this.user.roleId = this.roleId;
     this.applicationService.newUserRegisteration(this.user).subscribe(
       createResponse => {
         alert("user registered successfully...");
