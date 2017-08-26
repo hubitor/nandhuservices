@@ -57,7 +57,7 @@ export class BroadcasterService {
 
 
 
-    getAllBroadcasters(): Observable<Broadcasters> {
+    getAllBroadcasters(): Observable<Broadcasters[]> {
 
         return this.http.get(AppConfig.get_Broadcasters, headerObj)
                     .map(ResponseData.extractData)
@@ -142,5 +142,10 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     }
 
+    getChannelsByBroadcasterId(broadcasterId: number): Observable<any>{
+        return this.http.get("http://localhost:3000/broadcaster/broadcasterchannel/broadcaster/"+broadcasterId, headerObj)
+            .map(ResponseData.extractData)
+            .catch(ResponseData.handleError);
+    }
     
 }

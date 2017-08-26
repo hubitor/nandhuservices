@@ -1,5 +1,6 @@
 export class BroadcasterChannel
 {
+    id: number;
     application_id:number;
     broadcaster_id:number;
     category_id:number;
