@@ -45,7 +45,7 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static new_BroadcasterOnBoard=AppSettings.API_ENDPOINT +"broadcaster/broadcasterwithchannel/create"; //to pass "new"" as to server
    public static get_BroadcasterChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/all"; //to pass "new"" as to server
    public static get_ChannelCategory=AppSettings.API_ENDPOINT +"broadcaster/broadcastercategory/all"; //to pass "new"" as to server
-
+   public static get_BroadcasterChannelByID=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/broadcaster/"; //to pass "new"" as to server
    //Document Type Config
    
    public static get_DocumentType=AppSettings.API_ENDPOINT +"document/all"; //to pass "new"" as to server
@@ -56,6 +56,21 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static get_state=AppSettings.API_ENDPOINT +"common/state/all/"; //to get all state
    public static get_city=AppSettings.API_ENDPOINT +"common/city/all/"; //to get all city
    public static get_rank=AppSettings.API_ENDPOINT +"common/rank/all/"; //to get all ranks
+   public static get_application=AppSettings.API_ENDPOINT +"applications/app/all/"; //to get all ranks
+   public static get_language=AppSettings.API_ENDPOINT +"common/lang/all/"; //to get all ranks
 
+   //User
+
+   public static new_user=AppSettings.API_ENDPOINT +"user/register"; //to get all ranks
+   public static user_roleAll=AppSettings.API_ENDPOINT +"applications/app/role/all"; //to get all ranks
+
+   //Shop
+   public static get_shop=AppSettings.API_ENDPOINT +"user//shop/all"; 
+   public static new_shop=AppSettings.API_ENDPOINT +"user/shop/new"; 
+
+  //File Uploader 
+
+  
+   public static ul_video_url=AppSettings.API_ENDPOINT +"upload/video/entertainment/content/"; //to get all ranks
 
 };

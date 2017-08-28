@@ -24,7 +24,7 @@ export class CommonService {
   }
 
   getAllLanguages(): Observable<Language[]>{
-    return this.http.get("http://localhost:3000/common/language/all", {headers: this.headers})
+    return this.http.get(AppConfig.get_language, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

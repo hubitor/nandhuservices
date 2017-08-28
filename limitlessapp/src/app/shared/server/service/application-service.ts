@@ -27,7 +27,7 @@ export class ApplicationService {
     }
 
     getApplicationList(): Observable<Application[]>{
-        return this.http.get("http://localhost:3000/applications/app/all", {headers: this.headers})
+        return this.http.get(AppConfig.get_application, {headers: this.headers})
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     };
@@ -40,13 +40,13 @@ export class ApplicationService {
     };
 
     newUserRegisteration(user: User): Observable<any>{
-        return this.http.post("http://localhost:3000/user/register", user, {headers: this.headers})
+        return this.http.post(AppConfig.new_user, user, {headers: this.headers})
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }
 
     getAllRoles(): Observable<ApplicationUsersRole[]>{
-        return this.http.get("http://localhost:3000/applications/app/role/all", {headers: this.headers})
+        return this.http.get(AppConfig.user_roleAll, {headers: this.headers})
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }

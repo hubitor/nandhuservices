@@ -26,13 +26,13 @@ export class ShopService {
   }
 
   createShop(shop: Shop): Observable<ShopCreateResponse>{
-    return this.http.post("http://localhost:3000/user/shop/new", shop, {headers: this.headers})
+    return this.http.post(AppConfig.new_shop, shop, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
 
   getAllShops(): Observable<Shop[]>{
-    return this.http.get("http://localhost:3000/user/shop/all", {headers: this.headers})
+    return this.http.get(AppConfig.get_shop, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

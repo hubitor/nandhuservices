@@ -143,7 +143,7 @@ export class BroadcasterService {
     }
 
     getChannelsByBroadcasterId(broadcasterId: number): Observable<any>{
-        return this.http.get("http://localhost:3000/broadcaster/broadcasterchannel/broadcaster/"+broadcasterId, headerObj)
+        return this.http.get(AppConfig.get_BroadcasterChannelByID+broadcasterId, headerObj)
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }

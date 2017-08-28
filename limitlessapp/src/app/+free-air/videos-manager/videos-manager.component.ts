@@ -7,17 +7,20 @@ import { LoginResponse } from '../../shared/models/loginResponse';
 import { BroadcasterVideos } from '../../shared/models/broadcasterVideos';
 import { Language } from '../../shared/models/language';
 import { CommonService } from '../../shared/server/service/common.service';
+import { UtilityService } from "../../shared/server/service/utility-service"
 import { CookieService } from 'ngx-cookie';
 import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
 import { Broadcasters } from '../../shared/models/broadcasters';
 import { BroadcasterChannel } from '../../shared/models/broadcaster-channel';
 import { VideoUploadResponse } from '../../shared/models/videoUploadResponse';
 import { CreateResponse } from '../../shared/models/createResponse';
+import { NotificationService } from "../../shared/utils/notification.service";
+import { AppConfig } from "../../shared/server/api/app-config";
 
 @Component({
   selector: 'app-videos-manager',
   templateUrl: './videos-manager.component.html',
-  providers: [CommonService, BroadcasterService]
+  providers: [CommonService, BroadcasterService,UtilityService]
 })
 export class VideosManagerComponent implements OnInit {
   newVideoForm;
@@ -35,16 +38,19 @@ export class VideosManagerComponent implements OnInit {
   broadcasterChannelId: number;
   languageId: number;
   createResponse: CreateResponse;
-
+  ranks;
   constructor(private fb: FormBuilder, private commonService: CommonService, private cookieService: CookieService,
-        private broadcasterService: BroadcasterService) {
+        private broadcasterService: BroadcasterService
+        ,private utilityService:UtilityService
+      , private notificationService: NotificationService) {
     this.user = new User();
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     this.broadcasterVideo = new BroadcasterVideos();
     this.superAdmin = false;
     this.entertainmentUser = false;
-    this.videoUploader = new FileUploader({url: "http://localhost:3000/upload/video/entertainment/content/"+this.loginResponse.user_id});
+    
+    this.videoUploader = new FileUploader({url: AppConfig.ul_video_url+ this.loginResponse.user_id});
     if(this.loginResponse.user_type === 'Super Admin'){
       this.superAdmin = true;
       this.entertainmentUser = false;
@@ -61,6 +67,7 @@ export class VideosManagerComponent implements OnInit {
     this.getAllBroadcasters();
     this.getChannels(parseInt(localStorage.getItem("broadcaster_id")));
     this.getAllLanguages();
+    this.getRank();
   }
 
   initForm(){
@@ -107,7 +114,19 @@ export class VideosManagerComponent implements OnInit {
         console.log(error);
       }
     );
-  }
+  };
+
+   getRank()
+    {
+        this.utilityService.getRank()
+      .subscribe(
+       rankResponse=>{
+            this.ranks=rankResponse;
+       }),
+      error => {
+        console.log(error);
+      }
+    };
 
   onChannelSelect(broadcasterChannelId: number){
     this.broadcasterChannelId = broadcasterChannelId;
@@ -119,6 +138,7 @@ export class VideosManagerComponent implements OnInit {
 
   addNewVideo(){
     this.videoUploader.uploadAll();
+    
     this.videoUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       if(status === 200){
         this.videoUploadResponse = JSON.parse(response);
@@ -148,7 +168,17 @@ export class VideosManagerComponent implements OnInit {
         this.broadcasterService.createBroadcasterVideos(this.broadcasterVideo).subscribe(
           createResponse => {
             this.createResponse = createResponse;
-            alert('Video uploaded successfully');
+            
+            this.notificationService.smartMessageBox({
+            title: "Video Manager" ,
+            content: "Video uploaded successfully!It will show automatically  in your App.",
+            buttons: '[No][Yes]'
+
+    }, (ButtonPressed) => {
+      if (ButtonPressed == "Yes") {
+         location.reload();
+      }
+    });
           },
           error => {
             console.log(error);
@@ -156,6 +186,7 @@ export class VideosManagerComponent implements OnInit {
           }
         );
       } else {
+        console.log('Something went wrong!');
         alert('Something went wrong!');
       }
     }
