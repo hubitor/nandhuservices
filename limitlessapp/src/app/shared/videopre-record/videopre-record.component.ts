@@ -21,6 +21,10 @@ export class VideoPrerecordComponent implements OnInit{
 
   // index to create unique ID for component
   @Input() idx: string;
+
+  @Input() subject: string;
+
+  @Input() displayDuration:string;
   
   // video asset url
   @Input() url: any;
@@ -40,6 +44,8 @@ export class VideoPrerecordComponent implements OnInit{
   // after the component template itself has been rendered
   ngAfterViewInit() {
     
+    debugger;
+
     // ID with which to access the template's video element
     let el = 'video_' + this.idx;
     
@@ -48,7 +54,7 @@ export class VideoPrerecordComponent implements OnInit{
       
       // Store the video object
       var myPlayer = this, id = myPlayer.id();
-      
+
       // Make up an aspect ratio
       var aspectRatio = 264/640;
       

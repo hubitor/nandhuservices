@@ -1,12 +1,12 @@
 <div id="content">
     <div class="row">
-        <section class="col col-md-5">
-            <video *ngIf="url" id="video_{{idx}}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls preload="auto"
+        <!-- <section class="col col-md-5">
+        </section> -->
+         <video *ngIf="url" id="video_{{idx}}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls preload="auto"
                 width="640" height="264" data-setup='{ "controls": true, "autoplay": false, "preload": "auto" }' >
-
-                <source [src]="url" type="video/mp4" />
-
+                <source [src]="url"  type="video/mp4" />
             </video>
-        </section>
+            <label>{{displayDuration}}</label>
+           <a href="" >{{subject}}</a>
     </div>
 </div>
