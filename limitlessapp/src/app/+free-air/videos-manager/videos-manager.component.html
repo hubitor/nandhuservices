@@ -1,0 +1,66 @@
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Add New Video</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="newVideoForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section *ngIf="superAdmin" class="col col-4">
+                      <label>Select Broadcaster</label>
+                      <select class="form-control" name="broadcastersSelect" #broadcastersList (change)="getChannels(broadcastersList.value)">
+                        <option></option>
+                        <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label>Select Channel</label>
+                      <select class="form-control" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                        <option></option>
+                        <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label>Select Langauage</label>
+                      <select class="form-control" name="languageSelect" #languageList (change)="onLanguageSelect(languageList.value)">
+                        <option></option>
+                        <option *ngFor="let language of languages" value="{{language.id}}">{{language.lang_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-pencil-square-o"></i>
+                        <input type="text" class="form-control" name="videoName" formControlName="videoName" placeholder="Video Title">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-pencil-square-o"></i>
+                        <input type="text" class="form-control" name="videoDescription" formControlName="videoDescription" placeholder="Video Description">
+                      </label>  
+                    </section>
+                    <section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-arrows"></i>
+                        <input type="text" class="form-control" name="videoRank" formControlName="videoRank" placeholder="Video Show Preference">
+                      </label>  
+                    </section>
+                    <section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-file-video-o"></i>
+                        <input type="file" class="form-control" name="videoFile" ng2FileSelect [uploader]="videoUploader">
+                      </label>
+                    </section>
+                  </div>
+                  <button type="submit" class="btn btn-success" (click)="addNewVideo()">Upload Video</button>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>

@@ -15,6 +15,8 @@ import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CarouselModule} from "ngx-bootstrap";
 import {VideoLiveModule} from "../shared/videolive/videolive.module";
 import {VideoPrerecordModule} from "../shared/videopre-record/videopre-record.module";
+import { VideosManagerComponent } from './videos-manager/videos-manager.component';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -33,7 +35,10 @@ import {VideoPrerecordModule} from "../shared/videopre-record/videopre-record.mo
     ChannelVideoComponent,
     ChannelAlbumComponent,
     ChannelStreamComponent,
-    ChannelHomeComponent
+    ChannelHomeComponent,
+    VideosManagerComponent,
+    FileSelectDirective, 
+    FileDropDirective, 
   ]
 })
 export class FreeAirModule { }

@@ -26,7 +26,7 @@ export class RegistrationComponent implements OnInit {
   applicationUsersRoles: ApplicationUsersRole[];
   roleId: number;
   shopId: number;
-  broadcasters: Broadcasters;
+  broadcasters: Broadcasters[];
   broadcasterId: number;
   activateShopSelector: boolean;
   activateBroadcasterSelector: boolean;

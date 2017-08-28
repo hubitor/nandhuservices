@@ -24,6 +24,7 @@ export class NavigationComponent implements OnInit {
   channelAlbum: boolean;
   superAdmin: boolean;
   channelHome:boolean;
+  videoManager: boolean;
   constructor() {
     this.loginResponse = new LoginResponse();
     this.userRoles = Array();
@@ -41,6 +42,7 @@ export class NavigationComponent implements OnInit {
     this.channelAlbum = false;
     this.superAdmin = false;
     this.channelHome=false;
+    this.videoManager = false;
   }
 
   ngOnInit() {
@@ -75,6 +77,7 @@ export class NavigationComponent implements OnInit {
       } else if (this.loginResponse.user_type === 'Entertainment') {
         this.broadcaster = true;
         this.eCommerce = false;
+        this.videoManager = true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
@@ -99,6 +102,7 @@ export class NavigationComponent implements OnInit {
         this.channelStream = true;
         this.channelVideos = true;
         this.channelHome=true;
+        this.videoManager = true;
       }
     }
   }

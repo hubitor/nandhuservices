@@ -39,7 +39,7 @@ export class BroadcasterComponent implements OnInit {
     states;
     cities;
     ranks;
-    broacasterall:Broadcasters;
+    broacasterall:Broadcasters[];
     broadcasterOnBoardRequest:BroadcasterOnBoardRequest;
     mode: 'Observable';
     constructor(private broadcasterService: BroadcasterService
