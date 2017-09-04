@@ -44,7 +44,7 @@ export class VideoPrerecordComponent implements OnInit{
   // after the component template itself has been rendered
   ngAfterViewInit() {
     
-    debugger;
+    
 
     // ID with which to access the template's video element
     let el = 'video_' + this.idx;

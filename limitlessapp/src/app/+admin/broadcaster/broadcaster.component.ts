@@ -19,11 +19,12 @@ import { State } from "../../shared/models/state";
 import { City } from "../../shared/models/city";
 import { ChannelCategory } from "../../shared/models/channelCategory";
 import { BroadcasterVideos } from "../../shared/models/broadcasterVideos";
+import { CommonService } from '../../shared/server/service/common.service';
 
 @Component({
     selector: 'app-broadcaster',
     templateUrl: './broadcaster.component.html',
-    providers: [BroadcasterService,DocumentService,UtilityService, DatePipe]
+    providers: [BroadcasterService,DocumentService,UtilityService,CommonService, DatePipe]
 })
 export class BroadcasterComponent implements OnInit {
     user: LoginResponse;
@@ -39,6 +40,7 @@ export class BroadcasterComponent implements OnInit {
     states;
     cities;
     ranks;
+    languages;
     broacasterall:Broadcasters[];
     broadcasterOnBoardRequest:BroadcasterOnBoardRequest;
     mode: 'Observable';
@@ -47,7 +49,8 @@ export class BroadcasterComponent implements OnInit {
         , private notificationService: NotificationService
         , private datePipe: DatePipe
         , private documentService:DocumentService
-        , private utilityService:UtilityService) {
+        , private utilityService:UtilityService
+        ,private commonService:CommonService) {
         this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
         this.createForm();
         
@@ -55,6 +58,7 @@ export class BroadcasterComponent implements OnInit {
         this.getDocumentType();
         this.getCountry();
         this.getRank();
+        this.getAllLanguages();
     }
 
     createForm() {
@@ -77,7 +81,8 @@ export class BroadcasterComponent implements OnInit {
             broadcasterCityControl:[null],
             broadcasterStateControl:[null],
             broadcasterCountryControl:[null],
-            broadcasterRankControl:[null,Validators.required]
+            broadcasterRankControl:[null,Validators.required],
+            broadcasterLanguageControl:[null]
 
         });
     }
@@ -192,6 +197,19 @@ export class BroadcasterComponent implements OnInit {
       error => this.errorMessage = <any>error;
     }
 
+     getAllLanguages(){
+    this.commonService.getAllLanguages().subscribe(
+      languages => {
+        this.languages = languages;
+       
+      },
+      error => {
+        console.log(error);
+        
+      }
+    );
+  }
+
     getRank()
     {
         this.utilityService.getRank()
@@ -231,9 +249,11 @@ export class BroadcasterComponent implements OnInit {
        bc_onboardRequest.is_active=b_ControlValue.broadcasterStatusControl;
        bc_onboardRequest.broadcaster_image=bc_onboardRequest.broadcaster_channel_name;
        bc_onboardRequest.seller_id=5000217;// Haappyapp broadecaster id 
+       
         var bc=new BroadcasterChannel();
         bc.application_id=this.user.user_app_id;
         bc.broadcaster_id=0;
+        bc.lang_id=b_ControlValue.broadcasterLanguageControl;
         bc.category_id=bc_onboardRequest.category_id;
         bc.channel_name=bc_onboardRequest.broadcaster_channel_name;
         bc.yt_streamtarget_name="";
@@ -242,6 +262,10 @@ export class BroadcasterComponent implements OnInit {
         bc.channel_image="";
         bc.image_file_name="";
         bc.rank=0;
+        bc.is_hd=false;
+        bc.ha_is_active=true;
+        bc.ha_rank=0;
+        bc.deprecated=false;
         bc.is_active=true;
         bc.created_by=this.user.user_name;
         bc.updated_by=this.user.user_name;
@@ -251,15 +275,17 @@ export class BroadcasterComponent implements OnInit {
        bv.broadcaster_channel_id=0;
        bv.video_name=bc_onboardRequest.broadcaster_channel_name;
        bv.rank=0;
-       bv.video_thumbnail="https://d3a4m2h1w49sov.cloudfront.net/ProductImages/s5000170/livetv.png";
+       bv.video_thumbnail="https://d3c243y8mg3na8.cloudfront.net/ProductImages/s5000170/livetv.png";
        bv.video_description=bv.video_name;
        var category=this.channelCategories.filter(ct=>ct.id.toString() === bc.category_id.toString())
        var streamName=bc_onboardRequest.broadcaster_channel_name +"-"+ (category.length>0?category[0].category_name:"");
        bv.url=this.populateVideoURLName(bc_onboardRequest.w_application_name.toLowerCase(),streamName.toLowerCase());
        bv.is_active=true;
+       bv.language_id=b_ControlValue.broadcasterLanguageControl;
        bv.is_live=true;
        bv.is_youtube=false;
        bv.duration=0;
+       bv.is_primary=true;
        bv.live_ads=false;
        bv.p160=false;
        bv.p360=false;

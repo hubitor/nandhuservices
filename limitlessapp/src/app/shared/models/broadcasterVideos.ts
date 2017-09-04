@@ -10,6 +10,7 @@ export class BroadcasterVideos {
     is_active: boolean;
     is_live: boolean;
     is_youtube: boolean;
+    is_primary:boolean=false;
     live_ads: boolean = false;
     p160: boolean = false;
     p360: boolean = false;
@@ -22,4 +23,5 @@ export class BroadcasterVideos {
     ha_streamkey: string;
     created_by: string;
     updated_by: string;
+    
 }

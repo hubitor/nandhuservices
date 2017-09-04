@@ -53,8 +53,8 @@ export class ChannelStreamComponent implements OnInit {
   createForm()
   {
     this.channelStreamForm=this.fb.group({
-      broadcasterName: [this.user.client_id?this.user.client_id:1027,Validators.required],
-      broadcasterChannelCategoryName: [this.user.primary_channel_id?this.user.primary_channel_id:20,Validators.required],
+      broadcasterName: [this.user.client_id?this.user.client_id:1064,Validators.required],
+      broadcasterChannelCategoryName: [this.user.primary_channel_id?this.user.primary_channel_id:140,Validators.required],
       channelCurrentStreamKey: [null,Validators.required],
       channelNewStreamKey:[null,[Validators.required,Validators.maxLength(300)]],
       channelVideoId: [null],
@@ -338,7 +338,7 @@ export class ChannelStreamComponent implements OnInit {
       this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
       this.streamTargetRequest.entryName = newStreamEntryName + "-" + newKeyDate.trim();
       this.streamTargetRequest.port = streamTargetVal.port;
-      this.streamTargetRequest.enabled=isStop?false:streamTargetVal.enabled;
+      this.streamTargetRequest.enabled=isStop?false:true;
       this.streamTargetRequest.autoStartTranscoder=streamTargetVal.autoStartTranscoder;
       this.streamTargetRequest.profile = streamTargetVal.profile;
       this.streamTargetRequest.host = streamTargetVal.host.trim();
