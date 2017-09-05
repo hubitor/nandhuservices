@@ -11,6 +11,7 @@ import {CarouselModule} from "ngx-bootstrap";
 import { EshopComponent } from './eshop/eshop.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UserRolesComponent } from './user-roles/user-roles.component';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -29,7 +30,9 @@ import { UserRolesComponent } from './user-roles/user-roles.component';
     BroadcasterComponent,
     EshopComponent,
     RegistrationComponent,
-    UserRolesComponent
+    UserRolesComponent,
+    FileSelectDirective, 
+    FileDropDirective,
     // ,
     //  ChannelAlbumComponent,
     // ChannelStreamComponent

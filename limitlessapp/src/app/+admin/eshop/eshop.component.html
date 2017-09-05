@@ -44,43 +44,43 @@
                     </section>
                     <section class="col col-4">
                       <label>Primary Category Name</label>
-                      <input type="text" class="form-control" name="primaryCategoryName">
+                      <input type="text" class="form-control" name="primaryCategoryName" formControlName="primaryCategoryName">
                     </section>
                     <section class="col col-4">
                       <label>Primary Category Description</label>
-                      <input type="text" class="form-control" name="primaryCategoryDescription">
+                      <input type="text" class="form-control" name="primaryCategoryDescription" formControlName="primaryCategoryDescription">
                     </section>
                     <section class="col col-4">
                       <label>Primary Cagtegory Image</label>
-                      <input type="file" class="form-control" name="primaryCategoryImage">
+                      <input type="file" class="form-control" name="primaryCategoryImage" ng2FileSelect [uploader]="categoryUploader">
                     </section>
                     <section class="col col-4">
                       <label>Primary Subcategory Name</label>
-                      <input type="text" class="form-control" name="primarySubcategoryName">
+                      <input type="text" class="form-control" name="primarySubcategoryName" formControlName="primarySubcategoryName">
                     </section>
                     <section class="col col-4">
                       <label>Primary Subcategory Description</label>
-                      <input type="text" class="form-control" name="primarySubcategoryDescription">
+                      <input type="text" class="form-control" name="primarySubcategoryDescription" formControlName="primarySubcategoryDescription">
                     </section>
                     <section class="col col-4">
                       <label>Primary Subcagtegory Image</label>
-                      <input type="file" class="form-control" name="primarySubcategoryImage">
+                      <input type="file" class="form-control" name="primarySubcategoryImage" ng2FileSelect [uploader]="subcategoryUploader">
                     </section>
                     <section class="col col-4">
                       <label>Primary Product Name</label>
-                      <input type="text" class="form-control" name="primaryProductName">
+                      <input type="text" class="form-control" name="primaryProductName" formControlName="primaryProductName">
                     </section>
                     <section class="col col-4">
                       <label>Primary Product Description</label>
-                      <input type="text" class="form-control" name="primaryProductDescription">
+                      <input type="text" class="form-control" name="primaryProductDescription" formControlName="primaryProductDescription">
                     </section>
                     <section class="col col-4">
                       <label>Primary Product Image</label>
-                      <input type="file" class="form-control" name="primaryProductImage">
+                      <input type="file" class="form-control" name="primaryProductImage" ng2FileSelect [uploader]="productUploader">
                     </section>
                     <section class="col col-4">
                       <label>Primary Product Price</label>
-                      <input type="text" class="form-control" name="primaryProductPrice">
+                      <input type="text" class="form-control" name="primaryProductPrice" formControlName="primaryProductPrice">
                     </section> 
                   </div>
                   <button type="submit" class="btn btn-success" (click)="addNewShop()">Create Shop</button>
