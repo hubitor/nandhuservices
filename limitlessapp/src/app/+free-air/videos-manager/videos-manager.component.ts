@@ -50,7 +50,7 @@ export class VideosManagerComponent implements OnInit {
     this.superAdmin = false;
     this.entertainmentUser = false;
     
-    this.videoUploader = new FileUploader({url: AppConfig.ul_video_url+ this.loginResponse.user_id});
+    this.videoUploader = new FileUploader({url: AppConfig.ul_video_url+ this.loginResponse.user_id,allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','video/mp4']});
     if(this.loginResponse.user_type === 'Super Admin'){
       this.superAdmin = true;
       this.entertainmentUser = false;

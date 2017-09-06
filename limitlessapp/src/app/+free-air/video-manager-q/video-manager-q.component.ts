@@ -171,7 +171,7 @@ export class VideoManagerQComponent implements OnInit {
             
             this.notificationService.smartMessageBox({
             title: "Video Manager" ,
-            content: "Video uploaded successfully!It will show automatically  in your App.",
+            content: "Video queued successfully!It will show automatically  in your App.",
             buttons: '[No][Yes]'
 
     }, (ButtonPressed) => {

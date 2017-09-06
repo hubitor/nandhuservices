@@ -57,7 +57,7 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static get_city=AppSettings.API_ENDPOINT +"common/city/all/"; //to get all city
    public static get_rank=AppSettings.API_ENDPOINT +"common/rank/all/"; //to get all ranks
    public static get_application=AppSettings.API_ENDPOINT +"applications/app/all/"; //to get all ranks
-   public static get_language=AppSettings.API_ENDPOINT +"common/lang/all/"; //to get all ranks
+   public static get_language=AppSettings.API_ENDPOINT +"common/lang/all"; //to get all ranks
 
    //User
 
@@ -65,7 +65,7 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static user_roleAll=AppSettings.API_ENDPOINT +"applications/app/role/all"; //to get all ranks
 
    //Shop
-   public static get_shop=AppSettings.API_ENDPOINT +"user//shop/all"; 
+   public static get_shop=AppSettings.API_ENDPOINT +"user/shop/all"; 
    public static new_shop=AppSettings.API_ENDPOINT +"user/shop/new"; 
 
   //File Uploader 
