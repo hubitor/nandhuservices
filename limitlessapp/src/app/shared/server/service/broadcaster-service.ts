@@ -101,6 +101,10 @@ export class BroadcasterService {
                   endpoint_video_url=AppConfig.update_BroadcasterhaVideokey;
                   break;
               }
+                case "ps": {
+                  endpoint_video_url=AppConfig.update_BroadcasterpsVideokey;
+                  break;
+              }
 
               default: {
                   endpoint_video_url=AppConfig.update_BroadcasterytVideokey;

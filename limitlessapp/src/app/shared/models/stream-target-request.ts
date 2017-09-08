@@ -12,4 +12,5 @@ export class StreamTargetRequest
     port:number;
     autoStartTranscoder:boolean;
     enabled:boolean;
+    appInstance:string;
 };

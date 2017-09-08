@@ -11,6 +11,7 @@
             <div class="widget-body no-padding">
               <form [formGroup]="newVideoForm" class="smart-form">
                 <fieldset>
+                  
                   <div class="row">
                     <section *ngIf="superAdmin" class="col col-4">
                       <label>Select Broadcaster</label>
@@ -21,14 +22,14 @@
                     </section>
                     <section class="col col-4">
                       <label>Select Channel</label>
-                      <select class="form-control" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                      <select class="form-control" formControlName="channelId" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
                         <option></option>
                         <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
                       </select>
                     </section>
                     <section class="col col-4">
                       <label>Select Langauage</label>
-                      <select class="form-control" name="languageSelect" #languageList (change)="onLanguageSelect(languageList.value)">
+                      <select class="form-control" formControlName="languageId" name="languageSelect" #languageList (change)="onLanguageSelect(languageList.value)">
                         <option></option>
                         <option *ngFor="let language of languages" value="{{language.id}}">{{language.lang_name}}</option>
                       </select>

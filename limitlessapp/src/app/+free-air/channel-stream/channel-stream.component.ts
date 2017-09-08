@@ -211,6 +211,13 @@ export class ChannelStreamComponent implements OnInit {
 
       }
     }
+    else if (destType === "4") {
+      newKeyResponse = {
+        id: -1,
+        ps_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+
+      }
+    }
     this.streamTargetKeyResponse(newKeyResponse, value);
   }
 
@@ -226,6 +233,8 @@ export class ChannelStreamComponent implements OnInit {
       contentValue="YouTube";
     else if(selValue ="3")
       contentValue="Haappyapp";
+    else if(selValue ="4")
+      contentValue="Periscope";
 
     this.notificationService.smartMessageBox({
       title: isStop?"Channel Stream Stop" : "Channel Stream Key",
@@ -240,6 +249,7 @@ export class ChannelStreamComponent implements OnInit {
           }
             else
               {
+                console.log('Destination is continuous running! ');
                 this.stopChannelVideoKey(isStop);
               }
        
@@ -270,6 +280,12 @@ export class ChannelStreamComponent implements OnInit {
               case "3": {
                   type="ha";
                   this.channelVideoKeyRequest.ha_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
+                  break;
+              }
+
+               case "4": {
+                  type="ps";
+                  this.channelVideoKeyRequest.ps_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
                   break;
               }
 
@@ -325,8 +341,22 @@ export class ChannelStreamComponent implements OnInit {
       }
       else if(destType ==="3")
       {
+          streamTargetVal= wowzaMapEntries.filter(
+           destKey => destKey.host === "live.haappyapp.com");
+
            newStreamEntryName=newStreamEntryName+"-haappyapp";
-           this.streamTargetRequest.streamName = newKeyResponse.ha_streamkey?newKeyResponse.ha_streamkey.toString().trim():'';
+           this.streamTargetRequest.streamName = "ha-mainstream";
+           
+           //this.streamTargetRequest.streamName = newKeyResponse.ha_streamkey?newKeyResponse.ha_streamkey.toString().trim():'';
+      }
+
+      else if(destType ==="4")
+      {
+          streamTargetVal= wowzaMapEntries.filter(
+           destKey => destKey.host.toString().endsWith(".pscp.tv"));
+
+           newStreamEntryName=newStreamEntryName+"-Periscope";           
+           this.streamTargetRequest.streamName = newKeyResponse.ps_streamkey?newKeyResponse.ps_streamkey.toString().trim():'';
       }
       if(streamTargetVal.length >0)
       {
@@ -337,6 +367,9 @@ export class ChannelStreamComponent implements OnInit {
       this.streamTargetRequest.serverName = getresponse.serverName.trim();
       this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
       this.streamTargetRequest.entryName = newStreamEntryName + "-" + newKeyDate.trim();
+      
+      this.streamTargetRequest.appInstance = streamTargetVal.appInstance;
+      
       this.streamTargetRequest.port = streamTargetVal.port;
       this.streamTargetRequest.enabled=isStop?false:true;
       this.streamTargetRequest.autoStartTranscoder=streamTargetVal.autoStartTranscoder;
@@ -392,6 +425,12 @@ export class ChannelStreamComponent implements OnInit {
               case "3": {
                  
                   this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length>0?videoKeyValue[0].broadcaster_videos[0].ha_streamkey:'');
+                  break;
+              }
+
+              case "4": {
+                 
+                  this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length>0?videoKeyValue[0].broadcaster_videos[0].ps_streamkey:'');
                   break;
               }
 

@@ -12,6 +12,7 @@ import { CookieService } from 'ngx-cookie';
 import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
 import { Broadcasters } from '../../shared/models/broadcasters';
 import { BroadcasterChannel } from '../../shared/models/broadcaster-channel';
+import { VideoQueueRequest } from '../../shared/models/video-queue';
 import { VideoUploadResponse } from '../../shared/models/videoUploadResponse';
 import { CreateResponse } from '../../shared/models/createResponse';
 import { NotificationService } from "../../shared/utils/notification.service";
@@ -22,6 +23,8 @@ import { AppConfig } from "../../shared/server/api/app-config";
   templateUrl: './video-manager-q.component.html',
   providers: [CommonService, BroadcasterService,UtilityService]
 })
+
+
 export class VideoManagerQComponent implements OnInit {
   newVideoForm;
   user: User;
@@ -39,18 +42,51 @@ export class VideoManagerQComponent implements OnInit {
   languageId: number;
   createResponse: CreateResponse;
   ranks;
+  queueParams:VideoQueueRequest
+
   constructor(private fb: FormBuilder, private commonService: CommonService, private cookieService: CookieService,
         private broadcasterService: BroadcasterService
         ,private utilityService:UtilityService
       , private notificationService: NotificationService) {
+    
+    debugger;
     this.user = new User();
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     this.broadcasterVideo = new BroadcasterVideos();
     this.superAdmin = false;
     this.entertainmentUser = false;
+
+    this.queueParams=new VideoQueueRequest();
+    this.queueParams.channel_id="0";
+    this.queueParams.language_id="0";
+    this.queueParams.video_name='';
+    this.queueParams.rank="";
+    this.queueParams.video_description="";
+    this.queueParams.url="";
+    this.queueParams.userName=this.user.user_name;
+    this.queueParams.user_id=this.loginResponse.user_id;
+    if(this.newVideoForm)
+    {
+      debugger;
+      const newVideo = this.newVideoForm.value;    
+      this.queueParams.channel_id= newVideo.channelId;
+      this.queueParams.language_id= newVideo.languageId;
+      this.queueParams.video_name= newVideo.videoName;
+      this.queueParams.rank= newVideo.videoRank;
+      this.queueParams.video_description= newVideo.videoDescription;
+      this.queueParams.url="";
+      this.queueParams.userName=this.user.user_name;
+      this.queueParams.user_id=this.loginResponse.user_id;
+      this.videoUploader = new FileUploader({url: AppConfig.ul_videoq_url+JSON.stringify(this.queueParams),allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','video/mp4']});
+    }
+    else
+      {
+         this.videoUploader = new FileUploader({url: AppConfig.ul_videoq_url+JSON.stringify(this.queueParams),allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif','video/mp4']});
+      }
     
-    this.videoUploader = new FileUploader({url: AppConfig.ul_video_url+ this.loginResponse.user_id});
+    
+    
     if(this.loginResponse.user_type === 'Super Admin'){
       this.superAdmin = true;
       this.entertainmentUser = false;
@@ -74,7 +110,9 @@ export class VideoManagerQComponent implements OnInit {
     this.newVideoForm = this.fb.group({
       videoName: [null, [Validators.required]],
       videoDescription: [null, [Validators.required]],
-      videoRank: [null, [Validators.required]]
+      videoRank: [null, [Validators.required]],
+      channelId:[null],
+      languageId:[null]
     });
   }
 
@@ -136,40 +174,15 @@ export class VideoManagerQComponent implements OnInit {
     this.languageId = languageId;
   }
 
+  
+
   addNewVideo(){
+  
     this.videoUploader.uploadAll();
     
     this.videoUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       if(status === 200){
-        this.videoUploadResponse = JSON.parse(response);
-        const newVideo = this.newVideoForm.value;
-        this.broadcasterVideo.video_name = newVideo.videoName;
-        this.broadcasterVideo.video_description = newVideo.videoDescription;
-        this.broadcasterVideo.url = this.videoUploadResponse.videoUrl;
-        this.broadcasterVideo.broadcaster_channel_id = this.broadcasterChannelId;
-        this.broadcasterVideo.language_id = this.languageId;
-        this.broadcasterVideo.is_active = true;
-        this.broadcasterVideo.rank = newVideo.videoRank;
-        this.broadcasterVideo.video_thumbnail = "";
-        this.broadcasterVideo.is_live = false;
-        this.broadcasterVideo.is_youtube = false;
-        this.broadcasterVideo.video_type = "NIL";
-        this.broadcasterVideo.fb_streamkey = "NIL";
-        this.broadcasterVideo.yt_streamkey = "NIL";
-        this.broadcasterVideo.ha_streamkey = "NIL";
-        if(this.superAdmin){
-          this.broadcasterVideo.created_by = "SA";
-          this.broadcasterVideo.updated_by = "SA";
-        } else if(this.entertainmentUser){
-          this.broadcasterVideo.created_by = "User";
-          this.broadcasterVideo.updated_by = "USer";
-        }
-        console.log(this.broadcasterVideo);
-        this.broadcasterService.createBroadcasterVideos(this.broadcasterVideo).subscribe(
-          createResponse => {
-            this.createResponse = createResponse;
-            
-            this.notificationService.smartMessageBox({
+         this.notificationService.smartMessageBox({
             title: "Video Manager" ,
             content: "Video queued successfully!It will show automatically  in your App.",
             buttons: '[No][Yes]'
@@ -179,15 +192,9 @@ export class VideoManagerQComponent implements OnInit {
          location.reload();
       }
     });
-          },
-          error => {
-            console.log(error);
-            alert('Something went wrong. Try after sometime');
-          }
-        );
       } else {
         console.log('Something went wrong!');
-        alert('Something went wrong!');
+        
       }
     }
   }

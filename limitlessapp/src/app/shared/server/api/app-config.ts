@@ -40,6 +40,8 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static update_BroadcasterytVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterytVideo/update"; //to pass "new"" as to server
    public static update_BroadcasterfbVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterfbVideo/update"; //to pass "new"" as to server
    public static update_BroadcasterhaVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterhaVideo/update"; //to pass "new"" as to server
+   public static update_BroadcasterpsVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterpsVideo/update"; //to pass "new"" as to server
+
 
    public static new_BroadcasterVideokey=AppSettings.API_ENDPOINT +"broadcaster/broadcasterVideo/new"; //to pass "new"" as to server
    public static new_BroadcasterOnBoard=AppSettings.API_ENDPOINT +"broadcaster/broadcasterwithchannel/create"; //to pass "new"" as to server
@@ -72,5 +74,6 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
 
   
    public static ul_video_url=AppSettings.API_ENDPOINT +"upload/video/entertainment/content/"; //to get all ranks
+   public static ul_videoq_url=AppSettings.API_ENDPOINT +"upload/video/queue/"; 
 
 };
