@@ -1,3 +1,4 @@
+import { BroadcasterVideos } from '../models/broadcasterVideos';
 export class BroadcasterChannel
 {
     id: number;
@@ -19,5 +20,6 @@ export class BroadcasterChannel
     ha_rank:number=1;
     ha_is_active:boolean=true;
     deprecated:boolean=false;
+    videos: BroadcasterVideos[];
 }
 
