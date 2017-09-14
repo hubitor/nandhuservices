@@ -74,12 +74,10 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
 
   
    public static ul_video_url=AppSettings.API_ENDPOINT +"upload/video/entertainment/content/"; //to get all ranks
-   public static ul_videoq_url=AppSettings.API_ENDPOINT +"upload/video/queue/"; 
-
-
-   //Mail-notification Config
-
-   public static start_notification=AppSettings.API_ENDPOINT +"notificationtemplate/startbroadcasting/mail/";
-   public static stop_notification=AppSettings.API_ENDPOINT +"notificationtemplate/stopbroadcasting/mail/";
+   public static ul_videoq_url=AppSettings.API_ENDPOINT +"upload/video/queue/";
    
+   
+ //Notification Template
+ public static stop_stream_url=AppSettings.API_ENDPOINT +"notificationtemplate/stopbroadcasting/mail/"; //to pass id as Template Id,Img_id as destination Type Id and b_id as broadcaster Id
+ public static start_stream_url=AppSettings.API_ENDPOINT +"notificationtemplate/startbroadcasting/mail/"; //to pass id as Template Id,Img_id as destination Type Id and b_id as broadcaster Id
 };
