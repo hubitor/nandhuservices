@@ -55,13 +55,24 @@
                       </label>
                     </section>
                     <section class="col col-6">
-                      <label class="input"><i class="icon-prepend fa fa-map-marker"></i>
-                        <input type="text" placeholder="City" class="form-control" required name="userCity" formControlName="userCity">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-user"></i>
+                        <input type="text" placeholder="User Name" class="form-control" required minlength="5" maxlength="20" required name="userName" formControlName="user_Name">
                       </label>
                     </section>
                     <section class="col col-6">
-                      <label class="input"><i class="icon-prepend fa fa-map-marker"></i>
-                        <input type="text" placeholder="ZIP" class="form-control" required name="zip" formControlName="userZip">
+                      <label class="input"><i class="icon-prepend fa fa-lock"></i>
+                        <input type="password" placeholder="Password" class="form-control" formControlName="userPasswd">
+                      </label>
+                    </section>
+                    <!-- <section class="col col-6">
+                      <label class="input"><i class="icon-prepend fa fa-lock"></i>                          
+                        <input type="password" placeholder="Retype-Password" class="form-control"  required validateEqual="userPasswd" formControlName="userConfirmpasswd"> 
+                      </label>
+                    </section> -->
+                    <section class="col col-6">
+                      <label class="input"><i class="icon-prepend fa fa-envelope"></i>
+                        <input type="email" placeholder="Email ID" class="form-control" required name="userEmail"  formControlName="userEmail">
                       </label>
                     </section>
                     <section class="col col-6">
@@ -70,8 +81,30 @@
                       </label>
                     </section>
                     <section class="col col-6">
-                      <label class="input"><i class="icon-prepend fa fa-envelope"></i>
-                        <input type="email" placeholder="Email ID" class="form-control" required name="userEmail" formControlName="userEmail">
+                        <label>Select Country</label>
+                        <select class="form-control" name="userCountry" #userCountry (change)="onCountrySelect(userCountry.value)">
+                          <option></option>
+                          <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_name}}</option>
+                          <!-- <option *ngFor="let application of applications" value="{{application.id}},{{application.application_name}}">{{application.application_name}}</option> -->
+                          </select>
+                      </section> 
+                     <section class="col col-6">
+                          <label>Select State</label>
+                          <select class="form-control" name="userState" #userState (change)="onStateSelect(userState.value)">
+                            <option></option>
+                            <option *ngFor="let state of states" value="{{state.id}}">{{state.state_name}}</option>
+                          </select>
+                        </section>
+                        <section class="col col-6">
+                            <label>Select City</label>
+                            <select class="form-control"  name="userCity"  #userCity (change)="onCitySelect(userCity.value)" formControlName="userCity">
+                              <option></option>
+                              <option *ngFor="let city of cities" value="{{city.city_name}}">{{city.city_name}}</option>
+                            </select>
+                          </section>
+                    <section class="col col-6">
+                      <label class="input"><i class="icon-prepend fa fa-map-marker"></i>
+                        <input type="text" placeholder="ZIP" class="form-control" required name="zip" formControlName="userZip">
                       </label>
                     </section>
                     <section class="col col-6">

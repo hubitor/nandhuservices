@@ -82,4 +82,5 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
    public static start_notification=AppSettings.API_ENDPOINT +"notificationtemplate/startbroadcasting/mail/";
    public static stop_notification=AppSettings.API_ENDPOINT +"notificationtemplate/stopbroadcasting/mail/";
    
-};
+
+  };

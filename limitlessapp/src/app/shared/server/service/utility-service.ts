@@ -24,21 +24,21 @@ export class UtilityService {
         
     }
 
-    getState(countryId:number): Observable<State> {
+    getState(countryId:number): Observable<State[]> {
 
         return this.http.get(AppConfig.get_state+countryId, headerObj)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };
 
-    getCountry(): Observable<Country> {
+    getCountry(): Observable<Country[]> {
 
         return this.http.get(AppConfig.get_country, headerObj)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };
 
-      getCity(stateId:number): Observable<City> {
+      getCity(stateId:number): Observable<City[]> {
 
         return this.http.get(AppConfig.get_city+stateId, headerObj)
                     .map(ResponseData.extractData)
