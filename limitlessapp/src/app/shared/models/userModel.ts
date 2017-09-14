@@ -1,4 +1,6 @@
-export class User{  
+export class User{    
+    showPopup: any;
+
 
     id: number;
     application_id: number;

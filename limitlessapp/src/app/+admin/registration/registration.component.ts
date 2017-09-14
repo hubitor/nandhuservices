@@ -14,6 +14,7 @@ import { State }from '../../shared/models/state';
 import { City }from '../../shared/models/city';
 import sha256 from 'crypto-js/sha256';
 // import { PasswordValidation } from './password-validation';
+import { NotificationService } from "../../shared/utils/notification.service";
 
 var countryId;
 var stateId;
@@ -49,7 +50,7 @@ export class RegistrationComponent implements OnInit {
   cities:City[];
 
   constructor(private fb: FormBuilder, private applicationService: ApplicationService,
-    private utilityService:UtilityService,
+    private utilityService:UtilityService,private notificationService: NotificationService,
     private shopService: ShopService, private broadcasterService: BroadcasterService) {
     this.application = new Application();
     this.user = new User();
@@ -65,29 +66,26 @@ export class RegistrationComponent implements OnInit {
     this.getState(countryId);
     this.getCity(stateId);
     this.initForm();
-    
+  
   }
-
+  
   initForm() {
     this.newClientForm = this.fb.group({
       userName: [null, [Validators.required]],
       userShortName: [null, [Validators.required]],
-      // userCity: [null, [Validators.required]],
       userZip: [null, [Validators.required]],
       userCity: [null, [Validators.required]],
       userMobile: [null, [Validators.required]],
       userEmail: [null, [Validators.required]],
       user_Name : [null,[Validators.required]],
       userPasswd:[null,[Validators.required]],
-      // userConfirmpasswd:[null,[Validators.required]]
-      // userpasswd:['', Validators.required],
-      // userconfirmpasswd:['', Validators.required]
      } ,
-    //  { 
-    //    validators: PasswordValidation.MatchPassword     // your validation method
-    //    }
     );
   }
+
+  showPopup() {
+   
+        }
 
   getApplicationsList() {
     this.applicationService.getApplicationList().subscribe(
@@ -220,30 +218,41 @@ export class RegistrationComponent implements OnInit {
     this.user.user_short_name = newUser.userShortName;
     this.user.country = "India";
     this.user.city = newUser.userCity;
-    // this.user.city =this.city;
-    console.log('city'+newUser.userCity);
     this.user.zip = newUser.userZip;
     this.user.country_iso_code = "91";
     this.user.device_mac = "NIL";
     this.user.mobile = newUser.userMobile;
     this.user.email_id = newUser.userEmail;
     this.user.passwd = sha256(newUser.userPasswd).toString();
-    // this.user.confirmpasswd=newUser.userConfirmpasswd;
     this.user.is_anonymous = false;
     this.user.is_active = true;
     this.user.created_by = "SA";
     this.user.last_updated_by = "SA";
     this.user.roleId = this.roleId;
-    this.applicationService.newUserRegisteration(this.user).subscribe(
-      createResponse => {
-        alert("user registered successfully...");
-        console.log('created'+createResponse);
-      },
-      error => {
-        alert("Something went wrong!");
-        console.log('error in creating'+error);
-      }
-    );
-  }
-
+this.showPopup() 
+{
+      this.notificationService.smartMessageBox({
+      title: "New client added",
+        content: "Do you want to register the client details..?<i  style='color:green'></i>",
+          buttons: '[No][Yes]'
+       }, (ButtonPressed) => {
+            if (ButtonPressed == "Yes") {
+              this.applicationService.newUserRegisteration(this.user).subscribe(
+                createResponse => {
+                 alert("user registered successfully...");
+                  location.reload();
+                },
+                error => {
+                  alert("Something went wrong!");
+                  console.log('error in creating'+error);
+                }
+              );
+            }
+            else if(ButtonPressed == "No")
+              {
+                alert("Registration cancel");
+              }
+           });
+         }
+ }
 }
