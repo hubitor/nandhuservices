@@ -48,7 +48,7 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
-    getAllChannelCategory(): Observable<ChannelCategory> {
+    getAllChannelCategory(): Observable<ChannelCategory[]> {
 
         return this.http.get(AppConfig.get_ChannelCategory, headerObj)
                     .map(ResponseData.extractData)

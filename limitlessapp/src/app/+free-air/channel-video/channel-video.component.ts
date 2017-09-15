@@ -65,6 +65,7 @@ export class ChannelVideoComponent implements OnInit {
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     console.log(this.loginResponse);
     if(this.loginResponse.user_type === 'Entertainment'){
+      this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
       this.entertainmentUser = true;
       this.superAdminUser = false;
     } else if(this.loginResponse.user_type === 'Super Admin'){

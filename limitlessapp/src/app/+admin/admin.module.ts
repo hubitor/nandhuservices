@@ -32,11 +32,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
     RegistrationComponent,
     UserRolesComponent,
     FileSelectDirective, 
-    FileDropDirective,
-    // ,
-    //  ChannelAlbumComponent,
-    // ChannelStreamComponent
-   
+    FileDropDirective
   ]
 })
 export class AdminModule { }

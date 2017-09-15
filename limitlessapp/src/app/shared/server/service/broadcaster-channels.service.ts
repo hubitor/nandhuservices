@@ -30,4 +30,10 @@ export class BroadcasterChannelsService {
       .catch(ResponseData.handleError);
    };
 
+   createNewChannel(channel: BroadcasterChannel): Observable<any>{
+    return this.http.post("http://localhost:3000/broadcaster/broadcasterchannel/new", channel, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+   }
+
 }
