@@ -19,7 +19,7 @@
                       </select>
                     </section>
                     <section class="col col-4">
-                      <select class="form-control" name="categorysList" #categoryList (change)="onCategorySelect(onCategorySelect.value)">
+                      <select class="form-control" name="categorysList" #categoryList (change)="onCategorySelect(categoryList.value)">
                         <option>Select Category</option>
                         <option *ngFor="let category of channelCategories" value="{{category.id}}">{{category.category_name}}</option>
                       </select>

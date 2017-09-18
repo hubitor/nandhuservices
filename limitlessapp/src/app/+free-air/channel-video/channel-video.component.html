@@ -1,20 +1,20 @@
-
- <script type="text/javascript">
-WowzaPlayer.create('playerElement',
+<script type="text/javascript">
+  WowzaPlayer.create('playerElement',
     {
-    "license":"PLAY1-nKhzM-Dh9Gv-YYmWE-3Av7V-mB8CV",
-    "title":"",
-    "description":"",
-    "sourceURL":"http://live.haappyapp.com:1935/ka-sankara/sankara-devotee/sankara-devotee/playlist.m3u8",
-    "autoPlay":true,
-    "volume":"75",
-    "mute":false,
-    "loop":false,
-    "audioOnly":false,
-    "uiShowQuickRewind":true,
-    "uiQuickRewindSeconds":"30"
+      "license": "PLAY1-nKhzM-Dh9Gv-YYmWE-3Av7V-mB8CV",
+      "title": "",
+      "description": "",
+      "sourceURL": "http://live.haappyapp.com:1935/ka-sankara/sankara-devotee/sankara-devotee/playlist.m3u8",
+      "autoPlay": true,
+      "volume": "75",
+      "mute": false,
+      "loop": false,
+      "audioOnly": false,
+      "uiShowQuickRewind": true,
+      "uiQuickRewindSeconds": "30"
     }
-);
+  );
+
 </script>
 
 <div id="content">
@@ -40,12 +40,40 @@ WowzaPlayer.create('playerElement',
                     </section>
                     <section class="col col-6">
                       <label>Select Channel</label>
-                      <select class="form-control" name="broadcastersChannelsList" #broadcastersChannelsList>
+                      <select class="form-control" name="broadcastersChannelsList" #broadcastersChannelsList (change)="getChannelVideos(broadcastersChannelsList.value)">
                         <option></option>
                         <option *ngFor="let channel of channelsList" value="{{channel.id}}">{{channel.channel_name}}</option>
                       </select>
                     </section>
-                    <section></section>
+                  </div>
+                  <div class="row">
+                    <section *ngIf="channelSelected" class="col col-12">
+                      <section class="col col-6">
+                        <img src="{{channelImage}}" width="100px" height="100px">
+                      </section>
+                      <section class="col col-4">
+                        <h2>{{channelName}}</h2>
+                      </section>
+                    </section>
+                  </div>
+                  <div class="row">
+                    <section class="col col-8">
+                      <h3>Live</h3>
+                      <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="800" height="264"
+                        data-setup='{ "controls": true, "autoplay": true, "preload": "auto" }'>
+                        <source src="{{videoLive.url}}" type='application/x-mpegURL'>
+                      </video>
+                    </section>
+                  </div>
+                  <div class="row">
+                    <section>
+                      <h3>Video List</h3>
+                      <div class="row">
+                        <section *ngFor="let video of videoList;let idx = index" class="col col-4">
+                            <video-pre [subject]="video.video_name" [idx]="idx" [url]="video.url"></video-pre>
+                        </section>
+                      </div>
+                    </section>
                   </div>
                 </fieldset>
               </form>

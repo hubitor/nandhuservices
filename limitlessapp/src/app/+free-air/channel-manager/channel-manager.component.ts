@@ -69,7 +69,6 @@ export class ChannelManagerComponent implements OnInit {
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
-        console.log(this.broadcasters);
       },
       error => {
         alert('Broadcasters not loaded');
@@ -81,7 +80,6 @@ export class ChannelManagerComponent implements OnInit {
     this.broadcasterService.getAllChannelCategory().subscribe(
       channelCategories => {
         this.channelCategories = channelCategories;
-        console.log(this.channelCategories);
       },
       error => {
         alert("Categories not loaded");
@@ -93,7 +91,6 @@ export class ChannelManagerComponent implements OnInit {
     this.commonService.getAllLanguages().subscribe(
       languages => {
         this.languages = languages;
-        console.log(this.languages);
       },
       error => {
         alert('Languages not loaded');
@@ -131,19 +128,19 @@ export class ChannelManagerComponent implements OnInit {
     this.broadcasterChannel.ha_channel_image = "";
     this.broadcasterChannel.ha_is_active = true;
     this.broadcasterChannel.ha_rank = 1;
+    this.broadcasterChannel.rank = 1;
     this.broadcasterChannel.ha_streamtarget_name = "";
     this.broadcasterChannel.image_file_name = "";
     this.broadcasterChannel.is_active = true;
     this.broadcasterChannel.is_hd = this.isHD;
     this.broadcasterChannel.updated_by = "SA";
     this.broadcasterChannel.yt_streamtarget_name = "";
-    console.log(this.broadcasterChannel);
     this.broadcasterChannelsService.createNewChannel(this.broadcasterChannel).subscribe(
       newChannelResponse => {
-        console.log(newChannelResponse);
+        alert("Channel created successfully!");
       },
       error => {
-        console.log(error);
+        alert("Something went wrong!");
       }
     );
   }

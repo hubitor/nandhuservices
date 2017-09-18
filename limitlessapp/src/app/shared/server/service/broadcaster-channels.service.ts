@@ -11,6 +11,7 @@ import { BroadcasterVideos } from "../../models/broadcasterVideos";
 import { BroadcasterChannel } from "../../models/broadcaster-channel";
 import { ChannelCategory } from "../../models/channelCategory";
 import { CookieService } from "ngx-cookie";
+import { CreateResponse } from "../../models/createResponse";
 
 @Injectable()
 export class BroadcasterChannelsService {
@@ -24,14 +25,20 @@ export class BroadcasterChannelsService {
     this.headers.append('Authorization', this.authToken);
    }
 
-   getPrimaryChannelVideos(channelId: number): Observable<any>{
-     return this.http.get("http://localhost:3000/broadcaster/videos/list/broadcaster/"+channelId, {headers: this.headers})
+   getPrimaryChannelVideos(broadcasterId: number): Observable<BroadcasterChannel>{
+     return this.http.get("http://localhost:3000/broadcaster/videos/list/pcv/"+broadcasterId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
    };
 
-   createNewChannel(channel: BroadcasterChannel): Observable<any>{
+   createNewChannel(channel: BroadcasterChannel): Observable<CreateResponse>{
     return this.http.post("http://localhost:3000/broadcaster/broadcasterchannel/new", channel, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+   };
+
+   getChannelVideos(channelId: number): Observable<BroadcasterChannel>{
+     return this.http.get("http://localhost:3000/broadcaster/videos/list/channel/"+channelId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
    }
