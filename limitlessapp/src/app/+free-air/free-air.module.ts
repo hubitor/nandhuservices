@@ -18,6 +18,7 @@ import {VideoPrerecordModule} from "../shared/videopre-record/videopre-record.mo
 import { VideosManagerComponent } from './videos-manager/videos-manager.component';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { VideoManagerQComponent } from './video-manager-q/video-manager-q.component';
+import { ChannelManagerComponent } from './channel-manager/channel-manager.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { VideoManagerQComponent } from './video-manager-q/video-manager-q.compon
     ChannelHomeComponent,
     VideosManagerComponent,
     FileSelectDirective, 
-    FileDropDirective, VideoManagerQComponent, 
+    FileDropDirective, VideoManagerQComponent, ChannelManagerComponent, 
   ]
 })
 export class FreeAirModule { }

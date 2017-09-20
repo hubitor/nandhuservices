@@ -1,0 +1,65 @@
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Add New Channel</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="newChannelForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section *ngIf="superAdminUser" class="col col-4">
+                      <select class="form-control" name="broadcastersList" #broadcasterList (change)="onBroadcasterSelect(broadcasterList.value)">
+                        <option>Select Broadcasters</option>
+                        <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <select class="form-control" name="categorysList" #categoryList (change)="onCategorySelect(categoryList.value)">
+                        <option>Select Category</option>
+                        <option *ngFor="let category of channelCategories" value="{{category.id}}">{{category.category_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <select class="form-control" name="languagesList" #languageList (change)="onLanguageSelect(languageList.value)">
+                        <option>Select Language</option>
+                        <option *ngFor="let language of languages" value="{{language.id}}">{{language.lang_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-pencil-square-o"></i>
+                        <input type="text" name="channelName" class="form-control" formControlName="channel_name">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-pencil-square-o"></i>
+                        <input type="text" name="channelDescription" class="form-control" formControlName="channel_description">
+                      </label>
+                    </section>
+                    <!--section class="col col-4">
+                      <label class="input"><i class="icon-prepend fa fa-file-image-o"></i>
+                        <input type="file" name="channelImage" class="form-control">
+                      </label>
+                    </section-->
+                    <section class="col col-4">
+                      <select class="form-control" name="isHD" #hd (change)="onHDSelect(hd.value)">
+                        <option>Is this HD channel?</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                      </select>
+                    </section>
+                  </div>
+                  <button type="submit" name="newChannel" (click)="createNewChannel()">Create Channel</button>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>

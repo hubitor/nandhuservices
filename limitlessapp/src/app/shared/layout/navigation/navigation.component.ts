@@ -25,6 +25,8 @@ export class NavigationComponent implements OnInit {
   superAdmin: boolean;
   channelHome:boolean;
   videoManager: boolean;
+  channelManager: boolean;
+
   constructor() {
     this.loginResponse = new LoginResponse();
     this.userRoles = Array();
@@ -43,6 +45,7 @@ export class NavigationComponent implements OnInit {
     this.superAdmin = false;
     this.channelHome=false;
     this.videoManager = false;
+    this.channelManager = false;
   }
 
   ngOnInit() {
@@ -87,6 +90,8 @@ export class NavigationComponent implements OnInit {
           }
           else if (this.userRoles[i].module_name === "Channel Home") {
             this.channelHome = true;
+          } else if(this.userRoles[i].module_name === 'Channel Manager') {
+            this.channelManager = true;
           }
         }
       } else if(this.loginResponse.user_type === "Super Admin") {
@@ -103,6 +108,7 @@ export class NavigationComponent implements OnInit {
         this.channelVideos = true;
         this.channelHome=true;
         this.videoManager = true;
+        this.channelManager = true;
       }
     }
   }
