@@ -1,4 +1,5 @@
-export class User{
+export class User{  
+
     id: number;
     application_id: number;
     client_id: number;
@@ -13,6 +14,7 @@ export class User{
     mobile: string;
     email_id: string;
     passwd: string;
+    // confirmpasswd:string;
     is_anonymous: boolean;
     is_active: boolean;
     created_by: string;

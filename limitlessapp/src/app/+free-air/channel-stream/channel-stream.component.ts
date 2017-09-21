@@ -70,27 +70,30 @@ export class ChannelStreamComponent implements OnInit {
   ngOnInit() {
     this.w_applicationName = this.user.w_appname;
     this.client_id = this.user.client_id;
-    this.getAllBroadcasterDestination();
+    this.getAllBroadcastersById(this.client_id);
     this.streamNotificationRequest=new StreamNotificationRequest();
   }
 
-  getAllBroadcasterDestination() {
-    this.broadcasterService.getAllBroadcasterDestination()
+  getAllBroadcasterDestination(channelid:number) {
+    this.broadcasterService.getAllBroadcasterDestination(channelid)
       .subscribe(
-      broadcasterDestination => this.updateDestinationId(this.broadcasterDestinations = broadcasterDestination),
+      broadcasterDestination =>{
+       this.broadcasterDestinations = broadcasterDestination 
+      },
+      //broadcasterDestination => this.updateDestinationId(this.broadcasterDestinations = broadcasterDestination),
       error => this.errorMessage = <any>error);
 
   }
 
   updateDestinationId(destinations) {
-    this.broadcasterDestinations = destinations;
+    
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
 
     }
 
-    this.getAllBroadcastersById(this.client_id);
+    //this.getAllBroadcastersById(this.client_id);
   }
 
   getAllBroadcastersById(broadcaterId) {
@@ -144,7 +147,7 @@ export class ChannelStreamComponent implements OnInit {
         this.bChannelVideos = broadcasters[0].broadcaster_channels;
         this.updatingResponse(broadcasters);
       }
-
+      this.getAllBroadcasterDestination(this.channelStreamForm.value.broadcasterChannelCategoryName);
     }
   }
 

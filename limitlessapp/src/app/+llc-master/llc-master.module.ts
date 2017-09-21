@@ -15,7 +15,7 @@ import {CarouselModule} from "ngx-bootstrap";
 import {DropdownCategoryModule} from "../shared/ddl-category/ddl-category.module";
 import {DropdownSubCategoryModule} from "../shared/ddl-subcategory/ddl-subcategory.module";
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+// import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { SubcategoryComponent } from './subcategory/subcategory.component';
 import { SubcategoryEditComponent } from './subcategory/subcategory-edit/subcategory-edit.component';
 
@@ -40,8 +40,8 @@ import { SubcategoryEditComponent } from './subcategory/subcategory-edit/subcate
    ApplicationComponent,
    CategoryComponent,
    ProductComponent,
-   FileSelectDirective, 
-   FileDropDirective, 
+  //  FileSelectDirective, 
+  //  FileDropDirective, 
    SubcategoryComponent, SubcategoryEditComponent
   ]
 })

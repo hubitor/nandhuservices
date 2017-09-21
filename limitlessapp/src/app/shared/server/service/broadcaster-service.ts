@@ -34,9 +34,9 @@ export class BroadcasterService {
         
     }
 
-    getAllBroadcasterDestination(): Observable<BroadcasterDestination> {
+    getAllBroadcasterDestination(channelid:number): Observable<BroadcasterDestination> {
 
-        return this.http.get(AppConfig.get_BroadcasterDest, headerObj)
+        return this.http.get(AppConfig.get_BroadcasterDest+channelid, headerObj)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     };

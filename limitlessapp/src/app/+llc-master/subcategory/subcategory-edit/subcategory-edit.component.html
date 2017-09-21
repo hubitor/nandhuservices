@@ -27,7 +27,7 @@
           <option value="false">Passive</option>
         </select>
         <br>
-        <input *ngIf="isImageDeleted" type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" >
+        <input *ngIf="isImageDeleted" type="file" class="form-control" name="single" ng2FileSelect [attr.uploader]="uploader" >
         <div *ngIf="imageSelector" style="position:relative;display:inline-block;text-align:center;">
           <img src="{{subcategoryImage}}" height="200px" width="200px">
           <br>

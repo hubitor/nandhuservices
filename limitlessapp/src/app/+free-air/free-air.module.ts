@@ -16,7 +16,7 @@ import {CarouselModule} from "ngx-bootstrap";
 import {VideoLiveModule} from "../shared/videolive/videolive.module";
 import {VideoPrerecordModule} from "../shared/videopre-record/videopre-record.module";
 import { VideosManagerComponent } from './videos-manager/videos-manager.component';
-import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+// import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { VideoManagerQComponent } from './video-manager-q/video-manager-q.component';
 
 @NgModule({
@@ -38,8 +38,9 @@ import { VideoManagerQComponent } from './video-manager-q/video-manager-q.compon
     ChannelStreamComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
-    FileSelectDirective, 
-    FileDropDirective, VideoManagerQComponent, 
+    // FileSelectDirective, 
+    // FileDropDirective, 
+    VideoManagerQComponent, 
   ]
 })
 export class FreeAirModule { }
