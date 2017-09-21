@@ -51,9 +51,14 @@ export class ChannelVideoComponent implements OnInit {
   superAdminUser: boolean;
   broadcasters: Broadcasters[];
   broadcasterId: number;
+  channelName: string;
+  channelImage: string;
+  channelSelected: boolean;
+  videoLive: BroadcasterVideos;
+  videoList: BroadcasterVideos[];
 
   constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
-          private cookieService: CookieService, private broadcasterService: BroadcasterService) {
+    private cookieService: CookieService, private broadcasterService: BroadcasterService) {
     this.entertainmentUser = false;
     this.superAdminUser = false;
     this.broadcasterChannel = new BroadcasterChannel();
@@ -63,31 +68,46 @@ export class ChannelVideoComponent implements OnInit {
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
-    console.log(this.loginResponse);
-    if(this.loginResponse.user_type === 'Entertainment'){
+    if (this.loginResponse.user_type === 'Entertainment') {
+      this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
       this.entertainmentUser = true;
       this.superAdminUser = false;
-    } else if(this.loginResponse.user_type === 'Super Admin'){
+    } else if (this.loginResponse.user_type === 'Super Admin') {
       this.entertainmentUser = false;
       this.superAdminUser = true;
     }
+    this.channelSelected = false;
+    this.videoLive = new BroadcasterVideos();
+    this.videoList = new Array();
   }
 
   ngOnInit() {
-    if(this.superAdminUser){
+    if (this.superAdminUser) {
       this.getAllBroadcaster();
-    } else if(this.entertainmentUser){
+    } else if (this.entertainmentUser) {
       this.getBroadcasterPrimaryChannelVideos(this.broadcasterId);
       this.getAllChannels(this.broadcasterId);
+      this.getChannelVideos(this.primaryChannelId);
     }
   }
 
-  getBroadcasterPrimaryChannelVideos(broadcasterId: number){
+  getBroadcasterPrimaryChannelVideos(broadcasterId: number) {
     this.getAllChannels(broadcasterId);
     this.channelServices.getPrimaryChannelVideos(broadcasterId).subscribe(
       broadcasterChannel => {
         this.broadcasterChannel = broadcasterChannel;
-        console.log(this.broadcasterChannel);
+        this.channelName = this.broadcasterChannel.channel_name;
+        this.channelImage = this.broadcasterChannel.channel_image;
+        this.channelSelected = true;
+        this.videoList = [];
+        var videosLength = this.broadcasterChannel.videos.length;
+        for(var i=0; i<videosLength; i++){
+          if(this.broadcasterChannel.videos[i].is_live === true){
+            this.videoLive = this.broadcasterChannel.videos[i];
+          } else {
+            this.videoList.push(this.broadcasterChannel.videos[i]);
+          }
+        }
       },
       error => {
         alert("Something went wrong. Primary channel not loaded");
@@ -95,11 +115,10 @@ export class ChannelVideoComponent implements OnInit {
     );
   }
 
-  getAllBroadcaster(){
+  getAllBroadcaster() {
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
-        console.log(this.broadcasters);
       },
       error => {
         alert("Something went wrong. Broadcaster list not loaded");
@@ -107,14 +126,36 @@ export class ChannelVideoComponent implements OnInit {
     );
   }
 
-  getAllChannels(broadcasterId: number){
+  getAllChannels(broadcasterId: number) {
     this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
         this.channelsList = channels;
-        console.log(this.channelsList);
       },
       error => {
         alert("Something went wrong. Channels list not loaded");
+      }
+    );
+  }
+
+  getChannelVideos(channelId: number) {
+    this.channelServices.getChannelVideos(channelId).subscribe(
+      broadcasterChannel => {
+        this.broadcasterChannel = broadcasterChannel;
+        this.channelName = this.broadcasterChannel.channel_name;
+        this.channelImage = this.broadcasterChannel.channel_image;
+        this.channelSelected = true;
+        this.videoList = [];
+        var videosLength = this.broadcasterChannel.videos.length;
+        for(var i=0; i<videosLength; i++){
+          if(this.broadcasterChannel.videos[i].is_live === true){
+            this.videoLive = this.broadcasterChannel.videos[i];
+          } else {
+            this.videoList.push(this.broadcasterChannel.videos[i]);
+          }
+        }
+      },
+      error => {
+        alert("Channel Videos not loaded");
       }
     );
   }

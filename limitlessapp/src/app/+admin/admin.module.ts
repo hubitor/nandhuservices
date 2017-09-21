@@ -31,12 +31,17 @@ import { UserRolesComponent } from './user-roles/user-roles.component';
     EshopComponent,
     RegistrationComponent,
     UserRolesComponent,
+<<<<<<< HEAD
     // FileSelectDirective, 
     // FileDropDirective,
     // ,
     //  ChannelAlbumComponent,
     // ChannelStreamComponent
    
+=======
+    FileSelectDirective, 
+    FileDropDirective
+>>>>>>> 0e8456e8d774657d5f08b85992b1f7474c6944f6
   ]
 })
 export class AdminModule { }

@@ -14,6 +14,7 @@ import { LoginResponse } from "../../shared/models/loginResponse";
 import { Product } from "../../shared/models/product";
 import { Category } from "../../shared/models/category";
 import { SubCategory } from "../../shared/models/sub-category";
+import {NotificationService} from "../../shared/utils/notification.service"
 
 @Component({
   selector: 'app-eshop',
@@ -32,31 +33,16 @@ export class EshopComponent implements OnInit {
   shopCreateResponse: ShopCreateResponse;
   applicationUsersRoles: ApplicationUsersRole[];
   roleId: number;
-  public categoryUploader: FileUploader;
-  public subcategoryUploader: FileUploader;
-  public productUploader: FileUploader;
-  category: Category;
-  subcategory: SubCategory;
-  product: Product;
-  categoryImageUrl: string;
-  categoryImageFileName: string;
-  subcategoryImageUrl: string;
-  subcategoryImageFileName: string;
-  productImageUrl: string;
-  productImageFileName: string;
+  shopLatitude: number;
+  shopLogitude: number;
 
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private router: Router, private shopService: ShopService) {
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private router: Router, private shopService: ShopService,
+    private notificationService: NotificationService,) {
     this.shop = new Shop();
     this.user = new User();
     this.user = JSON.parse(localStorage.getItem("haappyapp-user"));
     this.application = new Application();
     this.shopCreateResponse = new ShopCreateResponse();
-    this.categoryUploader = new FileUploader({ url: AppSettings.LOCAL_API + "upload/image/ecomm/category/" + this.user.id });
-    this.subcategoryUploader = new FileUploader({ url: AppSettings.LOCAL_API + "upload/image/ecomm/subcategory/" + this.user.id });
-    this.productUploader = new FileUploader({ url: AppSettings.LOCAL_API + "upload/image/ecomm/product/" + this.user.id });
-    this.category = new Category();
-    this.subcategory = new SubCategory();
-    this.product = new Product();
   }
 
   ngOnInit() {
@@ -71,13 +57,8 @@ export class EshopComponent implements OnInit {
       aboutShop: [null, [Validators.required]],
       shopCode: [null, [Validators.required]],
       sellerKycValue: [null, [Validators.required]],
-      primaryCategoryName: [null, [Validators.required]],
-      primaryCategoryDescription: [null, [Validators.required]],
-      primarySubcategoryName: [null, [Validators.required]],
-      primarySubcategoryDescription: [null, [Validators.required]],
-      primaryProductName: [null, [Validators.required]],
-      primaryProductDescription: [null, [Validators.required]],
-      primaryProductPrice: [null, [Validators.required]]
+      shopLatitude: [null, [Validators.required]],
+      shopLongitude: [null, [Validators.required]],
     });
   }
 
@@ -87,7 +68,7 @@ export class EshopComponent implements OnInit {
         this.applications = applications;
       },
       error => {
-        alert("something went wrong. Try after sometime.");
+        // alert("something went wrong. Try after sometime.");
       }
     );
   }
@@ -116,95 +97,50 @@ export class EshopComponent implements OnInit {
   }
 
   addNewShop() {
-    this.categoryUploader.uploadAll();
-    this.categoryUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      if (status === 200) {
-        var categoryFileNamePath = response.toString();
-        var categorySplitter = categoryFileNamePath.split('|');
-        this.categoryImageUrl = categorySplitter[0];
-        this.categoryImageFileName = categorySplitter[1];
-        this.subcategoryUploader.uploadAll();
-        this.subcategoryUploader.onSuccessItem = (item2: FileItem, response2: string, status2: number, headers2: ParsedResponseHeaders) => {
-          if (status2 === 200) {
-            var subcategoryFileNamePath = response2.toString();
-            var subcategorySplitter = subcategoryFileNamePath.split('|');
-            this.subcategoryImageUrl = subcategorySplitter[0];
-            this.subcategoryImageFileName = subcategorySplitter[1];
-            this.productUploader.uploadAll();
-            this.productUploader.onSuccessItem = (item3: FileItem, response3: string, status3: number, headers3: ParsedResponseHeaders) => {
-              if (status3 === 200) {
-                var productFileNamePath = response3.toString();
-                var productSplitter = productFileNamePath.split('|');
-                this.productImageUrl = productSplitter[0];
-                this.productImageFileName = productSplitter[1];
-                //shop form
+    
+              //shop form
                 const newShop = this.newShopForm.value;
                 //new shop
                 this.shop.application_id = this.applicationId;
                 this.shop.seller_shop_name = newShop.shopName;
                 this.shop.about_shop = newShop.aboutShop;
                 this.shop.shop_code = newShop.shopCode;
-                this.shop.seller_location_latitude = 0;
-                this.shop.seller_location_longitude = 0;
+                this.shop.seller_location_latitude = newShop.shopLatitude;
+                this.shop.seller_location_longitude = newShop.shopLongitude;
                 this.shop.seller_kyc_doc_type = this.kycDocType;
                 this.shop.seller_kyc_doc_value = newShop.sellerKycValue;
                 this.shop.is_deleted = false;
                 this.shop.created_by = "SA";
                 this.shop.updated_by = "SA";
-                //new category
-                this.category.application_id = this.applicationId;
-                this.category.category_name = newShop.primaryCategoryName;
-                this.category.category_description = newShop.primaryCategoryDescription;
-                this.category.category_image = this.categoryImageUrl;
-                this.category.image_file_name = this.categoryImageFileName;
-                this.category.is_active = true;
-                this.category.created_by = "SA";
-                this.category.updated_by = "SA";
-                //new subcategory
-                this.subcategory.subcategory_name = newShop.primarySubcategoryName;
-                this.subcategory.subcategory_description = newShop.primarySubcategoryDescription;
-                this.subcategory.subcategory_image = this.subcategoryImageUrl;
-                this.subcategory.image_file_name = this.subcategoryImageFileName;
-                this.subcategory.is_active = true;
-                this.subcategory.created_by = "SA";
-                this.subcategory.updated_by = "SA";
-                //new product
-                this.product.product_name = newShop.primaryProductName;
-                this.product.product_descripton = newShop.primaryProductDescription;
-                this.product.product_price = newShop.primaryProductPrice;
-                this.product.product_image = this.productImageUrl;
-                this.product.discount_rate = 0;
-                this.product.is_removed = true;
-                this.product.pod = true;
-                this.product.add_to_cart = true;
-
-                this.shop.category = this.category;
-                this.shop.sub_category = this.subcategory;
-                this.shop.product = this.product;
                 console.log(this.shop);
-                this.shopService.createShop(this.shop).subscribe(
-                  createResponse => {
-                    this.shopCreateResponse = createResponse;
-                    localStorage.setItem("shop", JSON.stringify(this.shop));
-                    localStorage.setItem("shopCreateResponse", JSON.stringify(this.shopCreateResponse));
-                    alert('Shop and user created successfully!');
-                  },
-                  error => {
-                    alert('Something went wrong!');
-                  }
-                );
-              } else {
-                alert('Something went wrong!');
-              }
-            }
-          } else {
-            alert('Something went wrong!');
-          }
-        }
-      } else {
-        alert('Something went wrong!');
-      }
-    }
+                this.showPopup();
+                }
+  showPopup()
+  {
+  this.notificationService.smartMessageBox({
+  title: "New client added",
+  content: "Do you want to register the client details..?<i  style='color:green'></i>",
+  buttons: '[No][Yes]'
+  }, (ButtonPressed) => {
+  if (ButtonPressed == "Yes") {
+    this.shopService.createShop(this.shop).subscribe(
+      createResponse => {
+        this.shopCreateResponse = createResponse;
+        localStorage.setItem("shop", JSON.stringify(this.shop));
+        localStorage.setItem("shopCreateResponse", JSON.stringify(this.shopCreateResponse));
+        alert('Shop and user created successfully!');
+      },
+  error => {
+  // alert("Something went wrong!");
+  console.log('error in creating'+error);
+  }
+  );
+  }
+  else if(ButtonPressed == "No")
+  {
+  alert("Registration cancel");
+  }
+  });
   }
 
 }

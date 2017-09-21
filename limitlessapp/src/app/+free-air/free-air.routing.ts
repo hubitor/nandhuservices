@@ -7,6 +7,7 @@ import {ChannelStreamComponent} from "./channel-stream/channel-stream.component"
 import {ChannelHomeComponent} from "./channel-home/channel-home.component";
 import {VideosManagerComponent} from './videos-manager/videos-manager.component';
 import {VideoManagerQComponent} from './video-manager-q/video-manager-q.component';
+import {ChannelManagerComponent} from './channel-manager/channel-manager.component';
 
 export const routes:Routes = [
   
@@ -36,6 +37,10 @@ export const routes:Routes = [
     path: 'videoq',
     component: VideoManagerQComponent
   },
+  {
+    path: 'channel-manager',
+    component: ChannelManagerComponent
+  }
 ];
 
 export const routing = RouterModule.forChild(routes)
