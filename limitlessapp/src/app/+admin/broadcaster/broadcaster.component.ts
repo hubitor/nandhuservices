@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,AfterViewInit} from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { BroadcasterService } from "../../shared/server/service/broadcaster-service";
@@ -26,7 +26,7 @@ import { CommonService } from '../../shared/server/service/common.service';
     templateUrl: './broadcaster.component.html',
     providers: [BroadcasterService,DocumentService,UtilityService,CommonService, DatePipe]
 })
-export class BroadcasterComponent implements OnInit {
+export class BroadcasterComponent implements OnInit,AfterViewInit {
     user: LoginResponse;
     broadcasterForm: FormGroup;
     errorMessage: string;
@@ -53,12 +53,7 @@ export class BroadcasterComponent implements OnInit {
         ,private commonService:CommonService) {
         this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
         this.createForm();
-        
-        this.getChannelCategory();
-        this.getDocumentType();
-        this.getCountry();
-        this.getRank();
-        this.getAllLanguages();
+       
     }
 
     createForm() {
@@ -87,13 +82,19 @@ export class BroadcasterComponent implements OnInit {
         });
     }
 
+    
+   
+
     ngOnInit() {
 
         this.client_id = this.user.client_id;
         this.getBroadcasterAllGrid();
     }
-
-    showPopup() {
+    ngAfterViewInit() {
+        console.log('AfterViewInit');   
+    }
+   
+showPopup() {
 
         var contentValue = "";
 
@@ -114,12 +115,21 @@ export class BroadcasterComponent implements OnInit {
     {
         this.broadcasterService.getAllBroadcasters()
       .subscribe(
-       broadcasterResponse=>{
+       (broadcasterResponse)=>{
            
             this.broacasterall=broadcasterResponse;
+            this.getChannelCategory();
+            this.getDocumentType();
+            this.getCountry();
+            this.getRank();
+            this.getAllLanguages();
+           
        }),
       error => this.errorMessage = <any>error;
     };
+
+
+  
 
     getBroadcasterChannel()
     {
@@ -312,6 +322,7 @@ export class BroadcasterComponent implements OnInit {
         if (response) {
             location.reload();
         }
+   
     }
 
 }
