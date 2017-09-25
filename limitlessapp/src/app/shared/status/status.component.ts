@@ -1,7 +1,7 @@
 import { Component, OnInit,Output, EventEmitter } from '@angular/core';
 import { DropdownService } from "../../shared/server/service/dropdown-service"
 import { Observable } from 'rxjs/Observable';
-import { IsStatus } from "../../shared/models/isstatus"
+import { IsStatus } from "../../shared/models/isStatus"
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 @Component({
     selector: 'sa-status',

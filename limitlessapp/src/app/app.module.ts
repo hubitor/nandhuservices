@@ -1,7 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { FileUploadModule } from 'ng2-file-upload';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CookieModule } from 'ngx-cookie';
@@ -36,11 +36,14 @@ type StoreType = {
  */
 @NgModule({
   bootstrap: [ AppComponent ],
+  
   declarations: [
     AppComponent,
+   
   ],
   imports: [ // import Angular's modules
     BrowserModule,
+    FileUploadModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -48,7 +51,8 @@ type StoreType = {
     CoreModule,
     SmartadminLayoutModule,
     CookieModule.forRoot(),
-    routing
+    routing,
+    
   ],
   exports: [
   ],

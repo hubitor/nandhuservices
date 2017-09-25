@@ -1,4 +1,93 @@
 <div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Admin', 'E-Shop']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <!--<sa-stats></sa-stats>-->
+    </div>
+    <!--
+      The ID "widget-grid" will start to initialize all widgets below
+      You do not need to use widgets if you dont want to. Simply remove
+      the <section></section> and you can use wells or panels instead
+      -->
+    <!-- widget grid -->
+    <sa-widgets-grid>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <sa-widget>
+                    <!-- widget options:
+              usage: <sa-widget id="wid-id-0" [editbutton]="false">
+              [colorbutton]="false"
+              [editbutton]="false"
+              [togglebutton]="false"
+              [deletebutton]="false"
+              [fullscreenbutton]="false"
+              [custombutton]="false"
+              [collapsed]="true"
+              [sortable]="false"
+          -->
+                    <header>
+                        <span class="widget-icon"></span>
+                        <h2>Add Broadcaster </h2>
+                        <div class="widget-toolbar">
+                            <!--<button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Import</span></button>-->
+                            <button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Add New</span></button>
+                        </div>
+                    </header>
+                   
+                   
+                   
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <!-- this is what the user will see -->
+                            <div class="widget-body no-padding">
+
+                                 <sa-datatable [options]="{
+                            data: broacasterall,
+                 columns: [
+                 {data:'id'},
+                 {data:'broadcaster_name'},
+                 {data:'broadcaster_channel_name'},
+                 {data:'broadcaster_email'},
+                 {data:'w_application_name'},
+                 {data:'state_code'}
+                 ],
+                 buttons: [
+                 'colvis'
+                 ]
+                 }" tableClass="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th data-class="expand">Id</th>
+                                            <th data-class="expand">Broadcaster Name</th>
+                                            <th data-class="expand">Channel Name</th> 
+                                             <th data-class="expand">Category Name</th> 
+                                             <th data-class="expand">Email</th> 
+                                             <th data-class="expand">Application Name</th> 
+                                             <th data-class="expand">State,City</th>
+                                             <th data-class="expand">Video URL</th>
+                                            <!-- <th data-class="expand">YouTube Key</th>
+                                            <th data-class="expand">FaceBook Key</th>
+                                            <th data-class="expand">Haappyapp Key</th>  -->
+                                         </tr>
+                                    </thead>
+                                </sa-datatable>
+
+                            </div>
+                        </div> 
+                        <!-- end widget content -->
+                    </div>
+                    <!-- end widget div -->
+                </sa-widget>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+       <div id="content">
   <div class="row"></div>
   <sa-widgets-grid>
     <div class="row">
@@ -42,46 +131,20 @@
                       <label>Seller KYC Number/ID</label>
                       <input type="text" class="form-control" name="sellerKycValue" formControlName="sellerKycValue">
                     </section>
-                    <section class="col col-4">
-                      <label>Primary Category Name</label>
-                      <input type="text" class="form-control" name="primaryCategoryName" formControlName="primaryCategoryName">
+                   
+                    <section class="col col-4"> 
+                      <label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
+                        <input class="form-control" type="text"  name="shopLatitude" placeholder="Shop Latitude"  formControlName="shopLatitude">
+                        <!-- <b class="tooltip tooltip-bottom-right">Shop Latitude</b> -->
+                    </label>
+                     </section>
+                      <section class="col col-4">
+                          <label class="input"> <i class="icon-prepend fa fa-map-marker"></i>
+                          <!-- <b class="tooltip tooltip-bottom-right">Shop Longtude</b> -->
+                          <input type="text" class="form-control" name="shopLongitude" placeholder="Shop Longitude" formControlName="shopLongitude">
+                        </label>
                     </section>
-                    <section class="col col-4">
-                      <label>Primary Category Description</label>
-                      <input type="text" class="form-control" name="primaryCategoryDescription" formControlName="primaryCategoryDescription">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Cagtegory Image</label>
-                      <input type="file" class="form-control" name="primaryCategoryImage" ng2FileSelect [uploader]="categoryUploader">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Subcategory Name</label>
-                      <input type="text" class="form-control" name="primarySubcategoryName" formControlName="primarySubcategoryName">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Subcategory Description</label>
-                      <input type="text" class="form-control" name="primarySubcategoryDescription" formControlName="primarySubcategoryDescription">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Subcagtegory Image</label>
-                      <input type="file" class="form-control" name="primarySubcategoryImage" ng2FileSelect [uploader]="subcategoryUploader">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Product Name</label>
-                      <input type="text" class="form-control" name="primaryProductName" formControlName="primaryProductName">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Product Description</label>
-                      <input type="text" class="form-control" name="primaryProductDescription" formControlName="primaryProductDescription">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Product Image</label>
-                      <input type="file" class="form-control" name="primaryProductImage" ng2FileSelect [uploader]="productUploader">
-                    </section>
-                    <section class="col col-4">
-                      <label>Primary Product Price</label>
-                      <input type="text" class="form-control" name="primaryProductPrice" formControlName="primaryProductPrice">
-                    </section> 
+                     
                   </div>
                   <button type="submit" class="btn btn-success" (click)="addNewShop()">Create Shop</button>
                 </fieldset>
