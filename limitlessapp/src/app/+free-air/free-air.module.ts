@@ -19,6 +19,9 @@ import { VideosManagerComponent } from './videos-manager/videos-manager.componen
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { VideoManagerQComponent } from './video-manager-q/video-manager-q.component';
 import { ChannelManagerComponent } from './channel-manager/channel-manager.component';
+import { JournalComponent } from './journal/journal.component';
+import { NewJournalComponent } from './journal/new-journal/new-journal.component';
+import { JournalSettingsComponent } from './journal/journal-settings/journal-settings.component';
 
 @NgModule({
   imports: [
@@ -41,7 +44,7 @@ import { ChannelManagerComponent } from './channel-manager/channel-manager.compo
     VideosManagerComponent,
     // FileSelectDirective, 
     // FileDropDirective,
-     VideoManagerQComponent, ChannelManagerComponent, 
+     VideoManagerQComponent, ChannelManagerComponent, JournalComponent, NewJournalComponent, JournalSettingsComponent, 
   ]
 })
 export class FreeAirModule { }
