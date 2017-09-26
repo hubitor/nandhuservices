@@ -1,13 +1,54 @@
 <div id="content">
   <div class="row">
-
+    <sa-big-breadcrumbs [items]="['Admin', 'Add Client']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
   </div>
   <sa-widgets-grid>
+      <div class="row">
+         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <sa-widget>
+                 <header>
+                      <span class="widget-icon"></span>
+                      <h2>Add Client </h2>
+                      <div class="widget-toolbar">
+                          <button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Add New</span></button>
+                      </div>
+                  </header>
+                  <div>
+                      <div class="widget-body">
+                          <div class="widget-body no-padding">
+<sa-datatable [options]="{
+                          data:broadcasterchannelall,
+               columns: [
+               {data:'id'},
+               {data:'broadcaster_id'},
+               {data:'channel_name'}
+               ],
+               buttons: [
+               'colvis'
+               ]
+               }" tableClass="table table-striped table-bordered table-hover">
+<thead>
+  <tr>
+      <th data-class="expand">Id</th>
+      <th data-class="expand">Broadcaster Name</th>
+      <th data-class="expand">Channel Name</th>
+  </tr> 
+</thead>
+</sa-datatable>
+</div>
+</div> 
+</div>
+</sa-widget>
+</article>
+</div>
+  <div class="row">
+       <div class="col-sm-12">
+  <sa-widgets-grid id="widget-cat-detail">
     <div class="row">
       <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <sa-widget>
           <header>
-            <h2>Add Client</h2>
+            <h2>Client Details</h2>
           </header>
           <div class="widget-body">
             <div class="widget-body no-padding">
@@ -45,7 +86,7 @@
                     <section class="col col-6">
                       <label class="input">
                         <i class="icon-prepend fa fa-user"></i>
-                        <input type="text" placeholder="Client Name" class="form-control" required name="userName" formControlName="userName">
+                        <input type="text" placeholder="Client Name" class="form-control" required name="userClientName" formControlName="userClientName">
                       </label>
                     </section>
                     <section class="col col-6">
@@ -57,22 +98,17 @@
                     <section class="col col-6">
                       <label class="input">
                         <i class="icon-prepend fa fa-user"></i>
-                        <input type="text" placeholder="User Name" class="form-control" required minlength="5" maxlength="20" required name="userName" formControlName="user_Name">
+                        <input type="text" placeholder="User Name" class="form-control" required minlength="5" maxlength="20" required name="user_Name" formControlName="user_Name">
+                      </label>
+                    </section>
+                    <section class="col col-6">
+                      <label class="input"><i class="icon-prepend fa fa-envelope"></i>
+                        <input type="email" placeholder="Email ID" class="form-control" required name="userEmail"  formControlName="userEmail">
                       </label>
                     </section>
                     <section class="col col-6">
                       <label class="input"><i class="icon-prepend fa fa-lock"></i>
                         <input type="password" placeholder="Password" class="form-control" formControlName="userPasswd">
-                      </label>
-                    </section>
-                    <!-- <section class="col col-6">
-                      <label class="input"><i class="icon-prepend fa fa-lock"></i>                          
-                        <input type="password" placeholder="Retype-Password" class="form-control"  required validateEqual="userPasswd" formControlName="userConfirmpasswd"> 
-                      </label>
-                    </section> -->
-                    <section class="col col-6">
-                      <label class="input"><i class="icon-prepend fa fa-envelope"></i>
-                        <input type="email" placeholder="Email ID" class="form-control" required name="userEmail"  formControlName="userEmail">
                       </label>
                     </section>
                     <section class="col col-6">
@@ -85,7 +121,6 @@
                         <select class="form-control" name="userCountry" #userCountry (change)="onCountrySelect(userCountry.value)">
                           <option></option>
                           <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_name}}</option>
-                          <!-- <option *ngFor="let application of applications" value="{{application.id}},{{application.application_name}}">{{application.application_name}}</option> -->
                           </select>
                       </section> 
                      <section class="col col-6">
@@ -124,4 +159,7 @@
       </article>
     </div>
   </sa-widgets-grid>
+</div>
+</div>
+</sa-widgets-grid>
 </div>

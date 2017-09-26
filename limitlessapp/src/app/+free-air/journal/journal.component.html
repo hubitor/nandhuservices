@@ -1,3 +1,137 @@
-<p>
-  journal works!
-</p>
+<div id="content">
+  <div class="row">
+    <sa-big-breadcrumbs [items]="['Broadcaster', 'Journal']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    </div>
+    <sa-widgets-grid>
+      <div class="row">
+         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <sa-widget>
+                 <header>
+                      <span class="widget-icon"></span>
+                      <h2>Add Journal </h2>
+                      <div class="widget-toolbar">
+                          <button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Add New</span></button>
+                      </div>
+                  </header>
+                  <div>
+                      <div class="widget-body">
+                          <div class="widget-body no-padding">
+<sa-datatable [options]="{
+                          data: journalall,
+               columns: [
+               {data:'id'},
+               {data:'emp_id'},
+               {data:'first_name'},
+               {data:'last_name'},
+               {data:'email'},
+               {data:'mobile'}
+               ],
+               buttons: [
+               'colvis'
+               ]
+               }" tableClass="table table-striped table-bordered table-hover">
+<thead>
+  <tr>
+      <th data-class="expand">Id</th>
+      <th data-class="expand">Emp_Id</th>
+      <th data-class="expand">First Name</th> 
+      <th data-class="expand">Last Name</th> 
+      <th data-class="expand">Email</th> 
+      <th data-class="expand">Mobile</th> 
+  </tr> 
+</thead>
+</sa-datatable>
+</div>
+</div> 
+</div>
+</sa-widget>
+</article>
+</div>
+  <div class="row">
+       <div class="col-sm-12">
+            <sa-widgets-grid id="widget-cat-detail">
+                <div class="row">
+                      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <sa-widget>
+                              <header>
+                                <h2>Journal Details</h2>
+                              </header>
+                              <div class="widget-body">
+                                <div class="widget-body no-padding">
+                                  <form [formGroup]="journalForm" class="smart-form">
+                                    <fieldset>
+                                      <div class="row">
+                                        <section *ngIf="superAdmin" class="col col-6">
+                                          <label>Select Broadcaster</label>
+                                          <select class="form-control" name="broadcastersList" #broadcastersList (change)=" onBroadcasterSelect(broadcastersList.value)">
+                                            <option></option>
+                                            <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
+                                          </select>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label>Select Channel</label>
+                                          <select class="form-control" name="broadcastersChannelsList" #broadcastersChannelsList (change)="onChannelSelect(broadcastersChannelsList.value)">
+                                            <option></option>
+                                            <option *ngFor="let channel of channelsList" value="{{channel.id}}">{{channel.channel_name}}</option>
+                                          </select>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            <input type="text" placeholder="First Name" class="form-control" required name="userName" formControlName="userFirstName">
+                                          </label>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label class="input">
+                                            <i class="icon-prepend fa fa-user"></i>
+                                            <input type="text" placeholder="Last Name" class="form-control" required name="userName" formControlName="userLastName">
+                                          </label>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label class="input"><i class="icon-prepend fa fa-envelope"></i>
+                                            <input type="email" placeholder="Email ID" class="form-control" required name="userEmail"  formControlName="userEmail">
+                                          </label>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label class="input"><i class="icon-prepend fa fa-lock"></i>
+                                            <input type="password" placeholder="Password" class="form-control" formControlName="userPasswd">
+                                          </label>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label class="input"><i class="icon-prepend fa fa-lock"></i>
+                                            <input type="text" placeholder="Emp Id" class="form-control" required name="userEmpid" formControlName="userEmpid">
+                                          </label>
+                                        </section>
+                                        <section class="col col-6">
+                                          <label class="input"><i class="icon-prepend fa fa-mobile"></i>
+                                            <input type="text" placeholder="Mobile" class="form-control" required name="userMobile" formControlName="userMobile">
+                                          </label>
+                                        </section>
+                                        <!-- <section class="col col-6">
+                                          <sa-status (statusUpdated)="handleStatusUpdated($event)"></sa-status>
+                                       </section> -->
+                                       <section class="col col-6">
+                                       <label>Choose Status</label>
+                                       <select class="form-control" name="userActiveStatus" formControlName="userActiveStatus">
+                                          <option></option>
+                                         <option value="true">Active</option>
+                                         <option value="false">Passive</option>
+                                       </select>
+                                      </section>
+                                      </div>
+                                    </fieldset>
+                                    <footer>
+                                      <button type="submit" (click)="cancelJournal()" value="cancel" class="btn btn-primary">Cancel</button>
+                                      <button type="submit" (click)="createJournal()" value="save"  class="btn btn-primary">Save</button>
+                                    </footer>
+                                  </form>
+                                </div>
+                              </div>
+                            </sa-widget>
+                    </article>
+                      </div>
+                 </sa-widgets-grid>
+            </div>
+      </div>
+     </sa-widgets-grid>
+</div>

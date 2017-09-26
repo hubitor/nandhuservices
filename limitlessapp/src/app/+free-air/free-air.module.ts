@@ -22,6 +22,7 @@ import { ChannelManagerComponent } from './channel-manager/channel-manager.compo
 import { JournalComponent } from './journal/journal.component';
 import { NewJournalComponent } from './journal/new-journal/new-journal.component';
 import { JournalSettingsComponent } from './journal/journal-settings/journal-settings.component';
+import { JournalDeviceComponent } from './journal/journal-device/journalDevice.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { JournalSettingsComponent } from './journal/journal-settings/journal-set
     // FileSelectDirective, 
     // FileDropDirective,
      VideoManagerQComponent, ChannelManagerComponent, JournalComponent, NewJournalComponent, JournalSettingsComponent, 
+     JournalDeviceComponent
   ]
 })
 export class FreeAirModule { }

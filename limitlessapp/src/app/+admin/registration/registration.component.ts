@@ -15,6 +15,7 @@ import { City }from '../../shared/models/city';
 import sha256 from 'crypto-js/sha256';
 // import { PasswordValidation } from './password-validation';
 import { NotificationService } from "../../shared/utils/notification.service";
+import { BroadcasterChannel } from 'app/shared/models/broadcaster-channel';
 
 var countryId;
 var stateId;
@@ -25,6 +26,8 @@ var stateId;
   providers: [ApplicationService, ShopService, BroadcasterService,UtilityService]
 })
 export class RegistrationComponent implements OnInit {
+  broadcasterchannelall: BroadcasterChannel;
+  errorMessage: string;
   city: string;
   cityId: number;
   country: string;
@@ -66,12 +69,26 @@ export class RegistrationComponent implements OnInit {
     this.getState(countryId);
     this.getCity(stateId);
     this.initForm();
+    this.getBroadcasterAllGrid();
   
   }
+
+  getBroadcasterAllGrid()
+  {
+      this.broadcasterService.getAllBroadcasterChannel()
+    .subscribe(
+     (journalResponse)=>{
+         
+          this.broadcasterchannelall=journalResponse;
+         
+     }),
+    error => this.errorMessage = <any>error;
+  };
   
   initForm() {
     this.newClientForm = this.fb.group({
       userName: [null, [Validators.required]],
+      userClientName: [null, [Validators.required]],
       userShortName: [null, [Validators.required]],
       userZip: [null, [Validators.required]],
       userCity: [null, [Validators.required]],

@@ -8,6 +8,8 @@ import {ChannelHomeComponent} from "./channel-home/channel-home.component";
 import {VideosManagerComponent} from './videos-manager/videos-manager.component';
 import {VideoManagerQComponent} from './video-manager-q/video-manager-q.component';
 import {ChannelManagerComponent} from './channel-manager/channel-manager.component';
+import {JournalComponent} from './journal/journal.component';
+import { JournalDeviceComponent } from "./journal/journal-device/journalDevice.component";
 
 export const routes:Routes = [
   
@@ -40,6 +42,14 @@ export const routes:Routes = [
   {
     path: 'channel-manager',
     component: ChannelManagerComponent
+  },
+  {
+    path: 'journal',
+    component: JournalComponent
+  },
+  {
+    path: 'journal-device',
+    component: JournalDeviceComponent
   }
 ];
 

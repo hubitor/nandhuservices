@@ -80,4 +80,18 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
  //Notification Template
  public static stop_stream_url=AppSettings.API_ENDPOINT +"notificationtemplate/stopbroadcasting/mail/"; //to pass id as Template Id,Img_id as destination Type Id and b_id as broadcaster Id
  public static start_stream_url=AppSettings.API_ENDPOINT +"notificationtemplate/startbroadcasting/mail/"; //to pass id as Template Id,Img_id as destination Type Id and b_id as broadcaster Id
+
+
+ //Journal List
+ public static journal_list_url=AppSettings.API_ENDPOINT +"journal/list/channel/"; //to pass channel id
+ public static journal_all_list_url=AppSettings.API_ENDPOINT +"journal/journallist/all"; //to get all journal list
+ public static new_Journal=AppSettings.API_ENDPOINT +"journal/new";
+ public static cancel_Journal=AppSettings.API_ENDPOINT +"update";
+
+// Journal Device
+public static jdevices_all=AppSettings.API_ENDPOINT +"journalDevice/device/all"; //to get all journalDevice
+public static new_JournalDevice=AppSettings.API_ENDPOINT +"journalDevice/new";
+public static cancel_JournalDevice=AppSettings.API_ENDPOINT +"update";
+
+
 };

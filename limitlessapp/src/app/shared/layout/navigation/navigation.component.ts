@@ -26,6 +26,8 @@ export class NavigationComponent implements OnInit {
   channelHome:boolean;
   videoManager: boolean;
   channelManager: boolean;
+  journal:boolean;
+  journalDevice: boolean;
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -46,6 +48,8 @@ export class NavigationComponent implements OnInit {
     this.channelHome=false;
     this.videoManager = false;
     this.channelManager = false;
+    this.journal=false;
+    this.journalDevice=false;
   }
 
   ngOnInit() {
@@ -93,6 +97,12 @@ export class NavigationComponent implements OnInit {
           } else if(this.userRoles[i].module_name === 'Channel Manager') {
             this.channelManager = true;
           }
+          else if(this.userRoles[i].module_name === 'Journal') {
+            this.journal = true;
+          }
+          else if(this.userRoles[i].module_name === 'Journal Device') {
+            this.journalDevice = true;
+          }
         }
       } else if(this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
@@ -109,6 +119,8 @@ export class NavigationComponent implements OnInit {
         this.channelHome=true;
         this.videoManager = true;
         this.channelManager = true;
+        this.journal=true;
+        this.journalDevice=true;
       }
     }
   }

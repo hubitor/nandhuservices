@@ -1,6 +1,6 @@
 export class NotificationTemplate{
     id:number;
-    template_name:number;
+    template_name:string;
     description:string;
     template_content:string;
     is_active:boolean;

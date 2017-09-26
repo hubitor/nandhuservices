@@ -354,6 +354,12 @@
           <li routerLinkActive="active">
             <a routerLink="/free-air/videoq" title="Video"> {{'Video Q' | i18n}}</a>
           </li>
+          <li *ngIf="journal" routerLinkActive="active">
+            <a routerLink="/free-air/journal" title="Journal"> {{'Journal' | i18n}}</a>
+          </li>
+          <li *ngIf="journalDevice" routerLinkActive="active">
+              <a routerLink="/free-air/journal-device" title="Journal Device"> {{'Journal Device' | i18n}}</a>
+            </li>
           <!-- <li *ngIf="channel Album" routerLinkActive="active">
             <a routerLink="/free-air/channel-album" title="Channel Album"> {{'Channel Album' | i18n}}</a>
           </li> -->
