@@ -39,14 +39,8 @@ import { ChannelManagerComponent } from './channel-manager/channel-manager.compo
     ChannelStreamComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
-<<<<<<< HEAD
-    // FileSelectDirective, 
-    // FileDropDirective, 
+    ChannelManagerComponent,    
     VideoManagerQComponent, 
-=======
-    FileSelectDirective, 
-    FileDropDirective, VideoManagerQComponent, ChannelManagerComponent, 
->>>>>>> 0e8456e8d774657d5f08b85992b1f7474c6944f6
   ]
 })
 export class FreeAirModule { }
