@@ -240,7 +240,7 @@ this.showPopup()
               this.applicationService.newUserRegisteration(this.user).subscribe(
                 createResponse => {
                  alert("user registered successfully...");
-                  location.reload();
+                 location.reload();
                 },
                 error => {
                   alert("Something went wrong!");

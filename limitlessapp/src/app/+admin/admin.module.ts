@@ -32,11 +32,19 @@ import { UserRolesComponent } from './user-roles/user-roles.component';
     RegistrationComponent,
     UserRolesComponent,
     // FileSelectDirective, 
+<<<<<<< .mine
     // FileDropDirective,
     // ,
     //  ChannelAlbumComponent,
     // ChannelStreamComponent
    
+=======
+    // FileDropDirective
+
+
+
+
+>>>>>>> .theirs
   ]
 })
 export class AdminModule { }
