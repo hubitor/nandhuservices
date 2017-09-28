@@ -298,7 +298,7 @@ export class ChannelStreamComponent implements OnInit {
     const broadcasterVideoVal = this.channelStreamForm.value;
     this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
     this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
-
+    this.streamNotificationRequest.template_id = 1;
     var type;
     var dest = broadcasterVideoVal.broadcasterDestination.toString().trim();
     switch (dest) {
