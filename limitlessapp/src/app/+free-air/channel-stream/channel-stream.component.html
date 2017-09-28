@@ -67,7 +67,7 @@
           
           <!--(change)="onDestinationSelect()"-->
           <select class="form-control" formControlName="broadcasterDestination" name="broadcasterDestination" #broadcasterDestination   >
-            <option *ngFor="let broadcasterDestination of broadcasterDestinations" value="{{broadcasterDestination.id}}">{{broadcasterDestination.destination_name}}</option>
+            <option *ngFor="let broadcasterDestination of broadcasterDestinations" value="{{broadcasterDestination.d_id}}">{{broadcasterDestination.destination_name}}</option>
           </select>
         <b class="tooltip tooltip-bottom-right">Choose Destination</b>
         </label>

@@ -31,8 +31,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
     EshopComponent,
     RegistrationComponent,
     UserRolesComponent,
-    //  FileSelectDirective, 
-    //  FileDropDirective
+    // FileDropDirective
   ]
 })
 export class AdminModule { }

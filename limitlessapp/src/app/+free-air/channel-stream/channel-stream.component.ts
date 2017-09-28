@@ -68,19 +68,49 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.w_applicationName = this.user.w_appname;
-    this.client_id = this.user.client_id;
+
+     if (this.user.user_type === "Super Admin") {
+      this.client_id = 1064;
+      this.user.client_id = 1064;
+
+    this.w_applicationName = "dev";
+    
+
+    }
+  else
+    {
+      this.w_applicationName = this.user.w_appname;
+      this.client_id = this.user.client_id;
+    }
+    
     this.getAllBroadcastersById(this.client_id);
+//    this.getAllBroadcasterDestination();
     this.streamNotificationRequest=new StreamNotificationRequest();
   }
 
-  getAllBroadcasterDestination(channelid:number) {
-    this.broadcasterService.getAllBroadcasterDestination(channelid)
+  getAllBroadcasterDestination() {
+    this.broadcasterService.getAllBroadcasterDestination()
       .subscribe(
       broadcasterDestination =>{
        this.broadcasterDestinations = broadcasterDestination 
+      
       },
-      //broadcasterDestination => this.updateDestinationId(this.broadcasterDestinations = broadcasterDestination),
+      
+      error => this.errorMessage = <any>error);
+
+  }
+
+
+  getAllBroadcasterChannelDestination(channlId:number) {
+    this.broadcasterService.getAllBroadcasterChannelDestination(channlId)
+      .subscribe(
+      broadcasterDestination =>{
+       this.broadcasterDestinations = broadcasterDestination 
+       if(this.broadcasterDestinations.length>0)
+        {
+          this.channelStreamForm.get('broadcasterDestination').setValue(this.broadcasterDestinations[1].d_id);
+        }
+      },
       error => this.errorMessage = <any>error);
 
   }
@@ -147,7 +177,7 @@ export class ChannelStreamComponent implements OnInit {
         this.bChannelVideos = broadcasters[0].broadcaster_channels;
         this.updatingResponse(broadcasters);
       }
-      this.getAllBroadcasterDestination(this.channelStreamForm.value.broadcasterChannelCategoryName);
+     
     }
   }
 
@@ -173,11 +203,10 @@ export class ChannelStreamComponent implements OnInit {
           channelNewStreamKey: null,
           broadcasterName: broadcasterVideos[0].id,
           channelVideoId: broadcasterVideo[0].id,
-          broadcasterDestination: this.broadcasterDestinations.length > 0 ? this.broadcasterDestinations[1].id : 2
+          broadcasterDestination: null
         });
 
-
-
+        this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName)
       }
 
     }
@@ -269,7 +298,7 @@ export class ChannelStreamComponent implements OnInit {
     const broadcasterVideoVal = this.channelStreamForm.value;
     this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
     this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
-
+    this.streamNotificationRequest.template_id = 1;
     var type;
     var dest = broadcasterVideoVal.broadcasterDestination.toString().trim();
     switch (dest) {

@@ -43,9 +43,9 @@ import { JournalDeviceComponent } from './journal/journal-device/journalDevice.c
     ChannelStreamComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
-    // FileSelectDirective, 
-    // FileDropDirective,
-     VideoManagerQComponent, ChannelManagerComponent, JournalComponent, NewJournalComponent, JournalSettingsComponent, 
+    ChannelManagerComponent,    
+    VideoManagerQComponent, 
+
      JournalDeviceComponent
   ]
 })
