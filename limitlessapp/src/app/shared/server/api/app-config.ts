@@ -34,6 +34,7 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
 
   //Broadcasters Config
   public static get_BroadcasterDest=AppSettings.API_ENDPOINT +"broadcaster/destination/all";
+  public static get_BroadcasterChannelDest=AppSettings.API_ENDPOINT +"broadcaster/destination/all/";
    public static get_Broadcasters=AppSettings.API_ENDPOINT +"broadcaster/all";
    public static get_BroadcastersById=AppSettings.API_ENDPOINT +"broadcaster/get/";
    public static get_BroadcastersByCategoryId=AppSettings.API_ENDPOINT +"broadcaster/get/";

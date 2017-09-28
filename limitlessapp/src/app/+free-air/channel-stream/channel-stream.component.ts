@@ -84,6 +84,7 @@ export class ChannelStreamComponent implements OnInit {
     }
     
     this.getAllBroadcastersById(this.client_id);
+//    this.getAllBroadcasterDestination();
     this.streamNotificationRequest=new StreamNotificationRequest();
   }
 
@@ -94,7 +95,22 @@ export class ChannelStreamComponent implements OnInit {
        this.broadcasterDestinations = broadcasterDestination 
       
       },
-      //broadcasterDestination => this.updateDestinationId(this.broadcasterDestinations = broadcasterDestination),
+      
+      error => this.errorMessage = <any>error);
+
+  }
+
+
+  getAllBroadcasterChannelDestination(channlId:number) {
+    this.broadcasterService.getAllBroadcasterChannelDestination(channlId)
+      .subscribe(
+      broadcasterDestination =>{
+       this.broadcasterDestinations = broadcasterDestination 
+       if(this.broadcasterDestinations.length>0)
+        {
+          this.channelStreamForm.get('broadcasterDestination').setValue(this.broadcasterDestinations[1].d_id);
+        }
+      },
       error => this.errorMessage = <any>error);
 
   }
@@ -187,11 +203,10 @@ export class ChannelStreamComponent implements OnInit {
           channelNewStreamKey: null,
           broadcasterName: broadcasterVideos[0].id,
           channelVideoId: broadcasterVideo[0].id,
-          broadcasterDestination: this.broadcasterDestinations.length > 0 ? this.broadcasterDestinations[1].id : 2
+          broadcasterDestination: null
         });
 
-
-
+        this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName)
       }
 
     }

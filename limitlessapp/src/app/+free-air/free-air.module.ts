@@ -42,15 +42,9 @@ import { JournalSettingsComponent } from './journal/journal-settings/journal-set
     ChannelStreamComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
-<<<<<<< .mine
     ChannelManagerComponent,    
     VideoManagerQComponent, 
 
-=======
-    // FileSelectDirective, 
-    // FileDropDirective,
-     VideoManagerQComponent, ChannelManagerComponent, JournalComponent, NewJournalComponent, JournalSettingsComponent, 
->>>>>>> .theirs
   ]
 })
 export class FreeAirModule { }
