@@ -1,3 +1,61 @@
-<p>
-  journal-settings works!
-</p>
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Journal Settings</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="journalSettingForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section *ngIf="superAdminUser" class="col col-4">
+                      <label>Select Broadcaster</label>
+                      <select class="form-control" name="broadcasterList" #broadcastersList (change)="getBroadcasterChannels(broadcastersList.value)">
+                        <option></option>
+                        <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label>Select Channels</label>
+                      <select class="form-control" name="channelList" #channelsList (change)="getJournalsByChannelId(channelsList.value)">
+                        <option></option>
+                        <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label>Select Journal</label>
+                      <select class="form-control" name="journalList" #journalsList (change)="getJournalSetting(journalsList.value)">
+                        <option></option>
+                        <option *ngFor="let journal of journals" value="{{journal.id}}">{{journal.email}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-4">
+                      <label>Select Journal Setting</label>
+                      <select class="form-control" name="journalSettingList" #journalSettingsList (change)="getJournalSettingDevice(journalSettingsList.value)">
+                        <option></option>
+                        <option *ngFor="let setting of journalSettings" value="{{setting.id}}">{{setting.stream_name}}</option>
+                      </select>
+                    </section>
+                  </div>
+                  <div class="row">
+                    <section class="col col-6">
+                      <h2>Settings Details</h2>
+                    </section>
+                    <br>
+                    <div class="row">
+                      
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>
