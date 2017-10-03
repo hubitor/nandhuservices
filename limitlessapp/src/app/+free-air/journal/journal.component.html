@@ -20,6 +20,7 @@
                           data: journalall,
                columns: [
                {data:'id'},
+               {data:'channel_id'},
                {data:'emp_id'},
                {data:'first_name'},
                {data:'last_name'},
@@ -33,11 +34,13 @@
 <thead>
   <tr>
       <th data-class="expand">Id</th>
+      <th data-class="expand">Channel Id</th>
       <th data-class="expand">Emp_Id</th>
       <th data-class="expand">First Name</th> 
       <th data-class="expand">Last Name</th> 
       <th data-class="expand">Email</th> 
-      <th data-class="expand">Mobile</th> 
+      <th data-class="expand">Mobile</th>
+       
   </tr> 
 </thead>
 </sa-datatable>
@@ -61,20 +64,20 @@
                                   <form [formGroup]="journalForm" class="smart-form">
                                     <fieldset>
                                       <div class="row">
-                                        <section *ngIf="superAdmin" class="col col-6">
-                                          <label>Select Broadcaster</label>
-                                          <select class="form-control" name="broadcastersList" #broadcastersList (change)=" onBroadcasterSelect(broadcastersList.value)">
-                                            <option></option>
-                                            <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
-                                          </select>
-                                        </section>
-                                        <section class="col col-6">
-                                          <label>Select Channel</label>
-                                          <select class="form-control" name="broadcastersChannelsList" #broadcastersChannelsList (change)="onChannelSelect(broadcastersChannelsList.value)">
-                                            <option></option>
-                                            <option *ngFor="let channel of channelsList" value="{{channel.id}}">{{channel.channel_name}}</option>
-                                          </select>
-                                        </section>
+                                          <section *ngIf="superAdmin" class="col col-6">
+                                              <label>Select Broadcaster</label>
+                                              <select class="form-control" name="broadcastersSelect" #broadcastersList (change)="getChannels(broadcastersList.value)">
+                                                <option></option>
+                                                <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
+                                              </select>
+                                            </section>
+                                            <section class="col col-6">
+                                              <label>Select Channel</label>
+                                              <select class="form-control" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                                                <option></option>
+                                                <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                                              </select>
+                                            </section>
                                         <section class="col col-6">
                                           <label class="input">
                                             <i class="icon-prepend fa fa-user"></i>
@@ -121,7 +124,7 @@
                                       </div>
                                     </fieldset>
                                     <footer>
-                                      <button type="submit" (click)="cancelJournal()" value="cancel" class="btn btn-primary">Cancel</button>
+                                      <button type="submit" (click)="amendJournal()" value="cancel" class="btn btn-primary">Cancel</button>
                                       <button type="submit" (click)="createJournal()" value="save"  class="btn btn-primary">Save</button>
                                     </footer>
                                   </form>

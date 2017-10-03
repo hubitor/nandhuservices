@@ -45,7 +45,7 @@ import { JournalDeviceComponent } from './journal/journal-device/journalDevice.c
     VideosManagerComponent,
     ChannelManagerComponent,    
     VideoManagerQComponent, 
-
+    JournalComponent,
      JournalDeviceComponent
   ]
 })

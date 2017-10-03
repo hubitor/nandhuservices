@@ -19,17 +19,22 @@ import { BroadcasterChannelsService } from '../../../shared/server/service/broad
 import { JournalDeviceService } from '../../../shared/server/service/journal-device.service';
 import { JournalDevice } from '../../../shared/models/journal-device';
 import { AppSettings } from "../../../shared/server/api/api-settings";
+import { JournalService } from '../../../shared/server/service/journal.service';
+import { Journal } from '../../../shared/models/journal';
+import { JournalSetting } from '../../../shared/models/journal-setting';
 
 
 @Component({
   selector: 'app-journalDevice',
   templateUrl: './journalDevice.component.html',
-  providers: [BroadcasterChannelsService,BroadcasterService,JournalDeviceService]
+  providers: [BroadcasterChannelsService,BroadcasterService,JournalDeviceService,JournalService,]
 })
 export class JournalDeviceComponent implements OnInit  {
-    journaldevices: JournalDevice[];
-    journaldeviceall: JournalDevice[];
-    journaldevice:JournalDevice;
+  journal_setting_id:JournalSetting;
+  // journal_setting_id:number;
+  journaldevices: JournalDevice[];
+  journaldeviceall: JournalDevice[];
+  journaldevice:JournalDevice;
 
   is_active: boolean;
   mobile: number;
@@ -53,24 +58,24 @@ export class JournalDeviceComponent implements OnInit  {
   entertainmentUser: boolean;
   broadcasters: Broadcasters[];
   broadcasterChannels: BroadcasterChannel[];
-  public uploader:FileUploader;
   broadcasterId: number;
   broadcasterChannelId: number;
   createResponse: CreateResponse;
   broadcasterChannel: BroadcasterChannel;
   channelsList: BroadcasterChannel[];
+  journalList:Journal[];
   primaryChannelId: number;
   channelSelected: boolean;
   
  
   
 
-  constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
-    private cookieService: CookieService, private broadcasterService: BroadcasterService
-    ,private journalDeviceService:JournalDeviceService) {
-    this.loginResponse = new LoginResponse();
-    this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
-    this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
+constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
+  private cookieService: CookieService, private broadcasterService: BroadcasterService,private journalService: JournalService,
+  private journalDeviceService:JournalDeviceService) {
+  this.loginResponse = new LoginResponse();
+  this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
+  this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     if (this.loginResponse.user_type === 'Entertainment') {
       this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
       this.entertainmentUser = true;
@@ -84,16 +89,14 @@ export class JournalDeviceComponent implements OnInit  {
    
   }
 
-  ngOnInit() {
+ngOnInit() {
     this.initForm();
     this.getAllBroadcaster();
     this.getAllChannels(this.broadcasterId);
     this.getBroadcasterAllGrid();
-    // this.getJournals();
-    // this. getChannelByJournalId(this.channel_id);
   }
 
-  getBroadcasterAllGrid()
+getBroadcasterAllGrid()
   {
       this.journalDeviceService.getAllJournalDevices()
     .subscribe(
@@ -105,15 +108,15 @@ export class JournalDeviceComponent implements OnInit  {
     error => this.errorMessage = <any>error;
   };
 
-  initForm() {
-    this.journalDeviceForm = this.fb.group({
-      userActiveStatus: new FormControl(""),
-      userDeviceName: [null, [Validators.required]],
-    //   userLastName: [null, [Validators.required]]
+initForm() {
+  this.journalDeviceForm = this.fb.group({
+    userActiveStatus: new FormControl(""),
+    userDeviceName: [null, [Validators.required]],
+ 
      
     });
   }
-  getAllBroadcaster() {
+getAllBroadcaster() {
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
@@ -124,7 +127,7 @@ export class JournalDeviceComponent implements OnInit  {
     );
   }
 
-  getAllChannels(broadcasterId: number) {
+getAllChannels(broadcasterId: number) {
     this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
         this.channelsList = channels;
@@ -135,60 +138,63 @@ export class JournalDeviceComponent implements OnInit  {
     );
   }
 
+getJournals(channelId: number) {
+    this.journalService.getJournalsByChannelId(channelId).subscribe(
+      journals => {
+        this.journalList =journals;
+      },
+      error => {
+        alert("Something went wrong. Channels list not loaded");
+      }
+    );
+  }
 
-  onBroadcasterSelect(broadcasterId: number) {
+
+onBroadcasterSelect(broadcasterId: number) {
     this.broadcasterId = broadcasterId;
     this.getAllChannels(broadcasterId);
   }
 
-  onChannelSelect(channelId: number) {
+onChannelSelect(channelId: number) {
     this.channelId=channelId;
+    this.getJournals(channelId);
     
   }
-  // onJournalSelect(channel_id: number) {
-  //   this.id=channel_id;
-  //   this.getChannelByJournalId(channel_id);
-  //    }
 
-  // onJournalChannelSelect(channel_id: number) {
-  //   this.channel_id = channel_id;
-  //   }
+onJournalSelect(channelId: number) {
+    this.id=channelId;
+  
+     }
 
-
-  createJournal() {
-    const newJournal = this.journalDeviceForm.value;
- this.journaldevice = new JournalDevice();
-      this.journaldevice.id=newJournal.email;
-      this.journaldevice.journal_setting_id = newJournal.emp_id;
-    //   this.journaldevice.first_name =newJournal.first_name;
-      this.journaldevice.mac_id=newJournal.last_name;
-      this.journaldevice.is_active = newJournal.is_active;
+createJournal() {
+  const newJournal = this.journalDeviceForm.value;
+    this.journaldevice = new JournalDevice();
+      this.journaldevice.id=newJournal.id;
+      // this.journaldevice.journal_setting_id =newJournal.journal_setting_id;
+      this.journaldevice.journal_setting_id =newJournal.id;
+      this.journaldevice.mac_id=newJournal.userDeviceName;
+      this.journaldevice.is_active = newJournal.userActiveStatus;
       this.journaldevice.created_by = "uma";
       this.journaldevice.updated_by = "uma";
       this.journalDeviceService.createJournal(this.journaldevice)
         .subscribe(
-            journaldevice => this.journaldevices = journaldevice,
-          // createResponse => {
-          //   console.log('output'+createResponse);
-          //   alert("journal created successfully...");
-          //   window.location.reload();
-          // },
-          error => this.errorMessage = <any>error);  
+          createResponse => {
+            console.log('output'+createResponse);
+            alert("journal created successfully...");
+            window.location.reload();
+          },
+          error => 
+          {
+            alert("Something went wrong!");
+            console.log('error in '+ error);
+          }
+        
+        );  
     }
 
-  // createProduct(journal) {
-      
-  //         this.journalService.createJournal(this.journal)
-  //           .subscribe(
-  //             journal=> this.journals = journal,
-  //           error => this.errorMessage = <any>error);
-      
-  //       }
-
-  cancelJournal() {
-    this.journaldevice = new JournalDevice();
-      this.journalDeviceService.cancelJournal(this.journaldevice)
-        .subscribe(
+cancelJournal() {
+  this.journaldevice = new JournalDevice();
+    this.journalDeviceService.cancelJournal(this.journaldevice).subscribe(
             journaldevice => this.journaldevices = journaldevice,
           error => this.errorMessage = <any>error
         );

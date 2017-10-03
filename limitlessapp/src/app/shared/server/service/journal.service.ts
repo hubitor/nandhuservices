@@ -40,13 +40,13 @@ getAllJournals(): Observable<Journal[]> {
                           .catch(ResponseData.handleError);
      };
 
-    createJournal(journal:Journal): Observable<any> {
+createJournal(journal:Journal): Observable<any> {
   return this.http.post(AppConfig.new_Journal,journal , headerObj)
                                 .map(ResponseData.extractData)
                                 .catch(ResponseData.handleError);
                 };
-cancelJournal(journal:Journal): Observable<Journal[]> {
-    return this.http.patch(AppConfig.cancel_Journal,journal, headerObj)
+amendJournal(journal:Journal): Observable<Journal[]> {
+    return this.http.patch(AppConfig.amend_Journal,journal, headerObj)
                                 .map(ResponseData.extractData)
                                 .catch(ResponseData.handleError);
                 };

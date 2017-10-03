@@ -87,12 +87,12 @@ public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defau
  public static journal_list_url=AppSettings.API_ENDPOINT +"journal/list/channel/"; //to pass channel id
  public static journal_all_list_url=AppSettings.API_ENDPOINT +"journal/journallist/all"; //to get all journal list
  public static new_Journal=AppSettings.API_ENDPOINT +"journal/new";
- public static cancel_Journal=AppSettings.API_ENDPOINT +"update";
+ public static amend_Journal=AppSettings.API_ENDPOINT +"journal/update";
 
 // Journal Device
 public static jdevices_all=AppSettings.API_ENDPOINT +"journalDevice/device/all"; //to get all journalDevice
 public static new_JournalDevice=AppSettings.API_ENDPOINT +"journalDevice/new";
-public static cancel_JournalDevice=AppSettings.API_ENDPOINT +"update";
+public static cancel_JournalDevice=AppSettings.API_ENDPOINT +"journalDevice/update";
 
 
 };

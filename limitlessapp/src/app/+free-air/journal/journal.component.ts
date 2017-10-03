@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
+// import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { User } from '../../shared/models/userModel';
 import { LoginResponse } from '../../shared/models/loginResponse';
 import { BroadcasterVideos } from '../../shared/models/broadcasterVideos';
@@ -30,6 +30,7 @@ import sha256 from 'crypto-js/sha256';
   providers: [BroadcasterChannelsService,BroadcasterService,JournalService]
 })
 export class JournalComponent implements OnInit  {
+  broadcasterChannelId: number;
   journalList: Journal[];
   journalall: Journal[];
   is_active: boolean;
@@ -58,10 +59,9 @@ export class JournalComponent implements OnInit  {
   entertainmentUser: boolean;
   broadcasters: Broadcasters[];
   broadcasterChannels: BroadcasterChannel[];
-  public uploader:FileUploader;
+  // public uploader:FileUploader;
   videoUploadResponse: VideoUploadResponse;
   broadcasterId: number;
-  broadcasterChannelId: number;
   languageId: number;
   createResponse: CreateResponse;
   broadcasterChannel: BroadcasterChannel;
@@ -70,7 +70,6 @@ export class JournalComponent implements OnInit  {
   channelName: string;
   channelImage: string;
   channelSelected: boolean;
-  // private s_statusId: boolean;
   
  
   
@@ -94,16 +93,16 @@ export class JournalComponent implements OnInit  {
    
   }
 
-  ngOnInit() {
+ngOnInit()
+  {
     this.initForm();
-    this.getAllBroadcaster();
-    this.getAllChannels(this.broadcasterId);
+    this.getAllBroadcasters();
+    this.getChannels(parseInt(localStorage.getItem("broadcaster_id")));
     this.getBroadcasterAllGrid();
-    // this.getJournals();
-    // this. getChannelByJournalId(this.channel_id);
+   
   }
 
-  getBroadcasterAllGrid()
+getBroadcasterAllGrid()
   {
       this.journalService.getAllJournals()
     .subscribe(
@@ -115,113 +114,98 @@ export class JournalComponent implements OnInit  {
     error => this.errorMessage = <any>error;
   };
 
-  initForm() {
+initForm() {
     this.journalForm = this.fb.group({
       userActiveStatus: new FormControl(""),
-      // userId:new FormControl(""),
       userFirstName: [null, [Validators.required]],
       userLastName: [null, [Validators.required]],
       userMobile: [null, [Validators.required]],
       userEmail: [null, [Validators.required]],
       userPasswd:[null,[Validators.required]],
       userEmpid:[null,[Validators.required]],
-      
      
     });
   }
 
-  // handleStatusUpdated(value) {
-  //   this.s_statusId = value;
-  // }
 
-  getAllBroadcaster() {
+getAllBroadcasters(){
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
+        console.log(this.broadcasters);
       },
       error => {
-        alert("Something went wrong. Broadcaster list not loaded");
+        console.log(error);
       }
     );
   }
 
-  getAllChannels(broadcasterId: number) {
+  getChannels(broadcasterId: number){
+    this.broadcasterId = broadcasterId;
     this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
-        this.channelsList = channels;
+        this.broadcasterChannels = channels;
+        console.log(this.broadcasterChannels);
       },
       error => {
-        alert("Something went wrong. Channels list not loaded");
+        console.log(error);
       }
     );
+  };
+
+  
+onChannelSelect(broadcasterChannelId: number){
+    this.broadcasterChannelId = broadcasterChannelId;
   }
 
-
-  onBroadcasterSelect(broadcasterId: number) {
-    this.broadcasterId = broadcasterId;
-    this.getAllChannels(broadcasterId);
-  }
-
-  onChannelSelect(channelId: number) {
-    this.channelId=channelId;
-    
-  }
-  // onJournalSelect(channel_id: number) {
-  //   this.id=channel_id;
-  //   this.getChannelByJournalId(channel_id);
-  //    }
-
-  // onJournalChannelSelect(channel_id: number) {
-  //   this.channel_id = channel_id;
-  //   }
-
-
-  createJournal() {
+createJournal() {
     const newJournal = this.journalForm.value;
       this.journal = new Journal();
-      // this.journal.id=newJournal.userId;
+      this.journal.channel_id = this.broadcasterChannelId;
       this.journal.email=newJournal.userEmail;
       this.journal.password =sha256(newJournal.userPasswd).toString();
       this.journal.emp_id = newJournal.userEmpid
       this.journal.first_name =newJournal.userFirstName;
-      console.log('firdse'+this.journal.first_name);
       this.journal.last_name=newJournal.userLastName;
       this.journal.mobile =newJournal.userMobile;
-      console.log('mobiel'+this.journal.mobile);
       this.journal.is_active = newJournal.userActiveStatus;
-      console.log('activeut'+this.journal.is_active );
       this.journal.created_by = "uma";
       this.journal.updated_by = "uma";
       this.journalService.createJournal(this.journal).subscribe(
-     journal => this.journals = journal,
-          // createResponse => {
-          //   alert("journal created successfully...");
-          //   window.location.reload();
-          // },
+          createResponse => {
+            alert("journal created successfully...");
+            window.location.reload();
+          },
           error =>
           {
             alert("Something went wrong!");
-            console.log('error in creating'+error);
+            console.log('error in '+ error);
           }
-          // this.errorMessage = <any>error
         );  
     }
-
-  // createProduct(journal) {
-      
-  //         this.journalService.createJournal(this.journal)
-  //           .subscribe(
-  //             journal=> this.journals = journal,
-  //           error => this.errorMessage = <any>error);
-      
-  //       }
-
-  cancelJournal() {
+amendJournal() {
+  const newJournal = this.journalForm.value;
     this.journal = new Journal();
-      this.journalService.cancelJournal(this.journal)
-        .subscribe(
-          journal => this.journals = journal,
-          error => this.errorMessage = <any>error
+    this.journal.channel_id = this.broadcasterChannelId;
+    this.journal.email=newJournal.userEmail;
+    this.journal.password =sha256(newJournal.userPasswd).toString();
+    this.journal.emp_id = newJournal.userEmpid
+    this.journal.first_name =newJournal.userFirstName;
+    this.journal.last_name=newJournal.userLastName;
+    this.journal.mobile =newJournal.userMobile;
+    this.journal.is_active = newJournal.userActiveStatus;
+    this.journal.created_by = "uma";
+    this.journal.updated_by = "uma";
+      this.journalService.amendJournal(this.journal).subscribe(
+        createResponse => {
+          alert("journal updated successfully...");
+          window.location.reload();
+        },
+        error =>
+        {
+          alert("Something went wrong!");
+          console.log('error in '+ error);
+        }
         );
       }
 
