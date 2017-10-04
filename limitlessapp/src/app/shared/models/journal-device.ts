@@ -6,8 +6,6 @@ export class JournalDevice{
     is_active: boolean;
     created_by: string;
     updated_by: string;
-    created_time: string;
-    updated_time: string;
     
 }
 
