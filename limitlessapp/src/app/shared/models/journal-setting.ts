@@ -8,12 +8,12 @@ export class JournalSetting{
     stream_name: string;
     suname: string;
     spwd: string;
-    req_mac_addr: string;
+    rep_mac_addr: string;
     output_url_hls: string;
     output_url_rtsp: string;
-    is_record: string;
-    is_upload: string;
-    is_active: string;
+    is_record: boolean;
+    is_upload: boolean;
+    is_active: boolean;
     created_by: string;
     updated_by: string;
     ftp_host: string;
