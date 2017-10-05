@@ -5,16 +5,16 @@ import { ChannelVideoComponent } from './channel-video/channel-video.component';
 import { ChannelAlbumComponent } from './channel-album/channel-album.component';
 import { ChannelStreamComponent } from './channel-stream/channel-stream.component';
 import { ChannelHomeComponent } from './channel-home/channel-home.component';
-import {SmartadminLayoutModule} from "../shared/layout/layout.module";
-import {SmartadminWidgetsModule} from "../shared/widgets/smartadmin-widgets.module";
-import {StatsModule} from "../shared/stats/stats.module";
-import {routing} from "./free-air.routing";
-import {SmartadminDatatableModule} from "../shared/ui/datatable/smartadmin-datatable.module";
+import { SmartadminLayoutModule } from "../shared/layout/layout.module";
+import { SmartadminWidgetsModule } from "../shared/widgets/smartadmin-widgets.module";
+import { StatsModule } from "../shared/stats/stats.module";
+import { routing } from "./free-air.routing";
+import { SmartadminDatatableModule } from "../shared/ui/datatable/smartadmin-datatable.module";
 //import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
-import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {CarouselModule} from "ngx-bootstrap";
-import {VideoLiveModule} from "../shared/videolive/videolive.module";
-import {VideoPrerecordModule} from "../shared/videopre-record/videopre-record.module";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CarouselModule } from "ngx-bootstrap";
+import { VideoLiveModule } from "../shared/videolive/videolive.module";
+import { VideoPrerecordModule } from "../shared/videopre-record/videopre-record.module";
 import { VideosManagerComponent } from './videos-manager/videos-manager.component';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { VideoManagerQComponent } from './video-manager-q/video-manager-q.component';
@@ -43,11 +43,15 @@ import { JournalManagerComponent } from './journal/journal-manager/journal-manag
     ChannelStreamComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
-    ChannelManagerComponent,    
-    VideoManagerQComponent, 
+    ChannelManagerComponent,
+    VideoManagerQComponent,
     JournalComponent,
     JournalDeviceComponent,
+<<<<<<< HEAD
     JournalManagerComponent
+=======
+    JournalSettingsComponent
+>>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
   ]
 })
 export class FreeAirModule { }

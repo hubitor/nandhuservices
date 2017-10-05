@@ -348,21 +348,32 @@
           <li *ngIf="channelVideos" routerLinkActive="active">
             <a routerLink="/free-air/channel-video" title="Channel Video"> {{'Channel Video' | i18n}}</a>
           </li>
-          <li *ngIf="videoManager" routerLinkActive="active">
+          <!--li *ngIf="videoManager" routerLinkActive="active">
             <a routerLink="/free-air/videos-manager" title="Video Manager"> {{'Video Manager' | i18n}}</a>
-          </li>
+          </li-->
           <li routerLinkActive="active">
-            <a routerLink="/free-air/videoq" title="Video"> {{'Video Q' | i18n}}</a>
+            <a routerLink="/free-air/videoq" title="Video Manager"> {{'Video Manager' | i18n}}</a>
           </li>
           <li *ngIf="journal" routerLinkActive="active">
             <a routerLink="/free-air/journal" title="Journal"> {{'Journal' | i18n}}</a>
+            <ul>
+              <li routerLinkActive="ative">
+                <a routerLink="/free-air/journal-settings" title="Journal Settings">{{'Journal Settings' | i18n}}</a>
+              </li>
+              <li routerLinkActive="active">
+                <a routerLink="/free-air/journal-device" title="Journal Device"> {{'Journal Device' | i18n}}</a>
+              </li>
+            </ul>
           </li>
+<<<<<<< HEAD
           <li *ngIf="journalDevice" routerLinkActive="active">
               <a routerLink="/free-air/journal-device" title="Journal Device"> {{'Journal Device' | i18n}}</a>
             </li>
             <li *ngIf="journalManager" routerLinkActive="active">
               <a routerLink="/free-air/journal-manager" title="Journal Manager"> {{'Journal Manager' | i18n}}</a>
             </li>
+=======
+>>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
           <!-- <li *ngIf="channel Album" routerLinkActive="active">
             <a routerLink="/free-air/channel-album" title="Channel Album"> {{'Channel Album' | i18n}}</a>
           </li> -->

@@ -65,12 +65,14 @@ amendJournal(journal:Journal): Observable<Journal[]> {
   }
 
   getJournalDeviceBySettingsId(settingId: number): Observable<JournalDevice>{
-    return this.http.get("http://localhost:3000/journal/get/device/"+settingId, {headers: this.headers})
+    return this.http.get("http://localhost:3000/journal/get/setting-device/"+settingId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
 
-  getJournalSettingBySettingId(settingId: number): Observable<JournalSetting>{
-    return null;
+  createNewJournalSettingAndDevice(journalSetting: JournalSetting): Observable<any> {
+    return this.http.post("http://localhost:3000/journal/setting/new", journalSetting, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
   }
 }

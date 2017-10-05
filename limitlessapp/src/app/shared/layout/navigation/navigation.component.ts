@@ -12,7 +12,7 @@ export class NavigationComponent implements OnInit {
   eCommerce: boolean;
   broadcaster: boolean;
   userRoles: UserRolesModel[];
-  application:boolean;
+  application: boolean;
   shop: boolean;
   products: boolean;
   category: boolean;
@@ -23,13 +23,18 @@ export class NavigationComponent implements OnInit {
   channelVideos: boolean;
   channelAlbum: boolean;
   superAdmin: boolean;
-  channelHome:boolean;
+  channelHome: boolean;
   videoManager: boolean;
   channelManager: boolean;
-  journal:boolean;
+  journal: boolean;
   journalDevice: boolean;
+<<<<<<< HEAD
   journalManager: boolean;
 
+=======
+  journalSettings: boolean;
+  journalNew: boolean;
+>>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -47,12 +52,19 @@ export class NavigationComponent implements OnInit {
     this.channelVideos = false;
     this.channelAlbum = false;
     this.superAdmin = false;
-    this.channelHome=false;
+    this.channelHome = false;
     this.videoManager = false;
     this.channelManager = false;
+<<<<<<< HEAD
     this.journal=false;
     this.journalDevice=false;
     this.journalManager=false;
+=======
+    this.journal = false;
+    this.journalDevice = false;
+    this.journalSettings = false;
+    this.journalNew = false;
+>>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
   }
 
   ngOnInit() {
@@ -88,6 +100,10 @@ export class NavigationComponent implements OnInit {
         this.broadcaster = true;
         this.eCommerce = false;
         this.videoManager = true;
+        this.journal = true;
+        this.journalDevice = true;
+        this.journalSettings = true;
+        this.journalNew = true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
@@ -97,20 +113,20 @@ export class NavigationComponent implements OnInit {
           }
           else if (this.userRoles[i].module_name === "Channel Home") {
             this.channelHome = true;
-          } else if(this.userRoles[i].module_name === 'Channel Manager') {
+          } else if (this.userRoles[i].module_name === 'Channel Manager') {
             this.channelManager = true;
           }
-          else if(this.userRoles[i].module_name === 'Journal') {
+          else if (this.userRoles[i].module_name === 'Journal') {
             this.journal = true;
           }
-          else if(this.userRoles[i].module_name === 'Journal Device') {
+          else if (this.userRoles[i].module_name === 'Journal Device') {
             this.journalDevice = true;
           }
           else if(this.userRoles[i].module_name === 'Journal Manager') {
             this.journalManager = true;
           }
         }
-      } else if(this.loginResponse.user_type === "Super Admin") {
+      } else if (this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
         this.broadcaster = true;
         this.eCommerce = true;
@@ -122,12 +138,19 @@ export class NavigationComponent implements OnInit {
         this.productInvetory = true;
         this.channelStream = true;
         this.channelVideos = true;
-        this.channelHome=true;
+        this.channelHome = true;
         this.videoManager = true;
         this.channelManager = true;
+<<<<<<< HEAD
         this.journal=true;
         this.journalDevice=true;
         this.journalManager = true;
+=======
+        this.journal = true;
+        this.journalDevice = true;
+        this.journalSettings = true;
+        this.journalNew = true;
+>>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
       }
     }
   }
