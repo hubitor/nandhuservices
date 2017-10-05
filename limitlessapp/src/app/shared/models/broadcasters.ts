@@ -25,4 +25,5 @@ export class Broadcasters {
     country_code:string;
     state_code:string;
     city_code:string;
+    w_j_appl_name:string;
 }

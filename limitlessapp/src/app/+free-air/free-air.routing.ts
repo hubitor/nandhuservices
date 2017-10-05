@@ -10,6 +10,7 @@ import {VideoManagerQComponent} from './video-manager-q/video-manager-q.componen
 import {ChannelManagerComponent} from './channel-manager/channel-manager.component';
 import {JournalComponent} from './journal/journal.component';
 import { JournalDeviceComponent } from "./journal/journal-device/journalDevice.component";
+import { JournalManagerComponent } from './journal/journal-manager/journal-manager.component';
 
 export const routes:Routes = [
   
@@ -50,6 +51,10 @@ export const routes:Routes = [
   {
     path: 'journal-device',
     component: JournalDeviceComponent
+  },
+  {
+    path: 'journal-manager',
+    component: JournalManagerComponent
   }
 ];
 
