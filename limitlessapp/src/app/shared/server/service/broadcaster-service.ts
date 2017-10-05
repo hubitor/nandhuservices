@@ -132,6 +132,14 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     }
 
+
+    getStreamActiveJournal(applicationName:string)
+    {
+         return this.http.get(AppConfig.get_journal_active+applicationName+"/instances", wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
     deleteStreamTarget(applicationName:string,entryName:string)
     {
           return this.http.delete(AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName, wowzaHeader)

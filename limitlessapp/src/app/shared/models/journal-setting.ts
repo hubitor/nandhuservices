@@ -26,4 +26,5 @@ export class JournalSetting{
     ha_ftp_uname: string;
     ha_ftp_passwd: string;
     ha_ftp_path: string;
+    mac_id: string;
 }

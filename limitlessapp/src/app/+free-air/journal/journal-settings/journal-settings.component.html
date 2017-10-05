@@ -28,16 +28,9 @@
                     </section>
                     <section class="col col-4">
                       <label>Select Journal</label>
-                      <select class="form-control" name="journalList" #journalsList (change)="getJournalSetting(journalsList.value)">
+                      <select class="form-control" name="journalList" #journalsList (change)="onJournalSelect(journalsList.value)">
                         <option></option>
                         <option *ngFor="let journal of journals" value="{{journal.id}}">{{journal.email}}</option>
-                      </select>
-                    </section>
-                    <section class="col col-4">
-                      <label>Select Journal Setting</label>
-                      <select class="form-control" name="journalSettingList" #journalSettingsList (change)="getJournalSettingDevice(journalSettingsList.value)">
-                        <option></option>
-                        <option *ngFor="let setting of journalSettings" value="{{setting.id}}">{{setting.stream_name}}</option>
                       </select>
                     </section>
                   </div>
@@ -45,10 +38,90 @@
                     <section class="col col-6">
                       <h2>Settings Details</h2>
                     </section>
-                    <br>
-                    <div class="row">
-                      
-                    </div>
+                  </div>
+                  <div class="row">
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-pencil"></i>
+                        <select class="form-control" name="languageList" #languagesList (change)="onLanguageSelect(languagesList.value)">
+                          <option>Select Language</option>
+                          <option *ngFor="let language of languages" value="{{language.id}}">{{language.lang_name}}</option>
+                        </select>
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-info-circle"></i>
+                        <input type="text" class="form-control" name="journalApplnName" placeholder="Application Name" formControlName="appln_name">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-tag"></i>
+                        <input type="text" class="form-control" name="journalStreamName" placeholder="Stream Name" formControlName="stream_name">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-play-circle"></i>
+                        <select class="form-control" name="allowRecording" #recording (change)="onRecordingSelect(recording.value)">
+                          <option>Allow Recording?</option>
+                          <option value="true">Allow</option>
+                          <option value="false">Not Allow</option>
+                        </select>
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-upload"></i>
+                        <select class="form-control" name="allowUploading" #uploading (change)="onUploadingSelect(uploading.value)">
+                          <option>Allow Uploading</option>
+                          <option value="true">Allow</option>
+                          <option value="false">Not Allow</option>
+                        </select>
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-globe"></i>
+                        <input type="text" class="form-control" name="journalFtpHost" placeholder="FTP Host" formControlName="ftp_host">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-globe"></i>
+                        <input type="text" class="form-control" name="journalFtpPort" placeholder="FTP Port (Enter 21)" formControlName="ftp_port">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-globe"></i>
+                        <input type="text" class="form-control" name="journalFtpuname" placeholder="FTP Username" formControlName="ftp_uname">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-globe"></i>
+                        <input type="text" class="form-control" name="journalFtpPwd" placeholder="FTP Password" formControlName="ftp_passwd">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-globe"></i>
+                        <input type="text" class="form-control" name="journalFtpPort" placeholder="FTP Folder" formControlName="ftp_path">
+                      </label>
+                    </section>
+                    <section class="col col-4">
+                      <label class="input">
+                        <i class="icon-prepend fa fa-mobile"></i>
+                        <input type="text" class="form-control" name="journalImei" placeholder="Mobile IMEI Number" formControlName="mac_id">
+                      </label>
+                    </section>
+                  </div>
+                  <div class="row">
+                    <section class="col col-6">
+                      <button type="submit" class="btn btn-sm btn-success" (click)="createNewJournalSetting()">Create</button>
+                    </section>
                   </div>
                 </fieldset>
               </form>

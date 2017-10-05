@@ -23,6 +23,7 @@ import { JournalComponent } from './journal/journal.component';
 import { NewJournalComponent } from './journal/new-journal/new-journal.component';
 import { JournalSettingsComponent } from './journal/journal-settings/journal-settings.component';
 import { JournalDeviceComponent } from './journal/journal-device/journalDevice.component';
+import { JournalManagerComponent } from './journal/journal-manager/journal-manager.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { JournalDeviceComponent } from './journal/journal-device/journalDevice.c
     VideoManagerQComponent,
     JournalComponent,
     JournalDeviceComponent,
+    JournalManagerComponent,
     JournalSettingsComponent
   ]
 })

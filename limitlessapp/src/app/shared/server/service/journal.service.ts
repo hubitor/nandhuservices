@@ -88,7 +88,9 @@ cancelJournalDevice(journalDevice:JournalDevice): Observable<JournalDevice[]> {
       .catch(ResponseData.handleError);
   }
 
-  getJournalSettingBySettingId(settingId: number): Observable<JournalSetting>{
-    return null;
+  createNewJournalSettingAndDevice(journalSetting: JournalSetting): Observable<any> {
+    return this.http.post("http://localhost:3000/journal/setting/new", journalSetting, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
   }
 }

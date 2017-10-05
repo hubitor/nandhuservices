@@ -28,6 +28,8 @@ export class NavigationComponent implements OnInit {
   channelManager: boolean;
   journal: boolean;
   journalDevice: boolean;
+  journalManager: boolean;
+
   journalSettings: boolean;
   journalNew: boolean;
 
@@ -50,6 +52,9 @@ export class NavigationComponent implements OnInit {
     this.channelHome = false;
     this.videoManager = false;
     this.channelManager = false;
+    this.journal=false;
+    this.journalDevice=false;
+    this.journalManager=false;
     this.journal = false;
     this.journalDevice = false;
     this.journalSettings = false;
@@ -111,6 +116,9 @@ export class NavigationComponent implements OnInit {
           else if (this.userRoles[i].module_name === 'Journal Device') {
             this.journalDevice = true;
           }
+          else if(this.userRoles[i].module_name === 'Journal Manager') {
+            this.journalManager = true;
+          }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
@@ -127,8 +135,9 @@ export class NavigationComponent implements OnInit {
         this.channelHome = true;
         this.videoManager = true;
         this.channelManager = true;
-        this.journal = true;
-        this.journalDevice = true;
+        this.journal=true;
+        this.journalDevice=true;
+        this.journalManager = true;
         this.journalSettings = true;
         this.journalNew = true;
       }
