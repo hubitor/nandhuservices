@@ -58,19 +58,126 @@
                                             </div>
 
                                             <div class="row">
+                                                    <table class="table table-bordered">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <label id="lbl1">Journal -1</label>
+                                                                    <video id="1" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                    <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                                  </video>
+                                                                  <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                                <td>
+                                                                    <label id="lbl2">Journal -2</label>
+                                                                    <video id="2" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                    <source src={{video_demo[1]}} type='application/x-mpegURL'>
+                                                                    </video>
+                                                                    <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                                <td>
+                                                                        <label id="lbl3">Journal -3</label>
+                                                                        <video id="3" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        <source src={{video_demo[2]}} type='application/x-mpegURL'>
+                                                                        </video>
+                                                                        <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                                <td>
+                                                                        <label id="lbl4">Journal -4</label>
+                                                                        <video id="4" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        <source src={{video_demo[3]}} type='application/x-mpegURL'>
+                                                                        </video>
+                                                                        <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                        <label id="lbl5">Journal -5</label>
+                                                                        <video id="5" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                                        </video>
+                                                                        <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                                <td>
+                                                                        <label id="lbl6">Journal -6</label>
+                                                                        <video id="6" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                                        </video>
+                                                                        <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                                <td>
+                                                                   <label id="lbl7">Journal -7</label>
+                                                                   <video id="7" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                    <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                                    </video>
+                                                                    <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                                <td>
+                                                                        <label id="lbl8">Journal -8</label>
+                                                                        <video id="8" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                                        </video>
+                                                                        <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                </td>
+                                                            </tr>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                            </div>
+
+                                            <!-- <div class="row" *ngIf="ishowPreview" >
+                                                <b><label>Preview</label></b>
+                                                <video id="preview_8" class="video-js vjs-default-skin vjs-big-play-centered"  width="1024" height="400"
+                                                data-setup='{ "controls": true, "autoplay": true, "preload": "auto" }'>
+                                                <source src={{preview_url}} type='application/x-mpegURL'>
+                                                </video>
+                                            </div> -->
+
+                                            <div class="row">
+                                                <!-- dynamic HTML -->
+                                                <video id="preview_8"  class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="1024" height="400">
+                                                <source src={{preview_url}} type='application/x-mpegURL'>
+                                                </video>
+                                            </div>
+
+                                            <!-- <div class="row">
                                                 <section *ngFor="let video of videoList;let idx = index" class="col col-6">
                                                     <video-live  [idx]="idx" [url]="video"></video-live>
-                                                    <!-- <video-pre [subject]="video.video_name" [idx]="idx" [url]="video.url"></video-pre> -->
                                                 </section>
-                                            </div>
+                                            </div> -->
 
-                                            <div>
-                                                <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="800" height="264"
-                                                data-setup='{ "controls": true, "autoplay": true, "preload": "auto" }'>
-                                                <source src="http://journal.haappyapp.com:1935/ka-mob-prajaa/ka-mob-prajaa-pj-krishna2/playlist.m3u8" type='application/x-mpegURL'>
-                                              </video>
-                                            </div>
+                                            <!-- <section *ngFor="let video of videoList">
+                                               
+                                                <video id="0" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="200" height="150"
+                                                    data-setup='{"controls": true, "autoplay": true, "preload": "auto" }'>
+                                                    <source src={{video.video_url}} type='application/x-mpegURL'>
+                                                  </video>
+                                                
+                                            </section> -->
 
+                                            <!-- <section>
+                                                    <video id="1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="200" height="150"
+                                                    data-setup='{ "controls": true, "autoplay": true, "preload": "auto" }'>
+                                                    <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                  </video>
+                                            </section> -->
+
+                                            <!-- <div *ngFor="let video of videoList; let i = index">
+                                                    Row {{i}} : {{video.video_url.toString()}}
+                                                    <video id={{i}} class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
+                                                    data-setup='{ "controls": true, "autoplay": true, "preload": "none" }'>
+                                                    <source src={{video_demo[0]}} type='application/x-mpegURL'>
+                                                  </video>
+                                            </div> -->
+                                           
                                         </fieldset>
                                         <div>
             
