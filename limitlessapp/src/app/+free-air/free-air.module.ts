@@ -24,6 +24,7 @@ import { NewJournalComponent } from './journal/new-journal/new-journal.component
 import { JournalSettingsComponent } from './journal/journal-settings/journal-settings.component';
 import { JournalDeviceComponent } from './journal/journal-device/journalDevice.component';
 import { JournalManagerComponent } from './journal/journal-manager/journal-manager.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -47,11 +48,8 @@ import { JournalManagerComponent } from './journal/journal-manager/journal-manag
     VideoManagerQComponent,
     JournalComponent,
     JournalDeviceComponent,
-<<<<<<< HEAD
-    JournalManagerComponent
-=======
+    JournalManagerComponent,
     JournalSettingsComponent
->>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
   ]
 })
 export class FreeAirModule { }

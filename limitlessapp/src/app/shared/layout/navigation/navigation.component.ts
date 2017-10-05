@@ -28,13 +28,10 @@ export class NavigationComponent implements OnInit {
   channelManager: boolean;
   journal: boolean;
   journalDevice: boolean;
-<<<<<<< HEAD
   journalManager: boolean;
 
-=======
   journalSettings: boolean;
   journalNew: boolean;
->>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -55,16 +52,13 @@ export class NavigationComponent implements OnInit {
     this.channelHome = false;
     this.videoManager = false;
     this.channelManager = false;
-<<<<<<< HEAD
     this.journal=false;
     this.journalDevice=false;
     this.journalManager=false;
-=======
     this.journal = false;
     this.journalDevice = false;
     this.journalSettings = false;
     this.journalNew = false;
->>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
   }
 
   ngOnInit() {
@@ -141,16 +135,11 @@ export class NavigationComponent implements OnInit {
         this.channelHome = true;
         this.videoManager = true;
         this.channelManager = true;
-<<<<<<< HEAD
         this.journal=true;
         this.journalDevice=true;
         this.journalManager = true;
-=======
-        this.journal = true;
-        this.journalDevice = true;
         this.journalSettings = true;
         this.journalNew = true;
->>>>>>> 067fb09b63825a38365666abb30ff2df039048d8
       }
     }
   }
