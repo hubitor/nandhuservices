@@ -20,6 +20,7 @@ export class JournalService {
 	private headers: Headers;
 	authToken: string;
   journal:Journal[];
+  journalDevice:JournalDevice[]
   
     constructor(private http: Http, private cookieService: CookieService) {
     this.authToken = this.cookieService.get("HAUAK")
@@ -51,6 +52,23 @@ amendJournal(journal:Journal): Observable<Journal[]> {
                                 .map(ResponseData.extractData)
                                 .catch(ResponseData.handleError);
                 };
+getAllJournalDevices(): Observable<JournalDevice[]> {
+    return this.http.get(AppConfig.jdevices_all, {headers: this.headers})
+                                        .map(ResponseData.extractData)
+                                        .catch(ResponseData.handleError);
+                   };
+              
+createJournalDevice(journalDevice:JournalDevice): Observable<JournalDevice[]> {
+   return this.http.post(AppConfig.new_JournalDevice,journalDevice , {headers: this.headers})
+                                              .map(ResponseData.extractData)
+                                              .catch(ResponseData.handleError);
+                              };
+cancelJournalDevice(journalDevice:JournalDevice): Observable<JournalDevice[]> {
+   return this.http.patch(AppConfig.cancel_JournalDevice,journalDevice,{headers: this.headers})
+       .map(ResponseData.extractData)
+           .catch(ResponseData.handleError);
+                              };
+
 				
 	getJournalsByChannel(channelId: number): Observable<Journal[]>{
     return this.http.get("http://localhost:3000/journal/list/channel/"+channelId, {headers: this.headers})
