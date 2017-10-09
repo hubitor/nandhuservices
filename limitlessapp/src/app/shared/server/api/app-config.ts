@@ -98,9 +98,8 @@ public static get_journal_active="http://journal.haappyapp.com:8087/v2/servers/_
  public static amend_Journal=AppSettings.API_ENDPOINT +"update";
 
 // Journal Device
-public static jdevices_all=AppSettings.API_ENDPOINT +"journalDevice/device/all"; //to get all journalDevice
-public static new_JournalDevice=AppSettings.API_ENDPOINT +"journalDevice/new";
-public static cancel_JournalDevice=AppSettings.API_ENDPOINT +"journalDevice/update";
+public static jdevices_all=AppSettings.API_ENDPOINT +"journal/device/all"; //to get all journalDevice
+public static new_JournalDevice=AppSettings.API_ENDPOINT +"journal/update";
 
 
 };
