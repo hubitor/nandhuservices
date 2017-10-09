@@ -135,7 +135,8 @@ export class BroadcasterService {
 
     getStreamActiveJournal(applicationName:string)
     {
-         return this.http.get(AppConfig.get_journal_active+applicationName+"/instances", wowzaHeader)
+        applicationName="ka-praaja";
+         return this.http.get(AppConfig.get_channel_active+applicationName+"/instances", wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }

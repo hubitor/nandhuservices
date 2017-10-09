@@ -21,6 +21,7 @@ import { JournalService } from '../../../shared/server/service/journal.service';
 import { Journal } from '../../../shared/models/journal';
 import { AppSettings } from "../../../shared/server/api/api-settings";
 import sha256 from 'crypto-js/sha256';
+declare var videojs : any;
 export class videoURL
 {
     video_url:string=''
@@ -55,7 +56,16 @@ export class JournalManagerComponent implements OnInit  {
   channelName: string;
   channelImage: string;
   channelSelected: boolean;
-  videoList:Array<string> = [];
+  videoList:videoURL[] = [];
+  videourl:videoURL;
+  bind_url:string[]=[];
+  video_demo:string[]=["http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
+                       ,"http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
+                       ,"http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
+                       ,"http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"]
+  ishowPreview:boolean=true;
+  preview_url:string="http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8";
+  private videoJSplayer: any;
   constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
     private cookieService: CookieService, private broadcasterService: BroadcasterService
     ) {
@@ -74,6 +84,7 @@ export class JournalManagerComponent implements OnInit  {
     this.channelSelected = false;
     this.createResponse = new CreateResponse();
     this.videoList = new Array();
+    this.videourl=new videoURL();
   }
 
 ngOnInit()
@@ -90,9 +101,27 @@ initForm() {
       jchannelId: [null, [Validators.required]],
       jbroadcasterId: [null, [Validators.required]]
     });
+  };
+
+  ngAfterViewInit(){
+    this.videoJSplayer = videojs(document.getElementById('preview_8'), {}, function() {
+              this.play();
+        } );
+     }
+
+ngOnDestroy() {
+this.videoJSplayer.dispose();
+}
+
+  previewVideo()
+  {
+      this.ishowPreview=true;
+      this.preview_url="http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8";
+      this.videoJSplayer = videojs(document.getElementById('preview_8'), {}, function() {
+        this.play();
+  } );
+      
   }
-
-
 getAllBroadcasters(){
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
@@ -126,7 +155,13 @@ getAllBroadcasters(){
     );
   };
 
-  formatURL(appl_name,s_name):string
+  formatLiveURL(appl_name,s_name):string
+  {
+    //return "http://live.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+    return "http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8";
+  }
+
+  formatJournalURL(appl_name,s_name):string
   {
     return "http://journal.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
   }
@@ -141,6 +176,7 @@ onChannelSelect(){
         f_broadcaster = this.broadcasters.filter(
             broadcasterId => broadcasterId.id.toString() === this.journalManagerForm.value.jbroadcasterId.toString());
             j_appl_name=f_broadcaster.length>0?f_broadcaster[0].w_j_appl_name:'';
+            j_appl_name="ka-praaja";
         if(j_appl_name!='')
         {
             this.broadcasterService.getStreamActiveJournal(j_appl_name)
@@ -153,10 +189,15 @@ onChannelSelect(){
                    {
                        var incomingStreams=response.instanceList[0].incomingStreams;
                        incomingStreams.forEach((ics) => { // foreach statement 
-                        
+                        this.videourl=new videoURL();
                         if(ics.isConnected)
                         {
-                            this.videoList.push(this.formatURL(j_appl_name,ics.name));
+                            this.videourl.video_url=this.formatLiveURL(j_appl_name,ics.name).toString();
+                            var v_url=this.formatLiveURL(j_appl_name,ics.name).toString();
+                            this.bind_url.push(v_url);
+                            this.bind_url.push(v_url);
+                            this.bind_url.push(v_url);
+                            this.bind_url.push(v_url);
                         }
                        
                     })  
