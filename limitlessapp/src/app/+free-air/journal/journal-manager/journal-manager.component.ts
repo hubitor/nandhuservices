@@ -116,7 +116,7 @@ this.videoJSplayer.dispose();
   previewVideo()
   {
       this.ishowPreview=true;
-      this.preview_url="http://live.haappyapp.com:1935/ka-sankara/sankara-devotee/sankara-devotee/playlist.m3u8";
+      this.preview_url="http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8";
       this.videoJSplayer = videojs(document.getElementById('preview_8'), {}, function() {
         this.play();
   } );
