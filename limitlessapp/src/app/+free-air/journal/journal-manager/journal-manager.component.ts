@@ -126,6 +126,7 @@ this.videoJSplayer.dispose();
               myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8'});
   
               $("#change").on('click', function () {
+                debugger;
                   myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8'});
               });
           });
