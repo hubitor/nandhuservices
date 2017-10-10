@@ -186,26 +186,9 @@ createJournal() {
 amendJournal() {
   const newJournal = this.journalForm.value;
     this.journal = new Journal();
-    this.journal.channel_id = this.broadcasterChannelId;
-    this.journal.email=newJournal.userEmail;
-    this.journal.password =sha256(newJournal.userPasswd).toString();
-    this.journal.emp_id = newJournal.userEmpid
-    this.journal.first_name =newJournal.userFirstName;
-    this.journal.last_name=newJournal.userLastName;
-    this.journal.mobile =newJournal.userMobile;
-    this.journal.is_active = newJournal.userActiveStatus;
-    this.journal.created_by = "uma";
-    this.journal.updated_by = "uma";
       this.journalService.amendJournal(this.journal).subscribe(
-        createResponse => {
-          alert("journal updated successfully...");
-          window.location.reload();
-        },
-        error =>
-        {
-          alert("Something went wrong!");
-          console.log('error in '+ error);
-        }
+        journal => this.journals = journal,
+        error => this.errorMessage = <any>error
         );
       }
 
