@@ -115,12 +115,23 @@ this.videoJSplayer.dispose();
 
   previewVideo()
   {
-      this.ishowPreview=true;
-      this.preview_url="http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8";
-      this.videoJSplayer = videojs(document.getElementById('preview_8'), {}, function() {
-        this.play();
-  } );
-      
+    (function ($) {
+      $(document).ready(function () {
+  
+          // An example of playing with the Video.js javascript API
+          // Will start the video and then switch the source 3 seconds latter
+          // You can look at the doc there: http://docs.videojs.com/docs/guides/api.html
+          videojs('preview_8_html5_api').ready(function () {
+              var myPlayer = this;
+              myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8'});
+  
+              $("#change").on('click', function () {
+                  myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8'});
+              });
+          });
+  
+      });
+  })(jQuery);
   }
 getAllBroadcasters(){
     this.broadcasterService.getAllBroadcasters().subscribe(
@@ -165,6 +176,8 @@ getAllBroadcasters(){
   {
     return "http://journal.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
   }
+
+  
 
   
 onChannelSelect(){
