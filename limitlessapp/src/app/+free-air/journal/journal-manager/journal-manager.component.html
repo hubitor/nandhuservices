@@ -64,7 +64,7 @@
                                                                 <td>
                                                                     <label id="lbl1">Journal -1</label>
                                                                     <video id="1" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                     <source src={{video_demo[0]}} type='application/x-mpegURL'>
                                                                   </video>
                                                                   <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -72,7 +72,7 @@
                                                                 <td>
                                                                     <label id="lbl2">Journal -2</label>
                                                                     <video id="2" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                     <source src={{video_demo[1]}} type='application/x-mpegURL'>
                                                                     </video>
                                                                     <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -80,7 +80,7 @@
                                                                 <td>
                                                                         <label id="lbl3">Journal -3</label>
                                                                         <video id="3" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                         <source src={{video_demo[2]}} type='application/x-mpegURL'>
                                                                         </video>
                                                                         <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -88,7 +88,7 @@
                                                                 <td>
                                                                         <label id="lbl4">Journal -4</label>
                                                                         <video id="4" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                         <source src={{video_demo[3]}} type='application/x-mpegURL'>
                                                                         </video>
                                                                         <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -98,7 +98,7 @@
                                                                 <td>
                                                                         <label id="lbl5">Journal -5</label>
                                                                         <video id="5" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                         <source src={{video_demo[0]}} type='application/x-mpegURL'>
                                                                         </video>
                                                                         <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -106,7 +106,7 @@
                                                                 <td>
                                                                         <label id="lbl6">Journal -6</label>
                                                                         <video id="6" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                         <source src={{video_demo[0]}} type='application/x-mpegURL'>
                                                                         </video>
                                                                         <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -114,7 +114,7 @@
                                                                 <td>
                                                                    <label id="lbl7">Journal -7</label>
                                                                    <video id="7" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                     <source src={{video_demo[0]}} type='application/x-mpegURL'>
                                                                     </video>
                                                                     <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
@@ -122,10 +122,10 @@
                                                                 <td>
                                                                         <label id="lbl8">Journal -8</label>
                                                                         <video id="8" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "none" }'>
+                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                                         <source src={{video_demo[0]}} type='application/x-mpegURL'>
                                                                         </video>
-                                                                        <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                                        
                                                                 </td>
                                                             </tr>
                                                             
@@ -143,7 +143,9 @@
 
                                             <div class="row">
                                                 <!-- dynamic HTML -->
-                                                <video id="preview_8"  class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="1024" height="400">
+                                                <button type="submit" id="change" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                <video id="preview_8"  class="video-js vjs-default-skin vjs-big-play-centered"  width="1024" height="400"
+                                                data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                                 <source src={{preview_url}} type='application/x-mpegURL'>
                                                 </video>
                                             </div>
