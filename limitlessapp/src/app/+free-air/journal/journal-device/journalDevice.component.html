@@ -7,7 +7,7 @@
                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <sa-widget>
                        <header>
-                            <span class="widget-icon"></span>
+                            <!-- <span class="widget-icon"></span> -->
                             <h2>Devices</h2>
                             <div class="widget-toolbar">
                                 <button class="btn"><span class=""><i class="fa fa-plus-square"></i> </span><span>Add New</span></button>
@@ -73,8 +73,28 @@
                                                     <label>Select Journal</label>
                                                     <select class="form-control" name="Journal" #Journal (change)="onJournalSelect(Journal.value)">
                                                       <option></option>
-                                                      <option *ngFor="let journal of journalList " value="{{journal.channel_id}}">{{journal.first_name}}</option>
+                                                      <option *ngFor="let journal of journalList " value="{{journal.id}}">{{journal.first_name}}</option>
                                                     </select>
+                                                  </section>
+                                                  <section class="col col-6">
+                                                    <label>Stream Name</label>
+                                                    <select class="form-control" name="streamname" #streamname (change)="onStreamNameSelect(streamname.value)">
+                                                      <option></option>
+                                                      <option *ngFor="let jSetting of journalSetting " value="{{jSetting.id}}">{{jSetting.stream_name}}</option>
+                                                    </select>
+                                                  </section>
+                                                  <!-- <section class="col col-6">
+                                                    <label>Mac_Id</label>
+                                                    <select class="form-control" name="streamname" #streamname (change)="onStreamNameSelect(streamname.value)">
+                                                      <option></option>
+                                                      <option *ngFor="let jSetting of journalSetting " value="{{jSetting.id}}">{{jSetting.mac_id}}</option>
+                                                    </select>
+                                                  </section> -->
+                                                  <section class="col col-6">
+                                                    <label class="input">
+                                                      <i class="icon-prepend fa fa-user"></i>
+                                                      <input type="text" placeholder="Newdevice" class="form-control" required name="userDeviceName" formControlName="userDeviceName">
+                                                    </label>
                                                   </section>
                                               <section class="col col-6">
                                              <label>Choose Status</label>
@@ -84,17 +104,11 @@
                                                <option value="false">Passive</option>
                                              </select>
                                             </section>
-                                            <section class="col col-6">
-                                                    <label class="input">
-                                                      <i class="icon-prepend fa fa-user"></i>
-                                                      <input type="text" placeholder="Device" class="form-control" required name="userDeviceName" formControlName="userDeviceName">
-                                                    </label>
-                                                  </section>
                                             </div>
                                           </fieldset>
                                           <footer>
-                                            <button type="submit" (click)="cancelJournal()" value="cancel" class="btn btn-primary">Cancel</button>
-                                            <button type="submit" (click)="createJournal()" value="save"  class="btn btn-primary">Save</button>
+                                            <!-- <button type="submit" (click)="cancelJournal()" value="cancel" class="btn btn-primary">Cancel</button> -->
+                                            <button type="submit" (click)="updateJournal()" value="update"  class="btn btn-primary">Update</button>
                                           </footer>
                                         </form>
                                       </div>
