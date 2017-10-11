@@ -13,6 +13,7 @@ import { JournalDeviceComponent } from "./journal/journal-device/journalDevice.c
 import { JournalManagerComponent } from './journal/journal-manager/journal-manager.component';
 import {JournalSettingsComponent} from './journal/journal-settings/journal-settings.component';
 import {PlatformUploadComponent} from './video-manager-q/platform-upload/platform-upload.component';
+import {FbLiveManagerComponent} from './video-manager-q/fb-live-manager/fb-live-manager.component';
 
 export const routes:Routes = [
   
@@ -65,6 +66,10 @@ export const routes:Routes = [
   {
     path: 'platform-upload',
     component: PlatformUploadComponent
+  },
+  {
+    path: 'fb-live',
+    component: FbLiveManagerComponent
   }
 ];
 
