@@ -30,6 +30,7 @@ import sha256 from 'crypto-js/sha256';
   providers: [BroadcasterChannelsService,BroadcasterService,JournalService]
 })
 export class JournalComponent implements OnInit  {
+  broadcasterUser:boolean;
   broadcasterChannelId: number;
   journalList: Journal[];
   journalall: Journal[];
@@ -59,7 +60,6 @@ export class JournalComponent implements OnInit  {
   entertainmentUser: boolean;
   broadcasters: Broadcasters[];
   broadcasterChannels: BroadcasterChannel[];
-  // public uploader:FileUploader;
   videoUploadResponse: VideoUploadResponse;
   broadcasterId: number;
   languageId: number;
@@ -71,9 +71,6 @@ export class JournalComponent implements OnInit  {
   channelImage: string;
   channelSelected: boolean;
   
- 
-  
-
   constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
     private cookieService: CookieService, private broadcasterService: BroadcasterService
     ,private journalService:JournalService) {
@@ -93,16 +90,20 @@ export class JournalComponent implements OnInit  {
    
   }
 
-ngOnInit()
+  ngOnInit()
   {
     this.initForm();
+    if (this.superAdmin) {
     this.getAllBroadcasters();
-    this.getChannels(parseInt(localStorage.getItem("broadcaster_id")));
+    }
+    else if (this.broadcasterUser) {
+    this.getBroadcasterChannels(this.loginResponse.client_id);
+    }
     this.getBroadcasterAllGrid();
    
   }
 
-getBroadcasterAllGrid()
+  getBroadcasterAllGrid()
   {
       this.journalService.getAllJournals()
     .subscribe(
@@ -114,7 +115,7 @@ getBroadcasterAllGrid()
     error => this.errorMessage = <any>error;
   };
 
-initForm() {
+  initForm() {
     this.journalForm = this.fb.group({
       userActiveStatus: new FormControl(""),
       userFirstName: [null, [Validators.required]],
@@ -128,7 +129,7 @@ initForm() {
   }
 
 
-getAllBroadcasters(){
+  getAllBroadcasters(){
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
@@ -140,25 +141,25 @@ getAllBroadcasters(){
     );
   }
 
-  getChannels(broadcasterId: number){
+  getBroadcasterChannels(broadcasterId: number)
+   {
     this.broadcasterId = broadcasterId;
     this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
         this.broadcasterChannels = channels;
-        console.log(this.broadcasterChannels);
       },
       error => {
         console.log(error);
       }
     );
-  };
+  }
 
   
-onChannelSelect(broadcasterChannelId: number){
+  onChannelSelect(broadcasterChannelId: number){
     this.broadcasterChannelId = broadcasterChannelId;
   }
 
-createJournal() {
+  createJournal() {
     const newJournal = this.journalForm.value;
       this.journal = new Journal();
       this.journal.channel_id = this.broadcasterChannelId;
@@ -182,8 +183,9 @@ createJournal() {
             console.log('error in '+ error);
           }
         );  
-    }
-amendJournal() {
+  }
+
+  amendJournal() {
   const newJournal = this.journalForm.value;
     this.journal = new Journal();
       this.journalService.amendJournal(this.journal).subscribe(
