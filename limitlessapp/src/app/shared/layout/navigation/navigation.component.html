@@ -353,11 +353,19 @@
           </li-->
           <li routerLinkActive="active">
             <a routerLink="/free-air/videoq" title="Video Manager"> {{'Video Manager' | i18n}}</a>
+            <ul>
+              <li routerLinkActive="active">
+                <a routerLink="/free-air/platform-upload" title="Platform Upload">{{'Multiplatform Upload' | i18n}}</a>
+              </li>
+              <li routerLinkActive="active">
+                <a routerLink="/free-air/fb-live" title="FB Live Manager">{{'FB Live' | i18n}}</a>
+              </li>
+            </ul>
           </li>
           <li *ngIf="journal" routerLinkActive="active">
             <a routerLink="/free-air/journal" title="Journal"> {{'Journal' | i18n}}</a>
             <ul>
-              <li routerLinkActive="ative">
+              <li routerLinkActive="active">
                 <a routerLink="/free-air/journal-settings" title="Journal Settings">{{'Journal Settings' | i18n}}</a>
               </li>
             </ul>

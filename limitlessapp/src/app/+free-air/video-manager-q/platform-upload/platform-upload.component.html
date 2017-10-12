@@ -1,3 +1,5 @@
-<p>
-  platform-upload works!
-</p>
+<form [formGroup]="newVideoUploadForm">
+  <input type="file" ng2FileSelect [uploader]="videoUploader">
+  <br>
+  <button type="submit" (click)="testUpload()">Test</button>
+</form>
