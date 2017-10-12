@@ -60,76 +60,76 @@
                                 <h2>Journal Details</h2>
                               </header>
                               <div class="widget-body">
-                                <div class="widget-body no-padding">
-                                  <form [formGroup]="journalForm" class="smart-form">
-                                    <fieldset>
-                                      <div class="row">
+                                  <div class="widget-body no-padding">
+                                    <form [formGroup]="journalForm" class="smart-form">
+                                      <fieldset>
+                                        <div class="row">
                                           <section *ngIf="superAdmin" class="col col-6">
-                                              <label>Select Broadcaster</label>
-                                              <select class="form-control" name="broadcastersSelect" #broadcastersList (change)="getBroadcasterChannels(broadcastersList.value)">
-                                                <option></option>
-                                                <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
-                                              </select>
+                                            <label>Select Broadcaster</label>
+                                            <select class="form-control" name="broadcastersSelect" #broadcastersList (change)="getChannels(broadcastersList.value)">
+                                              <option></option>
+                                              <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
+                                            </select>
+                                          </section>
+                                          <section class="col col-6">
+                                            <label>Select Channel</label>
+                                            <select class="form-control" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                                              <option></option>
+                                              <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                                            </select>
+                                          </section>
+                                          </div>
+                                          <div class="row">
+                                          <section class="col col-6">
+                                              <label class="input">
+                                                <i class="icon-prepend fa fa-user"></i>
+                                                <input type="text" placeholder="First Name" class="form-control" required name="userName" formControlName="userFirstName">
+                                              </label>
                                             </section>
                                             <section class="col col-6">
-                                              <label>Select Channel</label>
-                                              <select class="form-control" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
-                                                <option></option>
-                                                <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
-                                              </select>
+                                              <label class="input">
+                                                <i class="icon-prepend fa fa-user"></i>
+                                                <input type="text" placeholder="Last Name" class="form-control" required name="userName" formControlName="userLastName">
+                                              </label>
                                             </section>
-                                        <section class="col col-6">
-                                          <label class="input">
-                                            <i class="icon-prepend fa fa-user"></i>
-                                            <input type="text" placeholder="First Name" class="form-control" required name="userName" formControlName="userFirstName">
-                                          </label>
-                                        </section>
-                                        <section class="col col-6">
-                                          <label class="input">
-                                            <i class="icon-prepend fa fa-user"></i>
-                                            <input type="text" placeholder="Last Name" class="form-control" required name="userName" formControlName="userLastName">
-                                          </label>
-                                        </section>
-                                        <section class="col col-6">
-                                          <label class="input"><i class="icon-prepend fa fa-envelope"></i>
-                                            <input type="email" placeholder="Email ID" class="form-control" required name="userEmail"  formControlName="userEmail">
-                                          </label>
-                                        </section>
-                                        <section class="col col-6">
-                                          <label class="input"><i class="icon-prepend fa fa-lock"></i>
-                                            <input type="password" placeholder="Password" class="form-control" formControlName="userPasswd">
-                                          </label>
-                                        </section>
-                                        <section class="col col-6">
-                                          <label class="input"><i class="icon-prepend fa fa-lock"></i>
-                                            <input type="text" placeholder="Emp Id" class="form-control" required name="userEmpid" formControlName="userEmpid">
-                                          </label>
-                                        </section>
-                                        <section class="col col-6">
-                                          <label class="input"><i class="icon-prepend fa fa-mobile"></i>
-                                            <input type="text" placeholder="Mobile" class="form-control" required name="userMobile" formControlName="userMobile">
-                                          </label>
-                                        </section>
-                                        <!-- <section class="col col-6">
-                                          <sa-status (statusUpdated)="handleStatusUpdated($event)"></sa-status>
-                                       </section> -->
-                                       <section class="col col-6">
-                                       <label>Choose Status</label>
-                                       <select class="form-control" name="userActiveStatus" formControlName="userActiveStatus">
-                                          <option></option>
-                                         <option value="true">Active</option>
-                                         <option value="false">Passive</option>
-                                       </select>
-                                      </section>
-                                      </div>
-                                    </fieldset>
-                                    <footer>
-                                      <button type="submit" (click)="amendJournal()" value="cancel" class="btn btn-primary">Cancel</button>
-                                      <button type="submit" (click)="createJournal()" value="save"  class="btn btn-primary">Save</button>
-                                    </footer>
-                                  </form>
+                                            <section class="col col-6">
+                                              <label class="input"><i class="icon-prepend fa fa-envelope"></i>
+                                                <input type="email" placeholder="Email ID" class="form-control" required name="userEmail"  formControlName="userEmail">
+                                              </label>
+                                            </section>
+                                            <section class="col col-6">
+                                              <label class="input"><i class="icon-prepend fa fa-lock"></i>
+                                                <input type="password" placeholder="Password" class="form-control" formControlName="userPasswd">
+                                              </label>
+                                            </section>
+                                            <section class="col col-6">
+                                              <label class="input"><i class="icon-prepend fa fa-lock"></i>
+                                                <input type="text" placeholder="Emp Id" class="form-control" required name="userEmpid" formControlName="userEmpid">
+                                              </label>
+                                            </section>
+                                            <section class="col col-6">
+                                              <label class="input"><i class="icon-prepend fa fa-mobile"></i>
+                                                <input type="text" placeholder="Mobile" class="form-control" required name="userMobile" formControlName="userMobile">
+                                              </label>
+                                            </section>
+                                           <section class="col col-6">
+                                           <label>Choose Status</label>
+                                           <select class="form-control" name="userActiveStatus" formControlName="userActiveStatus">
+                                              <option></option>
+                                             <option value="true">Active</option>
+                                             <option value="false">Passive</option>
+                                           </select>
+                                          </section>
+                                        </div>
+                                      </fieldset>
+                                      <footer>
+                                          <!-- <button type="submit" (click)="amendJournal()" value="cancel" class="btn btn-primary">Cancel</button> -->
+                                          <button type="submit" (click)="createJournal()" value="create"  class="btn btn-primary">Create</button>
+                                        </footer>
+                                    </form>
+                                  </div>
                                 </div>
-                              </div>
+
                             </sa-widget>
                     </article>
                       </div>

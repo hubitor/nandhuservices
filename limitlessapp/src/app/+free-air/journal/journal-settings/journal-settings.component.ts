@@ -194,4 +194,5 @@ export class JournalSettingsComponent implements OnInit {
     );
   }
 
+  
 }
