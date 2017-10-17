@@ -1,0 +1,33 @@
+ <div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Broadcasters','Video-Js']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    </div>
+    <sa-widgets-grid>
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <sa-widget>
+                    <header>
+                        <span class="widget-icon"></span>
+                            <h2>VideoJs</h2>
+                    </header>
+                    <div>
+                        <form class="smart-form" [formGroup]="videojsForm">
+                            <div class="row">
+                                <video autoplay="false" id="player" class="video-js vjs-fluid" width="200" height="150" 
+                                poster='http://media.w3.org/2010/05/sintel/poster.png' controls>
+                                    <source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+                                </video>
+                            
+                                <div class="playlist-container  preview-player-dimensions vjs-fluid">
+                                    <ol class="vjs-playlist"></ol>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </sa-widget>
+            </article>
+        </div>
+    </sa-widgets-grid>
+</div>
+
+
