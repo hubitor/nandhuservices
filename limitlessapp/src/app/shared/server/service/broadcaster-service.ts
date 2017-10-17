@@ -151,7 +151,7 @@ export class BroadcasterService {
 
     deleteStreamTarget(applicationName:string,entryName:string,broadcaster_id:number)
     {
-
+        debugger;
         var get_api_url=AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
         if(broadcaster_id === 1026)
@@ -167,6 +167,7 @@ export class BroadcasterService {
 
      createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number)
     {
+        debugger;
         var get_api_url=AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
         if(broadcaster_id === 1026)
