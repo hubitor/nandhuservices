@@ -26,6 +26,7 @@ import { JournalDeviceComponent } from './journal/journal-device/journalDevice.c
 import { JournalManagerComponent } from './journal/journal-manager/journal-manager.component';
 import { PlatformUploadComponent } from './video-manager-q/platform-upload/platform-upload.component';
 import { FbLiveManagerComponent } from './video-manager-q/fb-live-manager/fb-live-manager.component';
+import { PlaylistVideojsComponent } from './playlist-videojs/playlist-videojs.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { FbLiveManagerComponent } from './video-manager-q/fb-live-manager/fb-liv
     JournalManagerComponent,
     JournalSettingsComponent,
     PlatformUploadComponent,
-    FbLiveManagerComponent
+    FbLiveManagerComponent,
+    PlaylistVideojsComponent
   ]
 })
 export class FreeAirModule { }

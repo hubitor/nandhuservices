@@ -1,106 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-// import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { User } from '../../shared/models/userModel';
 import { LoginResponse } from '../../shared/models/loginResponse';
-import { BroadcasterVideos } from '../../shared/models/broadcasterVideos';
-import { Language } from '../../shared/models/language';
 import { CommonService } from '../../shared/server/service/common.service';
 import { UtilityService } from "../../shared/server/service/utility-service"
 import { CookieService } from 'ngx-cookie';
 import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
 import { Broadcasters } from '../../shared/models/broadcasters';
 import { BroadcasterChannel } from '../../shared/models/broadcaster-channel';
-import { VideoUploadResponse } from '../../shared/models/videoUploadResponse';
 import { CreateResponse } from '../../shared/models/createResponse';
 import { NotificationService } from "../../shared/utils/notification.service";
 import { AppConfig } from "../../shared/server/api/app-config";
-import { BroadcasterChannelsService } from '../../shared/server/service/broadcaster-channels.service';
 import { JournalService } from '../../shared/server/service/journal.service';
 import { Journal } from '../../shared/models/journal';
 import { AppSettings } from "../../shared/server/api/api-settings";
 import sha256 from 'crypto-js/sha256';
 
 
-
 @Component({
   selector: 'app-journal',
   templateUrl: './journal.component.html',
-  providers: [BroadcasterChannelsService,BroadcasterService,JournalService]
+  providers: [CommonService, BroadcasterService,UtilityService,JournalService]
 })
-export class JournalComponent implements OnInit  {
-  broadcasterUser:boolean;
-  broadcasterChannelId: number;
-  journalList: Journal[];
+export class JournalComponent implements OnInit {
+  broadcasterUser: boolean;
   journalall: Journal[];
-  is_active: boolean;
-  mobile: number;
-  last_name: string;
-  first_name: string;
-  emp_id: number;
-  email: string;
-  Id: number;
-  journalForm;
-  channelId: number;
-  journalChannelId: number;
-  journalChannels: Journal[];
-  id: number;
-  journals: Journal[];
-  journal: Journal;
+  journal:Journal;
+  journals:Journal[];
   errorMessage: string;
-  channel_id:number;
-  appSettings:AppSettings;
-
+  journalForm;
   user: User;
   loginResponse: LoginResponse;
-  broadcasterVideo: BroadcasterVideos;
-  languages: Language[];
   superAdmin: boolean;
   entertainmentUser: boolean;
   broadcasters: Broadcasters[];
   broadcasterChannels: BroadcasterChannel[];
-  videoUploadResponse: VideoUploadResponse;
   broadcasterId: number;
-  languageId: number;
+  broadcasterChannelId: number;
   createResponse: CreateResponse;
-  broadcasterChannel: BroadcasterChannel;
-  channelsList: BroadcasterChannel[];
-  primaryChannelId: number;
-  channelName: string;
-  channelImage: string;
-  channelSelected: boolean;
-  
-  constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
-    private cookieService: CookieService, private broadcasterService: BroadcasterService
-    ,private journalService:JournalService) {
+
+  constructor(private fb: FormBuilder, private commonService: CommonService, private cookieService: CookieService,
+        private broadcasterService: BroadcasterService
+        ,private utilityService:UtilityService
+      , private journalService:JournalService) {
+    this.user = new User();
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
-    this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
-    if (this.loginResponse.user_type === 'Entertainment') {
-      this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
-      this.entertainmentUser = true;
-      this.superAdmin = false;
-    } else if (this.loginResponse.user_type === 'Super Admin') {
-      this.entertainmentUser = false;
+    this.superAdmin = false;
+    this.entertainmentUser = false;
+    if(this.loginResponse.user_type === 'Super Admin'){
       this.superAdmin = true;
+      this.entertainmentUser = false;
+    } else if(this.loginResponse.user_type === 'Entertainment'){
+      this.getChannels(parseInt(localStorage.getItem("broadcaster_id")));
+      this.superAdmin = false;
+      this.entertainmentUser = true;
     }
-    this.channelSelected = false;
+    this.broadcasters = new Array();
     this.createResponse = new CreateResponse();
-   
-  }
+   }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     this.initForm();
     if (this.superAdmin) {
-    this.getAllBroadcasters();
+    this.getBroadcastersall();
+    this.getBroadcasterAllGrid();
     }
     else if (this.broadcasterUser) {
-    this.getBroadcasterChannels(this.loginResponse.client_id);
+    this.getChannels(this.loginResponse.client_id);
     }
-    this.getBroadcasterAllGrid();
-   
   }
 
   getBroadcasterAllGrid()
@@ -115,7 +84,7 @@ export class JournalComponent implements OnInit  {
     error => this.errorMessage = <any>error;
   };
 
-  initForm() {
+  initForm(){
     this.journalForm = this.fb.group({
       userActiveStatus: new FormControl(""),
       userFirstName: [null, [Validators.required]],
@@ -123,13 +92,13 @@ export class JournalComponent implements OnInit  {
       userMobile: [null, [Validators.required]],
       userEmail: [null, [Validators.required]],
       userPasswd:[null,[Validators.required]],
-      userEmpid:[null,[Validators.required]],
-     
+      userEmpid:[null,[Validators.required]]
     });
   }
 
+  
 
-  getAllBroadcasters(){
+  getBroadcastersall(){
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
@@ -141,22 +110,22 @@ export class JournalComponent implements OnInit  {
     );
   }
 
-  getBroadcasterChannels(broadcasterId: number)
-   {
+  getChannels(broadcasterId: number){
     this.broadcasterId = broadcasterId;
     this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
         this.broadcasterChannels = channels;
+        console.log(this.broadcasterChannels);
       },
       error => {
         console.log(error);
       }
     );
-  }
+  };
 
-  
   onChannelSelect(broadcasterChannelId: number){
     this.broadcasterChannelId = broadcasterChannelId;
+    console.log(this.broadcasterChannelId);
   }
 
   createJournal() {
@@ -186,12 +155,12 @@ export class JournalComponent implements OnInit  {
   }
 
   amendJournal() {
-  const newJournal = this.journalForm.value;
-    this.journal = new Journal();
-      this.journalService.amendJournal(this.journal).subscribe(
-        journal => this.journals = journal,
-        error => this.errorMessage = <any>error
-        );
-      }
+    const newJournal = this.journalForm.value;
+      this.journal = new Journal();
+        this.journalService.amendJournal(this.journal).subscribe(
+          journal => this.journals = journal,
+          error => this.errorMessage = <any>error
+          );
+        }
 
 }

@@ -231,7 +231,7 @@ export class RegistrationComponent implements OnInit {
       this.user.client_id = this.broadcasterId;
     }
     this.user.user_type = this.userType;
-    this.user.user_name = newUser.userName;
+    this.user.user_name = newUser.user_Name;
     this.user.user_short_name = newUser.userShortName;
     this.user.country = "India";
     this.user.city = newUser.userCity;
@@ -272,4 +272,5 @@ this.showPopup()
            });
          }
  }
+
 }
