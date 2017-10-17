@@ -21,7 +21,7 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-channel-stream',
   templateUrl: './channel-stream.component.html',
-  providers: [BroadcasterService, DatePipe,NTemplateService]
+  providers: [BroadcasterService, DatePipe, NTemplateService]
 })
 export class ChannelStreamComponent implements OnInit {
   user: LoginResponse;
@@ -52,7 +52,18 @@ export class ChannelStreamComponent implements OnInit {
     , private datePipe: DatePipe) {
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.createForm();
+    if (this.user.user_type === "Super Admin") {
+      this.client_id = 1064;
+      this.user.client_id = 1064;
 
+      this.w_applicationName = "dev";
+
+
+    }
+    else {
+      this.w_applicationName = this.user.w_appname;
+      this.client_id = this.user.client_id;
+    }
 
   }
 
@@ -69,45 +80,32 @@ export class ChannelStreamComponent implements OnInit {
 
   ngOnInit() {
 
-     if (this.user.user_type === "Super Admin") {
-      this.client_id = 1064;
-      this.user.client_id = 1064;
 
-    this.w_applicationName = "dev";
-    
 
-    }
-  else
-    {
-      this.w_applicationName = this.user.w_appname;
-      this.client_id = this.user.client_id;
-    }
-    
     this.getAllBroadcastersById(this.client_id);
-//    this.getAllBroadcasterDestination();
-    this.streamNotificationRequest=new StreamNotificationRequest();
+    //    this.getAllBroadcasterDestination();
+    this.streamNotificationRequest = new StreamNotificationRequest();
   }
 
   getAllBroadcasterDestination() {
     this.broadcasterService.getAllBroadcasterDestination()
       .subscribe(
-      broadcasterDestination =>{
-       this.broadcasterDestinations = broadcasterDestination 
-      
+      broadcasterDestination => {
+        this.broadcasterDestinations = broadcasterDestination
+
       },
-      
+
       error => this.errorMessage = <any>error);
 
   }
 
 
-  getAllBroadcasterChannelDestination(channlId:number) {
+  getAllBroadcasterChannelDestination(channlId: number) {
     this.broadcasterService.getAllBroadcasterChannelDestination(channlId)
       .subscribe(
-      broadcasterDestination =>{
-       this.broadcasterDestinations = broadcasterDestination 
-       if(this.broadcasterDestinations.length>0)
-        {
+      broadcasterDestination => {
+        this.broadcasterDestinations = broadcasterDestination
+        if (this.broadcasterDestinations.length > 0) {
           this.channelStreamForm.get('broadcasterDestination').setValue(this.broadcasterDestinations[1].d_id);
         }
       },
@@ -116,7 +114,7 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updateDestinationId(destinations) {
-    
+
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
@@ -177,7 +175,7 @@ export class ChannelStreamComponent implements OnInit {
         this.bChannelVideos = broadcasters[0].broadcaster_channels;
         this.updatingResponse(broadcasters);
       }
-     
+
     }
   }
 
@@ -219,7 +217,7 @@ export class ChannelStreamComponent implements OnInit {
 
   stopChannelVideoKey(value: any) {
     var newKeyResponse;
-    this.streamNotificationRequest=new StreamNotificationRequest();
+    this.streamNotificationRequest = new StreamNotificationRequest();
     var destType = this.channelStreamForm.value.broadcasterDestination.toString();
     this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
     this.streamNotificationRequest.template_id = 1;
@@ -253,9 +251,9 @@ export class ChannelStreamComponent implements OnInit {
         ps_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
 
       }
-       this.streamNotificationRequest.destination_id = 3;
+      this.streamNotificationRequest.destination_id = 3;
     }
-    this.streamTargetKeyResponse(newKeyResponse, value,this.streamNotificationRequest);
+    this.streamTargetKeyResponse(newKeyResponse, value, this.streamNotificationRequest);
   }
 
 
@@ -294,7 +292,7 @@ export class ChannelStreamComponent implements OnInit {
 
   updateStreamkey() {
     this.channelVideoKeyRequest = new ChannelVideoKeyRequest();
-    this.streamNotificationRequest=new StreamNotificationRequest();
+    this.streamNotificationRequest = new StreamNotificationRequest();
     const broadcasterVideoVal = this.channelStreamForm.value;
     this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
     this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
@@ -341,19 +339,19 @@ export class ChannelStreamComponent implements OnInit {
 
     this.broadcasterService.updateCategoryVideosKey(this.channelVideoKeyRequest, type)
       .subscribe(
-      createresponse => this.streamTargetKeyResponse(this.createResponse = createresponse, false,this.streamNotificationRequest),
+      createresponse => this.streamTargetKeyResponse(this.createResponse = createresponse, false, this.streamNotificationRequest),
       error => this.errorMessage = <any>error);
   }
 
 
-  streamTargetKeyResponse(newKeyResponse, isStop: boolean,streamNotificationRequest) {
+  streamTargetKeyResponse(newKeyResponse, isStop: boolean, streamNotificationRequest) {
 
     this.broadcasterService.getStreamTarget(this.user.w_appname.trim())
       .subscribe(
-      response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop,streamNotificationRequest),
+      response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop, streamNotificationRequest),
       error => this.errorMessage = <any>error);
   }
-  streamTargetGetResponse(getresponse, newKeyResponse, isStop,streamNotificationRequest) {
+  streamTargetGetResponse(getresponse, newKeyResponse, isStop, streamNotificationRequest) {
 
     var myDate = new Date();
     var streamTargetVal;
@@ -418,15 +416,15 @@ export class ChannelStreamComponent implements OnInit {
 
     this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.user.w_appname.trim(), this.streamTargetRequest.entryName)
       .subscribe(
-      response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop,streamNotificationRequest),
+      response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop, streamNotificationRequest),
       error => this.errorMessage = <any>error)
 
   }
 
-  streamTargetcreateResponse(response, entryName: string, isStop,streamNotificationRequest) {
+  streamTargetcreateResponse(response, entryName: string, isStop, streamNotificationRequest) {
     this.broadcasterService.deleteStreamTarget(this.user.w_appname, entryName)
       .subscribe(
-      response => this.hasReload(response, isStop,streamNotificationRequest),
+      response => this.hasReload(response, isStop, streamNotificationRequest),
       error => this.errorMessage = <any>error)
   }
 
@@ -497,7 +495,7 @@ export class ChannelStreamComponent implements OnInit {
       error => this.errorMessage = <any>error)
   }
 
-  hasReload(response, isStop,streamNotificationRequest) {
+  hasReload(response, isStop, streamNotificationRequest) {
     if (isStop) {
       this.stopStreamNotification(streamNotificationRequest);
     }
