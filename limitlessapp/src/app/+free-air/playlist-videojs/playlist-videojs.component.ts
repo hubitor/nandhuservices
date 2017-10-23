@@ -37,7 +37,7 @@ export class PlaylistVideojsComponent implements OnInit
 
     
     playlist(){
-    var player =videojs('video', { preload: true, techOrder: ["youtube", "html5"], controls: true , "continuous": true, "setTrack": 4});
+    // var player =videojs('video', { preload: true, techOrder: ["youtube", "html5"], controls: true , "continuous": true, "setTrack": 4});
     let playlist = [
     {
       'src': 'http://media.w3.org/2010/05/sintel/trailer.mp4',
@@ -67,9 +67,9 @@ export class PlaylistVideojsComponent implements OnInit
   ];
  
   this.videos=playlist;
-   player.playlist({ videos:playlist, playlist: { hideSidebar: false, upNext: true, hideIcons: false, items: 5 } });
+  //  player.playlist({ videos:playlist, playlist: { hideSidebar: false, upNext: true, hideIcons: false, items: 5 } });
   console.log("*************length"+this.videos.length);
-  player.playlist.autoadvance(0);
+  // player.playlist.autoadvance(0);
  
 
 
