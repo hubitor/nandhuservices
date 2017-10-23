@@ -9,6 +9,12 @@ public static create_streamTarget="http://live.haappyapp.com:8087/v2/servers/_de
 
 public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
+public static get_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static create_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static delete_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
 public static get_channel_active="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
 //Journal Active List

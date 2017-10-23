@@ -51,6 +51,20 @@ export class ChannelStreamComponent implements OnInit {
     , private nTemplateService: NTemplateService
     , private datePipe: DatePipe) {
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
+    this.w_applicationName=localStorage.getItem('w_appname');
+    if (this.user.user_type === "Super Admin") {
+      this.client_id = 1064;
+      this.user.client_id = 1064;
+
+    this.w_applicationName = "dev";
+    
+
+    }
+  else
+    {
+      this.w_applicationName = this.user.w_appname;
+      this.client_id = this.user.client_id;
+    }
     this.createForm();
 
 
@@ -69,19 +83,7 @@ export class ChannelStreamComponent implements OnInit {
 
   ngOnInit() {
 
-     if (this.user.user_type === "Super Admin") {
-      this.client_id = 1064;
-      this.user.client_id = 1064;
-
-    this.w_applicationName = "dev";
     
-
-    }
-  else
-    {
-      this.w_applicationName = this.user.w_appname;
-      this.client_id = this.user.client_id;
-    }
     
     this.getAllBroadcastersById(this.client_id);
 //    this.getAllBroadcasterDestination();
@@ -197,6 +199,7 @@ export class ChannelStreamComponent implements OnInit {
 
       if (broadcasterVideo.length > 0) {
         this.user.w_appname = broadcasterVideos[0].w_application_name;
+        this.w_applicationName=broadcasterVideos[0].w_application_name;
         this.channelStreamForm.setValue({
           channelCurrentStreamKey: null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
@@ -258,7 +261,7 @@ export class ChannelStreamComponent implements OnInit {
     this.streamTargetKeyResponse(newKeyResponse, value,this.streamNotificationRequest);
   }
 
-
+  
 
   showPopup(isStop: boolean) {
 
@@ -348,19 +351,20 @@ export class ChannelStreamComponent implements OnInit {
 
   streamTargetKeyResponse(newKeyResponse, isStop: boolean,streamNotificationRequest) {
 
-    this.broadcasterService.getStreamTarget(this.user.w_appname.trim())
+    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(),this.channelStreamForm.value.broadcasterName)
       .subscribe(
-      response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop,streamNotificationRequest),
+      response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop,streamNotificationRequest,this.streamNotificationRequest.broadcaster_id),
       error => this.errorMessage = <any>error);
   }
-  streamTargetGetResponse(getresponse, newKeyResponse, isStop,streamNotificationRequest) {
+  streamTargetGetResponse(getresponse, newKeyResponse, isStop,streamNotificationRequest,broadcaster_id) {
 
     var myDate = new Date();
     var streamTargetVal;
     var wowzaMapEntries: any[];
     this.streamTargetRequest = new StreamTargetRequest();
     var newKeyDate = this.datePipe.transform(myDate, 'yyMMddhmmss');
-    var newStreamEntryName = this.user.w_appname.trim();
+    var newStreamEntryName = this.w_applicationName.toString();
+    //this.user.w_appname.trim();
     //+ "-" + newKeyDate;
     if (getresponse.mapEntries.length > 0) {
       wowzaMapEntries = getresponse.mapEntries;
@@ -416,15 +420,16 @@ export class ChannelStreamComponent implements OnInit {
 
     }
 
-    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.user.w_appname.trim(), this.streamTargetRequest.entryName)
+    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.w_applicationName.trim(), this.streamTargetRequest.entryName,broadcaster_id)
+     
       .subscribe(
-      response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop,streamNotificationRequest),
+      response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop,streamNotificationRequest,broadcaster_id),
       error => this.errorMessage = <any>error)
 
   }
 
-  streamTargetcreateResponse(response, entryName: string, isStop,streamNotificationRequest) {
-    this.broadcasterService.deleteStreamTarget(this.user.w_appname, entryName)
+  streamTargetcreateResponse(response, entryName: string, isStop,streamNotificationRequest,broadcaster_id) {
+    this.broadcasterService.deleteStreamTarget(this.w_applicationName, entryName,broadcaster_id)
       .subscribe(
       response => this.hasReload(response, isStop,streamNotificationRequest),
       error => this.errorMessage = <any>error)

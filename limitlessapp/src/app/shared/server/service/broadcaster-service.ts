@@ -125,9 +125,17 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
-    getStreamTarget(applicationName:string)
+    getStreamTarget(applicationName:string,broadcaster_id:number)
     {
-         return this.http.get(AppConfig.get_streamTarget+applicationName+"/pushpublish/mapentries", wowzaHeader)
+        debugger;
+        var get_api_url=AppConfig.get_streamTarget+applicationName+"/pushpublish/mapentries";
+
+         if(broadcaster_id === 1026)
+         {
+            get_api_url="";
+            get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
+         }
+         return this.http.get(get_api_url, wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }
@@ -141,16 +149,34 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     }
 
-    deleteStreamTarget(applicationName:string,entryName:string)
+    deleteStreamTarget(applicationName:string,entryName:string,broadcaster_id:number)
     {
-          return this.http.delete(AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName, wowzaHeader)
+        debugger;
+        var get_api_url=AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
+        
+        if(broadcaster_id === 1026)
+        {
+            get_api_url="";
+            get_api_url=AppConfig.delete_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
+        }
+
+          return this.http.delete(get_api_url , wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }
 
-     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string)
+     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number)
     {
-          return this.http.post(AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName, streamTargetRequest,wowzaHeader)
+        debugger;
+        var get_api_url=AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
+        
+        if(broadcaster_id === 1026)
+        {
+            get_api_url="";
+            get_api_url=AppConfig.create_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
+        }
+
+          return this.http.post(get_api_url, streamTargetRequest,wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }
