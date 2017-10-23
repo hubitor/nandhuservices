@@ -13,14 +13,22 @@
                     <div>
                         <form class="smart-form" [formGroup]="videojsForm">
                             <div class="row">
-                                <video autoplay="false" id="player" class="video-js vjs-fluid" width="200" height="150" 
-                                poster='http://media.w3.org/2010/05/sintel/poster.png' controls>
-                                    <source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
-                                </video>
-                            
-                                <div class="playlist-container  preview-player-dimensions vjs-fluid">
-                                    <ol class="vjs-playlist"></ol>
-                                </div>
+                                <!-- <div *ngFor="let video of videos"> -->
+                               <video id="video" class="video-js vjs-default-skin" controls autoplay="true" width="640px" height="360px" 
+                               src="{{video.src}}" type="video.type">
+                            </video>
+                                <!-- </div> -->
+                               <!-- <div *ngFor="let t of test">
+<p>t</p>
+                               </div>*ngFor="let video of videos" -->
+                                <!-- <div *ngFor="let video of videoList"> 
+                                    
+                               <video id="video" class="video-js vjs-default-skin" controls width="640px" height="360px" 
+                               src="{{video.src}}" type="video/mp4">
+                            </video>
+                             </div>  -->
+                                <button class="previous" [disabled]="isFirstEl" (click)="previous(video)">Previous</button>
+                                <button class="next" [disabled]="isLastEl" (click)="next(video)">Next</button>
                             </div>
                         </form>
                     </div>
