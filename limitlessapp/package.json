@@ -91,6 +91,7 @@
     "ts-helpers": "1.1.2",
     "video.js": "^6.2.5",
     "videojs-playlist": "^4.0.1",
+    "videojs-playlist-thumbs": "^0.1.5",
     "web-animations-js": "^2.2.2",
     "zone.js": "0.8.5"
   },
