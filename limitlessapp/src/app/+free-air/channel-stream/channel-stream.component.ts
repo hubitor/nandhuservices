@@ -45,6 +45,8 @@ export class ChannelStreamComponent implements OnInit {
   w_applicationName: string;
   notify_Templateid: 1;
   notify_DestinationId: 0;
+  isLoopUntil:false;
+  isnewKeyDisabled:false;
   constructor(private broadcasterService: BroadcasterService
     , private fb: FormBuilder
     , private notificationService: NotificationService
@@ -200,6 +202,8 @@ export class ChannelStreamComponent implements OnInit {
       if (broadcasterVideo.length > 0) {
         this.user.w_appname = broadcasterVideos[0].w_application_name;
         this.w_applicationName=broadcasterVideos[0].w_application_name;
+        this.isLoopUntil=broadcasterVideos[0].is_loop_until;
+        this.isnewKeyDisabled=this.isLoopUntil;
         this.channelStreamForm.setValue({
           channelCurrentStreamKey: null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
@@ -436,7 +440,13 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   refreshStreamKey() {
+    
 
+    if(this.channelStreamForm.value.broadcasterDestination !="2")
+    {
+       this.isLoopUntil=false;
+       this.isnewKeyDisabled=false;
+    }
 
     const broadcasterVideoKeyVal = this.channelStreamForm.value;
     var videoKeyValue;
@@ -476,6 +486,15 @@ export class ChannelStreamComponent implements OnInit {
           this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
           break;
         }
+       
+      }
+      if(this.isLoopUntil)
+      {
+        this.channelStreamForm.get('channelNewStreamKey').setValue(this.channelStreamForm.value.channelCurrentStreamKey);
+      }
+      else
+      {
+        this.channelStreamForm.get('channelNewStreamKey').setValue("");
       }
     }
   }

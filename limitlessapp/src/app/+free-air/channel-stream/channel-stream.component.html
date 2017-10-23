@@ -100,7 +100,7 @@
                                                     <label class="input">
          <i class="icon-append fa fa-youtube-square"></i>
          <input type="hidden" formControlName="channelVideoId" name="channelVideoId"  />
-        <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey" class="form-control"  />
+        <input type="text" formControlName="channelNewStreamKey" name="channelNewStreamKey" [readonly]="isnewKeyDisabled" class="form-control"  />
         <b class="tooltip tooltip-bottom-right">New Stream Key</b>
       </label>
       <p *ngIf="channelStreamForm.controls.channelNewStreamKey.errors" style="color:red;">*</p>
@@ -119,12 +119,14 @@
                                         <footer>
                                             
                                             <div class="form-group">
-                                            <button type="submit" class="btn btn-success" [disabled]="!channelStreamForm.valid" (click)="amendChannelVideoKey(false)">GoLive</button>
-                                              <button type="submit" class="btn btn-danger"  (click)="amendChannelVideoKey(true)">Stop</button> 
+                                            <button type="submit" class="btn btn-success"  [style.display]="isLoopUntil?'none':'inherit'" [disabled]="!channelStreamForm.valid" (click)="amendChannelVideoKey(false)">GoLive</button>
+                                            <button type="submit" class="btn btn-danger"   [style.display]="isLoopUntil?'none':'inherit'" (click)="amendChannelVideoKey(true)">Stop</button> 
+                                            <button type="submit" class="btn btn-success"   [style.display]="isLoopUntil?'inherit':'none'" (click)="amendChannelVideoKey(false)">Refresh</button> 
                                             </div>
+                                           
                                             <!--<button type="submit" class="btn btn-primary" (click)="amendChannelVideoKey()" (click)="cancelStreamKey()" value="updateCategory">Cancel</button>-->
                                         </footer>
-
+                                        
                                     </form>
                     </div>    
 
