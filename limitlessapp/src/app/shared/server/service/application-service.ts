@@ -40,9 +40,10 @@ export class ApplicationService {
     };
 
     newUserRegisteration(user: User): Observable<any>{
-        return this.http.post("http://localhost:3000/user/register",user, {headers: this.headers})
+        return this.http.post(AppConfig.new_user,user, {headers: this.headers})
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
+
     }
 
     getAllRoles(): Observable<ApplicationUsersRole[]>{
