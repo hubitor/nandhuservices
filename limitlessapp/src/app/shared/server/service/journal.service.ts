@@ -64,25 +64,25 @@ export class JournalService {
  };
 				
 	getJournalsByChannel(channelId: number): Observable<Journal[]>{
-    return this.http.get("http://localhost:3000/journal/list/channel/"+channelId, {headers: this.headers})
+    return this.http.get(AppConfig.getJournalsByChannel+channelId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
 
   getJournalSettingByJournalId(journalId: number): Observable<JournalSetting[]>{
-    return this.http.get("http://localhost:3000/journal/get/settings/"+journalId, {headers: this.headers})
+    return this.http.get(AppConfig.getJournalSettingByJournalId+journalId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
 
   getJournalDeviceBySettingsId(settingId: number): Observable<JournalDevice>{
-    return this.http.get("http://localhost:3000/journal/get/setting-device/"+settingId, {headers: this.headers})
+    return this.http.get(AppConfig.getJournalDeviceBySettingsId+settingId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
 
   createNewJournalSettingAndDevice(journalSetting: JournalSetting): Observable<any> {
-    return this.http.post("http://localhost:3000/journal/setting/new", journalSetting, {headers: this.headers})
+    return this.http.post(AppConfig.createNewJournalSettingAndDevice, journalSetting, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

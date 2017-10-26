@@ -256,11 +256,12 @@ this.showPopup()
             if (ButtonPressed == "Yes") {
               this.applicationService.newUserRegisteration(this.user).subscribe(
                 createResponse => {
-                 alert("user registered successfully...");
+                //  alert("user registered successfully...");
                  location.reload();
+                 console.log('error in creating'+ createResponse);
                 },
                 error => {
-                  alert("Something went wrong!");
+                  // alert("Something went wrong!");
                   console.log('error in creating'+error);
                 }
               );

@@ -9,6 +9,12 @@ public static create_streamTarget="http://live.haappyapp.com:8087/v2/servers/_de
 
 public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
+public static get_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static create_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static delete_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
 public static get_channel_active="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
 //Journal Active List
@@ -101,5 +107,14 @@ public static get_journal_active="http://journal.haappyapp.com:8087/v2/servers/_
 public static jdevices_all=AppSettings.API_ENDPOINT +"journal/device/all"; //to get all journalDevice
 public static new_JournalDevice=AppSettings.API_ENDPOINT +"journal/update";
 
+// Journal Setting
+public static getJournalsByChannel=AppSettings.API_ENDPOINT +"journal/list/channel/"; // to pass channel id
+public static getJournalSettingByJournalId=AppSettings.API_ENDPOINT +"journal/get/settings/";  // to pass journal id
+public static getJournalDeviceBySettingsId=AppSettings.API_ENDPOINT +"journal/get/setting-device/"; // to pass setting id
+public static createNewJournalSettingAndDevice=AppSettings.API_ENDPOINT +"journal/setting/new";
+
+
+// Broadcaster Destination 
+public static new_destination=AppSettings.API_ENDPOINT +"broadcaster/new";
 
 };
