@@ -64,7 +64,7 @@ export class BroadcasterService {
 
     createBroadcasterDestination(broadcasterDestination:BroadcasterDestination): Observable<any> {
         
-                return this.http.post("http://localhost:3000/broadcaster/new",broadcasterDestination, headerObj)
+                return this.http.post(AppConfig.create_Destination,broadcasterDestination, headerObj)
                             .map(ResponseData.extractData)
                             .catch(ResponseData.handleError);
             };
