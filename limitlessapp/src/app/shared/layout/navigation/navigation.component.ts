@@ -32,7 +32,8 @@ export class NavigationComponent implements OnInit {
 
   journalSettings: boolean;
   journalNew: boolean;
-  playlistVideojs:boolean;
+  playlistVideojs: boolean;
+  fbVideoUpload: boolean;
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -53,14 +54,15 @@ export class NavigationComponent implements OnInit {
     this.channelHome = false;
     this.videoManager = false;
     this.channelManager = false;
-    this.journal=false;
-    this.journalDevice=false;
-    this.journalManager=false;
+    this.journal = false;
+    this.journalDevice = false;
+    this.journalManager = false;
     this.journal = false;
     this.journalDevice = false;
     this.journalSettings = false;
     this.journalNew = false;
-    this.playlistVideojs=false;
+    this.playlistVideojs = false;
+    this.fbVideoUpload = false;
   }
 
   ngOnInit() {
@@ -100,7 +102,8 @@ export class NavigationComponent implements OnInit {
         this.journalDevice = true;
         this.journalSettings = true;
         this.journalNew = true;
-        this.playlistVideojs=true;
+        this.playlistVideojs = true;
+        this.fbVideoUpload = true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
@@ -119,11 +122,11 @@ export class NavigationComponent implements OnInit {
           else if (this.userRoles[i].module_name === 'Journal Device') {
             this.journalDevice = true;
           }
-          else if(this.userRoles[i].module_name === 'Journal Manager') {
+          else if (this.userRoles[i].module_name === 'Journal Manager') {
             this.journalManager = true;
           }
-          else if(this.userRoles[i].module_name === 'Videojs'){
-            this.playlistVideojs =true;
+          else if (this.userRoles[i].module_name === 'Videojs') {
+            this.playlistVideojs = true;
           }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {
@@ -141,12 +144,13 @@ export class NavigationComponent implements OnInit {
         this.channelHome = true;
         this.videoManager = true;
         this.channelManager = true;
-        this.journal=true;
-        this.journalDevice=true;
+        this.journal = true;
+        this.journalDevice = true;
         this.journalManager = true;
         this.journalSettings = true;
         this.journalNew = true;
-        this.playlistVideojs=true;
+        this.playlistVideojs = true;
+        this.fbVideoUpload = true;
       }
     }
   }

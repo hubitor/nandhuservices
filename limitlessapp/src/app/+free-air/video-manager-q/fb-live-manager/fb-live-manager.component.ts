@@ -7,8 +7,10 @@ declare const FB: any;
   templateUrl: './fb-live-manager.component.html'
 })
 export class FbLiveManagerComponent implements OnInit {
+  accessToken: string;
 
   constructor() {
+    this.accessToken = "";
     FB.init({
       appId: '135402210522026',
       version: 'v2.10',
@@ -19,24 +21,36 @@ export class FbLiveManagerComponent implements OnInit {
 
   ngOnInit() {
     this.fbLoginCheck();
-    this.fbLiveCreate();
+    //this.fbLiveCreate();
   }
 
   fbLoginCheck(){
     console.log('function called');
     FB.getLoginStatus(function(response){
+      console.log(response);
       if(response.status === 'connected'){
         localStorage.setItem("fb_access_token", response.authResponse.accessToken);
         localStorage.setItem("fb_user_id", response.authResponse.userID);
+        //this.accessToken = response.authResponse.accessToken;
+        //console.log("access token: " + this.accessToken);
+        FB.api('/me/accounts', function(accResponse){
+          console.log(accResponse);
+        });
       } else {
         console.log('else reached')
         FB.login(function(loginResponse){
           console.log(loginResponse);
           localStorage.setItem("fb_access_token", loginResponse.authResponse.accessToken);
           localStorage.setItem("fb_user_id", loginResponse.authResponse.userID);
-        });
+          //this.accessToken = loginResponse.authResponse.accessToken;
+          //console.log("access token: " + this.accessToken);
+          FB.api('/me/accounts', function(accResponse){
+            console.log(accResponse);
+          });
+        }, {scope: 'email,manage_pages,publish_pages'});
       }
     });
+    
   }
 
   fbLiveCreate(){
