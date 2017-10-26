@@ -33,6 +33,7 @@ export class NavigationComponent implements OnInit {
   journalSettings: boolean;
   journalNew: boolean;
   playlistVideojs:boolean;
+  destination:boolean;
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -61,6 +62,7 @@ export class NavigationComponent implements OnInit {
     this.journalSettings = false;
     this.journalNew = false;
     this.playlistVideojs=false;
+    this.destination=false;
   }
 
   ngOnInit() {
@@ -101,6 +103,7 @@ export class NavigationComponent implements OnInit {
         this.journalSettings = true;
         this.journalNew = true;
         this.playlistVideojs=true;
+        this.destination=true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
@@ -125,6 +128,9 @@ export class NavigationComponent implements OnInit {
           else if(this.userRoles[i].module_name === 'Videojs'){
             this.playlistVideojs =true;
           }
+          else if(this.userRoles[i].module_name === 'Destination'){
+            this.destination =true;
+          }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
@@ -147,6 +153,7 @@ export class NavigationComponent implements OnInit {
         this.journalSettings = true;
         this.journalNew = true;
         this.playlistVideojs=true;
+        this.destination =true;
       }
     }
   }
