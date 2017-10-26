@@ -14,70 +14,75 @@ import { BroadcasterVideos } from '../../../shared/models/broadcasterVideos';
 import { Broadcasters } from '../../../shared/models/broadcasters';
 import { BroadcasterChannel } from '../../../shared/models/broadcaster-channel';
 
+declare const FB: any;
+
 @Component({
-  selector: 'app-platform-upload',
-  templateUrl: './platform-upload.component.html',
-  providers: [BroadcasterService, CommonService]
+  selector: 'app-fb-video-upload',
+  templateUrl: './fb-video-upload.component.html',
+  providers: [BroadcasterService, CommonService, UtilityService]
 })
-export class PlatformUploadComponent implements OnInit {
-  newVideoUploadForm;
-  public videoUploader: FileUploader;
+export class FbVideoUploadComponent implements OnInit {
+  fbUploadForm;
+  loginResponse: LoginResponse;
+  user: User;
+  languages: Language[];
   broadcasters: Broadcasters[];
   broadcasterChannels: BroadcasterChannel[];
-  videos: BroadcasterVideos[];
-  video: BroadcasterVideos;
+  broadcasterVideo: BroadcasterVideos;
+  public fbUploader: FileUploader;
   superAdminUser: boolean;
   entertainmentUser: boolean;
-  loginResponse: LoginResponse;
   broadcasterId: number;
+  categoryList: string[] = ['BEAUTY_FASHION', 'BUSINESS', 'CARS_TRUCKS', 'COMEDY', 'CUTE_ANIMALS', 'ENTERTAINMENT',
+    'FAMILY', 'FOOD_HEALTH', 'HOME', 'LIFESTYLE', 'MUSIC', 'NEWS', 'POLITICS', 'SCIENCE', 'SPORTS',
+    'TECHNOLOGY', 'VIDEO_GAMING', 'OTHER'];
 
-  constructor(private fb: FormBuilder, private broadcasterService: BroadcasterService, private cookieService: CookieService) {
-    this.videoUploader = new FileUploader({url: "http://localhost:3000/upload/tester"});
+  constructor(private fb: FormBuilder, private broadcasterService: BroadcasterService, private commonService: CommonService, private cookieService: CookieService) {
+    this.user = new User();
     this.loginResponse = new LoginResponse();
+    this.broadcasterVideo = new BroadcasterVideos();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
-    console.log(this.loginResponse);
-    if(this.loginResponse.user_type === 'Super Admin'){
+    console.log("user type: " + this.loginResponse.user_type);
+    if (this.loginResponse.user_type === 'Super Admin') {
       this.superAdminUser = true;
       this.entertainmentUser = false;
-    } else if(this.loginResponse.user_type === 'Entertainment'){
-      this.entertainmentUser = true;
+    } else if (this.loginResponse.user_type === 'Entertainment') {
       this.superAdminUser = false;
+      this.entertainmentUser = true;
     }
   }
 
   ngOnInit() {
     this.initForm();
+    if (this.superAdminUser) {
+      this.getAllBroadcasters();
+    }
+    this.getBroadcasterChannels(parseInt(localStorage.getItem("broadcaster_id")));
   }
 
   initForm() {
-    this.newVideoUploadForm = this.fb.group({});
-    if(this.superAdminUser){
-      this.getAllBroadcasters();
-    }
-    this.getAllBroadcasterChannels(parseInt(localStorage.getItem("broadcaster_id")));
+    this.fbUploadForm = this.fb.group({
+      videoTitle: [null, [Validators.required]],
+      videoDescription: [null, [Validators.required]]
+    });
   }
 
-  testUpload() {
-    this.videoUploader.uploadAll();
-    this.videoUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      alert('uploaded');
-    }
-  }
-
-  getAllBroadcasters(){
+  getAllBroadcasters() {
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
-        console.log(broadcasters);
+        this.broadcasters = broadcasters;
+        console.log(this.broadcasters);
       },
       error => {
         console.log(error);
+        alert("something went wrong");
       }
     );
   }
 
-  getAllBroadcasterChannels(broadcasterId: number){
+  getBroadcasterChannels(broadcasterId: number) {
     this.broadcasterId = broadcasterId;
-    this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
+    this.broadcasterService.getChannelsByBroadcasterId(this.broadcasterId).subscribe(
       channels => {
         this.broadcasterChannels = channels;
         console.log(this.broadcasterChannels);
@@ -89,8 +94,16 @@ export class PlatformUploadComponent implements OnInit {
     );
   }
 
-  getChannelVideoByMPUpload(channelId: number){
-    
+  getAllLanguages() {
+    this.commonService.getAllLanguages().subscribe(
+      languages => {
+        this.languages = languages;
+      },
+      error => {
+        console.log(error);
+        alert('something went wrong');
+      }
+    );
   }
 
 }

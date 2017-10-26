@@ -115,7 +115,7 @@ public static createNewJournalSettingAndDevice=AppSettings.API_ENDPOINT +"journa
 
 
 // Broadcaster Destination 
-public static new_destination=AppSettings.API_ENDPOINT +"broadcaster/new";
+public static create_Destination=AppSettings.API_ENDPOINT +"broadcaster/new";
 
 
 };

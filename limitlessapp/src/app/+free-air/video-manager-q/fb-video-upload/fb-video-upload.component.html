@@ -1,0 +1,36 @@
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <sa-widget>
+        <header>
+          Upload Video To Facebook
+        </header>
+        <div class="widget-body">
+          <div class="widget-body no-padding">
+            <form [formGroup]="fbUploadForm" class="smart-form">
+              <fieldset>
+                <div class="row">
+                  <section *ngIf="superAdminUser" class="col col-4">
+                    <label>Select Broadcaster</label>
+                    <select class="form-control" name="broadcasterSelect" #broadcasterList>
+                      <option></option>
+                      <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
+                    </select>
+                  </section>
+                  <section class="col col-4">
+                    <label>Select Channel</label>
+                    <select class="form-control" name="channelSelect" #channelList>
+                      <option></option>
+                      <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                    </select>
+                  </section>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </sa-widget>
+    </div>
+  </sa-widgets-grid>
+</div>

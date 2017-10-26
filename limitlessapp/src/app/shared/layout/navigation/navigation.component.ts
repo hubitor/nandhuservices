@@ -106,7 +106,7 @@ export class NavigationComponent implements OnInit {
         this.journalNew = true;
         this.playlistVideojs = true;
         this.fbVideoUpload = true;
-        this.destination=true;
+        // this.destination=true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
@@ -131,9 +131,9 @@ export class NavigationComponent implements OnInit {
           else if (this.userRoles[i].module_name === 'Videojs') {
             this.playlistVideojs = true;
           }
-          else if(this.userRoles[i].module_name === 'Destination'){
-            this.destination =true;
-          }
+          // else if(this.userRoles[i].module_name === 'Destination'){
+          //   this.destination =true;
+          // }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;

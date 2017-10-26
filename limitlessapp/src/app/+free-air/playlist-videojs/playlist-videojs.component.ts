@@ -19,7 +19,7 @@ export class PlaylistVideojsComponent implements OnInit
 
      }
      public test:string[]=['v1','v2','v3','v4']
-    constructor(private fb: FormBuilder, )
+    constructor(private fb: FormBuilder)
     {
 
     }
