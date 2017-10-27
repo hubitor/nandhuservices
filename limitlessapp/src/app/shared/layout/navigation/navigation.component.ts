@@ -104,7 +104,7 @@ export class NavigationComponent implements OnInit {
         this.journalDevice = true;
         this.journalSettings = true;
         this.journalNew = true;
-        this.playlistVideojs = true;
+        // this.playlistVideojs = true;
         this.fbVideoUpload = true;
         // this.destination=true;
         for (var i = 0; i < userRolesLength; i++) {
@@ -128,9 +128,9 @@ export class NavigationComponent implements OnInit {
           else if (this.userRoles[i].module_name === 'Journal Manager') {
             this.journalManager = true;
           }
-          else if (this.userRoles[i].module_name === 'Videojs') {
-            this.playlistVideojs = true;
-          }
+          // else if (this.userRoles[i].module_name === 'Videojs') {
+          //   this.playlistVideojs = true;
+          // }
           // else if(this.userRoles[i].module_name === 'Destination'){
           //   this.destination =true;
           // }
