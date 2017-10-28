@@ -116,5 +116,15 @@ public static delete_streamTarget_journal="http://journal.haappyapp.com:8087/v2/
 public static jdevices_all=AppSettings.API_ENDPOINT +"journal/device/all"; //to get all journalDevice
 public static new_JournalDevice=AppSettings.API_ENDPOINT +"journal/update";
 
+// Journal Setting
+public static getJournalsByChannel=AppSettings.API_ENDPOINT +"journal/list/channel/"; // to pass channel id
+public static getJournalSettingByJournalId=AppSettings.API_ENDPOINT +"journal/get/settings/";  // to pass journal id
+public static getJournalDeviceBySettingsId=AppSettings.API_ENDPOINT +"journal/get/setting-device/"; // to pass setting id
+public static createNewJournalSettingAndDevice=AppSettings.API_ENDPOINT +"journal/setting/new";
+
+
+// Broadcaster Destination 
+public static create_Destination=AppSettings.API_ENDPOINT +"broadcaster/destination/new";
+
 
 };

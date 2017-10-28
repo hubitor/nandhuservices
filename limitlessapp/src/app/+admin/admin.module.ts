@@ -12,6 +12,7 @@ import { EshopComponent } from './eshop/eshop.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UserRolesComponent } from './user-roles/user-roles.component';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+import {DestinationComponent} from "./destination/destination.component";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
     EshopComponent,
     RegistrationComponent,
     UserRolesComponent,
+    DestinationComponent
     // FileDropDirective
   ]
 })

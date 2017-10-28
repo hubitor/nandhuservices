@@ -62,6 +62,13 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
+    createBroadcasterDestination(broadcasterDestination:BroadcasterDestination): Observable<any> {
+        
+                return this.http.post(AppConfig.create_Destination,broadcasterDestination, headerObj)
+                            .map(ResponseData.extractData)
+                            .catch(ResponseData.handleError);
+            };
+
 
 
     getAllBroadcasters(): Observable<Broadcasters[]> {
