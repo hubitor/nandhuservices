@@ -26,4 +26,5 @@ export class Broadcasters {
     state_code:string;
     city_code:string;
     w_j_appl_name:string;
+    is_loop_until:boolean;
 }
