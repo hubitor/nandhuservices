@@ -16,6 +16,7 @@ import {PlatformUploadComponent} from './video-manager-q/platform-upload/platfor
 import {FbLiveManagerComponent} from './video-manager-q/fb-live-manager/fb-live-manager.component';
 import { PlaylistVideojsComponent } from "./playlist-videojs/playlist-videojs.component";
 import { FbVideoUploadComponent } from './video-manager-q/fb-video-upload/fb-video-upload.component';
+import { JournalStreamComponent } from './journal-stream/journal-stream.component';
 
 export const routes:Routes = [
   
@@ -80,6 +81,10 @@ export const routes:Routes = [
   {
     path: 'fb-video',
     component: FbVideoUploadComponent
+  },
+  {
+    path:'journal-stream',
+    component:JournalStreamComponent,
   }
 ];
 

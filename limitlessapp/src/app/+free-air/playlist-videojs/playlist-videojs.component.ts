@@ -18,7 +18,7 @@ export class PlaylistVideojsComponent implements OnInit
     'type': 'video/mp4'
 
      }
-    //  public test:string[]=['v1','v2','v3','v4']
+     public test:string[]=['v1','v2','v3','v4']
     constructor(private fb: FormBuilder)
     {
 

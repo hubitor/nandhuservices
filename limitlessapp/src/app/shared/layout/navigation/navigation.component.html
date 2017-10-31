@@ -385,6 +385,9 @@
           <li *ngIf="playlistVideojs" routerLinkActive="active">
               <a routerLink="/free-air/playlist-videojs" title="Videojs"> {{'Videojs' | i18n}}</a>
           </li>
+          <li *ngIf="journalStream" routerLinkActive="active">
+            <a routerLink="/free-air/journal-stream" title="Journal Stream"> {{'Journal Stream' | i18n}}</a>
+        </li>
            
           <!-- <li *ngIf="channel Album" routerLinkActive="active">
             <a routerLink="/free-air/channel-album" title="Channel Album"> {{'Channel Album' | i18n}}</a>
