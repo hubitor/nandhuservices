@@ -31,7 +31,8 @@ import { SafeResourceUrl } from '@angular/platform-browser';
   providers: [BroadcasterService, DatePipe,NTemplateService,JournalService]
 })
 export class JournalStreamComponent implements OnInit {
-  channlId: string;
+  channlId:number;
+  broadcaster_channel_id:number;
   // channelVideoKeyRequest: ChannelVideoKeyRequest;
   journalKeyRequest:ChannelVideoKeyRequest;
   bChannelVideos: Broadcasters[];
@@ -171,6 +172,7 @@ export class JournalStreamComponent implements OnInit {
 
 
   getAllBroadcasterChannelDestination(channlId:number) {
+    this.getJournalsByChannelId(channlId);
     this.broadcasterService.getAllBroadcasterChannelDestination(channlId)
       .subscribe(
       broadcasterDestination =>{
@@ -188,8 +190,9 @@ export class JournalStreamComponent implements OnInit {
   
   onBroadcasterSelect(broadcasterId, isLoad: boolean) {
     const broadcasterVal = this.journalStreamForm.value;
-
+    // this.getJournalsByChannelId(broadcasterId);
     if (!isLoad && this.user.user_type == "Super Admin") {
+     
       this.broadcasterService.getAllBroadcasters().subscribe(
         channelCategories => this.setChannelselectedValue(channelCategories = channelCategories),
         error => this.errorMessage = error
@@ -248,7 +251,7 @@ export class JournalStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
-
+    // var broadcaster_channel_id;
     if (broadcasterVideos.length > 0) {
       var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos : [];
 
