@@ -143,12 +143,12 @@ export class JournalComponent implements OnInit {
       this.journal.updated_by = "uma";
       this.journalService.createJournal(this.journal).subscribe(
           createResponse => {
-            alert("journal created successfully...");
+            // alert("journal created successfully...");
             window.location.reload();
           },
           error =>
           {
-            alert("Something went wrong!");
+            // alert("Something went wrong!");
             console.log('error in '+ error);
           }
         );  

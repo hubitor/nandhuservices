@@ -175,12 +175,12 @@ export class JournalDeviceComponent implements OnInit {
     this.journalService.updateJournalDevice(this.journalDevice).subscribe(
     createResponse => {
       console.log('output'+createResponse);
-        alert("journaldevice updated");
+        // alert("journaldevice updated");
         window.location.reload();
         },
         error => 
         {
-          alert("Something went wrong!");
+          // alert("Something went wrong!");
           console.log('error in '+ error);
         }
    ); 
