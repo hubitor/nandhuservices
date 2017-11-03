@@ -110,7 +110,8 @@ export class ChannelVideoComponent implements OnInit {
         }
       },
       error => {
-        alert("Something went wrong. Primary channel not loaded");
+        console.log(error);
+        // alert("Something went wrong. Primary channel not loaded");
       }
     );
   }
@@ -121,7 +122,8 @@ export class ChannelVideoComponent implements OnInit {
         this.broadcasters = broadcasters;
       },
       error => {
-        alert("Something went wrong. Broadcaster list not loaded");
+        console.log(error); 
+        // alert("Something went wrong. Broadcaster list not loaded");
       }
     );
   }
@@ -132,7 +134,8 @@ export class ChannelVideoComponent implements OnInit {
         this.channelsList = channels;
       },
       error => {
-        alert("Something went wrong. Channels list not loaded");
+        console.log(error);
+        // alert("Something went wrong. Channels list not loaded");
       }
     );
   }
@@ -155,7 +158,8 @@ export class ChannelVideoComponent implements OnInit {
         }
       },
       error => {
-        alert("Channel Videos not loaded");
+        console.log(error);
+        // alert("Channel Videos not loaded");
       }
     );
   }
