@@ -185,6 +185,7 @@ export class JournalSettingsComponent implements OnInit {
     this.journalService.createNewJournalSettingAndDevice(this.journalSettings).subscribe(
       createResponse => {
         console.log(createResponse);
+        window.location.reload();
         // alert("Settings created");
       },
       error => {
