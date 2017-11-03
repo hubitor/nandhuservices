@@ -126,5 +126,11 @@ public static createNewJournalSettingAndDevice=AppSettings.API_ENDPOINT +"journa
 // Broadcaster Destination 
 public static create_Destination=AppSettings.API_ENDPOINT +"broadcaster/destination/new";
 
+// Broadcaster-channel videos
+
+public static getPrimaryChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/pcv/";  //to pass broadcasterid
+public static createNewChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/new"; 
+public static  getChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/channel/";   //to pass channelid
+
 
 };

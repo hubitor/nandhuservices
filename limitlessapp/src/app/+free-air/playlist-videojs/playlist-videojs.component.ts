@@ -11,6 +11,7 @@ import 'videojs-playlist';
 export class PlaylistVideojsComponent implements OnInit
 {
     videojsForm: FormGroup;
+    public displayDuration = "01:53";
      public videos:any[]=[]; 
      public isFirstEl:boolean=false;
      public isLastEl:boolean=false;
