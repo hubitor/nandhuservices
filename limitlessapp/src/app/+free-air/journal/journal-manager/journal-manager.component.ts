@@ -69,7 +69,7 @@ export class JournalManagerComponent implements OnInit  {
   constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
     private cookieService: CookieService, private broadcasterService: BroadcasterService
     ) {
-    debugger;
+    ;
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
@@ -126,7 +126,7 @@ this.videoJSplayer.dispose();
               myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8'});
   
               $("#change").on('click', function () {
-                debugger;
+                ;
                   myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8'});
               });
           });
@@ -182,7 +182,7 @@ getAllBroadcasters(){
 
   
 onChannelSelect(){
-    debugger;
+    ;
     var f_broadcaster;
     var j_appl_name;
     if(this.broadcasters.length >0)
