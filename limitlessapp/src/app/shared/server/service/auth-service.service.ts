@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import { LoginRequest } from '../../models/loginRequest';
 import { LoginResponse } from '../../models/loginResponse';
 import { UserRolesModel } from '../../models/userRolesModel';
+import { GoogleClientKeys } from '../../models/google-client-keys';
 
 @Injectable()
 export class AuthServiceService {
@@ -30,6 +31,12 @@ export class AuthServiceService {
 
   getUserRoles(userId: number): Observable<UserRolesModel[]> {
     return this.http.get(AppSettings.API_ENDPOINT+"user/roles/"+userId, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
+  getGoogleClientKeys(userId: number): Observable<GoogleClientKeys> {
+    return this.http.get("http://localhost:3000/user/get/client_keys/"+userId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
