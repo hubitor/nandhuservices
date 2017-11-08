@@ -11,15 +11,16 @@ import 'videojs-playlist';
 export class PlaylistVideojsComponent implements OnInit
 {
     videojsForm: FormGroup;
+    public displayDuration = "01:53";
      public videos:any[]=[]; 
      public isFirstEl:boolean=false;
      public isLastEl:boolean=false;
-     public video:any={ 'src': 'https://vjs.zencdn.net/v/oceans.mp4',
+     public video:any={ 'src': 'http://media.w3.org/2010/05/sintel/trailer.mp4',
     'type': 'video/mp4'
 
      }
      public test:string[]=['v1','v2','v3','v4']
-    constructor(private fb: FormBuilder, )
+    constructor(private fb: FormBuilder)
     {
 
     }
@@ -66,12 +67,10 @@ export class PlaylistVideojsComponent implements OnInit
     }
   ];
  
-  this.videos=playlist;
+      this.videos=playlist;
   //  player.playlist({ videos:playlist, playlist: { hideSidebar: false, upNext: true, hideIcons: false, items: 5 } });
   console.log("*************length"+this.videos.length);
   // player.playlist.autoadvance(0);
- 
-
 
 
 

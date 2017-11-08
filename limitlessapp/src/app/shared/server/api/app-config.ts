@@ -9,11 +9,11 @@ public static create_streamTarget="http://live.haappyapp.com:8087/v2/servers/_de
 
 public static get_streamTarget="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
-public static get_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static get_streamTarget_suddi="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
-public static create_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static create_streamTarget_suddi="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
-public static delete_streamTarget_suddi="http://live2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static delete_streamTarget_suddi="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
 public static get_channel_active="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
@@ -21,6 +21,15 @@ public static get_channel_active="http://live.haappyapp.com:8087/v2/servers/_def
 
 public static get_journal_active="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 //ka-mob-prajaa/instances
+
+// Journal Destination Stream
+
+
+public static get_streamTarget_journal="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static create_streamTarget_journal="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+
+public static delete_streamTarget_journal="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
 
   // Application Config   
@@ -115,6 +124,13 @@ public static createNewJournalSettingAndDevice=AppSettings.API_ENDPOINT +"journa
 
 
 // Broadcaster Destination 
-public static new_destination=AppSettings.API_ENDPOINT +"broadcaster/new";
+public static create_Destination=AppSettings.API_ENDPOINT +"broadcaster/destination/new";
+
+// Broadcaster-channel videos
+
+public static getPrimaryChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/pcv/";  //to pass broadcasterid
+public static createNewChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/new"; 
+public static  getChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/channel/";   //to pass channelid
+
 
 };

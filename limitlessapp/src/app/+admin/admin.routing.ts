@@ -3,7 +3,7 @@ import {Routes, RouterModule} from "@angular/router";
 import {BroadcasterComponent} from "./broadcaster/broadcaster.component";
 import {EshopComponent} from "./eshop/eshop.component";
 import {RegistrationComponent} from "./registration/registration.component";
-
+import {DestinationComponent} from "./destination/destination.component";
 export const routes:Routes = [
   {
     path: 'broadcaster',
@@ -16,7 +16,7 @@ export const routes:Routes = [
   {
     path: 'register',
     component: RegistrationComponent
-  }
+  },
 //   {
 //     path: 'channel-album',
 //     component: ChannelAlbumComponent
@@ -26,6 +26,10 @@ export const routes:Routes = [
 //     path: 'channel-stream',
 //     component: ChannelStreamComponent
 //   }
+  {
+  path: 'destination',
+  component: DestinationComponent
+  }
 ];
 
 export const Adminrouting = RouterModule.forChild(routes)

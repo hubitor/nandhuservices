@@ -49,7 +49,7 @@ export class VideoManagerQComponent implements OnInit {
         ,private utilityService:UtilityService
       , private notificationService: NotificationService) {
     
-    debugger;
+    ;
     this.user = new User();
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
@@ -68,7 +68,7 @@ export class VideoManagerQComponent implements OnInit {
     this.queueParams.user_id=this.loginResponse.user_id;
     if(this.newVideoForm)
     {
-      debugger;
+      ;
       const newVideo = this.newVideoForm.value;    
       this.queueParams.channel_id= newVideo.channelId;
       this.queueParams.language_id= newVideo.languageId;

@@ -26,19 +26,19 @@ export class BroadcasterChannelsService {
    }
 
    getPrimaryChannelVideos(broadcasterId: number): Observable<BroadcasterChannel>{
-     return this.http.get("http://localhost:3000/broadcaster/videos/list/pcv/"+broadcasterId, {headers: this.headers})
+     return this.http.get(AppConfig.getPrimaryChannelVideos+broadcasterId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
    };
 
    createNewChannel(channel: BroadcasterChannel): Observable<CreateResponse>{
-    return this.http.post("http://localhost:3000/broadcaster/broadcasterchannel/new", channel, {headers: this.headers})
+    return this.http.post(AppConfig.createNewChannel, channel, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
    };
 
    getChannelVideos(channelId: number): Observable<BroadcasterChannel>{
-     return this.http.get("http://localhost:3000/broadcaster/videos/list/channel/"+channelId, {headers: this.headers})
+     return this.http.get(AppConfig.getChannelVideos+channelId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
    }

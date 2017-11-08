@@ -62,6 +62,13 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
+    createBroadcasterDestination(broadcasterDestination:BroadcasterDestination): Observable<any> {
+        
+                return this.http.post(AppConfig.create_Destination,broadcasterDestination, headerObj)
+                            .map(ResponseData.extractData)
+                            .catch(ResponseData.handleError);
+            };
+
 
 
     getAllBroadcasters(): Observable<Broadcasters[]> {
@@ -127,10 +134,10 @@ export class BroadcasterService {
 
     getStreamTarget(applicationName:string,broadcaster_id:number)
     {
-        debugger;
+        
         var get_api_url=AppConfig.get_streamTarget+applicationName+"/pushpublish/mapentries";
 
-         if(broadcaster_id === 1026)
+         if(broadcaster_id === 1089) //1026 -suddi
          {
             get_api_url="";
             get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
@@ -149,12 +156,52 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     }
 
+    getStreamTargetJournal(applicationName:string)
+    {
+        //applicationName="ka-praaja";
+         return this.http.get(AppConfig.get_streamTarget_journal+applicationName+"/instances", wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+    createStreamTargetJournal(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number)
+    {
+        
+        var get_api_url=AppConfig.create_streamTarget_journal+applicationName+"/pushpublish/mapentries/"+entryName;
+        
+        // if(broadcaster_id === 1026)
+        // {
+        //     get_api_url="";
+        //     get_api_url=AppConfig.create_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
+        // }
+
+          return this.http.post(get_api_url, streamTargetRequest,wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+    deleteStreamTargetJournal(applicationName:string,entryName:string,broadcaster_id:number)
+    {
+        
+        var get_api_url=AppConfig.delete_streamTarget_journal+applicationName+"/pushpublish/mapentries/"+entryName;
+        
+        // if(broadcaster_id === 1026)
+        // {
+        //     get_api_url="";
+        //     get_api_url=AppConfig.delete_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
+        // }
+
+          return this.http.delete(get_api_url , wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
     deleteStreamTarget(applicationName:string,entryName:string,broadcaster_id:number)
     {
-        debugger;
+        
         var get_api_url=AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
-        if(broadcaster_id === 1026)
+        if(broadcaster_id === 1089)//1026-suddi
         {
             get_api_url="";
             get_api_url=AppConfig.delete_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
@@ -167,10 +214,10 @@ export class BroadcasterService {
 
      createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number)
     {
-        debugger;
+        
         var get_api_url=AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
-        if(broadcaster_id === 1026)
+        if(broadcaster_id === 1089)//1026 -suddi
         {
             get_api_url="";
             get_api_url=AppConfig.create_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;

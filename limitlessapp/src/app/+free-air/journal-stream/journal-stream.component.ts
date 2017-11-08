@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
-import { BroadcasterService } from "../../shared/server/service/broadcaster-service"
+import { User } from '../../shared/models/userModel';
+import { LoginResponse } from '../../shared/models/loginResponse';
+import { CookieService } from 'ngx-cookie';
+import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
+import { Broadcasters } from '../../shared/models/broadcasters';
+import { BroadcasterChannel } from '../../shared/models/broadcaster-channel';
+import { JournalService } from '../../shared/server/service/journal.service';
+import { Journal } from '../../shared/models/journal';
 import { NTemplateService } from "../../shared/server/service/ntemplate-service"
 import { Observable } from 'rxjs/Observable';
-import { Broadcasters } from "../../shared/models/broadcasters"
 import { ChannelVideoKeyRequest } from "../../shared/models/channelVideoKeyRequest"
 import { ChannelCategory } from "../../shared/models/channelCategory"
 import { BroadcasterVideos } from "../../shared/models/broadcasterVideos"
 import { CreateResponse } from "../../shared/models/createResponse";
-import { LoginResponse } from "../../shared/models/loginResponse";
 import 'rxjs/add/observable/of';
 import { NotificationService } from "../../shared/utils/notification.service";
 import { StreamTargetRequest } from "../../shared/models/stream-target-request"
@@ -18,26 +24,38 @@ import { StreamNotificationRequest } from "../../shared/models/stream-notify-req
 import { DatePipe } from '@angular/common';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
+
 @Component({
-  selector: 'app-channel-stream',
-  templateUrl: './channel-stream.component.html',
-  providers: [BroadcasterService, DatePipe,NTemplateService]
+  selector: 'app-journal-stream',
+  templateUrl: './journal-stream.component.html',
+  providers: [BroadcasterService, DatePipe,NTemplateService,JournalService]
 })
-export class ChannelStreamComponent implements OnInit {
+export class JournalStreamComponent implements OnInit {
+  channlId:number;
+  broadcaster_channel_id:number;
+  // channelVideoKeyRequest: ChannelVideoKeyRequest;
+  journalKeyRequest:ChannelVideoKeyRequest;
+  bChannelVideos: Broadcasters[];
+  channelCategories: ChannelCategory;
+  // journalCategories: ChannelCategory;
+  streamNotificationRequest: StreamNotificationRequest;
+  journalStreamForm;
   user: LoginResponse;
   url: 'https://www.youtube.com/watch?v=AXcxZXJ73ZA';
-  channelStreamForm: FormGroup;
   errorMessage: string;
   appid: number;
   client_id: number;
-  broadcasters: Broadcasters;
-  bChannelVideos: Broadcasters[];
-  channelCategories: ChannelCategory;
-  createResponse: CreateResponse;
-  channelVideoKeyRequest: ChannelVideoKeyRequest;
-  streamTargetRequest: StreamTargetRequest;
-  streamNotificationRequest: StreamNotificationRequest
+  broadcasters: Broadcasters[];
+  broadcasterChannels: BroadcasterChannel[];
+  journals: Journal[];
+  superAdminUser: boolean;
+  broadcasterUser: boolean;
+  loginResponse: LoginResponse;
+  broadcasterId: number;
+  journalId: number;
   streamTargetResponse;
+  streamTargetRequest: StreamTargetRequest;
+  createResponse: CreateResponse;
   broadcasterDestinations;
   mode: 'Observable';
   broadcasterVideos;
@@ -47,49 +65,96 @@ export class ChannelStreamComponent implements OnInit {
   notify_DestinationId: 0;
   isLoopUntil:false;
   isnewKeyDisabled:false;
-  constructor(private broadcasterService: BroadcasterService
-    , private fb: FormBuilder
-    , private notificationService: NotificationService
-    , private nTemplateService: NTemplateService
-    , private datePipe: DatePipe) {
+  channelId:number;
+
+  constructor(private broadcasterService: BroadcasterService, private journalService: JournalService,
+    private cookieService: CookieService, private fb: FormBuilder, private nTemplateService: NTemplateService
+     , private notificationService: NotificationService , private datePipe: DatePipe) {
+    this.superAdminUser = false;
+    this.broadcasterUser = false;
+    this.loginResponse = new LoginResponse();
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.w_applicationName=localStorage.getItem('w_appname');
-    if (this.user.user_type === "Super Admin") {
-      this.client_id = 1064;
-      this.user.client_id = 1064;
-
-    this.w_applicationName = "dev";
-    
-
-    }
-  else
-    {
+    this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
+    if (this.loginResponse.user_type === 'Entertainment') {
+      this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
       this.w_applicationName = this.user.w_appname;
-      this.client_id = this.user.client_id;
+      this.broadcasterUser = true;
+      this.superAdminUser = false;
+    } else if (this.loginResponse.user_type === 'Super Admin') {
+      this.superAdminUser = true;
+      this.broadcasterUser = false;
+      this.w_applicationName = "dev";
     }
-    this.createForm();
-
-
-  }
-
-  createForm() {
-    this.channelStreamForm = this.fb.group({
-      broadcasterName: [this.user.client_id ? this.user.client_id : 1064, Validators.required],
-      broadcasterChannelCategoryName: [this.user.primary_channel_id ? this.user.primary_channel_id : 140, Validators.required],
-      channelCurrentStreamKey: [null, Validators.required],
-      channelNewStreamKey: [null, [Validators.required, Validators.maxLength(300)]],
-      channelVideoId: [null],
-      broadcasterDestination: [null, Validators.required],
-    });
+    this.broadcasters = new Array();
+    this.journalId = 0;
   }
 
   ngOnInit() {
-
-    
-    
-    this.getAllBroadcastersById(this.client_id);
-//    this.getAllBroadcasterDestination();
+    this.initForm();
+    if (this.superAdminUser) {
+      this.getAllBroadcasters();
+    } else if (this.broadcasterUser) {
+      this.getBroadcasterChannels(this.loginResponse.client_id);
+    }
     this.streamNotificationRequest=new StreamNotificationRequest();
+    this.getJournalsByChannelId(this.channelId);
+  }
+
+  initForm() {
+    this.journalStreamForm = this.fb.group({
+        journalDestinationnewKey: [null, [Validators.required, Validators.maxLength(300)]],
+        journalDestinationcurKey: [null, [Validators.required]],
+        // journalDestinationName: [null, [Validators.required]],
+        channelJournalName: [null, [Validators.required]],
+        broadcasterName: [null, [Validators.required]],
+        broadcasterChannelCategoryName: [this.user.primary_channel_id ? this.user.primary_channel_id : 140, Validators.required],        
+        broadcasterDestination: [null, Validators.required],
+        channelVideoId: [null],
+    });
+  }
+
+  getAllBroadcasters() {
+    this.broadcasterService.getAllBroadcasters().subscribe(
+      broadcasters => {
+        this.broadcasters = broadcasters;
+        console.log(this.broadcasters);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getBroadcasterChannels(broadcasterId: number) {
+    this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
+      broadcasterChannels => {
+        this.broadcasterChannels = broadcasterChannels;
+        console.log(this.broadcasterChannels);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getJournalsByChannelId(channlId:number) {
+    console.log("journalid"+this.channlId);
+    this.journalService.getJournalsByChannel(channlId).subscribe(
+      journals => {
+        this.journals = journals;
+        console.log(this.journals);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  onJournalSelect(journalId: number) 
+  {
+    this.journalId = journalId;
+    console.log(this.journalId);
   }
 
   getAllBroadcasterDestination() {
@@ -97,6 +162,7 @@ export class ChannelStreamComponent implements OnInit {
       .subscribe(
       broadcasterDestination =>{
        this.broadcasterDestinations = broadcasterDestination 
+       console.log(this.broadcasterDestinations);
       
       },
       
@@ -106,51 +172,27 @@ export class ChannelStreamComponent implements OnInit {
 
 
   getAllBroadcasterChannelDestination(channlId:number) {
+    this.getJournalsByChannelId(channlId);
     this.broadcasterService.getAllBroadcasterChannelDestination(channlId)
       .subscribe(
       broadcasterDestination =>{
        this.broadcasterDestinations = broadcasterDestination 
        if(this.broadcasterDestinations.length>0)
         {
-          this.channelStreamForm.get('broadcasterDestination').setValue(this.broadcasterDestinations[1].d_id);
+          this.journalStreamForm.get('broadcasterDestination').setValue(this.broadcasterDestinations[1].d_id);
+          console.log("destid"+this.broadcasterDestinations[1].d_id);
         }
       },
       error => this.errorMessage = <any>error);
 
   }
 
-  updateDestinationId(destinations) {
-    
-    if (this.user.user_type === "Super Admin") {
-      this.client_id = 1064;
-      this.user.client_id = 1064;
-
-    }
-
-    //this.getAllBroadcastersById(this.client_id);
-  }
-
-  getAllBroadcastersById(broadcaterId) {
-    if (this.client_id === 1064) {
-      this.broadcasterService.getAllBroadcasters()
-        .subscribe(
-        broadcasters => this.setChannelselectedValue(broadcasters = broadcasters),
-        error => this.errorMessage = <any>error);
-    }
-    else {
-      this.broadcasterService.getAllBroadcastersById(broadcaterId)
-        .subscribe(
-        broadcasters => this.setChannelselectedValue(broadcasters = broadcasters),
-        error => this.errorMessage = <any>error);
-    }
-
-
-  }
-
+  
   onBroadcasterSelect(broadcasterId, isLoad: boolean) {
-    const broadcasterVal = this.channelStreamForm.value;
-
+    const broadcasterVal = this.journalStreamForm.value;
+    // this.getJournalsByChannelId(broadcasterId);
     if (!isLoad && this.user.user_type == "Super Admin") {
+     
       this.broadcasterService.getAllBroadcasters().subscribe(
         channelCategories => this.setChannelselectedValue(channelCategories = channelCategories),
         error => this.errorMessage = error
@@ -164,29 +206,43 @@ export class ChannelStreamComponent implements OnInit {
     }
 
   }
+  
 
+  updateDestinationId(destinations) {
+    
+    if (this.user.user_type === "Super Admin") {
+      this.client_id = 1064;
+      this.user.client_id = 1064;
+
+    }
+
+    //this.getAllBroadcastersById(this.client_id);
+  }
   setChannelselectedValue(broadcasters) {
     if (broadcasters.length > 0) {
       this.broadcasters = broadcasters;
       if (this.user.user_type === "Super Admin") {
 
-        var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.channelStreamForm.value.broadcasterName.toString());
+        var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.journalStreamForm.value.broadcasterName.toString());
         this.channelCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
         this.bChannelVideos = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
+        // this.journalCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
         this.updatingResponse(filterChannel);
+
 
       }
       else {
         this.channelCategories = broadcasters[0].broadcaster_channels;
         this.bChannelVideos = broadcasters[0].broadcaster_channels;
         this.updatingResponse(broadcasters);
+        // this.journalCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels: [];
       }
      
     }
   }
 
   onChannelCategorySelect(channelCategoryId) {
-    const broadcasterVal = this.channelStreamForm.value;
+    const broadcasterVal = this.journalStreamForm.value;
     var broadcasterId = broadcasterVal.broadcasterName ? this.user.client_id : broadcasterVal.broadcasterName;
     this.broadcasterService.getAllBroadcastersByCategoryId(broadcasterId, channelCategoryId)
       .subscribe(broadcasterVideos => this.updatingResponse(this.broadcasterVideos = broadcasterVideos),
@@ -195,7 +251,7 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
-
+    // var broadcaster_channel_id;
     if (broadcasterVideos.length > 0) {
       var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos : [];
 
@@ -204,16 +260,19 @@ export class ChannelStreamComponent implements OnInit {
         this.w_applicationName=broadcasterVideos[0].w_application_name;
         this.isLoopUntil=broadcasterVideos[0].is_loop_until;
         this.isnewKeyDisabled=this.isLoopUntil;
-        this.channelStreamForm.setValue({
-          channelCurrentStreamKey: null,              // broadcasterVideo[0].yt_streamkey,
+        this.journalStreamForm.setValue({
+          journalDestinationcurKey: null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
-          channelNewStreamKey: null,
+          journalDestinationnewKey: null,
           broadcasterName: broadcasterVideos[0].id,
           channelVideoId: broadcasterVideo[0].id,
-          broadcasterDestination: null
+          broadcasterDestination: null,
+          channelJournalName: broadcasterVideos[0].id
+          
         });
 
-        this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName)
+        this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.broadcasterChannelCategoryName);
+        // this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.channelJournalName);
       }
 
     }
@@ -227,13 +286,13 @@ export class ChannelStreamComponent implements OnInit {
   stopChannelVideoKey(value: any) {
     var newKeyResponse;
     this.streamNotificationRequest=new StreamNotificationRequest();
-    var destType = this.channelStreamForm.value.broadcasterDestination.toString();
-    this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
+    var destType = this.journalStreamForm.value.broadcasterDestination.toString();
+    this.streamNotificationRequest.broadcaster_id = this.journalStreamForm.value.broadcasterName;
     this.streamNotificationRequest.template_id = 1;
     if (destType === "1") {
       newKeyResponse = {
         id: -1,
-        fb_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+        fb_streamkey: this.journalStreamForm.value.journalDestinationcurKey
 
       }
       this.streamNotificationRequest.destination_id = 2;
@@ -241,7 +300,7 @@ export class ChannelStreamComponent implements OnInit {
     else if (destType === "2") {
       newKeyResponse = {
         id: -1,
-        yt_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+        yt_streamkey: this.journalStreamForm.value.journalDestinationcurKey
 
       }
       this.streamNotificationRequest.destination_id = 1;
@@ -249,7 +308,7 @@ export class ChannelStreamComponent implements OnInit {
     else if (destType === "3") {
       newKeyResponse = {
         id: -1,
-        ha_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+        ha_streamkey: this.journalStreamForm.value.journalDestinationcurKey
 
       }
       this.streamNotificationRequest.destination_id = 5;
@@ -257,7 +316,7 @@ export class ChannelStreamComponent implements OnInit {
     else if (destType === "4") {
       newKeyResponse = {
         id: -1,
-        ps_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
+        ps_streamkey: this.journalStreamForm.value.journalDestinationcurKey
 
       }
        this.streamNotificationRequest.destination_id = 3;
@@ -270,7 +329,7 @@ export class ChannelStreamComponent implements OnInit {
   showPopup(isStop: boolean) {
 
     var contentValue = "";
-    var selValue = this.channelStreamForm.value.broadcasterDestination.toString();
+    var selValue = this.journalStreamForm.value.broadcasterDestination.toString();
     if (selValue === "1")
       contentValue = "FaceBook";
     else if (selValue === "2")
@@ -300,53 +359,53 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updateStreamkey() {
-    this.channelVideoKeyRequest = new ChannelVideoKeyRequest();
+    this.journalKeyRequest = new  ChannelVideoKeyRequest();
     this.streamNotificationRequest=new StreamNotificationRequest();
-    const broadcasterVideoVal = this.channelStreamForm.value;
-    this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
-    this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
+    const broadcasterVideoVal = this.journalStreamForm.value;
+    this.journalKeyRequest.id = broadcasterVideoVal.channelVideoId;
+    this.streamNotificationRequest.broadcaster_id = this.journalStreamForm.value.broadcasterName;
     this.streamNotificationRequest.template_id = 1;
     var type;
     var dest = broadcasterVideoVal.broadcasterDestination.toString().trim();
     switch (dest) {
       case "1": {
         type = "fb";
-        this.channelVideoKeyRequest.fb_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
+        this.journalKeyRequest.fb_streamkey = broadcasterVideoVal.journalDestinationnewKey.trim();
         this.streamNotificationRequest.destination_id = 2;
         break;
       }
 
       case "2": {
         type = "yt";
-        this.channelVideoKeyRequest.yt_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
+        this.journalKeyRequest.yt_streamkey = broadcasterVideoVal.journalDestinationnewKey.trim();
         this.streamNotificationRequest.destination_id = 1;
         break;
       }
 
       case "3": {
         type = "ha";
-        this.channelVideoKeyRequest.ha_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
+        this.journalKeyRequest.ha_streamkey = broadcasterVideoVal.journalDestinationnewKey.trim();
         this.streamNotificationRequest.destination_id = 5;
         break;
       }
 
       case "4": {
         type = "ps";
-        this.channelVideoKeyRequest.ps_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
+        this.journalKeyRequest.ps_streamkey = broadcasterVideoVal.journalDestinationnewKey.trim();
         this.streamNotificationRequest.destination_id = 3;
         break;
       }
 
       default: {
         type = "yt";
-        this.channelVideoKeyRequest.yt_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
+        this.journalKeyRequest.yt_streamkey = broadcasterVideoVal.journalDestinationnewKey.trim();
         this.streamNotificationRequest.destination_id = 1;
         break;
       }
     }
 
 
-    this.broadcasterService.updateCategoryVideosKey(this.channelVideoKeyRequest, type)
+    this.broadcasterService.updateCategoryVideosKey(this.journalKeyRequest, type)
       .subscribe(
       createresponse => this.streamTargetKeyResponse(this.createResponse = createresponse, false,this.streamNotificationRequest),
       error => this.errorMessage = <any>error);
@@ -355,7 +414,7 @@ export class ChannelStreamComponent implements OnInit {
 
   streamTargetKeyResponse(newKeyResponse, isStop: boolean,streamNotificationRequest) {
 
-    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(),this.channelStreamForm.value.broadcasterName)
+    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(),this.journalStreamForm.value.broadcasterName)
       .subscribe(
       response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop,streamNotificationRequest,this.streamNotificationRequest.broadcaster_id),
       error => this.errorMessage = <any>error);
@@ -372,7 +431,7 @@ export class ChannelStreamComponent implements OnInit {
     //+ "-" + newKeyDate;
     if (getresponse.mapEntries.length > 0) {
       wowzaMapEntries = getresponse.mapEntries;
-      var destType = this.channelStreamForm.value.broadcasterDestination.toString();
+      var destType = this.journalStreamForm.value.broadcasterDestination.toString();
       if (destType === "1") {
         streamTargetVal = wowzaMapEntries.filter(
           destKey => destKey.host === "rtmp-api.facebook.com");
@@ -442,13 +501,13 @@ export class ChannelStreamComponent implements OnInit {
   refreshStreamKey() {
     
 
-    if(this.channelStreamForm.value.broadcasterDestination !="2")
+    if(this.journalStreamForm.value.broadcasterDestination !="2")
     {
        this.isLoopUntil=false;
        this.isnewKeyDisabled=false;
     }
 
-    const broadcasterVideoKeyVal = this.channelStreamForm.value;
+    const broadcasterVideoKeyVal = this.journalStreamForm.value;
     var videoKeyValue;
     if (this.bChannelVideos.length > 0) {
       videoKeyValue = this.bChannelVideos.filter(
@@ -460,41 +519,41 @@ export class ChannelStreamComponent implements OnInit {
       var dest = broadcasterVideoKeyVal.broadcasterDestination.toString();
       switch (dest) {
         case "1": {
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb_streamkey : '');
+          this.journalStreamForm.get('journalDestinationcurKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb_streamkey : '');
           break;
         }
 
         case "2": {
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
+          this.journalStreamForm.get('journalDestinationcurKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
           break;
         }
 
         case "3": {
 
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].ha_streamkey : '');
+          this.journalStreamForm.get('journalDestinationcurKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].ha_streamkey : '');
           break;
         }
 
         case "4": {
 
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].ps_streamkey : '');
+          this.journalStreamForm.get('journalDestinationcurKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].ps_streamkey : '');
           break;
         }
 
         default: {
 
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
+          this.journalStreamForm.get('journalDestinationcurKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
           break;
         }
        
       }
       if(this.isLoopUntil)
       {
-        this.channelStreamForm.get('channelNewStreamKey').setValue(this.channelStreamForm.value.channelCurrentStreamKey);
+        this.journalStreamForm.get('journalDestinationnewKey').setValue(this.journalStreamForm.value.journalDestinationcurKey);
       }
       else
       {
-        this.channelStreamForm.get('channelNewStreamKey').setValue("");
+        this.journalStreamForm.get('journalDestinationnewKey').setValue("");
       }
     }
   }
@@ -531,5 +590,5 @@ export class ChannelStreamComponent implements OnInit {
 
 
   }
-
+  
 }
