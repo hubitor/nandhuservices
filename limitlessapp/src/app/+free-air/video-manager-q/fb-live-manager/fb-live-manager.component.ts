@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 declare const FB: any;
 
@@ -8,8 +10,9 @@ declare const FB: any;
 })
 export class FbLiveManagerComponent implements OnInit {
   accessToken: string;
+  fbLiveForm;
 
-  constructor() {
+  constructor(private formBuilder: FormBuilder) {
     this.accessToken = "";
     FB.init({
       appId: '135402210522026',
@@ -20,8 +23,15 @@ export class FbLiveManagerComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.fbLoginCheck();
+    //this.fbLoginCheck();
     //this.fbLiveCreate();
+    this.initForm();
+  }
+
+  initForm(){
+    this.fbLiveForm = this.formBuilder.group({
+
+    });
   }
 
   fbLoginCheck(){
@@ -61,10 +71,10 @@ export class FbLiveManagerComponent implements OnInit {
     }, function(response){
       console.log(response);
       if(!response.id){
-        alert('diaglog failed');
+        alert('FB Live failed');
         return;
       }
-      alert('stream url: ' + response.secure_stream_url);
+      //alert('stream url: ' + response.secure_stream_url);
       FB.ui({
         display: 'popup',
         method: 'live_broadcast',
@@ -72,7 +82,7 @@ export class FbLiveManagerComponent implements OnInit {
         broadcast_data: response
       }, function(response){
         console.log(response);
-        alert('video status: '+ response.status);
+        //alert('video status: '+ response.status);
       });
     })
   }

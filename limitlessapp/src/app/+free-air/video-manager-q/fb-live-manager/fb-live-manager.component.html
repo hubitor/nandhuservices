@@ -1,3 +1,28 @@
-<p>
-  fb-live-manager works!
-</p>
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Facebook Live</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="fbLiveForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section class="col col-6">
+                      <label></label>
+                      <button class="btn btn-primary btn-lg" (click)="fbLiveCreate()">Go Live in <i class="fa fa-facebook"></i></button>
+                    </section>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>
