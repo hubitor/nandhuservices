@@ -14,6 +14,7 @@ import { ChannelVideoKeyRequest } from "../../shared/models/channelVideoKeyReque
 import { BroadcasterDestination } from "../../shared/models/broadcaster-destination";
 import { CreateResponse } from "../../shared/models/createResponse";
 import { Destination } from './destination';
+import { NotificationService } from "../../shared/utils/notification.service";
 
 
 @Component({
@@ -48,13 +49,18 @@ export class DestinationComponent implements OnInit {
      new Destination(1, 'FaceBook' ),
      new Destination(2, 'YouTube' ),
      new Destination(3, 'Haappyapp' ),
-     new Destination(4, 'Periscope')
+     new Destination(4, 'Periscope'),
+     new Destination(5, 'FaceBook-Page1' ),
+     new Destination(6, 'FaceBook-Page2' ),
+     new Destination(7, 'FaceBook-Page3' ),
+     new Destination(8, 'FaceBook-Page4' ),
+     new Destination(9, 'FaceBook-Page5' )
   ];
   
 
   public selectedDestination: Destination = this.destinations[0];
 
-  constructor(private broadcasterService: BroadcasterService,
+  constructor(private broadcasterService: BroadcasterService,private notificationService: NotificationService,
     private cookieService: CookieService, private fb: FormBuilder, private commonService: CommonService) {
     this.superAdminUser = false;
     this.broadcasterUser = false;
@@ -151,7 +157,14 @@ export class DestinationComponent implements OnInit {
             error => 
             {
               // alert("Something went wrong!");
-              console.log('error in '+ error);
+              this.notificationService.smartMessageBox({
+                title:"Already Exists",
+                content:"Destination already exists for this channel",
+                buttons:'[Ok]'
+              },(ButtonPressed)=>{
+                console.log('destination already exists');
+              }
+            );
             }
        ); 
 

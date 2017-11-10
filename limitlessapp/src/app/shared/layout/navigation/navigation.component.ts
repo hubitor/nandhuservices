@@ -103,11 +103,11 @@ export class NavigationComponent implements OnInit {
         this.broadcaster = true;
         this.eCommerce = false;
         this.videoManager = true;
-        this.journal = true;
-        this.journalDevice = true;
-        this.journalSettings = true;
+        this.journal =false;
+        this.journalDevice =false;
+        this.journalSettings =false;
         this.journalNew = true;
-        this.fbVideoUpload = true;
+        this.fbVideoUpload =true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
           if (this.userRoles[i].module_name === "Channel Stream") {
@@ -120,17 +120,8 @@ export class NavigationComponent implements OnInit {
           } else if (this.userRoles[i].module_name === 'Channel Manager') {
             this.channelManager = true;
           }
-          else if (this.userRoles[i].module_name === 'Journal') {
-            this.journal = true;
-          }
-          else if (this.userRoles[i].module_name === 'Journal Device') {
-            this.journalDevice = true;
-          }
           else if (this.userRoles[i].module_name === 'Journal Manager') {
             this.journalManager = true;
-          }
-          else if (this.userRoles[i].module_name === 'Journal Stream') {
-            this.journalStream = true;
           }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {

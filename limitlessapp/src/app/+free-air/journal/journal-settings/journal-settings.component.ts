@@ -169,7 +169,7 @@ export class JournalSettingsComponent implements OnInit {
     this.journalSettings.is_record = this.allowRecording;
     this.journalSettings.is_upload = this.allowUploading;
     this.journalSettings.rep_mac_addr = "";
-    this.journalSettings.host_url = "journal.haappyapp.com";
+    this.journalSettings.host_url = "journal2.haappyapp.com";
     this.journalSettings.host_port = "1935";
     this.journalSettings.suname = "live.journal";
     this.journalSettings.spwd = "JournaL";
