@@ -108,8 +108,10 @@ export class NavigationComponent implements OnInit {
         this.journalSettings =false;
         this.journalNew = true;
         this.fbVideoUpload =true;
+        this.channelStream = true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
+
           if (this.userRoles[i].module_name === "Channel Stream") {
             this.channelStream = true;
           } else if (this.userRoles[i].module_name === "Channel Video") {
