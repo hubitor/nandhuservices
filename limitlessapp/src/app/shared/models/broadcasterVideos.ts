@@ -23,5 +23,6 @@ export class BroadcasterVideos {
     ha_streamkey: string;
     created_by: string;
     updated_by: string;
+    ps_streamkey:string;
     
 }

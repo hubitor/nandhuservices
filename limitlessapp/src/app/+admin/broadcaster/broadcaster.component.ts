@@ -303,9 +303,10 @@ showPopup() {
        bv.p720=false;
        bv.p1080=false;
        bv.p_uhd=false;
-       bv.yt_streamkey="";
-       bv.fb_streamkey="";
-       bv.ha_streamkey="";
+       bv.yt_streamkey="yt-yyyyy-yyyyy";
+       bv.fb_streamkey="fb-35345-3646-244";
+       bv.ha_streamkey="ha-65756-happ";
+       bv.ps_streamkey="ps-3234-3435";
        bv.created_by=this.user.user_name;
        bv.updated_by=this.user.user_name;
        bc_onboardRequest.broadcaster_videos=bv;

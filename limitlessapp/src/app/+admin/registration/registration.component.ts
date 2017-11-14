@@ -100,9 +100,6 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  showPopup() {
-   
-        }
 
   getApplicationsList() {
     this.applicationService.getApplicationList().subscribe(
@@ -246,9 +243,8 @@ export class RegistrationComponent implements OnInit {
     this.user.created_by = "SA";
     this.user.last_updated_by = "SA";
     this.user.roleId = this.roleId;
-this.showPopup() 
-{
-      this.notificationService.smartMessageBox({
+      this.notificationService.smartMessageBox(
+        {
       title: "New client added",
         content: "Do you want to register the client details..?<i  style='color:green'></i>",
           buttons: '[No][Yes]'
@@ -258,20 +254,35 @@ this.showPopup()
                 createResponse => {
                 //  alert("user registered successfully...");
                  location.reload();
-                 console.log('error in creating'+ createResponse);
+                 console.log('Response'+ createResponse);
                 },
                 error => {
-                  // alert("Something went wrong!");
-                  console.log('error in creating'+error);
-                }
+                  // alert("email id or mobile number already exists");
+                  console.log('email/mobile'+error);
+                  this.notificationService.smartMessageBox({
+                    title:"Already Exists",
+                    content:"Mail id and Mobile number must be unique ",
+                    buttons:'[Ok]'
+                  },(ButtonPressed)=>{
+                    console.log('mail/email already exists');
+                  }
+                );
+               }
               );
             }
             else if(ButtonPressed == "No")
               {
-                alert("Registration cancel");
+                this.notificationService.smartMessageBox({
+                  title:"Registration Cancelled",
+                  content:"User cancel the registration ",
+                  buttons:'[Ok]'
+                },(ButtonPressed)=>{
+                  console.log('Registration Cancelled');
+                }
+              );
               }
            });
-         }
+  
  }
 
 }
