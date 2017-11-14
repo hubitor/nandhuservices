@@ -13,7 +13,7 @@
                 <div class="row">
                   <section *ngIf="superAdminUser" class="col col-4">
                     <label>Select Broadcaster</label>
-                    <select class="form-control" name="broadcasterSelect" #broadcasterList>
+                    <select class="form-control" name="broadcasterSelect" #broadcasterList (change)="getBroadcasterChannels(broadcasterList.value)">
                       <option></option>
                       <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
                     </select>
@@ -25,7 +25,37 @@
                       <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
                     </select>
                   </section>
+                  <section class="col col-4">
+                    <label>Select Language</label>
+                    <select class="form-control" name="channelSelect" #languageList (change)="onLanguageSelect(languageList.value)">
+                      <option></option>
+                      <option *ngFor="let language of languages" value="{{language.id}}">{{language.lang_name}}</option>
+                    </select>
+                  </section>
+                  <section class="col col-4">
+                    <label>Select Video Category</label>
+                    <select class="form-control" name="categorySelect" #videoCategoryList (change)="onCatgeorySelect(videoCategoryList.value)">
+                      <option></option>
+                      <option *ngFor="let category of categoryList" value="{{category}}">{{category}}</option>
+                    </select>
+                  </section>
+                  <section class="col col-4">
+                    <label class="input"><i class="icon-prepend fa fa-pencil-square-o"></i>
+                      <input type="text" class="form-control" name="videoTitle" placeholder="Video Title" formControlName="videoTitle">
+                    </label>
+                  </section>
+                  <section class="col col-4">
+                    <label class="input"><i class="icon-prepend fa fa-pencil-square-o"></i>
+                      <input type="text" class="form-control" name="videoDescription" placeholder="Video Description" formControlName="videoDescription">
+                    </label>
+                  </section>
+                  <section class="col col-4">
+                    <label class="input"><i class="icon-prepend fa fa-file-video-o"></i>
+                      <input type="file" class="form-control" name="videoFile" ng2FileSelect [uploader]="videoUploader">
+                    </label>
+                  </section>
                 </div>
+                <button type="submit" class="btn btn-success" name="addVideo" (click)="addNewVideoToFB()">Add Video To Facebook</button>
               </fieldset>
             </form>
           </div>
