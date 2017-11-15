@@ -387,8 +387,15 @@
           </li>
           <li *ngIf="journalStream" routerLinkActive="active">
             <a routerLink="/free-air/journal-stream" title="Journal Stream"> {{'Journal Stream' | i18n}}</a>
-        </li>
-           
+          </li>
+          <li routerLinkActive="ative">
+            <a title="Ads Manager">{{'Ads Manager' | i18n }}</a>
+            <ul>
+              <li>
+                <a routerLink="/free-air/logo-ads" title="Logo Ads">{{'Logo Ads' | i18n}}</a>  
+              </li>  
+            </ul>  
+          </li> 
           <!-- <li *ngIf="channel Album" routerLinkActive="active">
             <a routerLink="/free-air/channel-album" title="Channel Album"> {{'Channel Album' | i18n}}</a>
           </li> -->
