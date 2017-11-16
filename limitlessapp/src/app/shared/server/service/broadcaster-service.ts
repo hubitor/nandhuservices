@@ -137,7 +137,7 @@ export class BroadcasterService {
         
         var get_api_url=AppConfig.get_streamTarget+applicationName+"/pushpublish/mapentries";
 
-         if(broadcaster_id === 1089) //1026 -suddi
+         if(broadcaster_id === 1090) //1026 -suddi
          {
             get_api_url="";
             get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
@@ -201,7 +201,7 @@ export class BroadcasterService {
         
         var get_api_url=AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
-        if(broadcaster_id === 1089)//1026-suddi
+        if(broadcaster_id === 1090)//1026-suddi
         {
             get_api_url="";
             get_api_url=AppConfig.delete_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
@@ -217,7 +217,7 @@ export class BroadcasterService {
         
         var get_api_url=AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
-        if(broadcaster_id === 1089)//1026 -suddi
+        if(broadcaster_id === 1090)//1026 -suddi
         {
             get_api_url="";
             get_api_url=AppConfig.create_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
