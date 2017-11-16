@@ -22,18 +22,11 @@
                       <input type="file" class="form-control" name="adImage" ng2FileSelect [uploader]="imageUploader">
                     </section>
                     <section class="col col-6">
-                      <label>Ad Dimensions (Eg: 8x8)</label>
-                      <input type="text" class="form-control" name="adDimension">
-                    </section>
-                    <section class="col col-6">
-                      <label>Destinations</label>
-                      <select class="form-control" name="destinationSelect" #destinationList (change)="onDestinationSelect(destinationList.value)">
-                        <option></option>
-                        <option *ngFor="let destination of targetPlatforms" value="{{destination}}">{{destination}}</option>
-                      </select>
+                      <label>Ad Title</label>
+                      <input type="text" class="form-control" name="adTitle" formControlName="logoAdTitle">
                     </section>
                   </div>
-                  <button type="submit" class="btn btn-success" name="newLogoAd">Create Ad</button>
+                  <button type="submit" class="btn btn-success" name="newLogoAd" (click)="createNewLogoAd()">Create Ad</button>
                 </fieldset>
               </form>
             </div>

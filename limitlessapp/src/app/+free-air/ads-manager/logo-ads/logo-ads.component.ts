@@ -7,11 +7,13 @@ import { LoginResponse } from '../../../shared/models/loginResponse';
 import { BroadcasterService } from '../../../shared/server/service/broadcaster-service';
 import { BroadcasterChannel } from '../../../shared/models/broadcaster-channel';
 import { LogoAds } from '../../../shared/models/logo-ads';
+import { VideoUploadResponse } from '../../../shared/models/videoUploadResponse';
+import { AdsService } from '../../../shared/server/service/ads.service';
 
 @Component({
   selector: 'app-logo-ads',
   templateUrl: './logo-ads.component.html',
-  providers: [BroadcasterService]
+  providers: [BroadcasterService, AdsService]
 })
 export class LogoAdsComponent implements OnInit {
   newLogoAdForm;
@@ -19,16 +21,19 @@ export class LogoAdsComponent implements OnInit {
   broadcasterId: number;
   broadcasterChannels: BroadcasterChannel[];
   channelId: number;
-  targetPlatforms: string[] = ['Youtube', 'Facebook', 'Twitter'];
   public imageUploader: FileUploader;
   logoAds: LogoAds;
+  appName: string;
+  videoUploadResponse: VideoUploadResponse;
 
-  constructor(private fb: FormBuilder, private cookieSevice: CookieService, private broadcasterService: BroadcasterService) { 
+  constructor(private fb: FormBuilder, private cookieSevice: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService) { 
     this.loginResponse = new LoginResponse;
     this.loginResponse = JSON.parse(this.cookieSevice.get("HAU"));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
+    this.appName = localStorage.getItem("w_appname");
     this.logoAds = new LogoAds;
-    this.imageUploader = new FileUploader({url: '', allowedMimeType:['image/png', 'image/jpg', 'image/jpeg', 'image/gif']});
+    this.imageUploader = new FileUploader({url: 'http://localhost:3000/ads/logo/image/'+this.appName, allowedMimeType:['image/png', 'image/jpg', 'image/jpeg', 'image/gif']});
+    this.videoUploadResponse = new VideoUploadResponse();
   }
 
   ngOnInit() {
@@ -38,7 +43,7 @@ export class LogoAdsComponent implements OnInit {
 
   initForm(){
     this.newLogoAdForm = this.fb.group({
-      adDimensions: [null, [Validators.required]]
+      logoAdTitle: [null, [Validators.required]]
     });
   }
 
@@ -59,15 +64,29 @@ export class LogoAdsComponent implements OnInit {
     this.channelId = channelId;
   }
 
-  onDestinationSelect(destination: string[]){
-    console.log(destination);
-  }
-
   createNewLogoAd(){
     this.imageUploader.uploadAll();
     this.imageUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      this.videoUploadResponse = JSON.parse(response);
+      console.log(this.videoUploadResponse);
       const newLogoAd = this.newLogoAdForm.value;
-      this.logoAds.image_dimensions = newLogoAd.adDimensions;
+      this.logoAds.broadcaster_id = this.broadcasterId;
+      this.logoAds.channel_id = this.channelId;
+      this.logoAds.ad_title = newLogoAd.logoAdTitle;
+      this.logoAds.image_url = this.videoUploadResponse.videoUrl;
+      this.logoAds.is_active = true;
+      this.logoAds.created_by = this.loginResponse.user_name;
+      this.logoAds.updated_by = this.loginResponse.user_name;
+      this.adsService.createLogoAd(this.logoAds).subscribe(
+        createResponse => {
+          alert('New Logo Ad Added');
+          location.reload();
+        },
+        err => {
+          console.log(err);
+          alert('something went wrong');
+        }
+      );
     }
   }
 
