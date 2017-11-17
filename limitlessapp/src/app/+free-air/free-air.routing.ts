@@ -17,6 +17,7 @@ import {FbLiveManagerComponent} from './video-manager-q/fb-live-manager/fb-live-
 import { PlaylistVideojsComponent } from "./playlist-videojs/playlist-videojs.component";
 import { FbVideoUploadComponent } from './video-manager-q/fb-video-upload/fb-video-upload.component';
 import { JournalStreamComponent } from './journal-stream/journal-stream.component';
+import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
 
 export const routes:Routes = [
   
@@ -85,6 +86,10 @@ export const routes:Routes = [
   {
     path:'journal-stream',
     component:JournalStreamComponent,
+  },
+  {
+    path: 'logo-ads',
+    component: LogoAdsComponent
   }
 ];
 

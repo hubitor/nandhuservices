@@ -35,6 +35,7 @@ export class NavigationComponent implements OnInit {
   fbVideoUpload: boolean;
   destination:boolean;
   journalStream:boolean;
+  adsManager: boolean;
 
 
   constructor() {
@@ -67,7 +68,7 @@ export class NavigationComponent implements OnInit {
     this.fbVideoUpload = false;
     this.destination=false;
     this.journalStream=false;
-
+    this.adsManager = false;
   }
 
   ngOnInit() {
@@ -109,6 +110,7 @@ export class NavigationComponent implements OnInit {
         this.journalNew = true;
         this.fbVideoUpload =true;
         this.channelStream = true;
+        this.adsManager = true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
 
@@ -150,6 +152,7 @@ export class NavigationComponent implements OnInit {
         this.fbVideoUpload = true;
         this.destination =true;
         this.journalStream=true;
+        this.adsManager = true;
       }
     }
   }
