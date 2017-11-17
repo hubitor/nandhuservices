@@ -36,7 +36,7 @@ export class NavigationComponent implements OnInit {
   destination:boolean;
   journalStream:boolean;
   adsManager: boolean;
-
+  platformManager:boolean;
 
   constructor() {
     this.loginResponse = new LoginResponse();
@@ -69,6 +69,7 @@ export class NavigationComponent implements OnInit {
     this.destination=false;
     this.journalStream=false;
     this.adsManager = false;
+    this.platformManager = false;
   }
 
   ngOnInit() {
@@ -112,6 +113,7 @@ export class NavigationComponent implements OnInit {
         this.channelStream = true;
         this.adsManager = true;
         // this.journalManager = true;
+        this.platformManager=true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
 
@@ -127,6 +129,9 @@ export class NavigationComponent implements OnInit {
           }
           else if (this.userRoles[i].module_name === 'Journal Manager') {
             this.journalManager = true;
+          }
+          else if (this.userRoles[i].module_name === 'Platform Manager') {
+            this.platformManager = true;
           }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {
@@ -154,6 +159,7 @@ export class NavigationComponent implements OnInit {
         this.destination =true;
         this.journalStream=true;
         this.adsManager = true;
+        this.platformManager=true;
       }
     }
   }
