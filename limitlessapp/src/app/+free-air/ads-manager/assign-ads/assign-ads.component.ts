@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-assign-ads',
-  templateUrl: './assign-ads.component.html',
-  styleUrls: ['./assign-ads.component.css']
+  templateUrl: './assign-ads.component.html'
 })
 export class AssignAdsComponent implements OnInit {
   targetPlatforms: string[] = ['Youtube', 'Facebook', 'Twitter'];
