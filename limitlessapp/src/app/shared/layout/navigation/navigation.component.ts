@@ -111,6 +111,7 @@ export class NavigationComponent implements OnInit {
         this.fbVideoUpload =true;
         this.channelStream = true;
         this.adsManager = true;
+        // this.journalManager = true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
 

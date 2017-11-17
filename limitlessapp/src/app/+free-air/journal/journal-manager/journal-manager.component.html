@@ -106,7 +106,14 @@
                                                                 data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>  
                                                                 <!-- <source src={{this.bind_url}} type='application/x-mpegURL'> -->
                                                             </video>
-                                                            <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
+                                                            <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button><br>
+                                                            <!-- <div class="row"> -->
+                                                                <!-- <textarea cols="40" rows="2" name="comment" readonly>StreamingUrl:{{this.result}}</textarea> -->
+                                                                <!-- <label id="lbl2">{{this.result}}</label> -->
+                                                                StreamingUrl:<input type="text"style="height:16px;width:300px" value="{{this.result}}" readonly><br>
+                                                                
+                                                            <!-- </div> -->
+
                                                               </section>
                                                             </div>
                                                           </section>
@@ -115,7 +122,7 @@
                                              <div class="row">
                                                     <!-- dynamic HTML -->
                                                     <button type="submit" id="change" class="btn btn-success"  (click)="previewVideo()">Show</button>
-                                                    <!-- <label id="lbl1">{{userName}}</label> -->
+                                                    <label id="lbl1">{{this.userName}}</label>
                                                     <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered"  width="1024" height="400"
                                                     data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>  
                                                 </video>

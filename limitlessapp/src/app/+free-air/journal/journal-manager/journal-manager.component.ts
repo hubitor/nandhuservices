@@ -67,6 +67,7 @@ export class JournalManagerComponent implements OnInit  {
   video_demo:string[]=[];
   public finalUrl:string[];
   private videoJSplayer: any;
+  public result:string;
   constructor(private fb: FormBuilder, private journalService: JournalService,
     private cookieService: CookieService, private broadcasterService: BroadcasterService) {
     this.loginResponse = new LoginResponse();
@@ -107,16 +108,37 @@ ngOnInit()
         } );
      }
 
-  ngOnDestroy() {
+  ngOnDestroy() 
+  {
   this.videoJSplayer.dispose();
-}
+  }
 
   formatJournalURL(appl_name,s_name):string
   {
-  //   var streamName=s_name.split("-");
-  //  this.userName =streamName[streamName.length-1];
-  //   console.log("User Name::::"+this.userName);
-    return "http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+    var streamName=s_name.split("-");
+   this.userName =streamName[streamName.length-1];
+    console.log("User Name::::"+this.userName);
+  var type;
+    switch(type){
+      case 'http':
+      this.result="http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+      break;
+      case 'rtmp':
+      this.result="rtmp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
+      break;
+      case 'rtsp':
+      this.result="rtsp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
+      break;
+      default:
+      this.result="http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+
+    };
+        return  this.result;
+    // var http:string="http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+    // var rtmp:string="rtmp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
+    // var rtsp:string="rtsp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
+
+    // return "http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
   }
 
 
