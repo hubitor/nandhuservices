@@ -16,121 +16,113 @@
             <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <!-- Widget ID (each widget will need unique ID)-->
                 <sa-widget>
-                   
+
                     <header>
                         <span class="widget-icon"></span>
                         <h2>Platform Active </h2>
-                       
+
                     </header>
                     <div>
                         <!--(change)="onBroadcasterSelect(broadcasterName.value,true)"-->
-                        <form novalidate  class="smart-form" [formGroup]="journalManagerForm" >
+                        <form novalidate class="smart-form" [formGroup]="platformManagerForm">
 
-                                        <fieldset>
-                                                <div class="row">
-                                                        <section class="col col-3">
-                                                            <label class="label">Broadcasters</label>
-                                                            <label class="input">
-                  <i class="icon-append fa fa-tv"></i>
-                  
-                  <select class="form-control" formControlName="jbroadcasterId" name="jbroadcasterId" #jbroadcasterId (change)="getChannels(jbroadcasterId.value)">
-                    
-                    <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
-                  </select>
-                <b class="tooltip tooltip-bottom-right">Choose Broadcaster</b>
-                </label>
-                                                        </section>
-                                                    </div>
-                                                    <div class="row">
-                                                            <section class="col col-3">
-                                                                <label class="label">Channels</label>
-                                                                <label class="input">
-                      <i class="icon-append fa fa-tv"></i>
-                      
-                      <select class="form-control" formControlName="jchannelId" name="jchannelId" #jchannelId (change)="onChannelSelect()" >
-                        
-                        <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
-                      </select>
-                    <b class="tooltip tooltip-bottom-right">Choose Channel</b>
-                    </label>
-                                                            </section>
-                                                        </div>
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-3" *ngIf="superAdmin">
+                                        <label class="label">Broadcasters</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-tv"></i>
 
+                                            <select class="form-control" formControlName="broadcasterName" name="broadcasterName" #broadcasterName (change)="onBroadcasterSelect(broadcasterName.value,false)">
 
-                                                        <!-- <table class="table table-bordered">
-                                                        <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                        <label id="lbl1">{{userName}}</label>
-                                                                        <video id="1" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                        poster="http://thenewcode.com/assets/images/vid-glacier.jpg"
-                                                                        data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>    
-                                                                    </video>
-                                                                      <button type="submit" class="btn btn-success"  (click)="onChannelSelect()">Show</button>
-                                                                      <button type="submit" class="btn btn-success"  (click)="onlineCheck()">User</button>
-                                                                      <button type="submit" class="btn btn-success"  (click)="previewVideo()">Url</button>     
-                                                                      <div class="row">
-                                                                    <!-- <label id="2">URL:{{incomingStreams}}</label>       -->
-                                                                    <!-- </div>                                                                 
-                                                                    </td>
-                                                                </tr>
-                                                        </tbody>
-                                                        
-                                                        </table> --> 
+                                                <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
+                                            </select>
+                                            <b class="tooltip tooltip-bottom-right">Choose Broadcaster</b>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">Channels</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-tv"></i>
+                                            <!--(change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" -->
+                                            <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName>
+                                                <!--<option>Choose Channel Category</option>-->
+                                                <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
+                                            </select>
+                                            <b class="tooltip tooltip-bottom-right">Choose Channel</b>
+                                        </label>
+                                    </section>
+                                </div>
+                                <!-- <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">Destination</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-send"></i>
 
+                                            <!--(change)="onDestinationSelect()"-->
+                                            <!-- <select class="form-control" formControlName="broadcasterDestination" name="broadcasterDestination" #broadcasterDestination>
+                                                <option *ngFor="let broadcasterDestination of broadcasterDestinations" value="{{broadcasterDestination.d_id}}">{{broadcasterDestination.destination_name}}</option>
+                                            </select>
+                                            <b class="tooltip tooltip-bottom-right">Choose Destination</b>
+                                        </label>
+                                    </section>
 
+                                    
+                                </div> --> 
+                                <div class="row">
+                                    <table class="table">
+                                        <tbody>
+                                             <tr>
+                                                 <td>
                                                         <section>
-                                                            <h3>Journal List</h3>
-                                                            <div class="row">
-                                                                    <!-- <label id="lbl1">{{first_name}}</label> -->
-                                                              <section *ngFor="let journal of journalList;let idx = index" class="col col-4">
-                                                                    <label id="lbl1">{{journal.first_name}}</label>
-                                                                    <!-- <div class="success"> -->
-                                                                        <!-- <user-status [status]="user.status"></user-status>
-                                                                        <span [ngSwitch]="status">
-                                                                            <span *ngSwitchCase="'online'" class="help is-success">
-                                                                              Online <i class="fa fa-circle"></i>
-                                                                            </span>
-                                                                            <span *ngSwitchCase="'offline'" class="help is-danger">
-                                                                              Offline <i class="fa fa-circle"></i>
-                                                                            </span>
-                                                                            <span *ngSwitchCase="'away'" class="help is-warning">
-                                                                              Away <i class="fa fa-circle"></i>
-                                                                            </span>
-                                                                            <span *ngSwitchDefault class="help">
-                                                                              Unknown
-                                                                            </span>
-                                                                          </span> -->
-                                                                    <!-- </div> -->
-                                                                    <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150"
-                                                                data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>  
-                                                                <!-- <source src={{this.bind_url}} type='application/x-mpegURL'> -->
-                                                            </video>
-                                                            <button type="submit" class="btn btn-success"  (click)="previewVideo()">Show</button>
-                                                              </section>
-                                                            </div>
-                                                          </section>
-                                             </fieldset>
+                                                                <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                <img alt="youtube" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/youtube_live+(1).png" width="100%" height="35%"
+                                                                />
+                                                                <label>Status:</label><label id="lbl2" style="color: red;" let="status of ytStatus" [style.color]="ytStatus == 'OnLine' ? 'green' : 'red'">{{ytStatus}}</label>
+                
+                                                            </section>
+                                                 </td>
+                                                 <td>
+                                                        <section >
+                                                                <!-- <label id="lbl3">FaceBook</label>                                               -->
+                                                                <img alt="facebook" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/Facebook_475x106_live.png" width="100%" height="35%"
+                                                                />
+                                                                <label>Status:<label id="lbl4" style="color: red;"  let="status of fbStatus" [style.color]="fbStatus == 'OnLine' ? 'green' : 'red'">{{fbStatus}}</label></label>
+                                                            </section>
+                                                 </td>
 
-                                             <div class="row">
-                                                    <!-- dynamic HTML -->
-                                                    <button type="submit" id="change" class="btn btn-success"  (click)="previewVideo()">Show</button>
-                                                    <!-- <label id="lbl1">{{userName}}</label> -->
-                                                    <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered"  width="1024" height="400"
-                                                    data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>  
-                                                </video>
-                                                </div>
-                                        </form>
-                    </div>    
+                                                 <td>
+                                                        <section >
+                                                                <!-- <label id="lbl5">Twitter</label> -->
+                                                                <img alt="periscope" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/periscope_475x106.png" width="100%" height="15%"
+                                                                />
+                                                               <label>Status:</label> <label id="lbl6" style="color: red;"  let="status of psStatus" [style.color]="psStatus == 'OnLine' ? 'green' : 'red'">{{psStatus}}</label>
+                                                            </section>  
+                                                 </td>
+                                             </tr> 
+                                             
+                                            
+                                        </tbody>
+                                    </table>
 
-                   
+                                </div>                             
+
+
+                            </fieldset>
+
+                        </form>
+                    </div>
+
+
                 </sa-widget>
                 <!-- end widget -->
             </article>
             <!-- WIDGET END -->
         </div>
         <!-- end row -->
-        
+
     </sa-widgets-grid>
     <!-- end widget grid -->
 </div>

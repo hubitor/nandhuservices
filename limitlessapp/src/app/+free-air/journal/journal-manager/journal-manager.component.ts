@@ -134,10 +134,7 @@ ngOnInit()
 
     };
         return  this.result;
-    // var http:string="http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
-    // var rtmp:string="rtmp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
-    // var rtsp:string="rtsp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
-
+    // return "+"scheme"+://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8"; 
     // return "http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
   }
 
