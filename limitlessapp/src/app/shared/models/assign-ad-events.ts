@@ -8,6 +8,7 @@ export class AssignAdEvents {
     geo_x_coordinate:string;
     geo_y_coordinate:string;
     logo_ftp_path:string;
+    img_name:string;
     created_by: string;
     updated_by: string;
 }
