@@ -74,6 +74,7 @@ export class LogoAdsComponent implements OnInit {
       this.logoAds.channel_id = this.channelId;
       this.logoAds.ad_title = newLogoAd.logoAdTitle;
       this.logoAds.image_url = this.videoUploadResponse.videoUrl;
+      this.logoAds.ftp_path = this.videoUploadResponse.ftpPath;
       this.logoAds.is_active = true;
       this.logoAds.created_by = this.loginResponse.user_name;
       this.logoAds.updated_by = this.loginResponse.user_name;
