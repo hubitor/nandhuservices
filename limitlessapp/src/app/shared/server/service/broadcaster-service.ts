@@ -159,7 +159,7 @@ export class BroadcasterService {
     getStreamTargetJournal(applicationName:string)
     {
         //applicationName="ka-praaja";
-         return this.http.get(AppConfig.get_streamTarget_journal+applicationName+"/instances", wowzaHeader)
+         return this.http.get(AppConfig.get_journal_active+applicationName+"/instances", wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }

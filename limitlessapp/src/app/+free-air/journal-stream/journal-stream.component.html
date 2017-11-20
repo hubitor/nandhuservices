@@ -99,6 +99,32 @@
 
               
                                         </div> 
+
+
+                                        <!-- <select class="form-control" name="journalList" #journalsList (change)="onJournalSelect(journalsList.value)">
+                                            <option></option>
+                                            <option *ngFor="let journal of journals" value="{{journal.id}}">{{journal.email}}</option>
+                                          </select>
+                                        </section> -->
+                                        <div class="row">
+                                          <section class="col col-3">
+                                              <label>Stream Name</label>
+                                              <label class="input">
+                                                <i class="icon-append fa fa-send"></i>
+                                                <select class="form-control" name="streamname" #streamname (change)="onStreamNameSelect(streamname.value)">
+                                                        <option></option>
+                                                        <option *ngFor="let jSetting of journalSetting " value="{{jSetting.id}}">{{jSetting.stream_name}}</option>
+                                                </select>
+                                              <b class="tooltip tooltip-bottom-right">Choose stream_name</b>
+                                            </label>
+                                            </section>
+                                        </div>
+
+
+
+
+
+
                                               <div class="row">
                                               <section class="col col-3">
                                                    <label class="label">Current Stream Key</label>

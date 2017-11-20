@@ -1,27 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input  } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-
 import { User } from '../../../shared/models/userModel';
 import { LoginResponse } from '../../../shared/models/loginResponse';
-import { BroadcasterVideos } from '../../shared/models/broadcasterVideos';
-import { Language } from '../../shared/models/language';
-import { CommonService } from '../../../shared/server/service/common.service';
-import { UtilityService } from "../../../shared/server/service/utility-service"
 import { CookieService } from 'ngx-cookie';
 import { BroadcasterService } from '../../../shared/server/service/broadcaster-service';
 import { Broadcasters } from '../../../shared/models/broadcasters';
 import { BroadcasterChannel } from '../../../shared/models/broadcaster-channel';
-import { VideoUploadResponse } from '../../shared/models/videoUploadResponse';
 import { CreateResponse } from '../../../shared/models/createResponse';
-import { NotificationService } from "../../shared/utils/notification.service";
 import { AppConfig } from "../../shared/server/api/app-config";
-import { BroadcasterChannelsService } from '../../../shared/server/service/broadcaster-channels.service';
 import { JournalService } from '../../../shared/server/service/journal.service';
 import { Journal } from '../../../shared/models/journal';
 import { AppSettings } from "../../../shared/server/api/api-settings";
-import sha256 from 'crypto-js/sha256';
 declare var videojs : any;
+import { Observable } from 'rxjs/Observable'
+import { Subscription } from 'rxjs/Subscription'
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/throttleTime';
 export class videoURL
 {
     video_url:string=''
@@ -29,47 +24,52 @@ export class videoURL
 @Component({
   selector: 'app-journal-manager',
   templateUrl: './journal-manager.component.html',
-  providers: [BroadcasterChannelsService,BroadcasterService,JournalService]
+  providers: [BroadcasterService,JournalService]
 })
 
 
 export class JournalManagerComponent implements OnInit  {
+  @Input() status: string;
+  journal: Journal;
+  public email:string;
+  public first_name:string;
   broadcasterChannelId: number;
   is_active: boolean;
-  
+  isOnline:boolean;
   Id: number;
   journalManagerForm;
   channelId: number;
   errorMessage: string;
-  
   superAdmin: boolean;
   entertainmentUser: boolean;
   broadcasters: Broadcasters[];
   broadcasterChannels: BroadcasterChannel[];
   loginResponse: LoginResponse;
   broadcasterId: number;
-  languageId: number;
   createResponse: CreateResponse;
-  broadcasterChannel: BroadcasterChannel;
-  channelsList: BroadcasterChannel[];
   primaryChannelId: number;
-  channelName: string;
-  channelImage: string;
   channelSelected: boolean;
   videoList:videoURL[] = [];
   videourl:videoURL;
-  bind_url:string[]=[];
-  video_demo:string[]=["http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
-                       ,"http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
-                       ,"http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"
-                       ,"http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8"]
-  ishowPreview:boolean=true;
-  preview_url:string="http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8";
+  public bind_url:string[]=[];
+  appl_name:string;
+  s_name:string;
+  url:string;
+  journals: any; 
+  public userName:string;
+  public incomingStreams:any;
+  public sourceIp:any;
+  public displayDuration = "01:53";
+  journalList: Journal[];
+  journalLive: Journal;
+  public onlineFlag =navigator.onLine;
+  public v_url:string;
+  video_demo:string[]=[];
+  public finalUrl:string[];
   private videoJSplayer: any;
-  constructor(private fb: FormBuilder, private channelServices: BroadcasterChannelsService,
-    private cookieService: CookieService, private broadcasterService: BroadcasterService
-    ) {
-    ;
+  public result:string;
+  constructor(private fb: FormBuilder, private journalService: JournalService,
+    private cookieService: CookieService, private broadcasterService: BroadcasterService) {
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
@@ -89,52 +89,57 @@ export class JournalManagerComponent implements OnInit  {
 
 ngOnInit()
   {
-    this.initForm();
-    this.getAllBroadcasters();
-    //parseInt(localStorage.getItem("broadcaster_id"))
+   this.initForm();
+   this.getAllBroadcasters();
   }
 
 
 
-initForm() {
+  initForm() {
     this.journalManagerForm = this.fb.group({
       jchannelId: [null, [Validators.required]],
-      jbroadcasterId: [null, [Validators.required]]
+      jbroadcasterId: [null, [Validators.required]],
     });
   };
 
   ngAfterViewInit(){
-    this.videoJSplayer = videojs(document.getElementById('preview_8'), {}, function() {
+    this.videoJSplayer = videojs(document.getElementById('preview_8_html5_api'), {}, function() {
               this.play();
         } );
      }
 
-ngOnDestroy() {
-this.videoJSplayer.dispose();
-}
-
-  previewVideo()
+  ngOnDestroy() 
   {
-    (function ($) {
-      $(document).ready(function () {
-  
-          // An example of playing with the Video.js javascript API
-          // Will start the video and then switch the source 3 seconds latter
-          // You can look at the doc there: http://docs.videojs.com/docs/guides/api.html
-          videojs('preview_8_html5_api').ready(function () {
-              var myPlayer = this;
-              myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8'});
-  
-              $("#change").on('click', function () {
-                ;
-                  myPlayer.src({type: 'application/x-mpegURL', src: 'http://live.haappyapp.com:1935/ka-ayush/ayush-devotee/ayush-devotee/playlist.m3u8'});
-              });
-          });
-  
-      });
-  })(jQuery);
+  this.videoJSplayer.dispose();
   }
-getAllBroadcasters(){
+
+  formatJournalURL(appl_name,s_name):string
+  {
+    var streamName=s_name.split("-");
+   this.userName =streamName[streamName.length-1];
+    console.log("User Name::::"+this.userName);
+  var type;
+    switch(type){
+      case 'http':
+      this.result="http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+      break;
+      case 'rtmp':
+      this.result="rtmp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
+      break;
+      case 'rtsp':
+      this.result="rtsp://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"";
+      break;
+      default:
+      this.result="http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+
+    };
+        return  this.result;
+    // return "+"scheme"+://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8"; 
+    // return "http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+  }
+
+
+  getAllBroadcasters(){
     this.broadcasterService.getAllBroadcasters().subscribe(
       broadcasters => {
         this.broadcasters = broadcasters;
@@ -142,6 +147,7 @@ getAllBroadcasters(){
         {
             this.journalManagerForm.get('jbroadcasterId').setValue(this.broadcasters[0].id);
             this.getChannels(+this.broadcasters[0].id);
+             
         }
       },
       error => {
@@ -158,6 +164,7 @@ getAllBroadcasters(){
         if(this.broadcasterChannels.length>0)
         {
             this.journalManagerForm.get('jchannelId').setValue(this.broadcasterChannels[0].id);
+            this.getJournalsVideos(+this.broadcasterChannels[0].id);
             this.onChannelSelect();
         }
       },
@@ -167,21 +174,100 @@ getAllBroadcasters(){
     );
   };
 
-  formatLiveURL(appl_name,s_name):string
-  {
-    //return "http://live.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
-    return "http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8";
+
+  getJournalsVideos(channelId: number) {
+    this.journalService.getJournalsByChannel(channelId).subscribe(
+      journals => {
+        this.journals = journals;
+        if(this.journals.length>0){
+          this.channelSelected = true;
+          this.journalList = [];
+          var journalLength= this.journals.length;
+          for(var i=0; i<journalLength; i++){
+            if(this.journals.is_active === true){
+              this.journalLive = this.journals[i];
+            
+            } else {
+              this.journalList.push(this.journals[i]);
+              this.first_name = this.journals[i].first_name;
+              console.log("First Name:::"+this.first_name);
+              this.email = this.journals[i].email;
+              console.log("Email:::"+this.email);
+              this.onlineCheck();
+             
+            }
+          }
+        }
+       
+      },
+      error => {
+        console.log("journal list::"+error);
+       
+      }
+    );
   }
 
-  formatJournalURL(appl_name,s_name):string
+  onlineCheck()
   {
-    return "http://journal.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+    let xhr = new XMLHttpRequest();
+    return new Promise((resolve, reject)=>{
+        xhr.onload = () => {
+          
+            this.isOnline = true;
+            resolve(true);
+            console.log("user is in online "+this.isOnline);
+        };
+        xhr.onerror = () => {
+           
+            this.isOnline = false;
+            reject(false);
+            console.log("user is in offline "+this.isOnline);
+
+        };
+        xhr.open('GET',this.email, true);
+        console.log("online User "+this.email);
+        xhr.send();
+    });
+
+
+
   }
 
-  
+  clickHandler() 
+  {
+    this.onlineCheck().then(() => {
+       
+    }).catch(() => {
+       
+        alert('Sorry, no internet.');
+    });
+  }
 
+  previewVideo()
+  {
+    var mainUrl:string[]=this.finalUrl;
+    (function ($) {
+      $(document).ready(function () {
+          // An example of playing with the Video.js javascript API
+          // Will start the video and then switch the source 3 seconds latter
+          // You can look at the doc there: http://docs.videojs.com/docs/guides/api.html
+          videojs('preview_8_html5_api').ready(function () {
+              var myPlayer = this;
+              myPlayer.src({type: 'application/x-mpegURL', src:mainUrl});
+              console.log("screen output"+mainUrl);
+
+              $("#change").on('click', function () {
+                ;
+                  myPlayer.src({type: 'application/x-mpegURL', src:mainUrl});
+                  console.log("output"+mainUrl);
+              });
+          });
   
-onChannelSelect(){
+      });
+  })(jQuery);
+  }
+
+  onChannelSelect(){
     ;
     var f_broadcaster;
     var j_appl_name;
@@ -190,28 +276,35 @@ onChannelSelect(){
         f_broadcaster = this.broadcasters.filter(
             broadcasterId => broadcasterId.id.toString() === this.journalManagerForm.value.jbroadcasterId.toString());
             j_appl_name=f_broadcaster.length>0?f_broadcaster[0].w_j_appl_name:'';
-            j_appl_name="ka-praaja";
         if(j_appl_name!='')
         {
-            this.broadcasterService.getStreamActiveJournal(j_appl_name)
+            this.broadcasterService.getStreamTargetJournal(j_appl_name)
             .subscribe(
-            response => 
+                response => 
             {
+              console.log('length ::'+response.instanceList.length)
                if(response.instanceList.length>0)
                {
+                 console.log('instance ::'+JSON.stringify(response.instanceList[0]));
                    if(response.instanceList[0].incomingStreams.length>0)
                    {
-                       var incomingStreams=response.instanceList[0].incomingStreams;
-                       incomingStreams.forEach((ics) => { // foreach statement 
+                    console.log('instance :length:'+response.instanceList[0].incomingStreams.length);
+                       this.incomingStreams=response.instanceList[0].incomingStreams;
+                       console.log('incomingStreams::'+JSON.stringify(this.incomingStreams));
+                       this.incomingStreams.forEach((ics) => { // foreach statement 
                         this.videourl=new videoURL();
+                        console.log("video Url"+ this.videourl)
                         if(ics.isConnected)
                         {
-                            this.videourl.video_url=this.formatLiveURL(j_appl_name,ics.name).toString();
-                            var v_url=this.formatLiveURL(j_appl_name,ics.name).toString();
+                          console.log('ics.isConnected::'+ics.isConnected);
+                            this.videourl.video_url=this.formatJournalURL(j_appl_name,ics.name).toString();
+                            var v_url=this.formatJournalURL(j_appl_name,ics.name).toString();
+                            console.log('videourl::'+this.videourl.video_url);
+                            console.log('v_url::'+v_url);
                             this.bind_url.push(v_url);
-                            this.bind_url.push(v_url);
-                            this.bind_url.push(v_url);
-                            this.bind_url.push(v_url);
+                            this.finalUrl=this.bind_url;
+                            console.log("finalUrl:::"+this.finalUrl);
+                            console.log('this.bind_url::'+this.bind_url);
                         }
                        
                     })  
@@ -236,8 +329,5 @@ onChannelSelect(){
           
     }
   }
-
-
-
 
 }

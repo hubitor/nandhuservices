@@ -19,17 +19,17 @@ public static get_channel_active="http://live.haappyapp.com:8087/v2/servers/_def
 
 //Journal Active List
 
-public static get_journal_active="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static get_journal_active="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 //ka-mob-prajaa/instances
 
 // Journal Destination Stream
 
 
-public static get_streamTarget_journal="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static get_streamTarget_journal="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
-public static create_streamTarget_journal="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static create_streamTarget_journal="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
-public static delete_streamTarget_journal="http://journal.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
+public static delete_streamTarget_journal="http://journal2.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/";
 
 
   // Application Config   

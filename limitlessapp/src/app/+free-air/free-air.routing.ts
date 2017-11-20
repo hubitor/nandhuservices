@@ -18,6 +18,7 @@ import { PlaylistVideojsComponent } from "./playlist-videojs/playlist-videojs.co
 import { FbVideoUploadComponent } from './video-manager-q/fb-video-upload/fb-video-upload.component';
 import { JournalStreamComponent } from './journal-stream/journal-stream.component';
 import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
+import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
 
 export const routes:Routes = [
@@ -91,6 +92,10 @@ export const routes:Routes = [
   {
     path: 'logo-ads',
     component: LogoAdsComponent
+  },
+  {
+    path: 'platform-manager',
+    component: PlatformManagerComponent
   },
   {
     path: 'assign-ads',

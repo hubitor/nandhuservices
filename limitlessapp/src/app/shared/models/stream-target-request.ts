@@ -1,4 +1,6 @@
-export class StreamTargetRequest
+export class StreamTargetRequest   
+
+
 {
     serverName:string;
     sourceStreamName:string;
@@ -13,4 +15,5 @@ export class StreamTargetRequest
     autoStartTranscoder:boolean;
     enabled:boolean;
     appInstance:string;
+    sessionStatus:string;
 };

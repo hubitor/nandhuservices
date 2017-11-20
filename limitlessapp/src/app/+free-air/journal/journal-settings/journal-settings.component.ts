@@ -36,8 +36,8 @@ export class JournalSettingsComponent implements OnInit {
   languageId: number;
   allowRecording: boolean;
   allowUploading: boolean;
-  output_url_hls_baseurl: string = "http://journal.haappyapp.com:1935/";
-  output_url_rtsp_baseurl: string = "rtsp://journal.haappyapp.com:1935/";
+  output_url_hls_baseurl: string = "http://journal2.haappyapp.com:1935/";
+  output_url_rtsp_baseurl: string = "rtsp://journal2.haappyapp.com:1935/";
 
   constructor(private broadcasterService: BroadcasterService, private journalService: JournalService,
     private cookieService: CookieService, private fb: FormBuilder, private commonService: CommonService) {

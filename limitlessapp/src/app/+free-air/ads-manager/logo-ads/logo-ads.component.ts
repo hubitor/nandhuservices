@@ -63,6 +63,32 @@ export class LogoAdsComponent implements OnInit {
   onChannelSelect(channelId: number){
     this.channelId = channelId;
   }
+  calculateTimeSlots()
+  {
+    var starttime = "14:00:00";
+    var interval = "60";
+    var endtime = "23:00:00";
+    var timeslots = [starttime];
+    
+    
+    while (starttime != endtime) {
+      
+      starttime = this.addMinutes(starttime, interval);
+      timeslots.push(starttime);
+      console.log(timeslots);
+    }
+    //console.log(timeslots);
+  }
+
+  addMinutes(time, minutes) {
+    var myDate = new Date();
+    myDate.setTime(50400000);
+    var date = new Date(new Date(myDate.getTime() + minutes * 60000));
+    var tempTime = ((date.getHours().toString().length == 1) ? '0' + date.getHours() : date.getHours()) + ':' +
+      ((date.getMinutes().toString().length == 1) ? '0' + date.getMinutes() : date.getMinutes()) + ':' +
+      ((date.getSeconds().toString().length == 1) ? '0' + date.getSeconds() : date.getSeconds());
+    return tempTime;
+  }
 
   createNewLogoAd(){
     this.imageUploader.uploadAll();

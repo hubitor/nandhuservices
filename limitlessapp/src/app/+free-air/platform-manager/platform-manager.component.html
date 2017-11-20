@@ -1,0 +1,128 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Broadcaster', 'Platform Manager']" icon="home" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <!--<sa-stats></sa-stats>-->
+    </div>
+    <!--
+      The ID "widget-grid" will start to initialize all widgets below
+      You do not need to use widgets if you dont want to. Simply remove
+      the <section></section> and you can use wells or panels instead
+      -->
+    <!-- widget grid -->
+    <sa-widgets-grid>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <sa-widget>
+
+                    <header>
+                        <span class="widget-icon"></span>
+                        <h2>Platform Active </h2>
+
+                    </header>
+                    <div>
+                        <!--(change)="onBroadcasterSelect(broadcasterName.value,true)"-->
+                        <form novalidate class="smart-form" [formGroup]="platformManagerForm">
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-3" *ngIf="superAdmin">
+                                        <label class="label">Broadcasters</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-tv"></i>
+
+                                            <select class="form-control" formControlName="broadcasterName" name="broadcasterName" #broadcasterName (change)="onBroadcasterSelect(broadcasterName.value,false)">
+
+                                                <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
+                                            </select>
+                                            <b class="tooltip tooltip-bottom-right">Choose Broadcaster</b>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">Channels</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-tv"></i>
+                                            <!--(change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" -->
+                                            <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName>
+                                                <!--<option>Choose Channel Category</option>-->
+                                                <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
+                                            </select>
+                                            <b class="tooltip tooltip-bottom-right">Choose Channel</b>
+                                        </label>
+                                    </section>
+                                </div>
+                                <!-- <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">Destination</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-send"></i>
+
+                                            <!--(change)="onDestinationSelect()"-->
+                                            <!-- <select class="form-control" formControlName="broadcasterDestination" name="broadcasterDestination" #broadcasterDestination>
+                                                <option *ngFor="let broadcasterDestination of broadcasterDestinations" value="{{broadcasterDestination.d_id}}">{{broadcasterDestination.destination_name}}</option>
+                                            </select>
+                                            <b class="tooltip tooltip-bottom-right">Choose Destination</b>
+                                        </label>
+                                    </section>
+
+                                    
+                                </div> --> 
+                                <div class="row">
+                                    <table class="table">
+                                        <tbody>
+                                             <tr>
+                                                 <td>
+                                                        <section>
+                                                                <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                <img alt="youtube" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/youtube_live+(1).png" width="100%" height="35%"
+                                                                />
+                                                                <label>Status:</label><label id="lbl2" style="color: red;" let="status of ytStatus" [style.color]="ytStatus == 'OnLine' ? 'green' : 'red'">{{ytStatus}}</label>
+                
+                                                            </section>
+                                                 </td>
+                                                 <td>
+                                                        <section >
+                                                                <!-- <label id="lbl3">FaceBook</label>                                               -->
+                                                                <img alt="facebook" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/Facebook_475x106_live.png" width="100%" height="35%"
+                                                                />
+                                                                <label>Status:<label id="lbl4" style="color: red;"  let="status of fbStatus" [style.color]="fbStatus == 'OnLine' ? 'green' : 'red'">{{fbStatus}}</label></label>
+                                                            </section>
+                                                 </td>
+
+                                                 <td>
+                                                        <section >
+                                                                <!-- <label id="lbl5">Twitter</label> -->
+                                                                <img alt="periscope" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/periscope_475x106.png" width="100%" height="15%"
+                                                                />
+                                                               <label>Status:</label> <label id="lbl6" style="color: red;"  let="status of psStatus" [style.color]="psStatus == 'OnLine' ? 'green' : 'red'">{{psStatus}}</label>
+                                                            </section>  
+                                                 </td>
+                                             </tr> 
+                                             
+                                            
+                                        </tbody>
+                                    </table>
+
+                                </div>                             
+
+
+                            </fieldset>
+
+                        </form>
+                    </div>
+
+
+                </sa-widget>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+
+    </sa-widgets-grid>
+    <!-- end widget grid -->
+</div>

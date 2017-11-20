@@ -4,7 +4,8 @@ export class LogoAds {
     channel_id: number;
     ad_title: string;
     image_url: string;
-    ftp_path: string;
+    img_name:string;
+    ftp_path:string;
     is_active: boolean;
     created_by: string;
     updated_by: string;

@@ -31,6 +31,7 @@ import { FbVideoUploadComponent } from './video-manager-q/fb-video-upload/fb-vid
 import { JournalStreamComponent } from './journal-stream/journal-stream.component';
 import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
+import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.componen
     FbVideoUploadComponent,
     JournalStreamComponent,
     LogoAdsComponent,
-    AssignAdsComponent
+    AssignAdsComponent,
+    PlatformManagerComponent
   ]
 })
 export class FreeAirModule { }

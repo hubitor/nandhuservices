@@ -23,6 +23,11 @@ import { BroadcasterDestination } from "../../shared/models/broadcaster-destinat
 import { StreamNotificationRequest } from "../../shared/models/stream-notify-request"
 import { DatePipe } from '@angular/common';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { JournalSetting } from '../../shared/models/journal-setting';
+export class videoURL
+{
+    video_url:string=''
+}
 
 
 @Component({
@@ -31,17 +36,15 @@ import { SafeResourceUrl } from '@angular/platform-browser';
   providers: [BroadcasterService, DatePipe,NTemplateService,JournalService]
 })
 export class JournalStreamComponent implements OnInit {
+  isOnline: boolean;
+  settingId: number;
   channlId:number;
-  broadcaster_channel_id:number;
-  // channelVideoKeyRequest: ChannelVideoKeyRequest;
   journalKeyRequest:ChannelVideoKeyRequest;
   bChannelVideos: Broadcasters[];
   channelCategories: ChannelCategory;
-  // journalCategories: ChannelCategory;
   streamNotificationRequest: StreamNotificationRequest;
   journalStreamForm;
   user: LoginResponse;
-  url: 'https://www.youtube.com/watch?v=AXcxZXJ73ZA';
   errorMessage: string;
   appid: number;
   client_id: number;
@@ -66,6 +69,18 @@ export class JournalStreamComponent implements OnInit {
   isLoopUntil:false;
   isnewKeyDisabled:false;
   channelId:number;
+  videourl:videoURL;
+  bind_url:string[]=[];
+  public hostname:string;
+  public application_name:string;
+  public stream_name1:string;
+  journalSetting: JournalSetting[];
+  channelSelected: boolean;
+  videoList:videoURL[] = [];
+  stream_name:string;
+
+  
+
 
   constructor(private broadcasterService: BroadcasterService, private journalService: JournalService,
     private cookieService: CookieService, private fb: FormBuilder, private nTemplateService: NTemplateService
@@ -86,8 +101,12 @@ export class JournalStreamComponent implements OnInit {
       this.broadcasterUser = false;
       this.w_applicationName = "dev";
     }
-    this.broadcasters = new Array();
-    this.journalId = 0;
+    this.channelSelected = false;
+    this.createResponse = new CreateResponse();
+    this.videoList = new Array();
+    this.videourl=new videoURL();
+    this.journalSetting = new Array();
+  
   }
 
   ngOnInit() {
@@ -98,11 +117,11 @@ export class JournalStreamComponent implements OnInit {
       this.getBroadcasterChannels(this.loginResponse.client_id);
     }
     this.streamNotificationRequest=new StreamNotificationRequest();
-    this.getJournalsByChannelId(this.channelId);
   }
 
   initForm() {
     this.journalStreamForm = this.fb.group({
+        // journalId: [null, [Validators.required]],
         journalDestinationnewKey: [null, [Validators.required, Validators.maxLength(300)]],
         journalDestinationcurKey: [null, [Validators.required]],
         // journalDestinationName: [null, [Validators.required]],
@@ -139,7 +158,6 @@ export class JournalStreamComponent implements OnInit {
   }
 
   getJournalsByChannelId(channlId:number) {
-    console.log("journalid"+this.channlId);
     this.journalService.getJournalsByChannel(channlId).subscribe(
       journals => {
         this.journals = journals;
@@ -151,11 +169,145 @@ export class JournalStreamComponent implements OnInit {
     );
   }
 
-  onJournalSelect(journalId: number) 
-  {
+  getStreamNameByJournalId(journalId: number) {
+    this.journalService.getJournalSettingByJournalId(journalId).subscribe(
+      streamname => {
+        this.journalSetting =streamname;
+        if(this.journalSetting.length>0){
+          // this.journalStreamForm.get('jjournalId').setValue(this.journalSetting[0].id);
+          this.journalSelect();
+              }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  onJournalSelect(journalId: number) {
     this.journalId = journalId;
+    this.getStreamNameByJournalId(journalId);
     console.log(this.journalId);
   }
+
+
+  onStreamNameSelect(settingId: number)  {
+    this.settingId=settingId;
+  
+  }
+
+
+//  formatLiveURL(appl_name,s_name):string
+//   {
+//     //return "http://live.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+//     return "http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8";
+//   }
+
+  formatJournalURL(appl_name,s_name):string
+  {
+    return "http://journal.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
+    
+  }
+
+  onUrlsplit(){
+    var appl_name:string;
+    var s_name:string;
+    var snameUrl=this.formatJournalURL(appl_name,s_name).split("/");
+    if(snameUrl.length>0)
+    {
+      var stream_name1 =snameUrl[snameUrl.length-2];
+  
+    }
+    else{
+      console.log("no url found");
+    }
+
+  }
+
+  onlineCheck()
+  {
+    let xhr = new XMLHttpRequest();
+    return new Promise((resolve, reject)=>{
+        xhr.onload = () => {
+            // Set online status
+            this.isOnline = true;
+            resolve(true);
+            console.log("user is in online "+this.isOnline);
+        };
+        xhr.onerror = () => {
+            // Set online status
+            this.isOnline = false;
+            reject(false);
+            console.log("user is in offline "+this.isOnline);
+
+        };
+        xhr.open('GET',Journal.name, true);
+        console.log("live Url "+Journal);
+        xhr.send();
+    });
+
+
+
+  }
+
+
+  journalSelect(){
+    this.onUrlsplit();
+    var f_journalSetting;
+    var stream_name;
+    var journal_id;
+    if(this.journalSetting.length>0)
+      f_journalSetting =this.journalSetting.filter(
+        journalId => journalId.id.toString() === this.journalStreamForm.value.journalId.toString()
+      );
+        stream_name = f_journalSetting.length>0?f_journalSetting[0].stream_name:'';
+        journal_id=f_journalSetting.length>0?f_journalSetting[0].journal_id:'';
+        if(stream_name === this.stream_name1)
+        {
+            this.broadcasterService.getStreamActiveJournal(stream_name)
+            .subscribe(
+            response => 
+            {
+               if(response.instanceList.length>0)
+               {
+                   if(response.instanceList[0].incomingStreams.length>0)
+                   {
+                       var incomingStreams=response.instanceList[0].incomingStreams;
+                       incomingStreams.forEach((ics) => { // foreach statement 
+                        this.videourl=new videoURL();
+                        if(ics.isConnected)
+                        {
+                            this.videourl.video_url=this.formatJournalURL(stream_name,ics.name).toString();
+                            var v_url=this.formatJournalURL(stream_name,ics.name).toString();
+                            this.bind_url.push(v_url);
+                            // this.bind_url.push(v_url);
+                            // this.bind_url.push(v_url);
+                            // this.bind_url.push(v_url);
+                        }
+                       
+                    })  
+                   }
+                   else
+                   {
+                    console.log('No journals streams are active');
+                   }
+               }
+               else
+               {
+                console.log('No journals are active');
+               }     
+            },
+            error => this.errorMessage = <any>error);
+        }
+        else
+        {
+            console.log('No application are active');
+        }
+  
+          
+    
+  }
+
 
   getAllBroadcasterDestination() {
     this.broadcasterService.getAllBroadcasterDestination()
@@ -190,7 +342,6 @@ export class JournalStreamComponent implements OnInit {
   
   onBroadcasterSelect(broadcasterId, isLoad: boolean) {
     const broadcasterVal = this.journalStreamForm.value;
-    // this.getJournalsByChannelId(broadcasterId);
     if (!isLoad && this.user.user_type == "Super Admin") {
      
       this.broadcasterService.getAllBroadcasters().subscribe(
@@ -216,7 +367,6 @@ export class JournalStreamComponent implements OnInit {
 
     }
 
-    //this.getAllBroadcastersById(this.client_id);
   }
   setChannelselectedValue(broadcasters) {
     if (broadcasters.length > 0) {
@@ -226,7 +376,6 @@ export class JournalStreamComponent implements OnInit {
         var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.journalStreamForm.value.broadcasterName.toString());
         this.channelCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
         this.bChannelVideos = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
-        // this.journalCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
         this.updatingResponse(filterChannel);
 
 
@@ -235,7 +384,7 @@ export class JournalStreamComponent implements OnInit {
         this.channelCategories = broadcasters[0].broadcaster_channels;
         this.bChannelVideos = broadcasters[0].broadcaster_channels;
         this.updatingResponse(broadcasters);
-        // this.journalCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels: [];
+       
       }
      
     }
@@ -251,7 +400,6 @@ export class JournalStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
-    // var broadcaster_channel_id;
     if (broadcasterVideos.length > 0) {
       var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos : [];
 
@@ -261,7 +409,7 @@ export class JournalStreamComponent implements OnInit {
         this.isLoopUntil=broadcasterVideos[0].is_loop_until;
         this.isnewKeyDisabled=this.isLoopUntil;
         this.journalStreamForm.setValue({
-          journalDestinationcurKey: null,              // broadcasterVideo[0].yt_streamkey,
+          journalDestinationcurKey: null,           
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
           journalDestinationnewKey: null,
           broadcasterName: broadcasterVideos[0].id,
@@ -272,7 +420,6 @@ export class JournalStreamComponent implements OnInit {
         });
 
         this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.broadcasterChannelCategoryName);
-        // this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.channelJournalName);
       }
 
     }

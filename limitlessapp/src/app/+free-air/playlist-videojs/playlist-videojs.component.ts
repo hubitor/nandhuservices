@@ -72,9 +72,7 @@ export class PlaylistVideojsComponent implements OnInit
   console.log("*************length"+this.videos.length);
   // player.playlist.autoadvance(0);
 
-
-
-}
+  }
   previous(video:any){
     console.log("inside previous method"+JSON.stringify(video));
     let length=this.videos.length;

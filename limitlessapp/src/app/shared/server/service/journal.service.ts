@@ -68,7 +68,6 @@ export class JournalService {
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
-
   getJournalSettingByJournalId(journalId: number): Observable<JournalSetting[]>{
     return this.http.get(AppConfig.getJournalSettingByJournalId+journalId, {headers: this.headers})
       .map(ResponseData.extractData)
