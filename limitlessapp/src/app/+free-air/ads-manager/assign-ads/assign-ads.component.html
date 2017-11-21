@@ -1,3 +1,50 @@
-<p>
-  assign-ads works!
-</p>
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Add New Logo Ad</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="assignAdForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section class="col col-6">
+                      <label>Select Channel</label>
+                      <select class="form-control" name="channelsSelect" #channelsList (change)="onChannelSelect(channelsList.value)">
+                        <option></option>
+                        <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-6">
+                      <label>Select Ad Type</label>
+                      <select class="form-control" name="adTypeSelect" #adTypeList (change)="onAdTypeSelect(adTypeList.value)">
+                        <option></option>
+                        <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
+                      </select>
+                    </section>
+                  </div>
+                  <div id="logoAdAssigner" *ngIf="showLogoAdAssigner">
+                    <h1>Assign Logo Ad</h1>
+                    <div class="row">
+                      <section class="col col-6">
+                        <label>Select Broadcasting Type</label>
+                        <select class="form-control" name="eventTypSelect" #eventTypeList>
+                          <option></option>
+                          <option *ngFor="let btype of broadcastingTypes" value="{{btype}}">{{btype}}</option>
+                        </select>
+                      </section>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>
