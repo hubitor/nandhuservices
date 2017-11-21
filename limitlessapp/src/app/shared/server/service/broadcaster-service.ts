@@ -132,16 +132,16 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
-    getStreamTarget(applicationName:string,broadcaster_id:number,)
+    getStreamTarget(applicationName:string,broadcaster_id:number,w_get_target_url:string)
     {
         
-        var get_api_url=applicationName+"/pushpublish/mapentries";
+        var get_api_url=w_get_target_url+applicationName+"/pushpublish/mapentries";
 
-         if(broadcaster_id === 1090) //1026 -suddi
-         {
-            get_api_url="";
-            get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
-         }
+        //  if(broadcaster_id === 1090) //1026 -suddi
+        //  {
+        //     get_api_url="";
+        //     get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
+        //  }
          return this.http.get(get_api_url, wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
@@ -212,32 +212,34 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     }
 
-    deleteStreamTarget(applicationName:string,entryName:string,broadcaster_id:number)
+    deleteStreamTarget(applicationName:string,entryName:string,broadcaster_id:number,w_get_target_url:string)
     {
         
-        var get_api_url=AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
+        var get_api_url=w_get_target_url+applicationName+"/pushpublish/mapentries/"+entryName;
+        //var get_api_url=AppConfig.delete_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
         
-        if(broadcaster_id === 1090)//1026-suddi
-        {
-            get_api_url="";
-            get_api_url=AppConfig.delete_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
-        }
+        // if(broadcaster_id === 1090)//1026-suddi
+        // {
+        //     get_api_url="";
+        //     get_api_url=AppConfig.delete_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
+        // }
 
           return this.http.delete(get_api_url , wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
     }
 
-     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number)
+     createStreamTarget(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number,w_get_target_url:string)
     {
         
-        var get_api_url=AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
-        
-        if(broadcaster_id === 1090)//1026 -suddi
-        {
-            get_api_url="";
-            get_api_url=AppConfig.create_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
-        }
+        //var get_api_url=AppConfig.create_streamTarget+applicationName+"/pushpublish/mapentries/"+entryName;
+        var get_api_url=w_get_target_url+applicationName+"/pushpublish/mapentries/"+entryName;
+                
+        // if(broadcaster_id === 1090)//1026 -suddi
+        // {
+        //     get_api_url="";
+        //     get_api_url=AppConfig.create_streamTarget_suddi+applicationName+"/pushpublish/mapentries/"+entryName;
+        // }
 
           return this.http.post(get_api_url, streamTargetRequest,wowzaHeader)
                     .map(ResponseData.extractData)
