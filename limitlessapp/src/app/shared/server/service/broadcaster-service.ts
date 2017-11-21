@@ -132,16 +132,32 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     };
 
-    getStreamTarget(applicationName:string,broadcaster_id:number)
+    getStreamTarget(applicationName:string,broadcaster_id:number,)
     {
         
-        var get_api_url=AppConfig.get_streamTarget+applicationName+"/pushpublish/mapentries";
+        var get_api_url=applicationName+"/pushpublish/mapentries";
 
          if(broadcaster_id === 1090) //1026 -suddi
          {
             get_api_url="";
             get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
          }
+         return this.http.get(get_api_url, wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+    getSampleStreamTarget(applicationName:string,broadcaster_id:number,w_get_target_url:string)
+    {
+        // w_get_target_url="http://live.haappyapp.com:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications";
+        var get_api_url=w_get_target_url+applicationName+"/pushpublish/mapentries";
+        console.log(get_api_url);
+
+        //  if(broadcaster_id === 1090) //1026 -suddi
+        //  {
+        //     get_api_url="";
+        //     get_api_url=AppConfig.get_streamTarget_suddi+applicationName+"/pushpublish/mapentries";
+        //  }
          return this.http.get(get_api_url, wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
