@@ -48,6 +48,13 @@ export class PlatformManagerComponent implements OnInit {
   ytStatus = "OffLine";
   fbStatus = "OffLine";
   psStatus = "OffLine";
+  fp_start_time:string;
+  yt_start_time:string;
+  ps_start_time:string;
+  yt_stop_time:string;
+  fb_stop_time:string;
+  ps_stop_time:string;
+
   streamNotificationRequest: StreamNotificationRequest
   constructor(private fb: FormBuilder, private cookieService: CookieService,
     private datePipe: DatePipe, private notificationService: NotificationService,
@@ -144,9 +151,10 @@ export class PlatformManagerComponent implements OnInit {
         f_broadcaster = this.broadcasters.filter(
           broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
-
         this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
-
+        this.fp_start_time=f_broadcaster.length > 0 ? f_broadcaster[0].fp_start_time:'';
+        this.yt_start_time=f_broadcaster.length > 0 ? f_broadcaster[0].yt_start_time:'';
+        this.ps_start_time=f_broadcaster.length > 0 ? f_broadcaster[0].ps_start_time:'';
        
       }
       else {
@@ -155,8 +163,10 @@ export class PlatformManagerComponent implements OnInit {
         f_broadcaster = this.broadcasters.filter(
           broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
-
         this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
+        this.fp_start_time=f_broadcaster.length > 0 ? f_broadcaster[0].fp_start_time:'';
+        this.yt_start_time=f_broadcaster.length > 0 ? f_broadcaster[0].yt_start_time:'';
+        this.ps_start_time=f_broadcaster.length > 0 ? f_broadcaster[0].ps_start_time:'';
 
       }
 
