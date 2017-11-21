@@ -27,4 +27,7 @@ export class Broadcasters {
     city_code:string;
     w_j_appl_name:string;
     is_loop_until:boolean;
+    w_get_target_url:string;    
+    w_get_target_url_journal2:string;
+
 }

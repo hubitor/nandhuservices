@@ -17,4 +17,5 @@ export class LoginResponse{
     shop_code:number;
     w_appname:string;
     primary_channel_id:number;
+    w_get_target_url:string
 }
