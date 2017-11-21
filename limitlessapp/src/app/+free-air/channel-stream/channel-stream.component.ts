@@ -46,6 +46,7 @@ export class ChannelStreamComponent implements OnInit {
   notify_Templateid: 1;
   notify_DestinationId: 0;
   isLoopUntil:false;
+  w_get_target_url:"";
   isnewKeyDisabled:false;
   constructor(private broadcasterService: BroadcasterService
     , private fb: FormBuilder
@@ -203,6 +204,7 @@ export class ChannelStreamComponent implements OnInit {
         this.user.w_appname = broadcasterVideos[0].w_application_name;
         this.w_applicationName=broadcasterVideos[0].w_application_name;
         this.isLoopUntil=broadcasterVideos[0].is_loop_until;
+        this.w_get_target_url=broadcasterVideos[0].w_get_target_url;
         this.isnewKeyDisabled=this.isLoopUntil;
         this.channelStreamForm.setValue({
           channelCurrentStreamKey: null,              // broadcasterVideo[0].yt_streamkey,
@@ -355,7 +357,7 @@ export class ChannelStreamComponent implements OnInit {
 
   streamTargetKeyResponse(newKeyResponse, isStop: boolean,streamNotificationRequest) {
 
-    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(),this.channelStreamForm.value.broadcasterName)
+    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(),this.channelStreamForm.value.broadcasterName,this.w_get_target_url)
       .subscribe(
       response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop,streamNotificationRequest,this.streamNotificationRequest.broadcaster_id),
       error => this.errorMessage = <any>error);
@@ -424,7 +426,7 @@ export class ChannelStreamComponent implements OnInit {
 
     }
 
-    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.w_applicationName.trim(), this.streamTargetRequest.entryName,broadcaster_id)
+    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.w_applicationName.trim(), this.streamTargetRequest.entryName,broadcaster_id,this.w_get_target_url)
      
       .subscribe(
       response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop,streamNotificationRequest,broadcaster_id),
@@ -433,7 +435,7 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   streamTargetcreateResponse(response, entryName: string, isStop,streamNotificationRequest,broadcaster_id) {
-    this.broadcasterService.deleteStreamTarget(this.w_applicationName, entryName,broadcaster_id)
+    this.broadcasterService.deleteStreamTarget(this.w_applicationName, entryName,broadcaster_id,this.w_get_target_url)
       .subscribe(
       response => this.hasReload(response, isStop,streamNotificationRequest),
       error => this.errorMessage = <any>error)

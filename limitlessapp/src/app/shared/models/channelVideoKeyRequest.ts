@@ -5,4 +5,5 @@ export class ChannelVideoKeyRequest
     fb_streamkey:string;
     ha_streamkey:string;
     ps_streamkey:string;
+    
 }
