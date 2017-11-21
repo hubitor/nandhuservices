@@ -52,16 +52,14 @@ export class PlatformManagerComponent implements OnInit {
   constructor(private fb: FormBuilder, private cookieService: CookieService,
     private datePipe: DatePipe, private notificationService: NotificationService,
     private broadcasterService: BroadcasterService) {
+    this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.w_applicationName = localStorage.getItem('w_appname');
-    this.w_get_target_url = localStorage.getItem('w_get_target_url');
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
-
       this.w_applicationName = "dev";
-
 
     }
     else {
@@ -135,24 +133,30 @@ export class PlatformManagerComponent implements OnInit {
 
   setChannelselectedValue(broadcasters) {
     var f_broadcaster;
+   
     if (broadcasters.length > 0) {
       this.broadcasters = broadcasters;
       if (this.user.user_type === "Super Admin") {
 
         var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.channelCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
+       
         f_broadcaster = this.broadcasters.filter(
           broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
 
+        this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
 
-
+       
       }
       else {
         this.channelCategories = broadcasters[0].broadcaster_channels;
+       
         f_broadcaster = this.broadcasters.filter(
           broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
+
+        this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
 
       }
 
