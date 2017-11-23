@@ -10,6 +10,7 @@ import { LogoAds } from '../../../shared/models/logo-ads';
 import { AdsService } from '../../../shared/server/service/ads.service';
 import { AdEvent } from '../../../shared/models/ad-event';
 import { AssignLogoAds } from 'app/shared/models/assign-logo-ads';
+import { CreateResponse } from 'app/shared/models/createResponse';
 
 @Component({
   selector: 'app-assign-ads',
@@ -43,6 +44,8 @@ export class AssignAdsComponent implements OnInit {
   showLogoAdSlotsClicked: boolean;
   adEvent: AdEvent;
   assignLogoAds: AssignLogoAds[];
+  assignLogoAd: AssignLogoAds;
+  createResponse: CreateResponse;
 
   constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService, private elementRef: ElementRef) {
     this.loginResponse = new LoginResponse();
@@ -57,6 +60,8 @@ export class AssignAdsComponent implements OnInit {
     this.showLogoAdSlotsClicked = false;
     this.adEvent = new AdEvent();
     this.assignLogoAds = new Array();
+    this.logoAds = new Array();
+    this.createResponse = new CreateResponse();
   }
 
   ngOnInit() {
@@ -156,14 +161,48 @@ export class AssignAdsComponent implements OnInit {
     this.adEvent.duration = logoAdEventAssigner.eventDurationHrs;
     this.adEvent.date = logoAdEventAssigner.eventDate;
     this.adEvent.start_time = logoAdEventAssigner.eventStartTime;
-    this.adEvent.end_time = logoAdEventAssigner.end_time;
+    this.adEvent.end_time = logoAdEventAssigner.eventEndTime;
     this.adEvent.ad_window_time_pa = this.logoAdWindow;
     this.adEvent.is_active = true;
     this.adEvent.created_by = this.loginResponse.user_name;
     this.adEvent.updated_by = this.loginResponse.user_name;
     for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
-      
+      this.assignLogoAd = new AssignLogoAds();
+      let logoAdSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i);
+      let adPlcementSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#placementSelect-'+i);
+      let adTargetSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#adTargetSelect-'+i);
+      if(logoAdSelect.value != 'NONE' && adPlcementSelect.value != 'NONE' && adTargetSelect.value != 'NONE'){
+        let logoAdSelectSplitter = logoAdSelect.value.split(',');
+        let logoAdId: number = parseInt(logoAdSelectSplitter[0]);
+        let logoAdImgName: string = logoAdSelectSplitter[1];
+        let logoAdFtpPath: string = logoAdSelectSplitter[2];
+        this.assignLogoAd.logo_ad_id = logoAdId;
+        this.assignLogoAd.img_name = logoAdImgName;
+        this.assignLogoAd.logo_ftp_path = logoAdFtpPath;
+        let startTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#startTime-'+i);
+        let endTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#endTime-'+i);
+        this.assignLogoAd.time_slot_start = startTime.value;
+        this.assignLogoAd.time_slot_end = endTime.value;
+        this.assignLogoAd.ad_placement = adPlcementSelect.value;
+        this.assignLogoAd.ad_target = adTargetSelect.value;
+        this.assignLogoAd.created_by = this.loginResponse.user_name;
+        this.assignLogoAd.updated_by = this.loginResponse.user_name;
+        this.assignLogoAd.geo_x_coordinate = 'NIL';
+        this.assignLogoAd.geo_y_coordinate = 'NIL';
+        this.assignLogoAds.push(this.assignLogoAd);
+        this.assignLogoAd = null;
+      }
     }
+    this.adEvent.assignLogoAds = this.assignLogoAds;
+    this.adsService.assignLogoAds(this.adEvent).subscribe(
+      createResponse => {
+        this.createResponse = createResponse;
+        location.reload();
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }

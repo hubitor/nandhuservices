@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import { CreateResponse } from "../../models/createResponse";
 import { CookieService } from "ngx-cookie";
 import { LogoAds } from "../../models/logo-ads";
+import { AdEvent } from "../../models/ad-event";
 
 @Injectable()
 export class AdsService {
@@ -31,6 +32,12 @@ export class AdsService {
 
   getLogoAdsByChannelId(channelId: number): Observable<LogoAds[]> {
     return this.http.get("http://localhost:3000/ads/logo/get/channel/"+channelId, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
+  assignLogoAds(adEvent: AdEvent): Observable<CreateResponse>{
+    return this.http.post("http://localhost:3000/ads/logo/assign", adEvent, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
