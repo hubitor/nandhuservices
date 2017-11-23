@@ -9,6 +9,7 @@ import { BroadcasterChannel } from '../../../shared/models/broadcaster-channel';
 import { LogoAds } from '../../../shared/models/logo-ads';
 import { VideoUploadResponse } from '../../../shared/models/videoUploadResponse';
 import { AdsService } from '../../../shared/server/service/ads.service';
+import { AppSettings } from "../../../shared/server/api/api-settings";
 
 @Component({
   selector: 'app-logo-ads',
@@ -32,7 +33,7 @@ export class LogoAdsComponent implements OnInit {
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     this.appName = localStorage.getItem("w_appname");
     this.logoAds = new LogoAds;
-    this.imageUploader = new FileUploader({url: 'http://localhost:3000/ads/logo/image/'+this.appName, allowedMimeType:['image/png', 'image/jpg', 'image/jpeg', 'image/gif']});
+    this.imageUploader = new FileUploader({url: AppSettings.API_ENDPOINT+'ads/logo/image/'+this.appName, allowedMimeType:['image/png', 'image/jpg', 'image/jpeg', 'image/gif']});
     this.videoUploadResponse = new VideoUploadResponse();
   }
 
@@ -101,17 +102,18 @@ export class LogoAdsComponent implements OnInit {
       this.logoAds.ad_title = newLogoAd.logoAdTitle;
       this.logoAds.image_url = this.videoUploadResponse.videoUrl;
       this.logoAds.ftp_path = this.videoUploadResponse.ftpPath;
+      this.logoAds.img_name=this.videoUploadResponse.fileName;
       this.logoAds.is_active = true;
       this.logoAds.created_by = this.loginResponse.user_name;
       this.logoAds.updated_by = this.loginResponse.user_name;
       this.adsService.createLogoAd(this.logoAds).subscribe(
         createResponse => {
-          alert('New Logo Ad Added');
+          //alert('New Logo Ad Added');
           location.reload();
         },
         err => {
           console.log(err);
-          alert('something went wrong');
+          //alert('something went wrong');
         }
       );
     }

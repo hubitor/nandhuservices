@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("haappyapp-role-"+i, JSON.stringify(this.userModels[i]));
         }
        // this.router.navigate(['/']);
-       this.router.navigate(['/free-air/channel-video']);
+       this.router.navigate(['/free-air/platform-manager']);
       },
       error => {
         alert("something went wrong...");

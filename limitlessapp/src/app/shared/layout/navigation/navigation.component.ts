@@ -112,6 +112,7 @@ export class NavigationComponent implements OnInit {
         this.fbVideoUpload =true;
         this.channelStream = true;
         this.adsManager = true;
+        this.channelVideos =false;
         // this.journalManager = true;
         this.platformManager=true;
         for (var i = 0; i < userRolesLength; i++) {
@@ -119,10 +120,12 @@ export class NavigationComponent implements OnInit {
 
           if (this.userRoles[i].module_name === "Channel Stream") {
             this.channelStream = true;
-          } else if (this.userRoles[i].module_name === "Channel Video") {
-            this.channelVideos = true;
+          } 
+          else if (this.userRoles[i].module_name === "Channel Video") {
+            this.channelVideos =true;
           }
-          else if (this.userRoles[i].module_name === "Channel Home") {
+          else
+           if (this.userRoles[i].module_name === "Channel Home") {
             this.channelHome = true;
           } else if (this.userRoles[i].module_name === 'Channel Manager') {
             this.channelManager = true;

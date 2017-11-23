@@ -24,7 +24,7 @@ export class AdsService {
   }
 
   createLogoAd(logoAds: LogoAds): Observable<CreateResponse>{
-    return this.http.post("http://localhost:3000/ads/logo/new", logoAds, {headers: this.headers})
+    return this.http.post(AppSettings.API_ENDPOINT+"ads/logo/new", logoAds, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

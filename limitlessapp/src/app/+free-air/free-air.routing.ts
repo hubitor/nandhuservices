@@ -22,7 +22,6 @@ import { PlatformManagerComponent } from './platform-manager/platform-manager.co
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
 
 export const routes:Routes = [
-  
   {
     path: 'channel-video',
     component: ChannelVideoComponent
@@ -95,7 +94,7 @@ export const routes:Routes = [
   },
   {
     path: 'platform-manager',
-    component: PlatformManagerComponent
+    component: PlatformManagerComponent,
   },
   {
     path: 'assign-ads',

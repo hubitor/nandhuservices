@@ -24,5 +24,12 @@ export class BroadcasterVideos {
     created_by: string;
     updated_by: string;
     ps_streamkey:string;
+    fp_start_time:string;
+    yt_start_time:string;
+    ps_start_time:string;
+    yt_stop_time:string;
+    fb_stop_time:string;
+    ps_stop_time:string;
+
     
 }
