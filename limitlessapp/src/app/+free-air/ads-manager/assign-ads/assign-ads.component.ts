@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -8,6 +8,8 @@ import { BroadcasterService } from '../../../shared/server/service/broadcaster-s
 import { BroadcasterChannel } from '../../../shared/models/broadcaster-channel';
 import { LogoAds } from '../../../shared/models/logo-ads';
 import { AdsService } from '../../../shared/server/service/ads.service';
+import { AdEvent } from '../../../shared/models/ad-event';
+import { AssignLogoAds } from 'app/shared/models/assign-logo-ads';
 
 @Component({
   selector: 'app-assign-ads',
@@ -39,8 +41,10 @@ export class AssignAdsComponent implements OnInit {
   noOfLogoAdTimeSlots: number;
   logoAdTimeSlots: number[];
   showLogoAdSlotsClicked: boolean;
+  adEvent: AdEvent;
+  assignLogoAds: AssignLogoAds[];
 
-  constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService) {
+  constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService, private elementRef: ElementRef) {
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get('HAU'));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
@@ -51,6 +55,8 @@ export class AssignAdsComponent implements OnInit {
     this.vod = false;
     this.logoAdTimeSlots = new Array();
     this.showLogoAdSlotsClicked = false;
+    this.adEvent = new AdEvent();
+    this.assignLogoAds = new Array();
   }
 
   ngOnInit() {
@@ -136,6 +142,27 @@ export class AssignAdsComponent implements OnInit {
     this.noOfLogoAdTimeSlots = Math.round(totalDurationInMins / this.logoAdWindow);
     for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
       this.logoAdTimeSlots.push(i);
+    }
+  }
+
+  onAssignLogoAdsClick(){
+    // for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
+    //   let val: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i)
+    //   console.log(val.value);
+    // }
+    const logoAdEventAssigner = this.assignAdForm.value;
+    this.adEvent.channel_id = this.channelId;
+    this.adEvent.event_type = 'Short Event';
+    this.adEvent.duration = logoAdEventAssigner.eventDurationHrs;
+    this.adEvent.date = logoAdEventAssigner.eventDate;
+    this.adEvent.start_time = logoAdEventAssigner.eventStartTime;
+    this.adEvent.end_time = logoAdEventAssigner.end_time;
+    this.adEvent.ad_window_time_pa = this.logoAdWindow;
+    this.adEvent.is_active = true;
+    this.adEvent.created_by = this.loginResponse.user_name;
+    this.adEvent.updated_by = this.loginResponse.user_name;
+    for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
+      
     }
   }
 
