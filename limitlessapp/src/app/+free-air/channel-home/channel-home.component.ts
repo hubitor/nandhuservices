@@ -10,7 +10,7 @@ import { User } from '../../shared/models/userModel';
   providers: [ApplicationService]
 })
 export class ChannelHomeComponent implements OnInit {
-  newClientForm;
+  channelHomeForm;
   userTypes=['eCommerce', 'Entertainment'];
   application: Application;
   applications: Application[];
@@ -29,7 +29,7 @@ export class ChannelHomeComponent implements OnInit {
   }
 
   initForm(){
-    this.newClientForm = this.fb.group({
+    this.channelHomeForm = this.fb.group({
       playbackURL: [null, [Validators.required]]
     
     });
