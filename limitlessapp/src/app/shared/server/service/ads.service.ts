@@ -29,4 +29,10 @@ export class AdsService {
       .catch(ResponseData.handleError);
   }
 
+  getLogoAdsByChannelId(channelId: number): Observable<LogoAds[]> {
+    return this.http.get("http://localhost:3000/ads/logo/get/channel/"+channelId, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
 }

@@ -15,6 +15,7 @@ import { StreamTargetRequest } from "../../shared/models/stream-target-request";
 import { DatePipe } from '@angular/common';
 import { StreamNotificationRequest } from "../../shared/models/stream-notify-request"
 import { NotificationService } from '../../shared/utils/notification.service';
+import { BroadcasterVideos } from "../../shared/models/broadcasterVideos"
 
 @Component({
   selector: 'app-platform-manager',
@@ -48,20 +49,26 @@ export class PlatformManagerComponent implements OnInit {
   ytStatus = "OffLine";
   fbStatus = "OffLine";
   psStatus = "OffLine";
+  fp_start_time:string;
+  yt_start_time:string;
+  ps_start_time:string;
+  yt_stop_time:string;
+  fb_stop_time:string;
+  ps_stop_time:string;
+  broadcasterVideos;
+
   streamNotificationRequest: StreamNotificationRequest
   constructor(private fb: FormBuilder, private cookieService: CookieService,
     private datePipe: DatePipe, private notificationService: NotificationService,
     private broadcasterService: BroadcasterService) {
+    this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.w_applicationName = localStorage.getItem('w_appname');
-    this.w_get_target_url = localStorage.getItem('w_get_target_url');
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
-
       this.w_applicationName = "dev";
-
 
     }
     else {
@@ -135,6 +142,7 @@ export class PlatformManagerComponent implements OnInit {
 
   setChannelselectedValue(broadcasters) {
     var f_broadcaster;
+   
     if (broadcasters.length > 0) {
       this.broadcasters = broadcasters;
       if (this.user.user_type === "Super Admin") {
@@ -142,18 +150,26 @@ export class PlatformManagerComponent implements OnInit {
         var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.channelCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
         f_broadcaster = this.broadcasters.filter(
-          broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
+        broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
-
-
-
+        this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
+        this.fp_start_time=f_broadcaster.length && filterChannel[0].broadcaster_channels.length>0? f_broadcaster[0].broadcaster_channels[0].broadcaster_videos[0].fp_start_time:'';
+        this.yt_start_time=f_broadcaster.length && filterChannel[0].broadcaster_channels.length>0? f_broadcaster[0].broadcaster_channels[0].broadcaster_videos[0].yt_start_time:'';
+        console.log("youtube started time"+this.yt_start_time);
+        this.ps_start_time=f_broadcaster.length && filterChannel[0].broadcaster_channels.length>0? f_broadcaster[0].broadcaster_channels[0].broadcaster_videos[0].ps_start_time:'';        
       }
       else {
-        this.channelCategories = broadcasters[0].broadcaster_channels;
+        var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
+        this.channelCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
         f_broadcaster = this.broadcasters.filter(
-          broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
+        broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
         this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
+        this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
+        this.fp_start_time=f_broadcaster.length && filterChannel[0].broadcaster_channels.length>0? f_broadcaster[0].broadcaster_channels[0].broadcaster_videos[0].fp_start_time:'';
+        this.yt_start_time=f_broadcaster.length && filterChannel[0].broadcaster_channels.length>0? f_broadcaster[0].broadcaster_channels[0].broadcaster_videos[0].yt_start_time:'';
+        this.ps_start_time=f_broadcaster.length && filterChannel[0].broadcaster_channels.length>0? f_broadcaster[0].broadcaster_channels[0].broadcaster_videos[0].ps_start_time:'';        
 
+        
       }
 
     }
@@ -163,7 +179,7 @@ export class PlatformManagerComponent implements OnInit {
 
   streamTargetKeyResponse() {
 
-    this.broadcasterService.getSampleStreamTarget(this.w_applicationName.trim(), this.platformManagerForm.value.broadcasterName, this.w_get_target_url)
+    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(), this.platformManagerForm.value.broadcasterName, this.w_get_target_url)
       .subscribe(
       response => this.streamTargetGetResponse(response = response),
       error => this.errorMessage = <any>error);
@@ -177,7 +193,7 @@ export class PlatformManagerComponent implements OnInit {
     var wowzaMapEntries: any;
     var fbStatus, ytStaus, psStatus;
     this.streamTargetRequest = new StreamTargetRequest();
-    var newKeyDate = this.datePipe.transform(myDate, 'yyMMddhmmss');
+    var newKeyDate = this.datePipe.transform(myDate, 'yyMMdd');
     var newStreamEntryName = this.w_applicationName;
     if (getresponse.mapEntries.length > 0) {
       wowzaMapEntries = getresponse.mapEntries;
@@ -198,7 +214,7 @@ export class PlatformManagerComponent implements OnInit {
           this.fbStatus = "OnLine";
         }
         else
-          this.fbStatus = "Offline";
+          this.fbStatus = "OffLine";
       }
 
       if (streamTargetValYT.length > 0) {
@@ -206,14 +222,14 @@ export class PlatformManagerComponent implements OnInit {
           this.ytStatus = "OnLine";
         }
         else
-          this.ytStatus = "Offline";
+          this.ytStatus = "OffLine";
       }
       if (streamTargetValPS.length > 0) {
         if (streamTargetValPS[0].sessionStatus === "Active") {
-          this.psStatus = "Online";
+          this.psStatus = "OnLine";
         }
         else
-          this.psStatus = "Offline";
+          this.psStatus = "OffLine";
       }
 
 

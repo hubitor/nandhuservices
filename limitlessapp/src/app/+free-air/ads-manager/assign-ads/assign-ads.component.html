@@ -29,15 +29,75 @@
                   </div>
                   <div id="logoAdAssigner" *ngIf="showLogoAdAssigner">
                     <h1>Assign Logo Ad</h1>
+                    <br>
                     <div class="row">
-                      <section class="col col-6">
+                      <!--section class="col col-6">
                         <label>Select Broadcasting Type</label>
-                        <select class="form-control" name="eventTypSelect" #eventTypeList>
+                        <select class="form-control" name="eventTypSelect" #eventTypeList (change)="onBroadcastingTypeSelect(eventTypeList.value)">
                           <option></option>
                           <option *ngFor="let btype of broadcastingTypes" value="{{btype}}">{{btype}}</option>
                         </select>
+                      </section-->
+                      <section class="col col-6">
+                        <label>Date</label>
+                        <input type="date" name="eventDate" class="form-control" formControlName="eventDate">
+                      </section>
+                      <section class="col col-6" *ngIf="shortEvent">
+                        <label>Duration (Not more than 24Hrs)</label>
+                        <input type="text" name="eventDurationHrs" class="form-control" placeholder="HH:MM Eg: 12:30 or 00:45" formControlName="eventDurationHrs">
+                      </section>
+                      <section class="col col-6">
+                        <label>Start Time (only in 24Hrs format Eg: 14:00)</label>
+                        <input type="text" name="eventStartTime" class="form-control" formControlName="eventStartTime">
+                      </section>
+                      <section class="col col-6">
+                        <label>End Time (only in 24Hrs format Eg: 15:00)</label>
+                        <input type="text" name="eventEndTime" class="form-control" formControlName="eventEndTime">
+                      </section>
+                      <section class="col col-6" *ngIf="showLogoAdAssigner">
+                        <label>Select Ad Window (single ad will be shown for seleted minute(s))</label>
+                        <select class="form-control" name="logoAdWindowSelect" #logoAdWindowList (change)="onLogoAdWindowSelect(logoAdWindowList.value)">
+                          <option></option>
+                          <option *ngFor="let logoAdWindow of logoAdWindows" value="{{logoAdWindow}}">{{logoAdWindow}}</option>
+                        </select>
                       </section>
                     </div>
+                    <button type="submit" class="btn btn-success" name="showTimeSlots" (click)="onShowTimeSlotsClick()">Show Time Slots</button>
+                  </div>
+                  <br>
+                  <div id="logoTimeSlots" *ngIf="showLogoAdSlotsClicked">
+                    <table class="table">
+                      <tr>
+                        <th>#</th>
+                        <th>Select Logo Ad</th>
+                        <th>Ad Placement</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                      </tr>
+                      <tr *ngFor="let i of logoAdTimeSlots">
+                        <td>
+                          {{i}}
+                        </td>
+                        <td>
+                          <select class="form-control">
+                              <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let logoAd of logoAds" value="{{logoAd.id}}">{{logoAd.ad_title}}</option>
+                          </select>
+                        </td>
+                        <td>
+                          <select class="form-control">
+                            <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let adPlacement of adPlacements" value="{{adPlacement}}">{{adPlacement}}</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control">
+                        </td>
+                        <td>
+                          <input type="text" class="form-control">
+                        </td>
+                      </tr>
+                    </table>
                   </div>
                 </fieldset>
               </form>
