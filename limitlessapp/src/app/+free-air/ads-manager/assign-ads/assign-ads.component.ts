@@ -184,12 +184,15 @@ export class AssignAdsComponent implements OnInit {
         this.assignLogoAd.logo_ftp_path = logoAdFtpPath;
         let startTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#startTime-'+i);
         let endTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#endTime-'+i);
+        let overlaytext: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlaytext-'+i);
+        
         this.assignLogoAd.time_slot_start = startTime.value;
         this.assignLogoAd.time_slot_end = endTime.value;
         this.assignLogoAd.ad_placement = adPlcementSelect.value;
         this.assignLogoAd.ad_target = adTargetSelect.value;
         this.assignLogoAd.created_by = this.loginResponse.user_name;
         this.assignLogoAd.updated_by = this.loginResponse.user_name;
+        this.assignLogoAd.lower_text=overlaytext.value;
         this.assignLogoAd.geo_x_coordinate = 'NIL';
         this.assignLogoAd.geo_y_coordinate = 'NIL';
         this.assignLogoAds.push(this.assignLogoAd);

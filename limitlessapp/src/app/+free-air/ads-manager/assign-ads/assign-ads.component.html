@@ -77,6 +77,8 @@
                         <th>Ad Placement</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Overlay Text</th>
+                        <th>Destination</th>
                       </tr>
                       <tr *ngFor="let i of logoAdTimeSlots">
                         <td>
@@ -99,6 +101,9 @@
                         </td>
                         <td>
                           <input type="text" class="form-control" id="endTime-{{i}}">
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" id="overlaytext-{{i}}">
                         </td>
                         <td>
                           <select class="form-control" id="adTargetSelect-{{i}}">

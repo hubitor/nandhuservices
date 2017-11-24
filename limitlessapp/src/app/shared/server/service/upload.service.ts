@@ -23,7 +23,7 @@ export class UploadService {
   }
 
   uploadFileToYoutube(formData: FormData, access_token: string): Observable<any> {
-    return this.http.post('http://localhost:3000/upload/tester/'+access_token, formData)
+    return this.http.post(AppSettings.API_ENDPOINT+'upload/tester/'+access_token, formData)
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

@@ -58,7 +58,7 @@ export class OnlineUserService {
   }
 
   getGoogleClientKeys(journalId: number): Observable<GoogleClientKeys> {
-    return this.http.get("http://localhost:3000/user/get/client_keys/"+journalId, {headers: this.headers})
+    return this.http.get(AppSettings.API_ENDPOINT+"user/get/client_keys/"+journalId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

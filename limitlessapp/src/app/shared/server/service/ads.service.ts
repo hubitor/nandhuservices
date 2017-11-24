@@ -31,13 +31,13 @@ export class AdsService {
   }
 
   getLogoAdsByChannelId(channelId: number): Observable<LogoAds[]> {
-    return this.http.get("http://localhost:3000/ads/logo/get/channel/"+channelId, {headers: this.headers})
+    return this.http.get(AppSettings.API_ENDPOINT+"ads/logo/get/channel/"+channelId, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
 
   assignLogoAds(adEvent: AdEvent): Observable<CreateResponse>{
-    return this.http.post("http://localhost:3000/ads/logo/assign", adEvent, {headers: this.headers})
+    return this.http.post(AppSettings.API_ENDPOINT+"ads/logo/assign", adEvent, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
