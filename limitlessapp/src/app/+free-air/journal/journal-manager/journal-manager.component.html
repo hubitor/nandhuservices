@@ -61,20 +61,25 @@
                                         <!-- <label id="lbl1">{{first_name}}</label> -->
                                         <section *ngFor="let journal of journalList" class="col col-4">
                                             <label id="lbl1">{{journal.first_name}}</label>
-                                            <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="200" height="150" data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
+                                            <label>Status:</label>
+                                            <label id="lbl4" [style.color]="journal.onlineStatus == 'online' ? 'Green' : 'red'">{{journal.onlineStatus}}</label>
+                                            <br>
+                                            <!-- <section *ngFor="let jou of finalUrl"  ng-repeat="urlin finalUrl track by $index"> -->
+                                            <video #preview_8_html5_api class="video-js vjs-default-skin vjs-big-play-centered" loop width="200" height="150" data-setup='{ "controls": true, "autoplay": false,
+                                                     "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
+                                                <source src="journal.hlsurl" type="application/x-mpegURL">
                                             </video>
                                             <button type="submit" class="btn btn-success" (click)="previewVideo()">Show</button>
                                             <br>
-                                            <!-- <label id="lbl1">{{journal.result}}</label> -->
-                                            <!-- <div class="row"> -->
-                                            <!-- <textarea cols="40" rows="2" name="comment" readonly>StreamingUrl:{{this.result}}</textarea> -->
-                                            <!-- <label id="lbl2">{{this.result}}</label> -->
-                                            StreamingUrl:
-                                            <input type="text" style="height:16px;width:300px" id="lbl1" value="{{result}}" readonly>
+                                            <label>Urls:</label>
                                             <br>
-
-                                            <!-- </div> -->
-
+                                            <label>Http:{{journal.hlsurl}}</label>
+                                            <br>
+                                            <label>Rtmp:{{journal.rtmpurl}}</label>
+                                            <br>
+                                            <label>Rtsp:{{journal.rtspurl}}</label>
+                                            <br>
+                                            <br>
                                         </section>
                                     </div>
                                 </section>
@@ -82,8 +87,8 @@
 
                             <div class="row">
                                 <!-- dynamic HTML -->
-                                <button type="submit" id="change" class="btn btn-success" (click)="previewVideo()">Show</button>
-                                <label id="lbl1">{{this.userName}}</label>
+                                <button type="submit" #preview_8_html5_api class="btn btn-success" (click)="previewVideo()">Show</button>
+                                <!-- <label id="lbl1">{{this.userName}}</label> -->
                                 <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="1024" height="400" data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
                                 </video>
                             </div>
