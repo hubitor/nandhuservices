@@ -31,13 +31,17 @@
                     <h1>Assign Logo Ad</h1>
                     <br>
                     <div class="row">
-                      <!--section class="col col-6">
+                      <section class="col col-6">
                         <label>Select Broadcasting Type</label>
                         <select class="form-control" name="eventTypSelect" #eventTypeList (change)="onBroadcastingTypeSelect(eventTypeList.value)">
                           <option></option>
                           <option *ngFor="let btype of broadcastingTypes" value="{{btype}}">{{btype}}</option>
                         </select>
-                      </section-->
+                      </section>
+                      <section class="col col-6">
+                        <label>Event Short Description</label>
+                        <input type="text" class="form-control" formControlName="eventName">
+                      </section>
                       <section class="col col-6">
                         <label>Date</label>
                         <input type="date" name="eventDate" class="form-control" formControlName="eventDate">
