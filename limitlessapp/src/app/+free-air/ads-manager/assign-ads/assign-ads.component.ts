@@ -11,6 +11,7 @@ import { AdsService } from '../../../shared/server/service/ads.service';
 import { AdEvent } from '../../../shared/models/ad-event';
 import { AssignLogoAds } from 'app/shared/models/assign-logo-ads';
 import { CreateResponse } from 'app/shared/models/createResponse';
+import { NotificationService } from "../../../shared/utils/notification.service";
 
 @Component({
   selector: 'app-assign-ads',
@@ -47,11 +48,12 @@ export class AssignAdsComponent implements OnInit {
   assignLogoAd: AssignLogoAds;
   createResponse: CreateResponse;
 
-  constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService, private elementRef: ElementRef) {
+  constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService, private elementRef: ElementRef, private notificationService: NotificationService) {
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get('HAU'));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     this.appName = localStorage.getItem("w_appname");
+    this.appName="ka-mob-dev";
     this.showLogoAdAssigner = false;
     this.shortEvent = true;
     this._24x7 = false;
@@ -150,11 +152,31 @@ export class AssignAdsComponent implements OnInit {
     }
   }
 
+  onAssignLogoAds() {
+    this.showPopup();
+  }
+  showPopup() {    
+        this.notificationService.smartMessageBox({
+          title:  "Assign Ads",
+          content: "Do you want to create a time slots for this event?",
+          buttons: '[No][Yes]'
+    
+        }, (ButtonPressed) => {
+          if (ButtonPressed == "Yes") {
+            this.onAssignLogoAdsClick();
+          }
+        });
+      }
+
+
+
   onAssignLogoAdsClick(){
+    debugger;
     // for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
     //   let val: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i)
     //   console.log(val.value);
     // }
+    
     const logoAdEventAssigner = this.assignAdForm.value;
     this.adEvent.channel_id = this.channelId;
     this.adEvent.event_type = 'Short Event';
@@ -184,7 +206,9 @@ export class AssignAdsComponent implements OnInit {
         let overlaytext: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlaytext-'+i);
         
         this.assignLogoAd.time_slot_start = startTime.value;
+        
         this.assignLogoAd.time_slot_end = endTime.value;
+        
         this.assignLogoAd.ad_placement = adPlcementSelect.value;
         this.assignLogoAd.ad_target = adTargetSelect.value;
         this.assignLogoAd.created_by = this.loginResponse.user_name;
@@ -197,15 +221,26 @@ export class AssignAdsComponent implements OnInit {
       }
     }
     this.adEvent.assignLogoAds = this.assignLogoAds;
-    this.adsService.assignLogoAds(this.adEvent).subscribe(
-      createResponse => {
-        this.createResponse = createResponse;
-        location.reload();
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    const slotStarttime = (this.assignLogoAds || []).map(x => x.time_slot_start);
+    const slotEndtime = (this.assignLogoAds || []).map(x => x.time_slot_end);
+    var s_start_time = slotStarttime.filter((st) => st <= this.adEvent.start_time);
+    var s_end_time = slotEndtime.filter((et) => et >= this.adEvent.end_time);
+    
+    console.log(s_start_time);
+    console.log(s_end_time);
+
+    
+
+
+    // this.adsService.assignLogoAds(this.adEvent).subscribe(
+    //   createResponse => {
+    //     this.createResponse = createResponse;
+    //     location.reload();
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
 }

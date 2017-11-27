@@ -44,15 +44,15 @@
                       </section>
                       <section class="col col-6" *ngIf="shortEvent">
                         <label>Duration (Not more than 24Hrs)</label>
-                        <input type="text" name="eventDurationHrs" class="form-control" placeholder="HH:MM Eg: 12:30 or 00:45" formControlName="eventDurationHrs">
+                        <input type="text" name="eventDurationHrs"  pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="form-control" placeholder="HH:MM Eg: 12:30 or 00:45" formControlName="eventDurationHrs">
                       </section>
                       <section class="col col-6">
                         <label>Start Time (only in 24Hrs format Eg: 14:00)</label>
-                        <input type="text" name="eventStartTime" class="form-control" formControlName="eventStartTime">
+                        <input type="time" placeholder="HH:mm" name="eventStartTime" class="form-control" formControlName="eventStartTime">
                       </section>
                       <section class="col col-6">
                         <label>End Time (only in 24Hrs format Eg: 15:00)</label>
-                        <input type="text" name="eventEndTime" class="form-control" formControlName="eventEndTime">
+                        <input type="time" placeholder="HH:mm" name="eventEndTime" class="form-control" formControlName="eventEndTime">
                       </section>
                       <section class="col col-6" *ngIf="showLogoAdAssigner">
                         <label>Select Ad Window (single ad will be shown for seleted minute(s))</label>
@@ -93,10 +93,10 @@
                           </select>
                         </td>
                         <td>
-                          <input type="text" class="form-control" id="startTime-{{i}}">
+                          <input type="time" placeholder="HH:mm" class="form-control" id="startTime-{{i}}">
                         </td>
                         <td>
-                          <input type="text" class="form-control" id="endTime-{{i}}">
+                          <input type="time" placeholder="HH:mm" class="form-control" id="endTime-{{i}}">
                         </td>
                         <td>
                           <input type="text" class="form-control" id="overlaytext-{{i}}">
@@ -107,10 +107,13 @@
                             <option *ngFor="let target of targetPlatforms" value="{{target}}">{{target}}</option>
                           </select>
                         </td>
+                        <td>
+
+                        </td>
                       </tr>
                     </table>
                     <br>
-                    <button type="submit" class="btn btn-success" name="assignLogoAds" (click)="onAssignLogoAdsClick()">Assign Ads</button>
+                    <button type="submit" class="btn btn-success" name="assignLogoAds" (click)="onAssignLogoAds()">Assign Ads</button>
                   </div>
                 </fieldset>
               </form>
