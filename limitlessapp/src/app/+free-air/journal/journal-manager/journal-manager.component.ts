@@ -36,6 +36,7 @@ export class JournalManagerComponent implements OnInit {
   journal: Journal;
   public email: string;
   public first_name: string;
+  public thumbnailUrl:string;
   broadcasterChannelId: number;
   is_active: boolean;
   Id: number;
@@ -118,6 +119,14 @@ export class JournalManagerComponent implements OnInit {
     this.videoJSplayer.dispose();
   }
 
+ 
+
+  formatThumbnailURL(appl_name, s_name): string
+  {
+      //http://[wowza-ip-address]:8086/transcoderthumbnail?application=live&streamname=myStream&format=jpeg&size=320x240
+      return "http://journal2.haappyapp.com:8086/transcoderthumbnail?application="+appl_name+"&streamname=" + s_name + "&format=jpeg&size=200x150"
+  }
+
   formatJournalURL(appl_name, s_name, type): string {
     var streamName = s_name.split("-");
     this.userName = streamName[streamName.length - 1];
@@ -133,13 +142,13 @@ export class JournalManagerComponent implements OnInit {
 
       case "rtmp": {
         type = "rtmp";
-        this.result = "rtmp://journal2.haappyapp.com:1935/" + appl_name + "/" + s_name + "";
+        this.result = "rtmp://journal2.haappyapp.com:1935/" + appl_name + "/" + s_name;
         break;
       }
 
       case "rtsp": {
         type = "rtsp";
-        this.result = "rtsp://journal2.haappyapp.com:1935/" + appl_name + "/" + s_name + "";
+        this.result = "rtsp://journal2.haappyapp.com:1935/" + appl_name + "/" + s_name;
         break;
       }
 
@@ -222,12 +231,12 @@ export class JournalManagerComponent implements OnInit {
         videojs('preview_8_html5_api').ready(function () {
           var myPlayer = this;
           myPlayer.src({ type: 'application/x-mpegURL', src: mainUrl });
-          console.log("screen output:::" + this.hlsurl);
+          console.log("screen output:::" +mainUrl);
 
           $("#change").on('click', function () {
             ;
             myPlayer.src({ type: 'application/x-mpegURL', src: mainUrl });
-            console.log("output:::" + this.mainUrl);
+            console.log("output:::" + mainUrl);
           });
         });
 
@@ -281,6 +290,7 @@ export class JournalManagerComponent implements OnInit {
                           var jmrequest = new JournalManagerRequest();
                           this.onlineJournal = onlineuser[0];
                           jmrequest.onlineStatus = 'online';
+
                           jmrequest.hlsurl = this.formatJournalURL(j_appl_name, ics.name, "http");
                           console.log("http::::::" + "ics.name::" + ics.name + ':::j_appl_name::' + j_appl_name + ":::" + jmrequest.hlsurl);
                           this.hlsurl = jmrequest.hlsurl;
@@ -291,9 +301,18 @@ export class JournalManagerComponent implements OnInit {
 
                           jmrequest.rtspurl = this.formatJournalURL(j_appl_name, ics.name, "rtsp");
                           console.log("rtsp::::::" + jmrequest.rtspurl);
+                          this.rtspurl = jmrequest.rtspurl;
+
+
                           jmrequest.first_name = onlineuser[0].first_name;
                           console.log('name :::::::::::' + jmrequest.first_name);
                           this.first_name = jmrequest.first_name;
+
+                          jmrequest.thumbnailUrl = this.formatThumbnailURL(j_appl_name, ics.name);
+                          console.log("thumbnailUrl::::::" + jmrequest.thumbnailUrl);
+                          this.thumbnailUrl = jmrequest.thumbnailUrl;
+
+
 
                           this.journalList.push(jmrequest);
 
@@ -308,6 +327,8 @@ export class JournalManagerComponent implements OnInit {
                             var jmrequest = new JournalManagerRequest();
                             jmrequest.first_name = joun.first_name;
                             jmrequest.onlineStatus = 'OffLine';
+                            jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                            this.thumbnailUrl = jmrequest.thumbnailUrl;                            
                             this.journalList.push(jmrequest);
                           });
                         }
@@ -330,6 +351,8 @@ export class JournalManagerComponent implements OnInit {
                       var jmrequest = new JournalManagerRequest();
                       jmrequest.first_name = joun.first_name;
                       jmrequest.onlineStatus = 'OffLine';
+                      jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                      this.thumbnailUrl = jmrequest.thumbnailUrl;   
                       this.journalList.push(jmrequest);
                     });
                   }
@@ -349,6 +372,8 @@ export class JournalManagerComponent implements OnInit {
                   var jmrequest = new JournalManagerRequest();
                   jmrequest.first_name = joun.first_name;
                   jmrequest.onlineStatus = 'OffLine';
+                  jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                  this.thumbnailUrl = jmrequest.thumbnailUrl;  
                   this.journalList.push(jmrequest);
                 });
               }
@@ -366,6 +391,8 @@ export class JournalManagerComponent implements OnInit {
                 var jmrequest = new JournalManagerRequest();
                 jmrequest.first_name = joun.first_name;
                 jmrequest.onlineStatus = 'OffLine';
+                jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                this.thumbnailUrl = jmrequest.thumbnailUrl;  
                 this.journalList.push(jmrequest);
               });
             }

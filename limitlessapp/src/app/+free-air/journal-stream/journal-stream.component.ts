@@ -283,7 +283,7 @@ export class JournalStreamComponent implements OnInit {
                             this.bind_url.push(v_url);
                             // this.bind_url.push(v_url);
                             // this.bind_url.push(v_url);
-                            // this.bind_url.push(v_url);
+                            
                         }
                        
                     })  
