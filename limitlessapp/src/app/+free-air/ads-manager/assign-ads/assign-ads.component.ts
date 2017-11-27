@@ -169,6 +169,19 @@ export class AssignAdsComponent implements OnInit {
         });
       }
 
+      Alert(message:string,title:string) {    
+        this.notificationService.smartMessageBox({
+          title:  title,
+          content: message,
+          buttons: '[Ok]'
+    
+        }, (ButtonPressed) => {
+          if (ButtonPressed == "Ok") {
+            return false;
+          }
+        });
+      }
+
 
 
   onAssignLogoAdsClick(){
@@ -226,24 +239,26 @@ export class AssignAdsComponent implements OnInit {
     this.adEvent.assignLogoAds = this.assignLogoAds;
     const slotStarttime = (this.assignLogoAds || []).map(x => x.time_slot_start);
     const slotEndtime = (this.assignLogoAds || []).map(x => x.time_slot_end);
-    var s_start_time = slotStarttime.filter((st) => st <= this.adEvent.start_time);
-    var s_end_time = slotEndtime.filter((et) => et >= this.adEvent.end_time);
-    
+    var s_start_time = slotStarttime.filter((st) => st < this.adEvent.start_time);
+    var s_end_time = slotEndtime.filter((et) => et > this.adEvent.end_time);
     console.log(s_start_time);
     console.log(s_end_time);
-
     
+    if(s_start_time.length>0)
+       this.Alert("Slot Start time should be greater than Assign Start Time.","Validation");
 
+    if(s_end_time.length>0)
+       this.Alert("Slot End time should not be greater than Assign End Time.","Validation");
 
-    // this.adsService.assignLogoAds(this.adEvent).subscribe(
-    //   createResponse => {
-    //     this.createResponse = createResponse;
-    //     location.reload();
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
+    this.adsService.assignLogoAds(this.adEvent).subscribe(
+      createResponse => {
+        this.createResponse = createResponse;
+        location.reload();
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }
