@@ -5,6 +5,7 @@ export class AdEvent {
     channel_id: number;
     event_name: string;
     event_type: string;
+    ad_type: string;
     duration: string;
     date: string;
     start_time: string;

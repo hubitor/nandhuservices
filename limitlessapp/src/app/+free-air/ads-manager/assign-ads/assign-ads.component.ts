@@ -20,11 +20,11 @@ import { NotificationService } from "../../../shared/utils/notification.service"
 })
 export class AssignAdsComponent implements OnInit {
   assignAdForm;
-  targetPlatforms: string[] = ['Youtube', 'Facebook', 'Twitter'];
+  targetPlatforms: string[] = ['youtube', 'facebook', 'twitter'];
   selectedDestination: string;
   adPlacements: string[] = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'MIDDLE_LEFT', 'MIDDLE_CENTER', 'MIDDLE_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT'];
-  //broadcastingTypes: string[] = ['Short Events', '24/7', 'VoD'];
-  broadcastingTypes: string[] = ['Short Events'];
+  broadcastingTypes: string[] = ['Short Events', '24/7', 'VoD'];
+  //broadcastingTypes: string[] = ['Short Events'];
   selectedBroadcastingType: string;
   loginResponse: LoginResponse;
   broadcasterId: number;
@@ -73,6 +73,7 @@ export class AssignAdsComponent implements OnInit {
 
   initForm() {
     this.assignAdForm = this.fb.group({
+      eventName: [null, [Validators.required]],
       eventDate: [null, [Validators.required]],
       eventDurationHrs: [null, [Validators.required]],
       eventStartTime: [null, [Validators.required]],
@@ -179,7 +180,9 @@ export class AssignAdsComponent implements OnInit {
     
     const logoAdEventAssigner = this.assignAdForm.value;
     this.adEvent.channel_id = this.channelId;
-    this.adEvent.event_type = 'Short Event';
+    this.adEvent.event_type = this.selectedBroadcastingType;
+    this.adEvent.event_name = logoAdEventAssigner.eventName;
+    this.adEvent.ad_type = this.adType;
     this.adEvent.duration = logoAdEventAssigner.eventDurationHrs;
     this.adEvent.date = logoAdEventAssigner.eventDate;
     this.adEvent.start_time = logoAdEventAssigner.eventStartTime;
