@@ -32,6 +32,7 @@ import { JournalStreamComponent } from './journal-stream/journal-stream.componen
 import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
 import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
+import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { PlatformManagerComponent } from './platform-manager/platform-manager.co
     JournalStreamComponent,
     LogoAdsComponent,
     AssignAdsComponent,
-    PlatformManagerComponent
+    PlatformManagerComponent,
+    AssignAdsAutoComponent
   ]
 })
 export class FreeAirModule { }
