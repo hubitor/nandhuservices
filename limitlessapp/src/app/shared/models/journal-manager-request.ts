@@ -5,5 +5,6 @@ export class JournalManagerRequest
     rtmpurl:string;
     rtspurl:string;
     first_name:string;
+    thumbnailUrl:string;
     
 };
