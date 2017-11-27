@@ -20,6 +20,7 @@ import { JournalStreamComponent } from './journal-stream/journal-stream.componen
 import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
 import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
+import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
 
 export const routes:Routes = [
   {
@@ -98,7 +99,7 @@ export const routes:Routes = [
   },
   {
     path: 'assign-ads',
-    component: AssignAdsComponent
+    component: AssignAdsAutoComponent
   }
 ];
 
