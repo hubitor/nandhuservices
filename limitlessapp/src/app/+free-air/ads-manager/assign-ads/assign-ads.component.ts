@@ -23,7 +23,7 @@ export class AssignAdsComponent implements OnInit {
   targetPlatforms: string[] = ['youtube', 'facebook', 'twitter'];
   selectedDestination: string;
   adPlacements: string[] = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'MIDDLE_LEFT', 'MIDDLE_CENTER', 'MIDDLE_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT'];
-  broadcastingTypes: string[] = ['Short Events', '24/7', 'VoD'];
+  broadcastingTypes: string[] = ['Short Event', '24/7', 'VoD'];
   //broadcastingTypes: string[] = ['Short Events'];
   selectedBroadcastingType: string;
   loginResponse: LoginResponse;
@@ -108,7 +108,7 @@ export class AssignAdsComponent implements OnInit {
 
   onBroadcastingTypeSelect(btype: string) {
     this.selectedBroadcastingType = btype;
-    if (this.selectedBroadcastingType === 'Short Events') {
+    if (this.selectedBroadcastingType === 'Short Event') {
       this.shortEvent = true;
       this._24x7 = false;
       this.vod = false;
@@ -209,7 +209,7 @@ export class AssignAdsComponent implements OnInit {
       let logoAdSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i);
       let adPlcementSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#placementSelect-'+i);
       let adTargetSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#adTargetSelect-'+i);
-      if(logoAdSelect.value != 'NONE' && adPlcementSelect.value != 'NONE' && adTargetSelect.value != 'NONE'){
+      //if(logoAdSelect.value != 'NONE' && adPlcementSelect.value != 'NONE' && adTargetSelect.value != 'NONE'){
         let logoAdSelectSplitter = logoAdSelect.value.split(',');
         let logoAdId: number = parseInt(logoAdSelectSplitter[0]);
         let logoAdImgName: string = logoAdSelectSplitter[1];
@@ -234,7 +234,7 @@ export class AssignAdsComponent implements OnInit {
         this.assignLogoAd.geo_y_coordinate = 'NIL';
         this.assignLogoAds.push(this.assignLogoAd);
         this.assignLogoAd = null;
-      }
+      //}
     }
     this.adEvent.assignLogoAds = this.assignLogoAds;
     const slotStarttime = (this.assignLogoAds || []).map(x => x.time_slot_start);

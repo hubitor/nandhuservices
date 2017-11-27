@@ -132,5 +132,4 @@ public static getPrimaryChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/vid
 public static createNewChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/new"; 
 public static  getChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/channel/";   //to pass channelid
 
-
 };
