@@ -26,6 +26,8 @@ export class LogoAdsComponent implements OnInit {
   logoAds: LogoAds;
   appName: string;
   videoUploadResponse: VideoUploadResponse;
+  adTypes: string[] = ['LOGO', 'VIDEO', 'L-BAND', 'BOTTOM-BAR', 'SLIDE'];
+  adType: string;
 
   constructor(private fb: FormBuilder, private cookieSevice: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService) { 
     this.loginResponse = new LoginResponse;
@@ -91,6 +93,10 @@ export class LogoAdsComponent implements OnInit {
     return tempTime;
   }
 
+  onAdTypeSelect(adType: string){
+    this.adType = adType;
+  }
+
   createNewLogoAd(){
     this.imageUploader.uploadAll();
     this.imageUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
@@ -100,6 +106,7 @@ export class LogoAdsComponent implements OnInit {
       this.logoAds.broadcaster_id = this.broadcasterId;
       this.logoAds.channel_id = this.channelId;
       this.logoAds.ad_title = newLogoAd.logoAdTitle;
+      this.logoAds.ad_type = this.adType;
       this.logoAds.image_url = this.videoUploadResponse.videoUrl;
       this.logoAds.ftp_path = this.videoUploadResponse.ftpPath;
       this.logoAds.img_name=this.videoUploadResponse.fileName;
@@ -113,7 +120,7 @@ export class LogoAdsComponent implements OnInit {
         },
         err => {
           console.log(err);
-          //alert('something went wrong');
+          alert('something went wrong. Try after sometime!');
         }
       );
     }
