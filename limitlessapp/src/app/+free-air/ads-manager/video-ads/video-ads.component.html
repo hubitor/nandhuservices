@@ -1,0 +1,39 @@
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header><h2>Add New Logo Ad</h2></header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="newVideoAdForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section class="col col-6">
+                      <label>Select Channel</label>
+                      <select class="form-control" name="channelsSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                        <option></option>
+                        <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-6">
+                      <label>Ad Video (mp4 only)</label>
+                      <input type="file" class="form-control" name="adImage" ng2FileSelect [uploader]="videoUploader">
+                    </section>
+                    <section class="col col-6">
+                      <label>Ad Title</label>
+                      <input type="text" class="form-control" name="adTitle" formControlName="adTitle">
+                    </section>
+                  </div>
+                  <button type="submit" class="btn btn-success" name="newLogoAd" (click)="createNewLogoAd()">Create Ad</button>
+                  <!-- <button type="submit" class="btn btn-success" name="calc timeslots" (click)="calculateTimeSlots()">Calculate Slots</button> -->
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>
