@@ -21,7 +21,7 @@ import { DatePipe } from '@angular/common';
 import { Request } from '@angular/http/src/static_request';
 import { request } from 'http';
 import { JournalManagerRequest } from '../../../shared/models/journal-manager-request';
-import {JournalAndSetting} from '../../../shared/models/journalAndSetting';
+import { JournalAndSetting } from '../../../shared/models/journalAndSetting';
 import { ChannelCategory } from "../../../shared/models/channelCategory";
 import { JournalSetting } from '../../../shared/models/journal-setting';
 
@@ -40,8 +40,8 @@ export class JournalManagerComponent implements OnInit {
   journal: Journal;
   public email: string;
   public first_name: string;
-  public thumbnailUrl:string;
-  public stream_name:string;
+  public thumbnailUrl: string;
+  public stream_name: string;
   broadcasterChannelId: number;
   is_active: boolean;
   Id: number;
@@ -126,12 +126,11 @@ export class JournalManagerComponent implements OnInit {
     this.videoJSplayer.dispose();
   }
 
- 
 
-  formatThumbnailURL(appl_name, s_name): string
-  {
-      //http://[wowza-ip-address]:8086/transcoderthumbnail?application=live&streamname=myStream&format=jpeg&size=320x240
-      return "http://journal2.haappyapp.com:8086/transcoderthumbnail?application="+appl_name+"&streamname=" + s_name + "&format=jpeg&size=200x150"
+
+  formatThumbnailURL(appl_name, s_name): string {
+    //http://[wowza-ip-address]:8086/transcoderthumbnail?application=live&streamname=myStream&format=jpeg&size=320x240
+    return "http://journal2.haappyapp.com:8086/transcoderthumbnail?application=" + appl_name + "&streamname=" + s_name + "&format=jpeg&size=200x150"
   }
 
   formatJournalURL(appl_name, s_name, type): string {
@@ -209,7 +208,7 @@ export class JournalManagerComponent implements OnInit {
     var f_journal;
     this.journalService.getJournalsByChannel(channelId).subscribe(
       journals => {
-        this.journals=journals;
+        this.journals = journals;
         if (this.journals.length > 0) {
           this.channelSelected = true;
           this.journalList = [];
@@ -228,27 +227,27 @@ export class JournalManagerComponent implements OnInit {
     );
   }
 
-  onStreamName(journalSetting){
+  onStreamName(journalSetting) {
     var f_journal;
-    if(journalSetting.length>0){
-      this.journals=journalSetting;
-      var filterSetting=journalSetting.filter(sachannel => sachannel.journal_id === journalSetting.id);
+    if (journalSetting.length > 0) {
+      this.journals = journalSetting;
+      var filterSetting = journalSetting.filter(sachannel => sachannel.journal_id === journalSetting.id);
       this.channelCategories = filterSetting.length > 0 ? filterSetting[0].journal_settings : [];
       f_journal = this.journals.filter(
         // jId => jId.id.toString() === journalSetting.id.toString());
         broadcasterId => broadcasterId.id === this.journals[0].id);
-        
-        // this.stream_name = f_broadcaster.length > 0 ? f_broadcaster[0].stream_name : '';
-        this.stream_name=f_journal.length && filterSetting[0].journal_settings.length>0? f_journal[0].journal_settings[0].stream_name:'';
-        console.log("StreamNAme"+this.stream_name);
-        
+
+      // this.stream_name = f_broadcaster.length > 0 ? f_broadcaster[0].stream_name : '';
+      this.stream_name = f_journal.length && filterSetting[0].journal_settings.length > 0 ? f_journal[0].journal_settings[0].stream_name : '';
+      console.log("StreamNAme" + this.stream_name);
+
 
     }
   }
 
 
-  previewVideo() {
-    var mainUrl: string = this.hlsurl;
+  previewVideo(hlsurl) {
+    var mainUrl: string = hlsurl;
     (function ($) {
       $(document).ready(function () {
         // An example of playing with the Video.js javascript API
@@ -257,7 +256,7 @@ export class JournalManagerComponent implements OnInit {
         videojs('preview_8_html5_api').ready(function () {
           var myPlayer = this;
           myPlayer.src({ type: 'application/x-mpegURL', src: mainUrl });
-          console.log("screen output:::" +mainUrl);
+          console.log("screen output:::" + mainUrl);
 
           $("#change").on('click', function () {
             ;
@@ -275,7 +274,7 @@ export class JournalManagerComponent implements OnInit {
     var f_broadcaster;
     var j_appl_name;
     var type;
-    var w_get_target_url ;
+    var w_get_target_url;
     if (this.broadcasters.length > 0) {
       f_broadcaster = this.broadcasters.filter(
         broadcasterId => broadcasterId.id.toString() === this.journalManagerForm.value.jbroadcasterId.toString());
@@ -355,11 +354,11 @@ export class JournalManagerComponent implements OnInit {
                             var jmrequest = new JournalManagerRequest();
                             jmrequest.first_name = joun.first_name;
                             jmrequest.onlineStatus = 'OffLine';
-                            jmrequest.hlsurl='OffLine';
-                            jmrequest.rtmpurl='OffLine';
-                            jmrequest.rtspurl='OffLine';
-                            jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
-                            this.thumbnailUrl = jmrequest.thumbnailUrl;                            
+                            jmrequest.hlsurl = 'OffLine';
+                            jmrequest.rtmpurl = 'OffLine';
+                            jmrequest.rtspurl = 'OffLine';
+                            jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                            this.thumbnailUrl = jmrequest.thumbnailUrl;
                             this.journalList.push(jmrequest);
                           });
                         }
@@ -382,11 +381,11 @@ export class JournalManagerComponent implements OnInit {
                       var jmrequest = new JournalManagerRequest();
                       jmrequest.first_name = joun.first_name;
                       jmrequest.onlineStatus = 'OffLine';
-                      jmrequest.hlsurl='OffLine';
-                      jmrequest.rtmpurl='OffLine';
-                      jmrequest.rtspurl='OffLine';
-                      jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
-                      this.thumbnailUrl = jmrequest.thumbnailUrl;   
+                      jmrequest.hlsurl = 'OffLine';
+                      jmrequest.rtmpurl = 'OffLine';
+                      jmrequest.rtspurl = 'OffLine';
+                      jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                      this.thumbnailUrl = jmrequest.thumbnailUrl;
                       this.journalList.push(jmrequest);
                     });
                   }
@@ -406,11 +405,11 @@ export class JournalManagerComponent implements OnInit {
                   var jmrequest = new JournalManagerRequest();
                   jmrequest.first_name = joun.first_name;
                   jmrequest.onlineStatus = 'OffLine';
-                  jmrequest.hlsurl='OffLine';
-                  jmrequest.rtmpurl='OffLine';
-                  jmrequest.rtspurl='OffLine';
-                  jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
-                  this.thumbnailUrl = jmrequest.thumbnailUrl;  
+                  jmrequest.hlsurl = 'OffLine';
+                  jmrequest.rtmpurl = 'OffLine';
+                  jmrequest.rtspurl = 'OffLine';
+                  jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                  this.thumbnailUrl = jmrequest.thumbnailUrl;
                   this.journalList.push(jmrequest);
                 });
               }
@@ -424,24 +423,24 @@ export class JournalManagerComponent implements OnInit {
                   this.journals.splice(index, 1);
                 }
               }
-              var f_journal=this.journals.forEach(joun => {
-               
+              var f_journal = this.journals.forEach(joun => {
+
                 var jmrequest = new JournalManagerRequest();
                 jmrequest.first_name = joun.first_name;
-                console.log("firstName"+joun.first_name);
+                console.log("firstName" + joun.first_name);
 
                 jmrequest.onlineStatus = 'OffLine';
-                jmrequest.hlsurl='OffLine';
-                jmrequest.rtmpurl='OffLine';
-                jmrequest.rtspurl='OffLine';
-                
+                jmrequest.hlsurl = 'OffLine';
+                jmrequest.rtmpurl = 'OffLine';
+                jmrequest.rtspurl = 'OffLine';
+
                 // var journalUser = this.journals.filter(
                 // destKey => destKey.id === this.journals[0].id);
 
-                jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
-                this.thumbnailUrl = jmrequest.thumbnailUrl;  
+                jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                this.thumbnailUrl = jmrequest.thumbnailUrl;
                 this.journalList.push(jmrequest);
-                jmrequest=null;
+                jmrequest = null;
               });
             }
           },
