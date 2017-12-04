@@ -420,11 +420,7 @@ export class JournalManagerComponent implements OnInit {
                 var jmrequest = new JournalManagerRequest();
                 jmrequest.first_name = joun.first_name;
                 console.log("firstName"+joun.first_name);
-
-                // jmrequest.stream_name=joun[0].journal_settings.stream_name;
-                // console.log("StreamName::::::"+jmrequest.stream_name);
                 
-
                 jmrequest.onlineStatus = 'OffLine';
 
                  var journalUser = this.journals.filter(
