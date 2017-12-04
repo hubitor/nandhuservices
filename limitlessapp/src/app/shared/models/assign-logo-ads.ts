@@ -8,6 +8,7 @@ export class AssignLogoAds {
     ad_target: string;
     geo_x_coordinate: string;
     geo_y_coordinate: string;
+    ad_type: string;
     logo_ftp_path: string;
     img_name: string;
     lower_text: string;

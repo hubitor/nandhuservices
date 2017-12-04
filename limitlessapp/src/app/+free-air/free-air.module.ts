@@ -33,6 +33,7 @@ import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
 import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
 import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
+import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads
     LogoAdsComponent,
     AssignAdsComponent,
     PlatformManagerComponent,
-    AssignAdsAutoComponent
+    AssignAdsAutoComponent,
+    VideoAdsComponent
   ]
 })
 export class FreeAirModule { }

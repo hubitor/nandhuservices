@@ -24,7 +24,7 @@ export class AssignAdsAutoComponent implements OnInit {
   targetPlatforms: string[] = ['youtube', 'facebook', 'twitter'];
   selectedDestination: string;
   adPlacements: string[] = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'MIDDLE_LEFT', 'MIDDLE_CENTER', 'MIDDLE_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT'];
-  broadcastingTypes: string[] = ['Short Events', '24/7', 'VoD'];
+  broadcastingTypes: string[] = ['Short Event', '24/7', 'VoD'];
   //broadcastingTypes: string[] = ['Short Events'];
   selectedBroadcastingType: string;
   loginResponse: LoginResponse;
@@ -115,9 +115,6 @@ export class AssignAdsAutoComponent implements OnInit {
 
   onAdTypeSelect(adType: string) {
     this.adType = adType;
-    if (adType === 'LOGO') {
-      this.showLogoAdAssigner = true;
-    }
   }
 
   onBroadcastingTypeSelect(btype: string) {
@@ -151,7 +148,7 @@ export class AssignAdsAutoComponent implements OnInit {
 
   onShowTimeSlotsClick() {
     this.showLogoAdSlotsClicked = true;
-    this.logoAdTimeSlots.length = 0;
+    this.adSlotIndexs.length = 0;
     const logoAdAssinger = this.assignAdForm.value;
     var duration: string = logoAdAssinger.eventDurationHrs;
     this.eventStartTime = logoAdAssinger.eventStartTime;
@@ -172,14 +169,40 @@ export class AssignAdsAutoComponent implements OnInit {
       this.adSlotIndex.index = i;
       let startTime: Date = new Date(this.eventDate + 'T' + slotStartTime);
       let endTime: Date = new Date(startTime.getTime() + (this.logoAdWindow * 60000));
-      // this.startTimeSlots.push(startTime.getHours() + ':' + startTime.getMinutes());
-      // this.endTimeSlots.push(endTime.getHours() + ':' + endTime.getMinutes());
       this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + startTime.getMinutes();
       this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + endTime.getMinutes();
+      this.adSlotIndex.isDuplicate = false;
       slotStartTime = endTime.toLocaleTimeString();
       this.adSlotIndexs.push(this.adSlotIndex);
       this.adSlotIndex = null;
     }
+    console.log(this.adSlotIndexs);
+  }
+
+  onDuplicateSlotClick(slotIndex: number) {
+    // let duplicateSlotButton: HTMLButtonElement = this.elementRef.nativeElement.querySelector("#duplicateSlot");
+    // console.log(duplicateSlotButton);
+    let slotToDuplicate: number = slotIndex;
+    for (let i: number = 0; i < this.noOfLogoAdTimeSlots; i++) {
+      if(i == slotToDuplicate){
+        this.adSlotIndex = new AdSlotIndex();
+        this.adSlotIndex.index = this.adSlotIndexs.length + 1;
+        this.adSlotIndex.slotStartTime = this.adSlotIndexs[i].slotStartTime;
+        this.adSlotIndex.slotEndTime = this.adSlotIndexs[i].slotEndTime;
+        this.adSlotIndex.isDuplicate = true;
+        this.adSlotIndexs.push(this.adSlotIndex);
+        this.adSlotIndex = null;
+      }
+    }
+    this.noOfLogoAdTimeSlots = this.adSlotIndexs.length;
+    console.log(this.adSlotIndexs.length);
+    console.log(this.adSlotIndexs);
+  }
+
+  onRemoveDuplicateClick(slotIndex: number) {
+    console.log(slotIndex);
+    this.adSlotIndexs.splice(slotIndex, 1);
+    this.noOfLogoAdTimeSlots = this.adSlotIndexs.length;
     console.log(this.adSlotIndexs);
   }
 
@@ -212,10 +235,8 @@ export class AssignAdsAutoComponent implements OnInit {
     });
   }
 
-
-
   onAssignLogoAdsClick() {
-    debugger;
+    //debugger;
     // for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
     //   let val: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i)
     //   console.log(val.value);
@@ -225,7 +246,6 @@ export class AssignAdsAutoComponent implements OnInit {
     this.adEvent.channel_id = this.channelId;
     this.adEvent.event_type = this.selectedBroadcastingType;
     this.adEvent.event_name = logoAdEventAssigner.eventName;
-    this.adEvent.ad_type = this.adType;
     this.adEvent.duration = logoAdEventAssigner.eventDurationHrs;
     this.adEvent.date = logoAdEventAssigner.eventDate;
     this.adEvent.start_time = logoAdEventAssigner.eventStartTime;
@@ -234,11 +254,17 @@ export class AssignAdsAutoComponent implements OnInit {
     this.adEvent.is_active = true;
     this.adEvent.created_by = this.loginResponse.user_name;
     this.adEvent.updated_by = this.loginResponse.user_name;
+    console.log(this.noOfLogoAdTimeSlots);
     for (var i = 0; i < this.noOfLogoAdTimeSlots; i++) {
       this.assignLogoAd = new AssignLogoAds();
+      let adTypeSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#adTypeSelect-' + i);
       let logoAdSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-' + i);
       let adPlcementSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#placementSelect-' + i);
       let adTargetSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#adTargetSelect-' + i);
+      console.log(adTypeSelect);
+      console.log(logoAdSelect);
+      console.log(adPlcementSelect);
+      console.log(adTargetSelect);
       if (logoAdSelect.value != 'NONE' && adPlcementSelect.value != 'NONE' && adTargetSelect.value != 'NONE') {
         let logoAdSelectSplitter = logoAdSelect.value.split(',');
         let logoAdId: number = parseInt(logoAdSelectSplitter[0]);
@@ -250,11 +276,8 @@ export class AssignAdsAutoComponent implements OnInit {
         let startTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#startTime-' + i);
         let endTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#endTime-' + i);
         let overlaytext: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlaytext-' + i);
-
         this.assignLogoAd.time_slot_start = startTime.value;
-
         this.assignLogoAd.time_slot_end = endTime.value;
-
         this.assignLogoAd.ad_placement = adPlcementSelect.value;
         this.assignLogoAd.ad_target = adTargetSelect.value;
         this.assignLogoAd.created_by = this.loginResponse.user_name;
@@ -262,6 +285,7 @@ export class AssignAdsAutoComponent implements OnInit {
         this.assignLogoAd.lower_text = overlaytext.value;
         this.assignLogoAd.geo_x_coordinate = 'NIL';
         this.assignLogoAd.geo_y_coordinate = 'NIL';
+        this.assignLogoAd.ad_type = adTypeSelect.value;
         this.assignLogoAds.push(this.assignLogoAd);
         this.assignLogoAd = null;
       }

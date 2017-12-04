@@ -3,6 +3,7 @@ export class LogoAds {
     broadcaster_id: number;
     channel_id: number;
     ad_title: string;
+    ad_type: string;
     image_url: string;
     img_name:string;
     ftp_path:string;

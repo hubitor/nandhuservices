@@ -7,7 +7,7 @@
           <header><h2>Add New Logo Ad</h2></header>
           <div class="widget-body">
             <div class="widget-body no-padding">
-              <form [formGroup]="newLogoAdForm" class="smart-form">
+              <form [formGroup]="newVideoAdForm" class="smart-form">
                 <fieldset>
                   <div class="row">
                     <section class="col col-6">
@@ -18,19 +18,12 @@
                       </select>
                     </section>
                     <section class="col col-6">
-                      <label>Logo Ad Image (PNG, JPG or JPEG)</label>
-                      <input type="file" class="form-control" name="adImage" ng2FileSelect [uploader]="imageUploader">
-                    </section>
-                    <section class="col col-6">
-                      <label>Ad Type</label>
-                      <select class="form-control" name="adTypeSelect" #adTypeList (change)="onAdTypeSelect(adTypeList.value)">
-                        <option></option>
-                        <option *ngFor="let adType of adTypes" value="{{adType}}">{{adType}}</option>
-                      </select>
+                      <label>Ad Video (mp4 only)</label>
+                      <input type="file" class="form-control" name="adImage" ng2FileSelect [uploader]="videoUploader">
                     </section>
                     <section class="col col-6">
                       <label>Ad Title</label>
-                      <input type="text" class="form-control" name="adTitle" formControlName="logoAdTitle">
+                      <input type="text" class="form-control" name="adTitle" formControlName="adTitle">
                     </section>
                   </div>
                   <button type="submit" class="btn btn-success" name="newLogoAd" (click)="createNewLogoAd()">Create Ad</button>

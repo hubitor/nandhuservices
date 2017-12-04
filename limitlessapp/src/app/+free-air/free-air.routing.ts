@@ -21,6 +21,7 @@ import { LogoAdsComponent } from './ads-manager/logo-ads/logo-ads.component';
 import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
 import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
+import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 
 export const routes:Routes = [
   {
@@ -99,7 +100,15 @@ export const routes:Routes = [
   },
   {
     path: 'assign-ads',
+    component: AssignAdsComponent
+  },
+  {
+    path: 'assign-ads-auto',
     component: AssignAdsAutoComponent
+  },
+  {
+    path: 'video-ads',
+    component: VideoAdsComponent
   }
 ];
 

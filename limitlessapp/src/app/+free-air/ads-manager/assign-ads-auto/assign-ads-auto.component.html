@@ -19,16 +19,16 @@
                         <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
                       </select>
                     </section>
-                    <section class="col col-6">
+                    <!--section class="col col-6">
                       <label>Select Ad Type</label>
                       <select class="form-control" name="adTypeSelect" #adTypeList (change)="onAdTypeSelect(adTypeList.value)">
                         <option></option>
                         <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
                       </select>
-                    </section>
+                    </section-->
                   </div>
-                  <div id="logoAdAssigner" *ngIf="showLogoAdAssigner">
-                    <h1>Assign Logo Ad</h1>
+                  <div id="logoAdAssigner">
+                    <h1>Assign Ad</h1>
                     <br>
                     <div class="row">
                       <section class="col col-6">
@@ -58,7 +58,7 @@
                         <label>End Time (only in 24Hrs format Eg: 15:00)</label>
                         <input type="time" placeholder="HH:mm" name="eventEndTime" class="form-control" formControlName="eventEndTime">
                       </section>
-                      <section class="col col-6" *ngIf="showLogoAdAssigner">
+                      <section class="col col-6">
                         <label>Select Ad Window (single ad will be shown for seleted minute(s))</label>
                         <select class="form-control" name="logoAdWindowSelect" #logoAdWindowList (change)="onLogoAdWindowSelect(logoAdWindowList.value)">
                           <option></option>
@@ -73,16 +73,24 @@
                     <table class="table">
                       <tr>
                         <th>#</th>
-                        <th>Select Logo Ad</th>
+                        <th>Ad Type</th>
+                        <th>Ad List</th>
                         <th>Ad Placement</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Overlay Text</th>
                         <th>Destination</th>
+                        <th></th>
                       </tr>
                       <tr *ngFor="let idx of adSlotIndexs; let i = index">
                         <td>
                           {{i+1}}
+                        </td>
+                        <td>
+                          <select class="form-control" id="adTypeSelect-{{idx.index}}">
+                            <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
+                          </select>
                         </td>
                         <td>
                           <select class="form-control" id="logoAdSelect-{{idx.index}}">
@@ -111,8 +119,11 @@
                             <option *ngFor="let target of targetPlatforms" value="{{target}}">{{target}}</option>
                           </select>
                         </td>
-                        <td>
-
+                        <td *ngIf="!idx.isDuplicate">
+                          <button type="button" class="btn btn-info btn-sm" id="duplicateSlot" #duplicateSlot value="{{i}}" (click)="onDuplicateSlotClick(duplicateSlot.value)">Duplicate Slot</button>
+                        </td>
+                        <td *ngIf="idx.isDuplicate">
+                          <button type="button" class="btn btn-danger btn-sm" id="rmvDuplicate" #rmvDuplicate value="{{i}}" (click)="onRemoveDuplicateClick(rmvDuplicate.value)">Remove</button>
                         </td>
                       </tr>
                     </table>
