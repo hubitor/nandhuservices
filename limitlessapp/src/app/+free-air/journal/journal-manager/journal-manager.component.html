@@ -65,35 +65,51 @@
                                             <label id="lbl4" [style.color]="journal.onlineStatus == 'online' ? 'Green' : 'red'">{{journal.onlineStatus}}</label>
                                             <br>
                                             <!-- <section *ngFor="let jou of finalUrl"  ng-repeat="urlin finalUrl track by $index"> -->
-                                            <video #preview_8_html5_api class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150" data-setup='{ "controls": true, "autoplay": false,
+                                            <video #preview_8_html5_api class="video-js vjs-default-skin vjs-big-play-centered" width="200" height="150" data-setup='{ "controls": true, "autoplay": false,
                                                      "preload": "auto","techOrder": ["youtube","html5", "flash"] }' poster={{journal.thumbnailUrl}}>
 
-                                               
+
                                                 <source src={{journal.hlsurl}} type="application/x-mpegURL">
                                             </video>
                                             <button type="submit" class="btn btn-success" (click)="previewVideo()">Show</button>
                                             <br>
                                             <!-- <label>Urls:</label>
                                             <br> -->
-                                            <label><strong>Hls:</strong>{{journal.hlsurl}}</label>
+                                            <label>
+                                                <strong>Hls:</strong>{{journal.hlsurl}}</label>
                                             <br>
-                                            <label><strong>Rtmp:</strong>{{journal.rtmpurl}}</label>
+                                            <label>
+                                                <strong>Rtmp:</strong>{{journal.rtmpurl}}</label>
                                             <br>
-                                            <label><strong>Rtsp:</strong>{{journal.rtspurl}}</label>
+                                            <label>
+                                                <strong>Rtsp:</strong>{{journal.rtspurl}}</label>
                                             <br>
                                             <br>
                                         </section>
                                     </div>
+                                    <div class="row">
+                                            <section>
+                                                <section>                                            <!-- dynamic HTML -->
+                                            <button type="submit" #preview_8_html5_api class="btn btn-success" (click)="previewVideo()">Show</button>
+                                            <!-- <label id="lbl1">{{this.userName}}</label> -->
+                                            <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="1024" height="400" data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
+                                            </video>
+                                        </section>
+                                        
+                                        </section>
+                                        </div>
+
+                                   
                                 </section>
+
+                                
                             </fieldset>
 
-                            <div class="row">
-                                <!-- dynamic HTML -->
-                                <button type="submit" #preview_8_html5_api class="btn btn-success" (click)="previewVideo()">Show</button>
-                                <!-- <label id="lbl1">{{this.userName}}</label> -->
-                                <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="1024" height="400" data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
-                                </video>
-                            </div>
+                           
+                            
+
+
+
                         </form>
                     </div>
 

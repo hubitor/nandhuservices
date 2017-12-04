@@ -1,4 +1,5 @@
-export class JournalAndSetting{
+import { JournalSetting } from '../models/journal-setting';
+export class JournalAndSetting{ 
     id: number;
     channel_id: number;
     email: string;
@@ -35,4 +36,5 @@ export class JournalAndSetting{
     ha_ftp_path: string;
     mac_id: string;
     stream_name: string;
+    journal_settings: JournalSetting[];
 }

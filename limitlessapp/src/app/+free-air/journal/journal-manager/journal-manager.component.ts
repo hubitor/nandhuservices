@@ -23,6 +23,7 @@ import { request } from 'http';
 import { JournalManagerRequest } from '../../../shared/models/journal-manager-request';
 import {JournalAndSetting} from '../../../shared/models/journalAndSetting';
 import { ChannelCategory } from "../../../shared/models/channelCategory";
+import { JournalSetting } from '../../../shared/models/journal-setting';
 
 
 export class videoURL {
@@ -62,14 +63,14 @@ export class JournalManagerComponent implements OnInit {
   public bind_url: string[] = [];
   appl_name: string;
   s_name: string;
-  // journals: Journal[];
-  onlineJournal: JournalAndSetting;
+  journals: Journal[];
+  onlineJournal: Journal;
   public userName: string;
   public incomingStreams: any;
   public sourceIp: any;
   public displayDuration = "01:53";
   journalList: JournalManagerRequest[];
-  // journalLive: Journal;
+  journalLive: Journal;
   public onlineFlag = navigator.onLine;
   public v_url: string;
   public finalUrl: string[];
@@ -136,7 +137,7 @@ export class JournalManagerComponent implements OnInit {
   formatJournalURL(appl_name, s_name, type): string {
     var streamName = s_name.split("-");
     this.userName = streamName[streamName.length - 1];
-    // console.log("User Name::::" + this.userName);
+    console.log("User Name::::" + this.userName);
     var type;
     switch (type) {
       case "http": {
@@ -206,16 +207,13 @@ export class JournalManagerComponent implements OnInit {
 
   getJournalsVideos(channelId: number) {
     var f_journal;
-    this.journalService.getJournalandSettingsBychannelId(channelId).subscribe(
-      journalSetting => {
-        this.onStreamName(journalSetting=journalSetting)
-        
-        this.journalwithSetting=journalSetting;
-        if (this.journalwithSetting.length > 0) {
-          this.journalwithSetting=journalSetting;
+    this.journalService.getJournalsByChannel(channelId).subscribe(
+      journals => {
+        this.journals=journals;
+        if (this.journals.length > 0) {
           this.channelSelected = true;
           this.journalList = [];
-          var journalLength = this.journalwithSetting.length;
+          var journalLength = this.journals.length;
           for (var i = 0; i < journalLength; i++) {
             var jmrequest = new JournalManagerRequest();
             jmrequest = null;
@@ -233,12 +231,12 @@ export class JournalManagerComponent implements OnInit {
   onStreamName(journalSetting){
     var f_journal;
     if(journalSetting.length>0){
-      this.journalwithSetting=journalSetting;
+      this.journals=journalSetting;
       var filterSetting=journalSetting.filter(sachannel => sachannel.journal_id === journalSetting.id);
       this.channelCategories = filterSetting.length > 0 ? filterSetting[0].journal_settings : [];
-      f_journal = this.journalwithSetting.filter(
+      f_journal = this.journals.filter(
         // jId => jId.id.toString() === journalSetting.id.toString());
-        broadcasterId => broadcasterId.id.toString() === this.journalManagerForm.value.jchannelId.toString());
+        broadcasterId => broadcasterId.id === this.journals[0].id);
         
         // this.stream_name = f_broadcaster.length > 0 ? f_broadcaster[0].stream_name : '';
         this.stream_name=f_journal.length && filterSetting[0].journal_settings.length>0? f_journal[0].journal_settings[0].stream_name:'';
@@ -297,14 +295,14 @@ export class JournalManagerComponent implements OnInit {
                     var v_url = this.formatJournalURL(j_appl_name, ics.name, type).toString();
                     this.bind_url.push(v_url);
                     this.finalUrl = this.bind_url;
-                    let onlineuser = this.journalwithSetting.filter(journal => {
+                    let onlineuser = this.journals.filter(journal => {
                       console.log(journal.first_name + '::journal.first_name');
                       console.log(ics.name + '::ics.name');
                       if (ics.name.search(journal.first_name) != -1) { return true; } else {
                         return false;
                       }
                     });
-                    let offLineUser = this.journalwithSetting.filter(journal => {
+                    let offLineUser = this.journals.filter(journal => {
                       console.log(journal.first_name + '::journal.first_name');
                       console.log(ics.name + '::ics.name');
 
@@ -315,7 +313,7 @@ export class JournalManagerComponent implements OnInit {
                     console.log('++++++onlineuser+++++++' + JSON.stringify(onlineuser));
                     console.log('**onlineuser**' + onlineuser.length);
                     if (onlineuser && onlineuser.length > 0) {
-                      this.journalwithSetting.forEach(jornal => {
+                      this.journals.forEach(jornal => {
                         if (jornal.first_name == onlineuser[0].first_name) {
                           var jmrequest = new JournalManagerRequest();
                           this.onlineJournal = onlineuser[0];
@@ -348,12 +346,12 @@ export class JournalManagerComponent implements OnInit {
 
                         } else {
                           if (this.onlineJournal) {
-                            var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
+                            var index = this.journals.indexOf(this.onlineJournal, 0);
                             if (index > -1) {
-                              this.journalwithSetting.splice(index, 1);
+                              this.journals.splice(index, 1);
                             }
                           }
-                          this.journalwithSetting.forEach(joun => {
+                          this.journals.forEach(joun => {
                             var jmrequest = new JournalManagerRequest();
                             jmrequest.first_name = joun.first_name;
                             jmrequest.onlineStatus = 'OffLine';
@@ -370,14 +368,14 @@ export class JournalManagerComponent implements OnInit {
                   } else {
                     console.log('not connected');
                     console.log('No journals are active');
-                    console.log(this.journalwithSetting.length);
+                    console.log(this.journals.length);
                     if (this.onlineJournal) {
-                      var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
+                      var index = this.journals.indexOf(this.onlineJournal, 0);
                       if (index > -1) {
-                        this.journalwithSetting.splice(index, 1);
+                        this.journals.splice(index, 1);
                       }
                     }
-                    this.journalwithSetting.forEach(joun => {
+                    this.journals.forEach(joun => {
                       var jmrequest = new JournalManagerRequest();
                       jmrequest.first_name = joun.first_name;
                       jmrequest.onlineStatus = 'OffLine';
@@ -391,14 +389,14 @@ export class JournalManagerComponent implements OnInit {
               else {
                 console.log('No journals streams are active');
                 console.log('No journals are active');
-                console.log(this.journalwithSetting.length);
+                console.log(this.journals.length);
                 if (this.onlineJournal) {
-                  var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
+                  var index = this.journals.indexOf(this.onlineJournal, 0);
                   if (index > -1) {
-                    this.journalwithSetting.splice(index, 1);
+                    this.journals.splice(index, 1);
                   }
                 }
-                this.journalwithSetting.forEach(joun => {
+                this.journals.forEach(joun => {
                   var jmrequest = new JournalManagerRequest();
                   jmrequest.first_name = joun.first_name;
                   jmrequest.onlineStatus = 'OffLine';
@@ -410,26 +408,34 @@ export class JournalManagerComponent implements OnInit {
             }
             else {
               console.log('No journals are active');
-              console.log(this.journalwithSetting.length);
+              console.log(this.journals.length);
               if (this.onlineJournal) {
-                var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
+                var index = this.journals.indexOf(this.onlineJournal, 0);
                 if (index > -1) {
-                  this.journalwithSetting.splice(index, 1);
+                  this.journals.splice(index, 1);
                 }
               }
-              var f_journal=this.journalwithSetting.forEach(joun => {
+              var f_journal=this.journals.forEach(joun => {
+               
                 var jmrequest = new JournalManagerRequest();
                 jmrequest.first_name = joun.first_name;
                 console.log("firstName"+joun.first_name);
+
+                // jmrequest.stream_name=joun[0].journal_settings.stream_name;
+                // console.log("StreamName::::::"+jmrequest.stream_name);
+                
+
                 jmrequest.onlineStatus = 'OffLine';
 
-                 var journalUser = this.journalwithSetting.filter(
-                destKey => destKey.journal_id === this.journalwithSetting[0].id);
-                
+                 var journalUser = this.journals.filter(
+                destKey => destKey.id === this.journals[0].id);
+
+               
+
                 jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                 this.thumbnailUrl = jmrequest.thumbnailUrl;  
                 this.journalList.push(jmrequest);
-                // jmrequest = null;
+                jmrequest=null;
               });
             }
           },
