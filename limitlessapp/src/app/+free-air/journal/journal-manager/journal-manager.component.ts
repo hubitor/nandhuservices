@@ -208,6 +208,8 @@ export class JournalManagerComponent implements OnInit {
     var f_journal;
     this.journalService.getJournalandSettingsBychannelId(channelId).subscribe(
       journalSetting => {
+        this.onStreamName(journalSetting=journalSetting)
+        
         this.journalwithSetting=journalSetting;
         if (this.journalwithSetting.length > 0) {
           this.journalwithSetting=journalSetting;
@@ -230,14 +232,16 @@ export class JournalManagerComponent implements OnInit {
 
   onStreamName(journalSetting){
     var f_journal;
-    if(this.journalwithSetting.length>0){
+    if(journalSetting.length>0){
       this.journalwithSetting=journalSetting;
-      var filterChannel=journalSetting.filter(sachannel => sachannel.id.toString()===journalSetting.id);
-      this.channelCategories = filterChannel.length > 0 ? filterChannel[0].journal_settings : [];
+      var filterSetting=journalSetting.filter(sachannel => sachannel.journal_id === journalSetting.id);
+      this.channelCategories = filterSetting.length > 0 ? filterSetting[0].journal_settings : [];
       f_journal = this.journalwithSetting.filter(
-        jId => jId.id.toString() === journalSetting.id.toString());
+        // jId => jId.id.toString() === journalSetting.id.toString());
+        broadcasterId => broadcasterId.id.toString() === this.journalManagerForm.value.jchannelId.toString());
+        
         // this.stream_name = f_broadcaster.length > 0 ? f_broadcaster[0].stream_name : '';
-        this.stream_name=f_journal.length && filterChannel[0].journal_settings.length>0? f_journal[0].journal_settings[0].stream_name:'';
+        this.stream_name=f_journal.length && filterSetting[0].journal_settings.length>0? f_journal[0].journal_settings[0].stream_name:'';
         console.log("StreamNAme"+this.stream_name);
         
 
@@ -418,9 +422,14 @@ export class JournalManagerComponent implements OnInit {
                 jmrequest.first_name = joun.first_name;
                 console.log("firstName"+joun.first_name);
                 jmrequest.onlineStatus = 'OffLine';
+
+                 var journalUser = this.journalwithSetting.filter(
+                destKey => destKey.journal_id === this.journalwithSetting[0].id);
+                
                 jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                 this.thumbnailUrl = jmrequest.thumbnailUrl;  
                 this.journalList.push(jmrequest);
+                // jmrequest = null;
               });
             }
           },
