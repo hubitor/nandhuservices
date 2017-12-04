@@ -355,6 +355,9 @@ export class JournalManagerComponent implements OnInit {
                             var jmrequest = new JournalManagerRequest();
                             jmrequest.first_name = joun.first_name;
                             jmrequest.onlineStatus = 'OffLine';
+                            jmrequest.hlsurl='OffLine';
+                            jmrequest.rtmpurl='OffLine';
+                            jmrequest.rtspurl='OffLine';
                             jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                             this.thumbnailUrl = jmrequest.thumbnailUrl;                            
                             this.journalList.push(jmrequest);
@@ -379,6 +382,9 @@ export class JournalManagerComponent implements OnInit {
                       var jmrequest = new JournalManagerRequest();
                       jmrequest.first_name = joun.first_name;
                       jmrequest.onlineStatus = 'OffLine';
+                      jmrequest.hlsurl='OffLine';
+                      jmrequest.rtmpurl='OffLine';
+                      jmrequest.rtspurl='OffLine';
                       jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                       this.thumbnailUrl = jmrequest.thumbnailUrl;   
                       this.journalList.push(jmrequest);
@@ -400,6 +406,9 @@ export class JournalManagerComponent implements OnInit {
                   var jmrequest = new JournalManagerRequest();
                   jmrequest.first_name = joun.first_name;
                   jmrequest.onlineStatus = 'OffLine';
+                  jmrequest.hlsurl='OffLine';
+                  jmrequest.rtmpurl='OffLine';
+                  jmrequest.rtspurl='OffLine';
                   jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                   this.thumbnailUrl = jmrequest.thumbnailUrl;  
                   this.journalList.push(jmrequest);
@@ -425,10 +434,9 @@ export class JournalManagerComponent implements OnInit {
                 jmrequest.hlsurl='OffLine';
                 jmrequest.rtmpurl='OffLine';
                 jmrequest.rtspurl='OffLine';
-                 var journalUser = this.journals.filter(
-                destKey => destKey.id === this.journals[0].id);
-
-               
+                
+                // var journalUser = this.journals.filter(
+                // destKey => destKey.id === this.journals[0].id);
 
                 jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                 this.thumbnailUrl = jmrequest.thumbnailUrl;  

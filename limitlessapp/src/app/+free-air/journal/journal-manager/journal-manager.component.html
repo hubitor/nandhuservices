@@ -66,14 +66,13 @@
                                             <br>
                                     
                                             <!-- <section *ngFor="let jou of finalUrl"  ng-repeat="urlin finalUrl track by $index"> -->
-                                            <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="200" height="150" data-setup='{ "controls": true, "autoplay": false,
+                                            <video id="preview_8_html5_api"  class="video-js vjs-default-skin vjs-big-play-centered" width="200" height="150" data-setup='{ "controls": true, "autoplay": false,
                                                      "preload": "auto","techOrder": ["youtube","html5", "flash"] }' poster={{journal.thumbnailUrl}}>
-
-
-                                                <source src={{journal.hlsurl}} type="application/x-mpegURL">
+                                                        <source src={{journal.hlsurl}} type="application/x-mpegURL">
                                             </video>
+                                            <br>
                                 
-                                            <!-- <button type="submit" class="btn btn-success" (click)="previewVideo()">Show</button> -->
+                                            <button type="submit" class="btn btn-success" (click)="previewVideo()">Show</button>
                                             <table>
                                             <tr><td><strong>Hls</strong></td><td> 
                                              <label id="lbl5"  style="padding-top: 4px;"[style.color]="journal.hlsurl == 'OffLine' ? 'red' : 'green'">:{{journal.hlsurl}}</label>
