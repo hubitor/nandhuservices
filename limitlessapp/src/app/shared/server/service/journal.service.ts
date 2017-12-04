@@ -14,6 +14,7 @@ import { Journal } from "../../models/journal";
 import { CookieService } from "ngx-cookie";
 import { JournalSetting } from '../../models/journal-setting';
 import { JournalDevice } from '../../models/journal-device';
+import { JournalAndSetting } from '../../models/journalAndSetting';
 
 @Injectable()
 export class JournalService {
@@ -84,6 +85,12 @@ export class JournalService {
     return this.http.post(AppConfig.createNewJournalSettingAndDevice, journalSetting, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
+  }
+
+  getJournalandSettingsBychannelId(channelId: number):Observable<JournalAndSetting[]>{
+    return this.http.get("http://localhost:3000/journal/journalandsetting/"+channelId, {headers: this.headers})
+    .map(ResponseData.extractData)
+    .catch(ResponseData.handleError);
   }
 
   

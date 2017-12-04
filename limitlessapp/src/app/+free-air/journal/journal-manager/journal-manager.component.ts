@@ -21,6 +21,9 @@ import { DatePipe } from '@angular/common';
 import { Request } from '@angular/http/src/static_request';
 import { request } from 'http';
 import { JournalManagerRequest } from '../../../shared/models/journal-manager-request';
+import {JournalAndSetting} from '../../../shared/models/journalAndSetting';
+import { ChannelCategory } from "../../../shared/models/channelCategory";
+
 
 export class videoURL {
   video_url: string = ''
@@ -37,6 +40,7 @@ export class JournalManagerComponent implements OnInit {
   public email: string;
   public first_name: string;
   public thumbnailUrl:string;
+  public stream_name:string;
   broadcasterChannelId: number;
   is_active: boolean;
   Id: number;
@@ -58,14 +62,14 @@ export class JournalManagerComponent implements OnInit {
   public bind_url: string[] = [];
   appl_name: string;
   s_name: string;
-  journals: Journal[];
-  onlineJournal: Journal;
+  // journals: Journal[];
+  onlineJournal: JournalAndSetting;
   public userName: string;
   public incomingStreams: any;
   public sourceIp: any;
   public displayDuration = "01:53";
   journalList: JournalManagerRequest[];
-  journalLive: Journal;
+  // journalLive: Journal;
   public onlineFlag = navigator.onLine;
   public v_url: string;
   public finalUrl: string[];
@@ -75,6 +79,8 @@ export class JournalManagerComponent implements OnInit {
   public hlsurl: string;
   public rtmpurl: string;
   public rtspurl: string;
+  journalwithSetting: JournalAndSetting[];
+  channelCategories: ChannelCategory;
   constructor(private fb: FormBuilder, private journalService: JournalService,
     private cookieService: CookieService, private broadcasterService: BroadcasterService) {
     this.loginResponse = new LoginResponse();
@@ -92,7 +98,7 @@ export class JournalManagerComponent implements OnInit {
     this.createResponse = new CreateResponse();
     this.journalList = new Array();
     this.videourl = new videoURL();
-    this.journalLive = new Journal();
+    // this.journalLive = new Journal();
   }
 
   ngOnInit() {
@@ -199,13 +205,15 @@ export class JournalManagerComponent implements OnInit {
 
 
   getJournalsVideos(channelId: number) {
-    this.journalService.getJournalsByChannel(channelId).subscribe(
-      journals => {
-        this.journals = journals;
-        if (this.journals.length > 0) {
+    var f_journal;
+    this.journalService.getJournalandSettingsBychannelId(channelId).subscribe(
+      journalSetting => {
+        this.journalwithSetting=journalSetting;
+        if (this.journalwithSetting.length > 0) {
+          this.journalwithSetting=journalSetting;
           this.channelSelected = true;
           this.journalList = [];
-          var journalLength = this.journals.length;
+          var journalLength = this.journalwithSetting.length;
           for (var i = 0; i < journalLength; i++) {
             var jmrequest = new JournalManagerRequest();
             jmrequest = null;
@@ -218,6 +226,22 @@ export class JournalManagerComponent implements OnInit {
 
       }
     );
+  }
+
+  onStreamName(journalSetting){
+    var f_journal;
+    if(this.journalwithSetting.length>0){
+      this.journalwithSetting=journalSetting;
+      var filterChannel=journalSetting.filter(sachannel => sachannel.id.toString()===journalSetting.id);
+      this.channelCategories = filterChannel.length > 0 ? filterChannel[0].journal_settings : [];
+      f_journal = this.journalwithSetting.filter(
+        jId => jId.id.toString() === journalSetting.id.toString());
+        // this.stream_name = f_broadcaster.length > 0 ? f_broadcaster[0].stream_name : '';
+        this.stream_name=f_journal.length && filterChannel[0].journal_settings.length>0? f_journal[0].journal_settings[0].stream_name:'';
+        console.log("StreamNAme"+this.stream_name);
+        
+
+    }
   }
 
 
@@ -249,10 +273,12 @@ export class JournalManagerComponent implements OnInit {
     var f_broadcaster;
     var j_appl_name;
     var type;
+    var w_get_target_url ;
     if (this.broadcasters.length > 0) {
       f_broadcaster = this.broadcasters.filter(
         broadcasterId => broadcasterId.id.toString() === this.journalManagerForm.value.jbroadcasterId.toString());
       j_appl_name = f_broadcaster.length > 0 ? f_broadcaster[0].w_j_appl_name : '';
+      w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
       if (j_appl_name != '') {
         this.broadcasterService.getStreamTargetJournal(j_appl_name)
           .subscribe(
@@ -267,14 +293,14 @@ export class JournalManagerComponent implements OnInit {
                     var v_url = this.formatJournalURL(j_appl_name, ics.name, type).toString();
                     this.bind_url.push(v_url);
                     this.finalUrl = this.bind_url;
-                    let onlineuser = this.journals.filter(journal => {
+                    let onlineuser = this.journalwithSetting.filter(journal => {
                       console.log(journal.first_name + '::journal.first_name');
                       console.log(ics.name + '::ics.name');
                       if (ics.name.search(journal.first_name) != -1) { return true; } else {
                         return false;
                       }
                     });
-                    let offLineUser = this.journals.filter(journal => {
+                    let offLineUser = this.journalwithSetting.filter(journal => {
                       console.log(journal.first_name + '::journal.first_name');
                       console.log(ics.name + '::ics.name');
 
@@ -285,7 +311,7 @@ export class JournalManagerComponent implements OnInit {
                     console.log('++++++onlineuser+++++++' + JSON.stringify(onlineuser));
                     console.log('**onlineuser**' + onlineuser.length);
                     if (onlineuser && onlineuser.length > 0) {
-                      this.journals.forEach(jornal => {
+                      this.journalwithSetting.forEach(jornal => {
                         if (jornal.first_name == onlineuser[0].first_name) {
                           var jmrequest = new JournalManagerRequest();
                           this.onlineJournal = onlineuser[0];
@@ -318,12 +344,12 @@ export class JournalManagerComponent implements OnInit {
 
                         } else {
                           if (this.onlineJournal) {
-                            var index = this.journals.indexOf(this.onlineJournal, 0);
+                            var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
                             if (index > -1) {
-                              this.journals.splice(index, 1);
+                              this.journalwithSetting.splice(index, 1);
                             }
                           }
-                          this.journals.forEach(joun => {
+                          this.journalwithSetting.forEach(joun => {
                             var jmrequest = new JournalManagerRequest();
                             jmrequest.first_name = joun.first_name;
                             jmrequest.onlineStatus = 'OffLine';
@@ -340,14 +366,14 @@ export class JournalManagerComponent implements OnInit {
                   } else {
                     console.log('not connected');
                     console.log('No journals are active');
-                    console.log(this.journals.length);
+                    console.log(this.journalwithSetting.length);
                     if (this.onlineJournal) {
-                      var index = this.journals.indexOf(this.onlineJournal, 0);
+                      var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
                       if (index > -1) {
-                        this.journals.splice(index, 1);
+                        this.journalwithSetting.splice(index, 1);
                       }
                     }
-                    this.journals.forEach(joun => {
+                    this.journalwithSetting.forEach(joun => {
                       var jmrequest = new JournalManagerRequest();
                       jmrequest.first_name = joun.first_name;
                       jmrequest.onlineStatus = 'OffLine';
@@ -361,14 +387,14 @@ export class JournalManagerComponent implements OnInit {
               else {
                 console.log('No journals streams are active');
                 console.log('No journals are active');
-                console.log(this.journals.length);
+                console.log(this.journalwithSetting.length);
                 if (this.onlineJournal) {
-                  var index = this.journals.indexOf(this.onlineJournal, 0);
+                  var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
                   if (index > -1) {
-                    this.journals.splice(index, 1);
+                    this.journalwithSetting.splice(index, 1);
                   }
                 }
-                this.journals.forEach(joun => {
+                this.journalwithSetting.forEach(joun => {
                   var jmrequest = new JournalManagerRequest();
                   jmrequest.first_name = joun.first_name;
                   jmrequest.onlineStatus = 'OffLine';
@@ -380,16 +406,17 @@ export class JournalManagerComponent implements OnInit {
             }
             else {
               console.log('No journals are active');
-              console.log(this.journals.length);
+              console.log(this.journalwithSetting.length);
               if (this.onlineJournal) {
-                var index = this.journals.indexOf(this.onlineJournal, 0);
+                var index = this.journalwithSetting.indexOf(this.onlineJournal, 0);
                 if (index > -1) {
-                  this.journals.splice(index, 1);
+                  this.journalwithSetting.splice(index, 1);
                 }
               }
-              this.journals.forEach(joun => {
+              var f_journal=this.journalwithSetting.forEach(joun => {
                 var jmrequest = new JournalManagerRequest();
                 jmrequest.first_name = joun.first_name;
+                console.log("firstName"+joun.first_name);
                 jmrequest.onlineStatus = 'OffLine';
                 jmrequest.thumbnailUrl ="http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
                 this.thumbnailUrl = jmrequest.thumbnailUrl;  

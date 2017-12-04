@@ -121,6 +121,7 @@ public static getJournalsByChannel=AppSettings.API_ENDPOINT +"journal/list/chann
 public static getJournalSettingByJournalId=AppSettings.API_ENDPOINT +"journal/get/settings/";  // to pass journal id
 public static getJournalDeviceBySettingsId=AppSettings.API_ENDPOINT +"journal/get/setting-device/"; // to pass setting id
 public static createNewJournalSettingAndDevice=AppSettings.API_ENDPOINT +"journal/setting/new";
+public static getjournalandSettingBychannelId=AppSettings.API_ENDPOINT+"journal/journalandsetting/"; //to pass channel id
 
 
 // Broadcaster Destination 
