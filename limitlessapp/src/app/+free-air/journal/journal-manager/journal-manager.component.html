@@ -62,38 +62,60 @@
                                         <section *ngFor="let journal of journalList" class="col col-4">
                                             <label id="lbl1">{{journal.first_name}}</label>
                                             <label>Status:</label>
-                                            <label id="lbl4" [style.color]="journal.onlineStatus == 'online' ? 'Green' : 'red'">{{journal.onlineStatus}}</label>
+                                            <label id="lbl4" style="padding-bottom: 4px;" [style.color]="journal.onlineStatus == 'online' ? 'Green' : 'red'">{{journal.onlineStatus}}</label>
                                             <br>
-                                            <!-- <section *ngFor="let jou of finalUrl"  ng-repeat="urlin finalUrl track by $index"> -->
-                                            <video #preview_8_html5_api class="video-js vjs-default-skin vjs-big-play-centered"  width="200" height="150" data-setup='{ "controls": true, "autoplay": false,
-                                                     "preload": "auto","techOrder": ["youtube","html5", "flash"] }' poster={{journal.thumbnailUrl}}>
 
-                                               
-                                                <source src={{journal.hlsurl}} type="application/x-mpegURL">
+                                            <!-- <section *ngFor="let jou of finalUrl"  ng-repeat="urlin finalUrl track by $index"> -->
+                                            <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="1024" height="400" data-setup='{ "controls": true, "autoplay": true, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'
+                                                poster="{{journal.thumbnailUrl}}">
+                                                <source src="{{journal.hlsurl}}" type='application/x-mpegURL'>
                                             </video>
-                                            <button type="submit" class="btn btn-success" (click)="previewVideo()">Show</button>
-                                            <br>
-                                            <!-- <label>Urls:</label>
-                                            <br> -->
-                                            <label><strong>Hls:</strong>{{journal.hlsurl}}</label>
-                                            <br>
-                                            <label><strong>Rtmp:</strong>{{journal.rtmpurl}}</label>
-                                            <br>
-                                            <label><strong>Rtsp:</strong>{{journal.rtspurl}}</label>
-                                            <br>
-                                            <br>
+                                            <button type="submit" class="btn btn-success" (click)="previewVideo(journal.hlsurl)">Show</button>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <strong>Hls</strong>
+                                                    </td>
+                                                    <td>
+                                                        <label id="lbl5" style="padding-top: 4px;" [style.color]="journal.hlsurl == 'OffLine' ? 'red' : 'green'">:{{journal.hlsurl}}</label>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <strong>Rtmp</strong>
+                                                    </td>
+                                                    <td>
+                                                        <label id="lbl5" [style.color]="journal.rtmpurl == 'OffLine' ? 'red' : 'green'">:{{journal.rtmpurl}}</label>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <strong>Rtsp</strong>
+                                                    </td>
+                                                    <td>
+                                                        <label id="lbl5" [style.color]="journal.rtspurl == 'OffLine' ? 'red' : 'green'">:{{journal.rtspurl}}</label>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+                                        </section>
+                                    </div>
+                                    <div class="row">
+
+                                        <section class="col col-12">
+                                            <h3 style="padding-top: 4px;">Preview Video:</h3>
+                                            <!-- <button type="submit" #preview_8_html5_api class="btn btn-success" (click)="previewVideo()">Show</button> -->
+
+                                            <video id="preview_8_html5_api" style="padding-top: 4px;" class="video-js vjs-default-skin vjs-big-play-centered" width="1024"
+                                                height="400" data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
+                                            </video>
                                         </section>
                                     </div>
                                 </section>
                             </fieldset>
-
-                            <div class="row">
-                                <!-- dynamic HTML -->
-                                <button type="submit" #preview_8_html5_api class="btn btn-success" (click)="previewVideo()">Show</button>
-                                <!-- <label id="lbl1">{{this.userName}}</label> -->
-                                <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="1024" height="400" data-setup='{ "controls": true, "autoplay": false, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'>
-                                </video>
-                            </div>
                         </form>
                     </div>
 

@@ -163,7 +163,8 @@ export class BroadcasterService {
                     .catch(ResponseData.handleError);
     }
 
-    createStreamTargetJournal(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number)
+
+    createStreamTargetJournal(streamTargetRequest:StreamTargetRequest,applicationName:string,entryName:string,broadcaster_id:number,w_get_target_url_journal2:string)
     {
         
         var get_api_url=AppConfig.create_streamTarget_journal+applicationName+"/pushpublish/mapentries/"+entryName;

@@ -151,6 +151,38 @@ export class AssignAdsComponent implements OnInit {
     for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
       this.logoAdTimeSlots.push(i);
     }
+
+    for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
+      this.assignLogoAd = new AssignLogoAds();
+      let logoAdSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i);
+      let adPlcementSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#placementSelect-'+i);
+      let adTargetSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#adTargetSelect-'+i);
+      if(logoAdSelect.value != 'NONE' && adPlcementSelect.value != 'NONE' && adTargetSelect.value != 'NONE'){
+        let logoAdSelectSplitter = logoAdSelect.value.split(',');
+        let logoAdId: number = parseInt(logoAdSelectSplitter[0]);
+        let logoAdImgName: string = logoAdSelectSplitter[1];
+        let logoAdFtpPath: string = logoAdSelectSplitter[2];
+        this.assignLogoAd.logo_ad_id = logoAdId;
+        this.assignLogoAd.img_name = logoAdImgName;
+        this.assignLogoAd.logo_ftp_path = logoAdFtpPath;
+        let startTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#startTime-'+i);
+        let endTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#endTime-'+i);
+        let overlaytext: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlaytext-'+i);
+        startTime.innerText=this.assignAdForm.eventStartTime.value;
+        endTime.innerText=this.assignAdForm.eventStartTime.value + this.logoAdWindow ;
+       
+      }
+    }
+  }
+
+  calculateStartTime()
+  {
+    return Math.round((parseInt(this.assignAdForm.eventStartTime.value) * 60 + this.logoAdWindow)/60);
+  }
+
+  calculateEndTime()
+  {
+    return Math.round((parseInt(this.assignAdForm.eventEndTime.value) * 60 - this.logoAdWindow)/60);
   }
 
   onAssignLogoAds() {
@@ -185,7 +217,7 @@ export class AssignAdsComponent implements OnInit {
 
 
   onAssignLogoAdsClick(){
-    debugger;
+    
     // for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
     //   let val: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i)
     //   console.log(val.value);

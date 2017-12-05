@@ -6,5 +6,7 @@ export class JournalManagerRequest
     rtspurl:string;
     first_name:string;
     thumbnailUrl:string;
+    id:number;
+    stream_name:string;
     
 };
