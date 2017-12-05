@@ -357,7 +357,7 @@ export class JournalManagerComponent implements OnInit {
                             jmrequest.hlsurl = 'OffLine';
                             jmrequest.rtmpurl = 'OffLine';
                             jmrequest.rtspurl = 'OffLine';
-                            jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                            jmrequest.thumbnailUrl = "https://d3c243y8mg3na8.cloudfront.net/streaming_images/offline_thumbnailurl.jpg";
                             this.thumbnailUrl = jmrequest.thumbnailUrl;
                             this.journalList.push(jmrequest);
                           });
@@ -384,7 +384,7 @@ export class JournalManagerComponent implements OnInit {
                       jmrequest.hlsurl = 'OffLine';
                       jmrequest.rtmpurl = 'OffLine';
                       jmrequest.rtspurl = 'OffLine';
-                      jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                      jmrequest.thumbnailUrl = "https://d3c243y8mg3na8.cloudfront.net/streaming_images/offline_thumbnailurl.jpg";
                       this.thumbnailUrl = jmrequest.thumbnailUrl;
                       this.journalList.push(jmrequest);
                     });
@@ -408,7 +408,7 @@ export class JournalManagerComponent implements OnInit {
                   jmrequest.hlsurl = 'OffLine';
                   jmrequest.rtmpurl = 'OffLine';
                   jmrequest.rtspurl = 'OffLine';
-                  jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                  jmrequest.thumbnailUrl = "https://d3c243y8mg3na8.cloudfront.net/streaming_images/offline_thumbnailurl.jpg";
                   this.thumbnailUrl = jmrequest.thumbnailUrl;
                   this.journalList.push(jmrequest);
                 });
@@ -437,7 +437,7 @@ export class JournalManagerComponent implements OnInit {
                 // var journalUser = this.journals.filter(
                 // destKey => destKey.id === this.journals[0].id);
 
-                jmrequest.thumbnailUrl = "http://www.cascadeumc.org/fullpanel/uploads/files/cascade-livestreaming-01.jpg";
+                jmrequest.thumbnailUrl = "https://d3c243y8mg3na8.cloudfront.net/streaming_images/offline_thumbnailurl.jpg";
                 this.thumbnailUrl = jmrequest.thumbnailUrl;
                 this.journalList.push(jmrequest);
                 jmrequest = null;

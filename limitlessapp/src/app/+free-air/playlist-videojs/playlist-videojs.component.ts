@@ -15,8 +15,9 @@ export class PlaylistVideojsComponent implements OnInit
      public videos:any[]=[]; 
      public isFirstEl:boolean=false;
      public isLastEl:boolean=false;
-     public video:any={ 'src': 'http://media.w3.org/2010/05/sintel/trailer.mp4',
-    'type': 'video/mp4'
+     public video:any={ 
+      'src': 'http://journal2.haappyapp.com:1935/ka-tv18/website_source/playlist.m3u8',
+      'type': 'application/x-mpegURL'
 
      }
      public test:string[]=['v1','v2','v3','v4']
@@ -41,30 +42,30 @@ export class PlaylistVideojsComponent implements OnInit
     // var player =videojs('video', { preload: true, techOrder: ["youtube", "html5"], controls: true , "continuous": true, "setTrack": 4});
     let playlist = [
     {
-      'src': 'http://media.w3.org/2010/05/sintel/trailer.mp4',
-      'type': 'video/mp4'
+      'src': 'http://journal2.haappyapp.com:1935/ka-tv18/website_source/playlist.m3u8',
+      'type': 'application/x-mpegURL'
     
-  }, 
+  }
    
-    {
-      'src': 'http://media.w3.org/2010/05/bunny/trailer.mp4',
-      'type': 'video/mp4'
+  //   {
+  //     'src': 'http://media.w3.org/2010/05/bunny/trailer.mp4',
+  //     'type': 'video/mp4'
    
-  }, 
-    {
-      'src': 'https://vjs.zencdn.net/v/oceans.mp4',
-      'type': 'video/mp4'
+  // }, 
+  //   {
+  //     'src': 'https://vjs.zencdn.net/v/oceans.mp4',
+  //     'type': 'video/mp4'
    
-  },
-    {
-      'src': 'http://media.w3.org/2010/05/bunny/movie.mp4',
-      'type': 'video/mp4'
+  // },
+  //   {
+  //     'src': 'http://media.w3.org/2010/05/bunny/movie.mp4',
+  //     'type': 'video/mp4'
   
-  }, {
+  // }, {
     
-      'src': 'http://media.w3.org/2010/05/video/movie_300.mp4',
-      'type': 'video/mp4'
-    }
+  //     'src': 'http://media.w3.org/2010/05/video/movie_300.mp4',
+  //     'type': 'video/mp4'
+  //   }
   ];
  
       this.videos=playlist;

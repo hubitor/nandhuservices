@@ -26,7 +26,7 @@ export class LogoAdsComponent implements OnInit {
   logoAds: LogoAds;
   appName: string;
   videoUploadResponse: VideoUploadResponse;
-  adTypes: string[] = ['LOGO', 'VIDEO', 'L-BAND', 'BOTTOM-BAR', 'SLIDE'];
+  adTypes: string[] = ['LOGO', 'L-BAND', 'BOTTOM-BAR', 'SLIDE'];
   adType: string;
 
   constructor(private fb: FormBuilder, private cookieSevice: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService) { 
