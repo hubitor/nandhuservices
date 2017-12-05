@@ -87,7 +87,7 @@
                         <td>
                           <select class="form-control" id="logoAdSelect-{{i}}">
                             <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let logoAd of logoAds" value="{{logoAd.id}},{{logoAd.img_name}},{{logoAd.ftp_path}}">{{logoAd.ad_title}}</option>
+                            <option *ngFor="let logoAd of logoAds" value="{{logoAd.id}},{{logoAd.img_name}},{{logoAd.ftp_path}}">{{logoAd.ad_title}}-{{logoAd.ad_type}}</option>
                           </select>
                         </td>
                         <td>
