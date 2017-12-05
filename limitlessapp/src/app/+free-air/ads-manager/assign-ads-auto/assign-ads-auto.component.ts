@@ -168,7 +168,7 @@ export class AssignAdsAutoComponent implements OnInit {
     }
     var e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();
     this.assignAdForm.get('eventEndTime').setValue(e_time);
-
+    this.onShowTimeSlotsClick()
   };
  
 
@@ -182,7 +182,7 @@ export class AssignAdsAutoComponent implements OnInit {
     var e_t_minute=+et.split(':')[1];
 
     var diff_hours=(e_t_hour-s_t_hour)*60;
-    var diff_minutes=s_t_minute+e_t_minute;
+    var diff_minutes=e_t_minute-s_t_minute;
 
     var total_minutes_duration=d_hour+d_minute;
     var total_minutes_difftime=diff_hours+diff_minutes;
