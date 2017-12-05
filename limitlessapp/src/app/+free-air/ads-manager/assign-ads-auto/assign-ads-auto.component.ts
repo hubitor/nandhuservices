@@ -168,7 +168,7 @@ export class AssignAdsAutoComponent implements OnInit {
     }
     var e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();
     this.assignAdForm.get('eventEndTime').setValue(e_time);
-
+    this.onShowTimeSlotsClick()
   };
  
 
@@ -182,7 +182,7 @@ export class AssignAdsAutoComponent implements OnInit {
     var e_t_minute=+et.split(':')[1];
 
     var diff_hours=(e_t_hour-s_t_hour)*60;
-    var diff_minutes=s_t_minute+e_t_minute;
+    var diff_minutes=e_t_minute-s_t_minute;
 
     var total_minutes_duration=d_hour+d_minute;
     var total_minutes_difftime=diff_hours+diff_minutes;
@@ -256,7 +256,7 @@ export class AssignAdsAutoComponent implements OnInit {
     for (let i: number = 0; i < this.noOfLogoAdTimeSlots; i++) {
       if(i == slotToDuplicate){
         this.adSlotIndex = new AdSlotIndex();
-        this.adSlotIndex.index = this.adSlotIndexs.length + 1;
+        this.adSlotIndex.index = this.adSlotIndexs.length;
         this.adSlotIndex.slotStartTime = this.adSlotIndexs[i].slotStartTime;
         this.adSlotIndex.slotEndTime = this.adSlotIndexs[i].slotEndTime;
         this.adSlotIndex.isDuplicate = true;
