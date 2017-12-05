@@ -256,7 +256,7 @@ export class AssignAdsAutoComponent implements OnInit {
     for (let i: number = 0; i < this.noOfLogoAdTimeSlots; i++) {
       if(i == slotToDuplicate){
         this.adSlotIndex = new AdSlotIndex();
-        this.adSlotIndex.index = this.adSlotIndexs.length + 1;
+        this.adSlotIndex.index = this.adSlotIndexs.length;
         this.adSlotIndex.slotStartTime = this.adSlotIndexs[i].slotStartTime;
         this.adSlotIndex.slotEndTime = this.adSlotIndexs[i].slotEndTime;
         this.adSlotIndex.isDuplicate = true;
