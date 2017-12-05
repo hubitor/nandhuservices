@@ -34,7 +34,7 @@ export class VideoAdsComponent implements OnInit {
     this.broadcasterId = parseInt(localStorage.getItem('broadcaster_id'));
     this.appName = localStorage.getItem('w_appname');
     this.logoAds = new LogoAds;
-    this.videoUploader = new FileUploader({url: AppSettings.API_ENDPOINT+'ads/logo/image/'+this.appName, allowedMimeType:['video/mp4']});
+    this.videoUploader = new FileUploader({url: AppSettings.API_ENDPOINT+'ads/videoad/video/'+this.appName, allowedMimeType:['video/mp4', 'video/flv', 'video/3gp', 'video/avi', 'video/mov']});
     this.videoUploadResponse = new VideoUploadResponse();
   }
 
@@ -71,17 +71,17 @@ export class VideoAdsComponent implements OnInit {
     this.videoUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       this.videoUploadResponse = JSON.parse(response);
       console.log(this.videoUploadResponse);
-      const newVideoAd = this.newVideoAdForm.value;
-      this.logoAds.broadcaster_id = this.broadcasterId;
-      this.logoAds.channel_id = this.channelId;
-      this.logoAds.ad_title = newVideoAd.adTitle;
-      this.logoAds.ad_type = 'VIDEO';
-      this.logoAds.image_url = this.videoUploadResponse.videoUrl;
-      this.logoAds.img_name = this.videoUploadResponse.fileName;
-      this.logoAds.ftp_path = this.videoUploadResponse.ftpPath;
-      this.logoAds.is_active = true;
-      this.logoAds.created_by = this.loginResponse.user_name;
-      this.logoAds.updated_by = this.loginResponse.user_name;
+      // const newVideoAd = this.newVideoAdForm.value;
+      // this.logoAds.broadcaster_id = this.broadcasterId;
+      // this.logoAds.channel_id = this.channelId;
+      // this.logoAds.ad_title = newVideoAd.adTitle;
+      // this.logoAds.ad_type = 'VIDEO';
+      // this.logoAds.image_url = this.videoUploadResponse.videoUrl;
+      // this.logoAds.img_name = this.videoUploadResponse.fileName;
+      // this.logoAds.ftp_path = this.videoUploadResponse.ftpPath;
+      // this.logoAds.is_active = true;
+      // this.logoAds.created_by = this.loginResponse.user_name;
+      // this.logoAds.updated_by = this.loginResponse.user_name;
     }
   }
 
