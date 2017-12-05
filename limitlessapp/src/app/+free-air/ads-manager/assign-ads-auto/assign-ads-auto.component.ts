@@ -219,12 +219,27 @@ export class AssignAdsAutoComponent implements OnInit {
       for (var i: number = 0; i < this.noOfLogoAdTimeSlots; i++) {
         this.adSlotIndex = new AdSlotIndex();
         this.adSlotIndex.index = i;
+        
+
         let startTime: Date = new Date(this.eventDate + 'T' + slotStartTime);
         let endTime: Date = new Date(startTime.getTime() + (this.logoAdWindow * 60000));
-        this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + startTime.getMinutes();
-        this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + endTime.getMinutes();
+        var t_start_time=startTime.getMinutes().toString();
+        if(+t_start_time<10)
+        {
+          t_start_time="0"+t_start_time;
+        }
+
+        var t_end_time=endTime.getMinutes().toString();
+        if(+t_end_time<10)
+        {
+          t_end_time="0"+t_end_time;
+        }
+
+        this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + t_start_time;
+        this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + t_end_time;
         this.adSlotIndex.isDuplicate = false;
-        slotStartTime = endTime.toLocaleTimeString();
+        slotStartTime = endTime.getHours() + ':' + t_end_time;
+        //slotStartTime = endTime.toLocaleTimeString();
         this.adSlotIndexs.push(this.adSlotIndex);
         this.adSlotIndex = null;
       }
