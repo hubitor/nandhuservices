@@ -194,7 +194,6 @@ export class JournalManagerComponent implements OnInit {
         if (this.broadcasterChannels.length > 0) {
           this.journalManagerForm.get('jchannelId').setValue(this.broadcasterChannels[0].id);
           this.getJournalsVideos(+this.broadcasterChannels[0].id);
-          this.onChannelSelect();
         }
       },
       error => {
@@ -217,6 +216,7 @@ export class JournalManagerComponent implements OnInit {
             var jmrequest = new JournalManagerRequest();
             jmrequest = null;
           }
+          this.onChannelSelect();
         }
 
       },
