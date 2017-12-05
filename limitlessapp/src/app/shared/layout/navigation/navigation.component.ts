@@ -113,8 +113,10 @@ export class NavigationComponent implements OnInit {
         this.channelStream = true;
         this.adsManager = true;
         this.channelVideos =false;
-        // this.journalManager = true;
+        this.journalManager = true;
         this.platformManager=true;
+        this.playlistVideojs = true;
+        
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
 

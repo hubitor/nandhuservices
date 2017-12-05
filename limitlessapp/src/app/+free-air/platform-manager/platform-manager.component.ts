@@ -61,6 +61,7 @@ export class PlatformManagerComponent implements OnInit {
   constructor(private fb: FormBuilder, private cookieService: CookieService,
     private datePipe: DatePipe, private notificationService: NotificationService,
     private broadcasterService: BroadcasterService) {
+      
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
