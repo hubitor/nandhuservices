@@ -13,15 +13,18 @@ import { AssignLogoAds } from 'app/shared/models/assign-logo-ads';
 import { CreateResponse } from 'app/shared/models/createResponse';
 import { NotificationService } from "../../../shared/utils/notification.service";
 import { AdSlotIndex } from 'app/shared/models/ui-models/ad-slot-index';
+import { Time } from 'ngx-bootstrap/timepicker/timepicker.models';
+import { fadeInLeft } from 'app/shared/animations/router.animations';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-assign-ads-auto',
   templateUrl: './assign-ads-auto.component.html',
-  providers: [BroadcasterService, AdsService]
+  providers: [BroadcasterService,DatePipe, AdsService]
 })
 export class AssignAdsAutoComponent implements OnInit {
   assignAdForm;
-  targetPlatforms: string[] = ['youtube', 'facebook', 'twitter'];
+  targetPlatforms: string[] = ['youtube', 'facebook', 'twitter','website','android','ios'];
   selectedDestination: string;
   adPlacements: string[] = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'MIDDLE_LEFT', 'MIDDLE_CENTER', 'MIDDLE_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT'];
   broadcastingTypes: string[] = ['Short Event', '24/7', 'VoD'];
@@ -58,7 +61,7 @@ export class AssignAdsAutoComponent implements OnInit {
   adSlotIndexs: AdSlotIndex[];
   adSlotIndex: AdSlotIndex;
 
-  constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService, private elementRef: ElementRef, private notificationService: NotificationService) {
+  constructor(private fb: FormBuilder, private cookieService: CookieService, private broadcasterService: BroadcasterService, private adsService: AdsService, private elementRef: ElementRef, private notificationService: NotificationService,private datePipe: DatePipe) {
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get('HAU'));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
@@ -78,6 +81,7 @@ export class AssignAdsAutoComponent implements OnInit {
     this.endTimeSlots = new Array();
     this.adSlotIndex = new AdSlotIndex();
     this.adSlotIndexs = new Array();
+    this.handleChange = this.handleChange.bind(this);
   }
 
   ngOnInit() {
@@ -86,7 +90,9 @@ export class AssignAdsAutoComponent implements OnInit {
   }
 
   initForm() {
-    this.assignAdForm = this.fb.group({
+    var today_date=new Date().toLocaleDateString();
+    var newKeyDate = this.datePipe.transform(today_date, 'MM/dd/yyyy');
+        this.assignAdForm = this.fb.group({
       eventName: [null, [Validators.required]],
       eventDate: [null, [Validators.required]],
       eventDurationHrs: [null, [Validators.required]],
@@ -106,6 +112,7 @@ export class AssignAdsAutoComponent implements OnInit {
         alert('something went wrong');
       }
     );
+    //this.assignAdForm.get('eventDate').setValue("12/04/2017");
   }
 
   onChannelSelect(channelId: number) {
@@ -144,39 +151,87 @@ export class AssignAdsAutoComponent implements OnInit {
         console.log(err);
       }
     );
+  };
+  
+  handleChange(event)
+  {
+    debugger;
+    var s_time=this.assignAdForm.value.eventStartTime;
+    var duration_hour=+this.assignAdForm.value.eventDurationHrs.split(':')[0];
+    var duration_minute=+this.assignAdForm.value.eventDurationHrs.split(':')[1];
+    var s_time_hour=+s_time.split(':')[0];
+    var s_time_minute=+s_time.split(':')[1];
+    var t_min=(duration_minute+s_time_minute).toString();
+    if(+t_min<10)
+    {
+      t_min="0"+t_min;
+    }
+    var e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();
+    this.assignAdForm.get('eventEndTime').setValue(e_time);
+
+  };
+ 
+
+  validatedurationHours(duration:string,st:string,et:string)
+  {
+    var d_hour =+duration.split(':')[0] *60;
+    var d_minute =+duration.split(':')[1];
+    var s_t_hour=+st.split(':')[0];
+    var s_t_minute=+st.split(':')[1];
+    var e_t_hour=+et.split(':')[0];
+    var e_t_minute=+et.split(':')[1];
+
+    var diff_hours=(e_t_hour-s_t_hour)*60;
+    var diff_minutes=s_t_minute+e_t_minute;
+
+    var total_minutes_duration=d_hour+d_minute;
+    var total_minutes_difftime=diff_hours+diff_minutes;
+
+    if(total_minutes_difftime === total_minutes_duration)
+       return true;
+    else 
+      return false;
   }
 
+ 
+
   onShowTimeSlotsClick() {
-    this.showLogoAdSlotsClicked = true;
-    this.adSlotIndexs.length = 0;
     const logoAdAssinger = this.assignAdForm.value;
-    var duration: string = logoAdAssinger.eventDurationHrs;
-    this.eventStartTime = logoAdAssinger.eventStartTime;
-    this.slotStartTime = this.eventStartTime;
-    this.eventDate = logoAdAssinger.eventDate;
-    var splitter: string[] = duration.split(':');
-    var durationHrs = splitter[0];
-    var durationMins = splitter[1];
-    var hours: number = parseInt(durationHrs);
-    var minutes: number = parseInt(durationMins);
-    var hoursInMins: number = hours * 60;
-    var totalDurationInMins: number = hoursInMins + minutes;
-    this.noOfLogoAdTimeSlots = Math.round(totalDurationInMins / this.logoAdWindow);
-    console.log(this.logoAdWindow * 60000);
-    let slotStartTime = this.slotStartTime;
-    for (var i: number = 0; i < this.noOfLogoAdTimeSlots; i++) {
-      this.adSlotIndex = new AdSlotIndex();
-      this.adSlotIndex.index = i;
-      let startTime: Date = new Date(this.eventDate + 'T' + slotStartTime);
-      let endTime: Date = new Date(startTime.getTime() + (this.logoAdWindow * 60000));
-      this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + startTime.getMinutes();
-      this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + endTime.getMinutes();
-      this.adSlotIndex.isDuplicate = false;
-      slotStartTime = endTime.toLocaleTimeString();
-      this.adSlotIndexs.push(this.adSlotIndex);
-      this.adSlotIndex = null;
+    if(this.validatedurationHours(logoAdAssinger.eventDurationHrs,logoAdAssinger.eventStartTime,logoAdAssinger.eventEndTime))
+    {
+      this.showLogoAdSlotsClicked = true;
+      this.adSlotIndexs.length = 0;
+     
+      var duration: string = logoAdAssinger.eventDurationHrs;
+      this.eventStartTime = logoAdAssinger.eventStartTime;
+      this.slotStartTime = this.eventStartTime;
+      this.eventDate = logoAdAssinger.eventDate;
+      var splitter: string[] = duration.split(':');
+      var durationHrs = splitter[0];
+      var durationMins = splitter[1];
+      var hours: number = parseInt(durationHrs);
+      var minutes: number = parseInt(durationMins);
+      var hoursInMins: number = hours * 60;
+      var totalDurationInMins: number = hoursInMins + minutes;
+      this.noOfLogoAdTimeSlots = Math.round(totalDurationInMins / this.logoAdWindow);
+      console.log(this.logoAdWindow * 60000);
+      let slotStartTime = this.slotStartTime;
+      for (var i: number = 0; i < this.noOfLogoAdTimeSlots; i++) {
+        this.adSlotIndex = new AdSlotIndex();
+        this.adSlotIndex.index = i;
+        let startTime: Date = new Date(this.eventDate + 'T' + slotStartTime);
+        let endTime: Date = new Date(startTime.getTime() + (this.logoAdWindow * 60000));
+        this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + startTime.getMinutes();
+        this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + endTime.getMinutes();
+        this.adSlotIndex.isDuplicate = false;
+        slotStartTime = endTime.toLocaleTimeString();
+        this.adSlotIndexs.push(this.adSlotIndex);
+        this.adSlotIndex = null;
+      }
     }
-    console.log(this.adSlotIndexs);
+    else{
+      this.Alert('The total duration should be match with start and end timings','Validation')
+    }
   }
 
   onDuplicateSlotClick(slotIndex: number) {
