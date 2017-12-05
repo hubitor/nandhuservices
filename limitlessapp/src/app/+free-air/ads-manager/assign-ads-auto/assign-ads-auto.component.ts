@@ -155,7 +155,7 @@ export class AssignAdsAutoComponent implements OnInit {
   
   handleChange(event)
   {
-    debugger;
+    
     var s_time=this.assignAdForm.value.eventStartTime;
     var duration_hour=+this.assignAdForm.value.eventDurationHrs.split(':')[0];
     var duration_minute=+this.assignAdForm.value.eventDurationHrs.split(':')[1];
@@ -291,7 +291,7 @@ export class AssignAdsAutoComponent implements OnInit {
   }
 
   onAssignLogoAdsClick() {
-    //debugger;
+    
     // for(var i=0; i<this.noOfLogoAdTimeSlots; i++){
     //   let val: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-'+i)
     //   console.log(val.value);
