@@ -10,6 +10,7 @@ import { CreateResponse } from "../../models/createResponse";
 import { CookieService } from "ngx-cookie";
 import { LogoAds } from "../../models/logo-ads";
 import { AdEvent } from "../../models/ad-event";
+import { VideoAd } from '../../models/video-ad';
 
 @Injectable()
 export class AdsService {
@@ -38,6 +39,12 @@ export class AdsService {
 
   assignLogoAds(adEvent: AdEvent): Observable<CreateResponse>{
     return this.http.post(AppSettings.API_ENDPOINT+"ads/logo/assign", adEvent, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
+  createdVideoAd(videoAd: VideoAd): Observable<CreateResponse> {
+    return this.http.post(AppSettings.API_ENDPOINT+"ads/videoad/new", videoAd, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }
