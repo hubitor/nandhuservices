@@ -37,6 +37,7 @@ export class videoURL {
 
 
 export class JournalManagerComponent implements OnInit {
+  broadcaster: Broadcasters;
   journal: Journal;
   public email: string;
   public first_name: string;
@@ -82,18 +83,25 @@ export class JournalManagerComponent implements OnInit {
   public rtspurl: string;
   journalwithSetting: JournalAndSetting[];
   channelCategories: ChannelCategory;
+  client_id: number;
+  user: LoginResponse;
+  w_applicationName: string;
+
   constructor(private fb: FormBuilder, private journalService: JournalService,
     private cookieService: CookieService, private broadcasterService: BroadcasterService) {
-    this.loginResponse = new LoginResponse();
-    this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
-    if (this.loginResponse.user_type === 'Entertainment') {
-      this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
-      this.entertainmentUser = true;
-      this.superAdmin = false;
-    } else if (this.loginResponse.user_type === 'Super Admin') {
-      this.entertainmentUser = false;
-      this.superAdmin = true;
+    this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
+    this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
+    this.w_applicationName = localStorage.getItem('w_appname');
+    if (this.user.user_type === "Super Admin") {
+      this.client_id = 1064;
+      this.user.client_id = 1064;
+      this.w_applicationName = "dev";
+
+    }
+    else {
+      this.w_applicationName = this.user.w_appname;
+      this.client_id = this.user.client_id;
     }
     this.channelSelected = false;
     this.createResponse = new CreateResponse();
@@ -104,15 +112,15 @@ export class JournalManagerComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.getAllBroadcasters();
+    this.getAllBroadcastersById(this.client_id);
   }
 
 
 
   initForm() {
     this.journalManagerForm = this.fb.group({
-      jchannelId: [null, [Validators.required]],
-      jbroadcasterId: [null, [Validators.required]],
+      jchannelId: [this.user.primary_channel_id ? this.user.primary_channel_id : 140, Validators.required],
+      jbroadcasterId: [this.user.client_id ? this.user.client_id : 1064, Validators.required],
     });
   };
 
@@ -170,23 +178,7 @@ export class JournalManagerComponent implements OnInit {
 
 
 
-  getAllBroadcasters() {
-    this.broadcasterService.getAllBroadcasters().subscribe(
-      broadcasters => {
-        this.broadcasters = broadcasters;
-        if (this.broadcasters.length > 0) {
-          this.journalManagerForm.get('jbroadcasterId').setValue(this.broadcasters[0].id);
-          this.getChannels(+this.broadcasters[0].id);
-
-        }
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
-
-  getChannels(broadcasterId: number) {
+  getChannel(broadcasterId: number) {
     this.broadcasterId = broadcasterId;
     this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
@@ -202,6 +194,49 @@ export class JournalManagerComponent implements OnInit {
     );
   };
 
+  getAllBroadcastersById(broadcaterId) {
+    if (this.client_id === 1064) {
+      this.broadcasterService.getAllBroadcasters()
+        .subscribe(
+        broadcasters => {
+          this.broadcasters=broadcasters;
+          this.getChannels(broadcasters = broadcasters);
+        },
+        error => this.errorMessage = <any>error);
+    }
+    else {
+      this.broadcasterService.getAllBroadcastersById(broadcaterId)
+        .subscribe(
+        broadcasters => {
+          this.broadcaster=broadcasters;
+          this.getChannels(broadcasters = broadcasters);
+
+        },
+        error => this.errorMessage = <any>error);
+    }
+
+
+  }
+
+  getChannels(broadcasters) {
+    if (broadcasters.length > 0) {
+      this.broadcasters = broadcasters;
+      this.broadcasterService.getChannelsByBroadcasterId(this.broadcasterId).subscribe(
+        channels => {
+          this.broadcasterChannels = channels;
+          if (this.broadcasterChannels.length > 0) {
+            this.journalManagerForm.get('jchannelId').setValue(this.broadcasterChannels[0].id);
+            this.getJournalsVideos(+this.broadcasterChannels[0].id);
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+    }
+
+  };
 
   getJournalsVideos(channelId: number) {
     var f_journal;
@@ -225,24 +260,6 @@ export class JournalManagerComponent implements OnInit {
 
       }
     );
-  }
-
-  onStreamName(journalSetting) {
-    var f_journal;
-    if (journalSetting.length > 0) {
-      this.journals = journalSetting;
-      var filterSetting = journalSetting.filter(sachannel => sachannel.journal_id === journalSetting.id);
-      this.channelCategories = filterSetting.length > 0 ? filterSetting[0].journal_settings : [];
-      f_journal = this.journals.filter(
-        // jId => jId.id.toString() === journalSetting.id.toString());
-        broadcasterId => broadcasterId.id === this.journals[0].id);
-
-      // this.stream_name = f_broadcaster.length > 0 ? f_broadcaster[0].stream_name : '';
-      this.stream_name = f_journal.length && filterSetting[0].journal_settings.length > 0 ? f_journal[0].journal_settings[0].stream_name : '';
-      console.log("StreamNAme" + this.stream_name);
-
-
-    }
   }
 
 
@@ -319,24 +336,24 @@ export class JournalManagerComponent implements OnInit {
                           jmrequest.onlineStatus = 'online';
 
                           jmrequest.hlsurl = this.formatJournalURL(j_appl_name, ics.name, "http");
-                          console.log("http::::::" + "ics.name::" + ics.name + ':::j_appl_name::' + j_appl_name + ":::" + jmrequest.hlsurl);
+                          // console.log("http::::::" + "ics.name::" + ics.name + ':::j_appl_name::' + j_appl_name + ":::" + jmrequest.hlsurl);
                           this.hlsurl = jmrequest.hlsurl;
 
                           jmrequest.rtmpurl = this.formatJournalURL(j_appl_name, ics.name, "rtmp");
-                          console.log("rtmp:::::" + jmrequest.rtmpurl);
+                          // console.log("rtmp:::::" + jmrequest.rtmpurl);
                           this.rtmpurl = jmrequest.rtmpurl;
 
                           jmrequest.rtspurl = this.formatJournalURL(j_appl_name, ics.name, "rtsp");
-                          console.log("rtsp::::::" + jmrequest.rtspurl);
+                          // console.log("rtsp::::::" + jmrequest.rtspurl);
                           this.rtspurl = jmrequest.rtspurl;
 
 
                           jmrequest.first_name = onlineuser[0].first_name;
-                          console.log('name :::::::::::' + jmrequest.first_name);
+                          // console.log('name :::::::::::' + jmrequest.first_name);
                           this.first_name = jmrequest.first_name;
 
                           jmrequest.thumbnailUrl = this.formatThumbnailURL(j_appl_name, ics.name);
-                          console.log("thumbnailUrl::::::" + jmrequest.thumbnailUrl);
+                          // console.log("thumbnailUrl::::::" + jmrequest.thumbnailUrl);
                           this.thumbnailUrl = jmrequest.thumbnailUrl;
 
 

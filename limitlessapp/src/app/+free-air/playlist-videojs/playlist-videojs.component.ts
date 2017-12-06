@@ -28,7 +28,7 @@ export class PlaylistVideojsComponent implements OnInit
 
     ngOnInit() {
         this.initForm();
-        console.log(JSON.stringify(this.video)+"*******video.src::"+this.video.src);
+        // console.log(JSON.stringify(this.video)+"*******video.src::"+this.video.src);
         this.playlist();
         
     }
@@ -70,17 +70,17 @@ export class PlaylistVideojsComponent implements OnInit
  
       this.videos=playlist;
   //  player.playlist({ videos:playlist, playlist: { hideSidebar: false, upNext: true, hideIcons: false, items: 5 } });
-  console.log("*************length"+this.videos.length);
+  // console.log("*************length"+this.videos.length);
   // player.playlist.autoadvance(0);
 
   }
   previous(video:any){
-    console.log("inside previous method"+JSON.stringify(video));
+    // console.log("inside previous method"+JSON.stringify(video));
     let length=this.videos.length;
     this.isLastEl=false;
 
     var indexOfStevie =this.videos.findIndex(i => i.src === video.src);
-    console.log("indexOfStevie*********"+indexOfStevie)
+    // console.log("indexOfStevie*********"+indexOfStevie)
     if(indexOfStevie!=0){
       console.log("not equals to 0");
      
@@ -95,12 +95,12 @@ export class PlaylistVideojsComponent implements OnInit
   }
 
   next(video:any){
-    console.log("inside next method"+JSON.stringify(video));
+    // console.log("inside next method"+JSON.stringify(video));
     let length=this.videos.length;
     this.isFirstEl=false;
 
     var indexOfStevie =this.videos.findIndex(i => i.src === video.src);
-    console.log("indexOfStevie*********"+indexOfStevie)
+    // console.log("indexOfStevie*********"+indexOfStevie)
     if(indexOfStevie!=(length-1)){
       console.log("not equals to "+(length-1));
      
