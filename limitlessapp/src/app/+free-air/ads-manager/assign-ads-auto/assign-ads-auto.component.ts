@@ -159,22 +159,32 @@ export class AssignAdsAutoComponent implements OnInit {
     var s_time=this.assignAdForm.value.eventStartTime;
     var duration_hour=+this.assignAdForm.value.eventDurationHrs.split(':')[0];
     var duration_minute=+this.assignAdForm.value.eventDurationHrs.split(':')[1];
-    var s_time_hour=+s_time.split(':')[0];
-    var s_time_minute=+s_time.split(':')[1];
-    var t_min=(duration_minute+s_time_minute).toString();
-    if(+t_min<10)
+    if(s_time!=null && s_time.length>0)
     {
-      t_min="0"+t_min;
+      var s_time_hour=+s_time.split(':')[0];
+      var s_time_minute=+s_time.split(':')[1];
+      var t_min=(duration_minute+s_time_minute).toString();
+      if(+t_min<10)
+      {
+        t_min="0"+t_min;
+      }
+      var e_time;
+      if(duration_hour ==24)
+        e_time="23:59"
+      else
+        e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();  
+     
+      this.assignAdForm.get('eventEndTime').setValue(e_time);
+      this.onShowTimeSlotsClick()
     }
-    var e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();
-    this.assignAdForm.get('eventEndTime').setValue(e_time);
-    this.onShowTimeSlotsClick()
+   
   };
  
 
   validatedurationHours(duration:string,st:string,et:string)
   {
-    var d_hour =+duration.split(':')[0] *60;
+    var hr=+duration.split(':')[0];
+    var d_hour =+hr *60;
     var d_minute =+duration.split(':')[1];
     var s_t_hour=+st.split(':')[0];
     var s_t_minute=+st.split(':')[1];
@@ -186,7 +196,9 @@ export class AssignAdsAutoComponent implements OnInit {
 
     var total_minutes_duration=d_hour+d_minute;
     var total_minutes_difftime=diff_hours+diff_minutes;
-
+    if(+hr == 24)
+        return true
+    
     if(total_minutes_difftime === total_minutes_duration)
        return true;
     else 
@@ -229,16 +241,28 @@ export class AssignAdsAutoComponent implements OnInit {
           t_start_time="0"+t_start_time;
         }
 
+        var t_start_time_hour=startTime.getHours().toString();
+        if(+t_start_time_hour<10)
+        {
+          t_start_time_hour="0"+t_start_time_hour;
+        }
+
         var t_end_time=endTime.getMinutes().toString();
         if(+t_end_time<10)
         {
           t_end_time="0"+t_end_time;
         }
 
-        this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + t_start_time;
-        this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + t_end_time;
+        var t_end_time_hour=endTime.getHours().toString();
+        if(+t_end_time_hour<10)
+        {
+          t_end_time_hour="0"+t_end_time_hour;
+        }
+
+        this.adSlotIndex.slotStartTime = t_start_time_hour + ':' + t_start_time;
+        this.adSlotIndex.slotEndTime = t_end_time_hour + ':' + t_end_time;
         this.adSlotIndex.isDuplicate = false;
-        slotStartTime = endTime.getHours() + ':' + t_end_time;
+        slotStartTime = t_end_time_hour + ':' + t_end_time;
         //slotStartTime = endTime.toLocaleTimeString();
         this.adSlotIndexs.push(this.adSlotIndex);
         this.adSlotIndex = null;
