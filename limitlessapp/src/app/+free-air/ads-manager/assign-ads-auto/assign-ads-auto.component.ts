@@ -16,6 +16,8 @@ import { AdSlotIndex } from 'app/shared/models/ui-models/ad-slot-index';
 import { Time } from 'ngx-bootstrap/timepicker/timepicker.models';
 import { fadeInLeft } from 'app/shared/animations/router.animations';
 import { DatePipe } from '@angular/common';
+import {FadeInTop} from "app/shared/animations/fade-in-top.decorator";
+
 
 @Component({
   selector: 'app-assign-ads-auto',
@@ -24,6 +26,7 @@ import { DatePipe } from '@angular/common';
 })
 export class AssignAdsAutoComponent implements OnInit {
   assignAdForm;
+  assignAdOverlayTextForm;
   targetPlatforms: string[] = ['youtube', 'facebook', 'twitter','website','android','ios'];
   selectedDestination: string;
   adPlacements: string[] = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'MIDDLE_LEFT', 'MIDDLE_CENTER', 'MIDDLE_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT'];
@@ -43,6 +46,11 @@ export class AssignAdsAutoComponent implements OnInit {
   _24x7: boolean;
   vod: boolean;
   logoAdWindows: number[] = [1, 2, 3, 5, 6, 10, 15, 20, 30, 45, 60];
+  logoAdTxtFontSize: number[] = [8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72];
+  logoAdTxtFontName:string[]=["Calibri","Calibri Light","Arial","Arial Black","Bodoni MT Black","Courier New","Lucida Bright","Lucida Sans","Times New Roman","Verdana"]
+  logoAdTxtFontStyle:string[]=["Bold","Italic","Underline"]
+  logoAdTxtOpacity: number[] = [1, 2, 3, 5, 6, 10, 15, 20, 30, 45, 60];
+  logoAdTxtFontColor:string[]=["Black","White","Red","Lime","Blue","Yellow","Cyan","Magenta","Silver","Gray","Maroon","Olive","Green","Purple","Teal","Navy"]
   logoAdWindow: number;
   noOfLogoAdTimeSlots: number;
   logoAdTimeSlots: number[];
@@ -98,7 +106,34 @@ export class AssignAdsAutoComponent implements OnInit {
       eventDurationHrs: [null, [Validators.required]],
       eventStartTime: [null, [Validators.required]],
       eventEndTime: [null, [Validators.required]]
+     
     });
+
+    // this.assignAdOverlayTextForm = this.fb.group({
+      
+    //   overlayText: [null, [Validators.required]],
+    //   positionTop: [null, [Validators.required]],
+    //   positionBottom: [null, [Validators.required]],
+    //   positionLeft: [null, [Validators.required]],
+    //   positionRight: [null, [Validators.required]]
+    // });
+  }
+
+  overlayTextApply()
+  {
+    //var form_value=this.assignAdOverlayTextForm.value;
+    
+    let overlayText: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
+    let positionTop: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionTop');
+    let positionBottom: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionBottom');
+    let positionLeft: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionLeft');
+    let positionRight: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionRight');
+    overlayText.style.position="absolute";
+    overlayText.style.bottom=+positionBottom.value +"px";
+    overlayText.style.left=+positionLeft.value+"px";
+    //overlayText.style.top=+positionTop.value +"px";
+    //overlayText.style.right=+positionRight.value+"px";
+    
   }
 
   getBroadcasterChannels() {

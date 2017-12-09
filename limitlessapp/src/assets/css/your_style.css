@@ -17,3 +17,9 @@
  * - BODY
  * - CUSTOM STYLES
  */
+
+ .ads-modal
+ {
+    width: 720px;
+    height:576 px;
+ }
