@@ -48,7 +48,8 @@
                       </section>
                       <section class="col col-3" *ngIf="shortEvent">
                         <label>Duration (Not more than 24Hrs)</label>
-                        <input type="text" name="eventDurationHrs" (change)="handleChange(event)" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="form-control" placeholder="HH:MM Eg: 12:30 or 00:45" formControlName="eventDurationHrs">
+                        <input type="text" name="eventDurationHrs" (change)="handleChange(event)" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" class="form-control"
+                          placeholder="HH:MM Eg: 12:30 or 00:45" formControlName="eventDurationHrs">
                       </section>
                       <section class="col col-3">
                         <label>Start Time (only in 24Hrs format Eg: 14:00)</label>
@@ -67,6 +68,10 @@
                       </section>
                     </div>
                     <button type="submit" class="btn btn-success" name="showTimeSlots" (click)="onShowTimeSlotsClick()">Show Time Slots</button>
+                    <a (click)="mdModal.show()" class="btn btn-success btn-lg pull-right">
+                      <i class="fa fa-circle-arrow-up fa-lg"></i> Placement Preview</a>
+                    <a (click)="mdModalText.show()" class="btn btn-success btn-lg pull-right">
+                      <i class="fa fa-circle-arrow-up fa-lg"></i> Text On Image Preview</a>
                   </div>
                   <br>
                   <div id="logoTimeSlots" *ngIf="showLogoAdSlotsClicked">
@@ -79,8 +84,13 @@
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Overlay Text</th>
+                        <!-- <th>Font Name</th>
+                        <th>Font Size</th>
+                        <th>Font Style</th>
+                        <th>Font Color</th> -->
                         <th>Destination</th>
                         <th></th>
+                        <th>Preview</th>
                       </tr>
                       <tr *ngFor="let idx of adSlotIndexs; let i = index">
                         <td>
@@ -114,17 +124,45 @@
                           <input type="text" class="form-control" id="overlaytext-{{idx.index}}">
                         </td>
                         <td>
-                          <select class="form-control" id="adTargetSelect-{{idx.index}}">
+                          <!-- <select class="form-control" id="adTextFontName-{{idx.index}}">
                             <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let target of targetPlatforms" value="{{target}}">{{target}}</option>
+                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
                           </select>
                         </td>
-                        <td *ngIf="!idx.isDuplicate">
-                          <button type="button" class="btn btn-info btn-sm" id="duplicateSlot" #duplicateSlot value="{{i}}" (click)="onDuplicateSlotClick(duplicateSlot.value)">Duplicate Slot</button>
+                        <td>
+                          <select class="form-control" id="adTextFontSize-{{idx.index}}">
+                            <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
+                          </select>
                         </td>
-                        <td *ngIf="idx.isDuplicate">
-                          <button type="button" class="btn btn-danger btn-sm" id="rmvDuplicate" #rmvDuplicate value="{{i}}" (click)="onRemoveDuplicateClick(rmvDuplicate.value)">Remove</button>
+                        <td>
+                          <select class="form-control" id="adTextFontStyle-{{idx.index}}">
+                            <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
+                          </select>
                         </td>
+                        <td>
+                          <select class="form-control" id="adTextFontColor-{{idx.index}}">
+                            <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
+                          </select>
+                        </td>                        -->
+
+                          <td>
+                            <select class="form-control" id="adTargetSelect-{{idx.index}}">
+                              <option value="NONE" selected>NONE</option>
+                              <option *ngFor="let target of targetPlatforms" value="{{target}}">{{target}}</option>
+                            </select>
+                          </td>
+                          <td *ngIf="!idx.isDuplicate">
+                            <button type="button" class="btn btn-info btn-sm" id="duplicateSlot" #duplicateSlot value="{{i}}" (click)="onDuplicateSlotClick(duplicateSlot.value)">Duplicate Slot</button>
+                          </td>
+                          <td *ngIf="idx.isDuplicate">
+                            <button type="button" class="btn btn-danger btn-sm" id="rmvDuplicate" #rmvDuplicate value="{{i}}" (click)="onRemoveDuplicateClick(rmvDuplicate.value)">Remove</button>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-info btn-sm" id="previewPlacement" #previewPlacement value="{{i}}">Preview Placement</button>
+                          </td>
                       </tr>
                     </table>
                     <br>
@@ -138,4 +176,138 @@
       </article>
     </div>
   </sa-widgets-grid>
+</div>
+
+<div bsModal #mdModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="mdModal.hide()" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title">
+          <img src="assets/img/logo.png" width="150" alt="SmartAdmin">
+        </h4>
+      </div>
+      <div class="modal-body no-padding">
+
+        <form class="smart-form">
+
+          <fieldset>
+            <section>
+              <div class="row">
+                <img src="https://d3c243y8mg3na8.cloudfront.net/ProductImages/ads-placement.png" width="720" height="576" alt="Placement">
+              </div>
+            </section>
+          </fieldset>
+
+          <footer>
+            <button type="button" class="btn btn-default" (click)="mdModal.hide()">
+              Cancel
+            </button>
+          </footer>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #mdModalText="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="mdModalText.hide()" aria-hidden="true">
+          &times;
+        </button>
+        <h4 class="modal-title">
+          <img src="assets/img/logo.png" width="150" alt="SmartAdmin">
+        </h4>
+      </div>
+      <div class="modal-body no-padding">
+
+        <form  class="smart-form">
+
+          <fieldset>
+            <section>
+              <div class="row">
+                <section class="col col-md-4">
+                  <label class="input">
+
+                    <textarea style="margin: 0px -477px 0px 0px;width: 686px;height: 117px;" class="form-control" type="text" id="OverlayText" name="OverlayText"
+                       height="150" item-width="720" placeholder=" Overlay Text"></textarea>
+                    <b class="tooltip tooltip-bottom-right">Overlay Text</b>
+                  </label>
+
+                </section>
+
+
+              </div>
+              <div class="row">
+
+                <section class="col col-md-4">
+                  <label class="input">
+                    <i class="icon-prepend fa fa-user"></i>
+                    <input class="form-control" type="text" name="positionTop"  id="positionTop" placeholder="Top Position">
+                    <b class="tooltip tooltip-bottom-right">Position Top</b>
+                  </label>
+
+                </section>
+                <section class="col col-md-4">
+                  <label class="input">
+                    <i class="icon-prepend fa fa-user"></i>
+                    <input class="form-control" type="text" id="positionBottom" name="positionBottom"  placeholder=" Position Bottom">
+                    <b class="tooltip tooltip-bottom-right">Position Bottom</b>
+                  </label>
+
+                </section>
+
+              </div>
+              <div class="row">
+                <section class="col col-md-4">
+                  <label class="input">
+                    <i class="icon-prepend fa fa-user"></i>
+                    <input class="form-control" type="text" id="positionLeft" name="positionLeft"  placeholder=" Position Left">
+                    <b class="tooltip tooltip-bottom-right">Position Left</b>
+                  </label>
+
+                </section>
+                <section class="col col-md-4">
+                  <label class="input">
+                    <i class="icon-prepend fa fa-user"></i>
+                    <input class="form-control" type="text" id="positionRight" name="positionRight"  placeholder=" Position Right">
+                    <b class="tooltip tooltip-bottom-right">Position Right</b>
+                  </label>
+                </section>
+
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-default" (click)="overlayTextApply()">
+                  Apply
+                </button>
+              </div>
+              <div class="row">
+                <section class="col col-md-4">
+                  <img id="overlayImage" src="https://d3c243y8mg3na8.cloudfront.net/ProductImages/Social-Title1.png" width="720" height="576"
+                    alt="Placement">
+                  <h1>
+                    <label id="overlayImageText" style="white-space: nowrap;" >This is demo text for a overlay</label>
+                  </h1>
+                </section>
+              </div>
+            </section>
+
+          </fieldset>
+
+          <footer>
+            <button type="button" class="btn btn-default" (click)="mdModalText.hide()">
+              Cancel
+            </button>
+          </footer>
+        </form>
+      </div>
+
+    </div>
+  </div>
 </div>

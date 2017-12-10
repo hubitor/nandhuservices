@@ -16,6 +16,8 @@ import { AdSlotIndex } from 'app/shared/models/ui-models/ad-slot-index';
 import { Time } from 'ngx-bootstrap/timepicker/timepicker.models';
 import { fadeInLeft } from 'app/shared/animations/router.animations';
 import { DatePipe } from '@angular/common';
+import {FadeInTop} from "app/shared/animations/fade-in-top.decorator";
+
 
 @Component({
   selector: 'app-assign-ads-auto',
@@ -24,6 +26,7 @@ import { DatePipe } from '@angular/common';
 })
 export class AssignAdsAutoComponent implements OnInit {
   assignAdForm;
+  assignAdOverlayTextForm;
   targetPlatforms: string[] = ['youtube', 'facebook', 'twitter','website','android','ios'];
   selectedDestination: string;
   adPlacements: string[] = ['TOP_LEFT', 'TOP_CENTER', 'TOP_RIGHT', 'MIDDLE_LEFT', 'MIDDLE_CENTER', 'MIDDLE_RIGHT', 'BOTTOM_LEFT', 'BOTTOM_CENTER', 'BOTTOM_RIGHT'];
@@ -43,6 +46,11 @@ export class AssignAdsAutoComponent implements OnInit {
   _24x7: boolean;
   vod: boolean;
   logoAdWindows: number[] = [1, 2, 3, 5, 6, 10, 15, 20, 30, 45, 60];
+  logoAdTxtFontSize: number[] = [8,9,10,11,12,14,16,18,20,22,24,26,28,36,48,72];
+  logoAdTxtFontName:string[]=["Calibri","Calibri Light","Arial","Arial Black","Bodoni MT Black","Courier New","Lucida Bright","Lucida Sans","Times New Roman","Verdana"]
+  logoAdTxtFontStyle:string[]=["Bold","Italic","Underline"]
+  logoAdTxtOpacity: number[] = [1, 2, 3, 5, 6, 10, 15, 20, 30, 45, 60];
+  logoAdTxtFontColor:string[]=["Black","White","Red","Lime","Blue","Yellow","Cyan","Magenta","Silver","Gray","Maroon","Olive","Green","Purple","Teal","Navy"]
   logoAdWindow: number;
   noOfLogoAdTimeSlots: number;
   logoAdTimeSlots: number[];
@@ -98,7 +106,34 @@ export class AssignAdsAutoComponent implements OnInit {
       eventDurationHrs: [null, [Validators.required]],
       eventStartTime: [null, [Validators.required]],
       eventEndTime: [null, [Validators.required]]
+     
     });
+
+    // this.assignAdOverlayTextForm = this.fb.group({
+      
+    //   overlayText: [null, [Validators.required]],
+    //   positionTop: [null, [Validators.required]],
+    //   positionBottom: [null, [Validators.required]],
+    //   positionLeft: [null, [Validators.required]],
+    //   positionRight: [null, [Validators.required]]
+    // });
+  }
+
+  overlayTextApply()
+  {
+    //var form_value=this.assignAdOverlayTextForm.value;
+    
+    let overlayText: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
+    let positionTop: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionTop');
+    let positionBottom: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionBottom');
+    let positionLeft: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionLeft');
+    let positionRight: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionRight');
+    overlayText.style.position="absolute";
+    overlayText.style.bottom=+positionBottom.value +"px";
+    overlayText.style.left=+positionLeft.value+"px";
+    //overlayText.style.top=+positionTop.value +"px";
+    //overlayText.style.right=+positionRight.value+"px";
+    
   }
 
   getBroadcasterChannels() {
@@ -159,22 +194,32 @@ export class AssignAdsAutoComponent implements OnInit {
     var s_time=this.assignAdForm.value.eventStartTime;
     var duration_hour=+this.assignAdForm.value.eventDurationHrs.split(':')[0];
     var duration_minute=+this.assignAdForm.value.eventDurationHrs.split(':')[1];
-    var s_time_hour=+s_time.split(':')[0];
-    var s_time_minute=+s_time.split(':')[1];
-    var t_min=(duration_minute+s_time_minute).toString();
-    if(+t_min<10)
+    if(s_time!=null && s_time.length>0)
     {
-      t_min="0"+t_min;
+      var s_time_hour=+s_time.split(':')[0];
+      var s_time_minute=+s_time.split(':')[1];
+      var t_min=(duration_minute+s_time_minute).toString();
+      if(+t_min<10)
+      {
+        t_min="0"+t_min;
+      }
+      var e_time;
+      if(duration_hour ==24)
+        e_time="23:59"
+      else
+        e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();  
+     
+      this.assignAdForm.get('eventEndTime').setValue(e_time);
+      this.onShowTimeSlotsClick()
     }
-    var e_time=((s_time_hour+duration_hour)+":"+ t_min).toString();
-    this.assignAdForm.get('eventEndTime').setValue(e_time);
-    this.onShowTimeSlotsClick()
+   
   };
  
 
   validatedurationHours(duration:string,st:string,et:string)
   {
-    var d_hour =+duration.split(':')[0] *60;
+    var hr=+duration.split(':')[0];
+    var d_hour =+hr *60;
     var d_minute =+duration.split(':')[1];
     var s_t_hour=+st.split(':')[0];
     var s_t_minute=+st.split(':')[1];
@@ -186,7 +231,9 @@ export class AssignAdsAutoComponent implements OnInit {
 
     var total_minutes_duration=d_hour+d_minute;
     var total_minutes_difftime=diff_hours+diff_minutes;
-
+    if(+hr == 24)
+        return true
+    
     if(total_minutes_difftime === total_minutes_duration)
        return true;
     else 
@@ -229,16 +276,28 @@ export class AssignAdsAutoComponent implements OnInit {
           t_start_time="0"+t_start_time;
         }
 
+        var t_start_time_hour=startTime.getHours().toString();
+        if(+t_start_time_hour<10)
+        {
+          t_start_time_hour="0"+t_start_time_hour;
+        }
+
         var t_end_time=endTime.getMinutes().toString();
         if(+t_end_time<10)
         {
           t_end_time="0"+t_end_time;
         }
 
-        this.adSlotIndex.slotStartTime = startTime.getHours() + ':' + t_start_time;
-        this.adSlotIndex.slotEndTime = endTime.getHours() + ':' + t_end_time;
+        var t_end_time_hour=endTime.getHours().toString();
+        if(+t_end_time_hour<10)
+        {
+          t_end_time_hour="0"+t_end_time_hour;
+        }
+
+        this.adSlotIndex.slotStartTime = t_start_time_hour + ':' + t_start_time;
+        this.adSlotIndex.slotEndTime = t_end_time_hour + ':' + t_end_time;
         this.adSlotIndex.isDuplicate = false;
-        slotStartTime = endTime.getHours() + ':' + t_end_time;
+        slotStartTime = t_end_time_hour + ':' + t_end_time;
         //slotStartTime = endTime.toLocaleTimeString();
         this.adSlotIndexs.push(this.adSlotIndex);
         this.adSlotIndex = null;

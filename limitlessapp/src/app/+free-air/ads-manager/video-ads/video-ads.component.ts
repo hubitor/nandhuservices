@@ -10,6 +10,8 @@ import { LogoAds } from '../../../shared/models/logo-ads';
 import { VideoUploadResponse } from '../../../shared/models/videoUploadResponse';
 import { AdsService } from '../../../shared/server/service/ads.service';
 import { AppSettings } from "../../../shared/server/api/api-settings";
+import { VideoAd } from '../../../shared/models/video-ad';
+import { CreateResponse } from 'app/shared/models/createResponse';
 
 @Component({
   selector: 'app-video-ads',
@@ -23,19 +25,21 @@ export class VideoAdsComponent implements OnInit {
   broadcasterChannels: BroadcasterChannel[];
   channelId: number;
   public videoUploader: FileUploader;
-  logoAds: LogoAds;
+  videoAd: VideoAd;
   appName: string;
   videoUploadResponse: VideoUploadResponse;
   adType: string = 'VIDEO';
+  createResponse: CreateResponse;
 
   constructor(private fb: FormBuilder, private broadcasterService: BroadcasterService, private cookieService: CookieService, private adsService: AdsService) {
     this.loginResponse = new LoginResponse();
     this.loginResponse = JSON.parse(this.cookieService.get('HAU'));
     this.broadcasterId = parseInt(localStorage.getItem('broadcaster_id'));
     this.appName = localStorage.getItem('w_appname');
-    this.logoAds = new LogoAds;
+    this.videoAd = new VideoAd();
     this.videoUploader = new FileUploader({url: AppSettings.API_ENDPOINT+'ads/videoad/video/'+this.appName, allowedMimeType:['video/mp4', 'video/flv', 'video/3gp', 'video/avi', 'video/mov']});
     this.videoUploadResponse = new VideoUploadResponse();
+    this.createResponse = new CreateResponse();
   }
 
   ngOnInit() {
@@ -45,7 +49,8 @@ export class VideoAdsComponent implements OnInit {
 
   initForm() {
     this.newVideoAdForm = this.fb.group({
-      adTitle: [null, [Validators.required]]
+      adTitle: [null, [Validators.required]],
+      adLength: [null, [Validators.required]]
     });
   }
 
@@ -71,17 +76,28 @@ export class VideoAdsComponent implements OnInit {
     this.videoUploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       this.videoUploadResponse = JSON.parse(response);
       console.log(this.videoUploadResponse);
-      // const newVideoAd = this.newVideoAdForm.value;
-      // this.logoAds.broadcaster_id = this.broadcasterId;
-      // this.logoAds.channel_id = this.channelId;
-      // this.logoAds.ad_title = newVideoAd.adTitle;
-      // this.logoAds.ad_type = 'VIDEO';
-      // this.logoAds.image_url = this.videoUploadResponse.videoUrl;
-      // this.logoAds.img_name = this.videoUploadResponse.fileName;
-      // this.logoAds.ftp_path = this.videoUploadResponse.ftpPath;
-      // this.logoAds.is_active = true;
-      // this.logoAds.created_by = this.loginResponse.user_name;
-      // this.logoAds.updated_by = this.loginResponse.user_name;
+      const newVideoAd = this.newVideoAdForm.value;
+      this.videoAd.broadcaster_id = this.broadcasterId;
+      this.videoAd.channel_id = this.channelId;
+      this.videoAd.ad_title = newVideoAd.adTitle;
+      this.videoAd.ad_length = newVideoAd.adLength;
+      this.videoAd.video_url = this.videoUploadResponse.videoUrl;
+      this.videoAd.ftp_path = this.videoUploadResponse.ftpPath;
+      this.videoAd.is_active = true;
+      this.videoAd.created_by = this.loginResponse.user_name;
+      this.videoAd.updated_by = this.loginResponse.user_name;
+      console.log(this.videoAd);
+      this.adsService.createdVideoAd(this.videoAd).subscribe(
+        createResponse => {
+          this.createResponse = createResponse;
+          console.log(this.createResponse);
+          location.reload();
+        },
+        error => {
+          console.log(error);
+          alert('Something went wrong');
+        }
+      );
     }
   }
 

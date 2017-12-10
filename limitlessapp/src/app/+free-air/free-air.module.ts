@@ -34,6 +34,9 @@ import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.componen
 import { PlatformManagerComponent } from './platform-manager/platform-manager.component';
 import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
 import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
+import { AssignVideoAdsComponent } from './ads-manager/assign-video-ads/assign-video-ads.component';
+import { AdsPlacementComponent } from './ads-placement/ads-placement.component';
+import {SmartadminModule} from "app/shared/smartadmin.module";
 
 @NgModule({
   imports: [
@@ -42,12 +45,14 @@ import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
     routing,
     SmartadminLayoutModule,
     SmartadminWidgetsModule,
+    SmartadminModule,
     StatsModule,
     SmartadminDatatableModule,
     CarouselModule,
     VideoLiveModule,
     VideoPrerecordModule, 
     FileUploadModule
+    
   ],
   declarations: [
     ChannelVideoComponent,
@@ -70,7 +75,9 @@ import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
     AssignAdsComponent,
     PlatformManagerComponent,
     AssignAdsAutoComponent,
-    VideoAdsComponent
+    VideoAdsComponent,
+    AssignVideoAdsComponent,
+    AdsPlacementComponent
   ]
 })
 export class FreeAirModule { }
