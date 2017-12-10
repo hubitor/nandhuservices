@@ -27,9 +27,12 @@ export class BroadcasterVideos {
     fp_start_time:string;
     yt_start_time:string;
     ps_start_time:string;
-    yt_stop_time:string;
-    fb_stop_time:string;
-    ps_stop_time:string;
+    ha_start_time:string;
+    fb1_start_time:string;
+    fb2_start_time:string;
+    fb3_start_time:string;
+    fb4_start_time:string;
+    fb5_start_time:string;
 
     
 }

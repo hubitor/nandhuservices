@@ -17,6 +17,8 @@ import { BroadcasterDestination } from "../../models/broadcaster-destination";
 import { BroadcasterOnBoardRequest } from "../../models/broadcasterOnBoardRequest";
 import { BroadcasterChannel } from "../../models/broadcaster-channel";
 import { ChannelCategory } from "../../models/channelCategory";
+import { DestinationRequest } from 'app/shared/models/destination-request';
+import { ChannelVideos } from 'app/shared/models/channel-videos';
 
 const headerObj = {                                                                                                                                                                                 
   headers: new Headers(headerDict)
@@ -239,6 +241,18 @@ export class BroadcasterService {
 
     getChannelsByBroadcasterId(broadcasterId: number): Observable<any>{
         return this.http.get(AppConfig.get_BroadcasterChannelByID+broadcasterId, headerObj)
+            .map(ResponseData.extractData)
+            .catch(ResponseData.handleError);
+    }
+
+    getDestinationImagesByChannelId(channelId:number):Observable<DestinationRequest[]>{
+        return this.http.get(AppConfig.get_DestinationImages+channelId, headerObj)
+        .map(ResponseData.extractData)
+        .catch(ResponseData.handleError);   
+    }
+    
+    getChannelLiveVideo(channelId: number): Observable<ChannelVideos> {
+        return this.http.get('http://localhost:3000/broadcaster/videos/live/'+channelId, headerObj)
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }
