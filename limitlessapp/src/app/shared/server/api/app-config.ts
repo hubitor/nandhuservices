@@ -126,6 +126,7 @@ public static getjournalandSettingBychannelId=AppSettings.API_ENDPOINT+"journal/
 
 // Broadcaster Destination 
 public static create_Destination=AppSettings.API_ENDPOINT +"broadcaster/destination/new";
+public static get_DestinationImages=AppSettings.API_ENDPOINT+"broadcaster/destination/getImg/"; //to pass channel id and d_id
 
 // Broadcaster-channel videos
 

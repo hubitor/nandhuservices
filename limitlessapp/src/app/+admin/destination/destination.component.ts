@@ -122,6 +122,7 @@ export class DestinationComponent implements OnInit {
       }
     );
   }
+  
   onChannelSelect(broadcasterChannelId:string){
     // this.broadcasterChannelId = broadcasterChannelId;
     // console.log(this.broadcasterChannelId);

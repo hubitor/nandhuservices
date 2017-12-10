@@ -33,8 +33,7 @@
                                         <label class="input">
                                             <i class="icon-append fa fa-tv"></i>
 
-                                            <select class="form-control" formControlName="broadcasterName" name="broadcasterName" #broadcasterName (change)="onBroadcasterSelect(broadcasterName.value,false)">
-
+                                            <select class="form-control" formControlName="broadcasterName" name="broadcasterName" #broadcasterName (change)="getAllBroadcastersById(broadcasterName.value)">
                                                 <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
                                             </select>
                                             <b class="tooltip tooltip-bottom-right">Choose Broadcaster</b>
@@ -47,66 +46,288 @@
                                         <label class="input">
                                             <i class="icon-append fa fa-tv"></i>
                                             <!--(change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" -->
-                                            <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName>
+                                            <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName
+                                                (change)="onChannelSelect(broadcasterChannelCategoryName.value)">
                                                 <!--<option>Choose Channel Category</option>-->
-                                                <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
+                                                <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}},{{channelCategory.channel_name}}">{{channelCategory.channel_name}}</option>
                                             </select>
                                             <b class="tooltip tooltip-bottom-right">Choose Channel</b>
                                         </label>
                                     </section>
                                 </div>
-                                <div class="row">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <section>
-                                                        <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
-                                                        <img alt="youtube" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/youtube_live+(1).png" width="100%" height="35%"
-                                                        />
-                                                        <label>Status:</label>
-                                                        <label id="lbl2" style="color: red;" let="status of ytStatus"
-                                                            [style.color]="ytStatus == 'OnLine' ? 'green' : 'red'">{{ytStatus}}</label><br>
-                                                        <label>Started streaming on {{yt_start_time | date :'dd MMM yyyy'}}</label>
+                                <section *ngIf="showAll">
 
-                                                    </section>
-                                                </td>
-                                                <td>
-                                                    <section>
-                                                        <!-- <label id="lbl3">FaceBook</label>                                               -->
-                                                        <img alt="facebook" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/Facebook_475x106_live.png" width="100%" height="35%"
-                                                        />
-                                                        <label>Status:</label>
-                                                            <label id="lbl4" style="color: red;" let="status of fbStatus"
-                                                                [style.color]="fbStatus == 'OnLine' ? 'green' : 'red'">{{fbStatus}}</label><br>
-                                                                <label>Started streaming on {{fp_start_time | date :'dd MMM yyyy'}}</label>
-                                                    </section>
-                                                </td>
+                                    <div class="row">
+                                        <label *ngFor="let channelCategory of channelCategories">
+                                            Channelname:
+                                            <strong>{{channelCategory.channel_name}}
 
-                                                <td>
-                                                    <section>
-                                                        <!-- <label id="lbl5">Twitter</label> -->
-                                                        <img alt="periscope" src="https://d3c243y8mg3na8.cloudfront.net/streaming_images/periscope_475x106.png" width="100%" height="15%"
-                                                        />
-                                                        <label>Status:</label>
-                                                        <label id="lbl6" style="color: red;" let="status of psStatus"
-                                                            [style.color]="psStatus == 'OnLine' ? 'green' : 'red'">{{psStatus}}</label><br>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label *ngFor="let img of destimg">{{img.destination_image}}
+                                                                    </label> -->
+                                                                    <img alt="facebook" src="{{fb_destination_image}}" width="100%" height="35%" />
+                                                                    <!-- <label id="lbl4" *ngFor="let dest of destimg">{{dest.destination_image}}</label> -->
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of fbStatus" [style.color]="fbStatus == 'OnLine' ? 'green' : 'red'">{{fbStatus}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{fp_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl3">FaceBook</label> -->
+                                                                    <img alt="youtube" src="{{yt_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl4" style="color: red;" let="status of ytStatus" [style.color]="ytStatus == 'OnLine' ? 'green' : 'red'">{{ytStatus}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{yt_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+                                                                </section>
+                                                            </td>
+
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl5">Twitter</label> -->
+                                                                    <img alt="haappyapp" src="{{ha_destination_image}}" width="100%" height="15%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl6" style="color: red;" let="status of haStatus" [style.color]="haStatus == 'OnLine' ? 'green' : 'red'">{{haStatus}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{ha_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+                                                                </section>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                    <img alt="periscope" src="{{ps_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of psStatus" [style.color]="psStatus == 'OnLine' ? 'green' : 'red'">{{psStatus}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{ps_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                    <img alt="facebook1" src="{{fb1_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of fb1Status" [style.color]="fb1Status == 'OnLine' ? 'green' : 'red'">{{fb1Status}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{fb1_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                    <img alt="facebook2" src="{{fb2_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of fb2Status" [style.color]="fb2Status == 'OnLine' ? 'green' : 'red'">{{fb2Status}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{fb2_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                    <img alt="facebook3" src="{{fb3_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of fb3Status" [style.color]="fb3Status == 'OnLine' ? 'green' : 'red'">{{fb3Status}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{fb3_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                    <img alt="facebook4" src="{{fb4_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of fb4Status" [style.color]="fb4Status == 'OnLine' ? 'green' : 'red'">{{fb4Status}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{fb4_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+                                                            <td>
+                                                                <section>
+                                                                    <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                                    <img alt="facebook5" src="{{fb5_destination_image}}" width="100%" height="35%" />
+                                                                    <label>Status:</label>
+                                                                    <label id="lbl2" style="color: red;" let="status of fb5Status" [style.color]="fb5Status == 'OnLine' ? 'green' : 'red'">{{fb5Status}}</label>
+                                                                    <br>
+                                                                    <label>Started streaming on {{fb5_start_time | date :'dd MMM
+                                                                        yyyy'}}</label>
+
+                                                                </section>
+                                                            </td>
+
+
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </strong>
+                                        </label>
+                                    </div>
+                                </section>
+                                <section *ngIf="showOneChannel">
+                                    <div class="row">
+                                        <label>Channelname:
+                                            <strong>{{this.broadcasterChannelname}}</strong>
+                                        </label>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label *ngFor="let img of destimg">{{img.destination_image}}
+                                                                </label> -->
+                                                            <img alt="facebook" src="{{fb_destination_image}}" width="100%" height="35%" />
+                                                            <!-- <label id="lbl4" *ngFor="let dest of destimg">{{dest.destination_image}}</label> -->
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of fbStatus" [style.color]="fbStatus == 'OnLine' ? 'green' : 'red'">{{fbStatus}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{fp_start_time | date :'dd MMM yyyy'}}</label>
+
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl3">FaceBook</label> -->
+                                                            <img alt="youtube" src="{{yt_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl4" style="color: red;" let="status of ytStatus" [style.color]="ytStatus == 'OnLine' ? 'green' : 'red'">{{ytStatus}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{yt_start_time | date :'dd MMM yyyy'}}</label>
+                                                        </section>
+                                                    </td>
+
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl5">Twitter</label> -->
+                                                            <img alt="haappyapp" src="{{ha_destination_image}}" width="100%" height="15%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl6" style="color: red;" let="status of haStatus" [style.color]="haStatus == 'OnLine' ? 'green' : 'red'">{{haStatus}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{ha_start_time | date :'dd MMM yyyy'}}</label>
+                                                        </section>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                            <img alt="periscope" src="{{ps_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of psStatus" [style.color]="psStatus == 'OnLine' ? 'green' : 'red'">{{psStatus}}</label>
+                                                            <br>
                                                             <label>Started streaming on {{ps_start_time | date :'dd MMM yyyy'}}</label>
-                                                    </section>
-                                                </td>
-                                            </tr>
+
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                            <img alt="facebook1" src="{{fb1_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of fb1Status" [style.color]="fb1Status == 'OnLine' ? 'green' : 'red'">{{fb1Status}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{fb1_start_time | date :'dd MMM yyyy'}}</label>
+
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                            <img alt="facebook2" src="{{fb2_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of fb2Status" [style.color]="fb2Status == 'OnLine' ? 'green' : 'red'">{{fb2Status}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{fb2_start_time | date :'dd MMM yyyy'}}</label>
+
+                                                        </section>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                            <img alt="facebook3" src="{{fb3_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of fb3Status" [style.color]="fb3Status == 'OnLine' ? 'green' : 'red'">{{fb3Status}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{fb3_start_time | date :'dd MMM yyyy'}}</label>
+
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                            <img alt="facebook4" src="{{fb4_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of fb4Status" [style.color]="fb4Status == 'OnLine' ? 'green' : 'red'">{{fb4Status}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{fb4_start_time | date :'dd MMM yyyy'}}</label>
+
+                                                        </section>
+                                                    </td>
+                                                    <td>
+                                                        <section>
+                                                            <!-- <label id="lbl1" style="font-size:10px;">YouTube</label> -->
+                                                            <img alt="facebook5" src="{{fb5_destination_image}}" width="100%" height="35%" />
+                                                            <label>Status:</label>
+                                                            <label id="lbl2" style="color: red;" let="status of fb5Status" [style.color]="fb5Status == 'OnLine' ? 'green' : 'red'">{{fb5Status}}</label>
+                                                            <br>
+                                                            <label>Started streaming on {{fb5_start_time | date :'dd MMM yyyy'}}</label>
+
+                                                        </section>
+                                                    </td>
 
 
-                                        </tbody>
-                                    </table>
+                                                </tr>
 
-                                </div>
+
+                                            </tbody>
+                                        </table>
+
+
+
+                                    </div>
+                                </section>
 
 
                             </fieldset>
 
                         </form>
                     </div>
+
 
 
                 </sa-widget>

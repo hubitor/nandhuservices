@@ -72,7 +72,6 @@ export class JournalManagerComponent implements OnInit {
   public displayDuration = "01:53";
   journalList: JournalManagerRequest[];
   journalLive: Journal;
-  public onlineFlag = navigator.onLine;
   public v_url: string;
   public finalUrl: string[];
   private videoJSplayer: any;
