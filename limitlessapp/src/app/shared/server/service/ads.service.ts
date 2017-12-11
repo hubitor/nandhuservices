@@ -11,6 +11,7 @@ import { CookieService } from "ngx-cookie";
 import { LogoAds } from "../../models/logo-ads";
 import { AdEvent } from "../../models/ad-event";
 import { VideoAd } from '../../models/video-ad';
+import { VideoAdEvent } from 'app/shared/models/video-ad-event';
 
 @Injectable()
 export class AdsService {
@@ -45,6 +46,18 @@ export class AdsService {
 
   createdVideoAd(videoAd: VideoAd): Observable<CreateResponse> {
     return this.http.post(AppSettings.API_ENDPOINT+"ads/videoad/new", videoAd, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
+  getVideoAdsbyChannelId(channelId: number): Observable<VideoAd[]> {
+    return this.http.get(AppSettings.API_ENDPOINT+"ads/videoads/get/channel/"+channelId, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
+  assignVideoAd(videoAdEvent: VideoAdEvent): Observable<CreateResponse> {
+    return this.http.post(AppSettings.API_ENDPOINT+"ads/videoads/assign", videoAdEvent, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

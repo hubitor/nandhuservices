@@ -22,6 +22,7 @@ import { PlatformManagerComponent } from './platform-manager/platform-manager.co
 import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.component';
 import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
 import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
+import { AssignVideoAdsComponent } from "app/+free-air/ads-manager/assign-video-ads/assign-video-ads.component";
 
 export const routes:Routes = [
   {
@@ -109,6 +110,10 @@ export const routes:Routes = [
   {
     path: 'video-ads',
     component: VideoAdsComponent
+  },
+  {
+    path: 'assign-video-ads',
+    component: AssignVideoAdsComponent
   }
 ];
 

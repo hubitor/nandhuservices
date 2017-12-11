@@ -1,3 +1,76 @@
-<p>
-  assign-video-ads works!
-</p>
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Assign Video Ads</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="assignVideoAdForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section class="col col-3">
+                      <label>Select Channel</label>
+                      <select class="form-control" name="channelSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                        <option></option>
+                        <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                      </select>
+                    </section>
+                    <section class="col col-3">
+                      <label>Event Name</label>
+                      <input type="text" class="form-control" name="eventTitle" formControlName="eventTitle">
+                    </section>
+                    <section class="col col-3">
+                      <label>Select Date</label>
+                      <input type="datetime-local" class="form-control" name="eventDate" formControlName="eventDate">
+                    </section>
+                    <section class="col col-3">
+                      <label>No of Ads</label>
+                      <input type="number" class="form-control" name="noOfAds" formControlName="noOfAds">
+                    </section>
+                  </div>
+                  <button type="button" class="btn btn-success" name="showSlots" (click)="onShowSlotsClick()">Show Video Slots</button>
+                  <br>
+                  <br>
+                  <div id="slotAssigner" *ngIf="showSlotsClicked">
+                    <table class="table">
+                      <tr>
+                        <th>#</th>
+                        <th>Video</th>
+                        <th>Target Platform</th>
+                      </tr>
+                      <tr *ngFor="let idx of adsIndex; let i = index">
+                        <td>
+                          {{i+1}}
+                        </td>
+                        <td>
+                          <select class="form-control" id="videoAdsSelect-{{i}}">
+                            <option>NONE</option>
+                            <option *ngFor="let ad of videoAds" value="{{ad.id}},{{ad.ad_length}},{{ad.ftp_path}}">{{ad.ad_title}}</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input type="checkbox" id="youtube-{{i}}">Youtube
+                          <input type="checkbox" id="facebook-{{i}}">Facebook
+                          <input type="checkbox" id="twitter-{{i}}">Twitter
+                          <input type="checkbox" id="android-{{i}}">Android
+                          <input type="checkbox" id="ios-{{i}}">iOS
+                        </td>
+                      </tr>
+                    </table>
+                    <br>
+                    <button type="submit" class="btn btn-success" (click)="videoAdsAssign()" name="assignAds">Assign Ads</button>
+                  </div>
+                  <br>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>
