@@ -37,7 +37,7 @@ export class AssignAdsAutoComponent implements OnInit {
   broadcasterId: number;
   appName: string;
   logoAds: LogoAds[];
-  adTypes: string[] = ['LOGO', 'VIDEO', 'L-BAND', 'BOTTOM-BAR', 'SLIDE'];
+  adTypes: string[] = ['LOGO', 'VIDEO', 'L_BAND', 'BOTTOM_BAR', 'SLIDE'];
   adType: string;
   broadcasterChannels: BroadcasterChannel[];
   channelId: number;

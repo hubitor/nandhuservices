@@ -30,7 +30,7 @@ export class AssignAdsComponent implements OnInit {
   broadcasterId: number;
   appName: string;
   logoAds: LogoAds[];
-  adTypes: string[] = ['LOGO', 'VIDEO', 'L-BAND', 'BOTTOM-BAR', 'SLIDE'];
+  adTypes: string[] = ['LOGO', 'VIDEO', 'L_BAND', 'BOTTOM_BAR', 'SLIDE'];
   adType: string;
   broadcasterChannels: BroadcasterChannel[];
   channelId: number;
@@ -165,6 +165,7 @@ export class AssignAdsComponent implements OnInit {
         this.assignLogoAd.logo_ad_id = logoAdId;
         this.assignLogoAd.img_name = logoAdImgName;
         this.assignLogoAd.logo_ftp_path = logoAdFtpPath;
+        this.assignLogoAd.ad_type = logoAdSelect.value;
         let startTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#startTime-'+i);
         let endTime: HTMLInputElement = this.elementRef.nativeElement.querySelector('#endTime-'+i);
         let overlaytext: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlaytext-'+i);
