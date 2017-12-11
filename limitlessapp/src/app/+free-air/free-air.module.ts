@@ -35,7 +35,7 @@ import { PlatformManagerComponent } from './platform-manager/platform-manager.co
 import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
 import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 import { AssignVideoAdsComponent } from './ads-manager/assign-video-ads/assign-video-ads.component';
-// import { AdsPlacementComponent } from './ads-placement/ads-placement.component';
+import { AdsPlacementComponent } from './ads-placement/ads-placement.component';
 import {SmartadminModule} from "app/shared/smartadmin.module";
 
 @NgModule({
