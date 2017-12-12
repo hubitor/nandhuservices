@@ -123,7 +123,8 @@ export class AssignAdsAutoComponent implements OnInit {
   {
     //var form_value=this.assignAdOverlayTextForm.value;
     
-    let overlayText: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
+    let OverlayTextbox: HTMLInputElement = this.elementRef.nativeElement.querySelector('#OverlayText');
+    let overlayText: HTMLLabelElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
     let positionTop: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionTop');
     let positionBottom: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionBottom');
     let positionLeft: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionLeft');
@@ -131,6 +132,7 @@ export class AssignAdsAutoComponent implements OnInit {
     overlayText.style.position="absolute";
     overlayText.style.bottom=+positionBottom.value +"px";
     overlayText.style.left=+positionLeft.value+"px";
+    overlayText.innerHTML=OverlayTextbox.value;
     //overlayText.style.top=+positionTop.value +"px";
     //overlayText.style.right=+positionRight.value+"px";
     
