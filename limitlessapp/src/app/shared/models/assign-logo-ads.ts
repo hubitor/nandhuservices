@@ -14,4 +14,8 @@ export class AssignLogoAds {
     lower_text: string;
     created_by: string;
     updated_by: string;
+    txt_pos_top:number;
+    txt_pos_bottom:number;
+    txt_pos_left:number;
+    txt_pos_right:number;
 }
