@@ -62,6 +62,7 @@ import * as HLS from 'videojs-contrib-hls';
     public hlsurl:string;
     public rtmpurl:string;
     public rtspurl:string;
+    public displayDuration = "01:53";
 
     constructor(private fb: FormBuilder,
         private cookieService: CookieService, private broadcasterService: BroadcasterService) {
