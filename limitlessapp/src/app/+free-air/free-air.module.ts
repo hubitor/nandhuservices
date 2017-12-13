@@ -37,6 +37,7 @@ import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 import { AssignVideoAdsComponent } from './ads-manager/assign-video-ads/assign-video-ads.component';
 import { AdsPlacementComponent } from './ads-placement/ads-placement.component';
 import {SmartadminModule} from "app/shared/smartadmin.module";
+import { ChannelRecordComponent } from './channel-record/channel-record.component';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import {SmartadminModule} from "app/shared/smartadmin.module";
     ChannelVideoComponent,
     ChannelAlbumComponent,
     ChannelStreamComponent,
+    ChannelRecordComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
     ChannelManagerComponent,
@@ -77,7 +79,7 @@ import {SmartadminModule} from "app/shared/smartadmin.module";
     AssignAdsAutoComponent,
     VideoAdsComponent,
     AssignVideoAdsComponent,
-    // AdsPlacementComponent
+    
   ]
 })
 export class FreeAirModule { }

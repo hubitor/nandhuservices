@@ -345,6 +345,9 @@
           <li *ngIf="channelStream" routerLinkActive="active">
             <a routerLink="/free-air/channel-stream" title="Channel Stream"> {{'Channel Stream' | i18n}}</a>
           </li>
+          <li *ngIf="channelLiveRecord" routerLinkActive="active">
+            <a routerLink="/free-air/channel-live-record" title="Channel Live Record"> {{'Channel Live Record' | i18n}}</a>
+          </li>
           <li *ngIf="channelManager" routerLinkActive="active">
             <a routerLink="/free-air/channel-manager" title="Channel Manager"> {{'Channel Manager' | i18n}}</a>
           </li>

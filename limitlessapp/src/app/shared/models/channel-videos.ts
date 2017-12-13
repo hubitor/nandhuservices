@@ -1,4 +1,4 @@
-import { BroadcasterVideos } from "app/shared/models/broadcasterVideos";
+import { BroadcasterVideos } from "../../shared/models/broadcasterVideos";
 
 export class ChannelVideos {
     id: number;

@@ -553,6 +553,4 @@ export class PlatformManagerComponent implements OnInit {
     }
 
   }
-
-
-}
+}  
