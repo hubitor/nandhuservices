@@ -278,7 +278,7 @@ export class BroadcasterService {
     }
     
     getChannelLiveVideo(channelId: number): Observable<ChannelVideos> {
-        return this.http.get('http://localhost:3000/broadcaster/videos/live/'+channelId, headerObj)
+        return this.http.get(AppConfig.getLiveChannelVideos+channelId, headerObj)
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }
