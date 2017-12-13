@@ -68,10 +68,10 @@
                       </section>
                     </div>
                     <button type="submit" class="btn btn-success" name="showTimeSlots" (click)="onShowTimeSlotsClick()">Show Time Slots</button>
-                    <a (click)="mdModal.show()" class="btn btn-success btn-lg pull-right">
+                    <!-- <a (click)="mdModal.show()" class="btn btn-success btn-lg pull-right">
                       <i class="fa fa-circle-arrow-up fa-lg"></i> Placement Preview</a>
                     <a (click)="mdModalText.show()" class="btn btn-success btn-lg pull-right">
-                      <i class="fa fa-circle-arrow-up fa-lg"></i> Text On Image Preview</a>
+                      <i class="fa fa-circle-arrow-up fa-lg"></i> Text On Image Preview</a> -->
                   </div>
                   <br>
                   <div id="logoTimeSlots" *ngIf="showLogoAdSlotsClicked">
@@ -83,14 +83,15 @@
                         <th>Ad Placement</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Overlay Text</th>
+                        <!-- <th>Overlay Text</th> -->
                         <!-- <th>Font Name</th>
                         <th>Font Size</th>
                         <th>Font Style</th>
                         <th>Font Color</th> -->
                         <th>Destination</th>
                         <th></th>
-                        <th>Preview</th>
+                        <th>Image Placement</th>
+                        <th>Text On Image</th>
                       </tr>
                       <tr *ngFor="let idx of adSlotIndexs; let i = index">
                         <td>
@@ -120,33 +121,9 @@
                         <td>
                           <input type="text" placeholder="HH:mm" disabled class="form-control" id="endTime-{{idx.index}}" value="{{idx.slotEndTime}}">
                         </td>
-                        <td>
+                        <!-- <td>
                           <input type="text" class="form-control" id="overlaytext-{{idx.index}}">
-                        </td>
-                        <td>
-                          <!-- <select class="form-control" id="adTextFontName-{{idx.index}}">
-                            <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control" id="adTextFontSize-{{idx.index}}">
-                            <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control" id="adTextFontStyle-{{idx.index}}">
-                            <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
-                          </select>
-                        </td>
-                        <td>
-                          <select class="form-control" id="adTextFontColor-{{idx.index}}">
-                            <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let type of adTypes" value="{{type}}">{{type}}</option>
-                          </select>
-                        </td>                        -->
+                        </td> -->
 
                           <td>
                             <select class="form-control" id="adTargetSelect-{{idx.index}}">
@@ -161,7 +138,10 @@
                             <button type="button" class="btn btn-danger btn-sm" id="rmvDuplicate" #rmvDuplicate value="{{i}}" (click)="onRemoveDuplicateClick(rmvDuplicate.value)">Remove</button>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-info btn-sm" id="previewPlacement" #previewPlacement value="{{i}}">Preview Placement</button>
+                            <button type="button" (click)="overlayPlacementShowModal()" class="btn btn-info btn-sm" id="previewPlacement" #previewPlacement value="{{i}}">Preview Placement</button>
+                          </td>
+                          <td>
+                            <button type="button"  (click)="overlayTextShowModal()" class="btn btn-info btn-sm" id="txtonImage" #txtonImage value="{{i}}">Add Text On Image</button>
                           </td>
                       </tr>
                     </table>
@@ -289,15 +269,15 @@
               </div>
               <div class="row">
                 <section class="col col-md-4">
-                  <img id="overlayImage" src="https://d3c243y8mg3na8.cloudfront.net/ProductImages/Social-Title1.png" width="720" height="576"
+                  <img id="overlayImage" src="https://haappy-images.s3.ap-south-1.amazonaws.com/logo_ads/Band-1511250799586.png" 
                     alt="Placement">
                   <h1>
-                    <label id="overlayImageText" style="white-space: nowrap;" >This is demo text for a overlay</label>
+                    <label id="overlayImageText" style="white-space: nowrap;" ></label>
                   </h1>
                 </section>
               </div>
             </section>
-
+            <!-- https://d3c243y8mg3na8.cloudfront.net/ProductImages/Social-Title1.png -->
           </fieldset>
 
           <footer>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input,ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -17,14 +17,18 @@ import { Time } from 'ngx-bootstrap/timepicker/timepicker.models';
 import { fadeInLeft } from 'app/shared/animations/router.animations';
 import { DatePipe } from '@angular/common';
 import {FadeInTop} from "app/shared/animations/fade-in-top.decorator";
-
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-assign-ads-auto',
   templateUrl: './assign-ads-auto.component.html',
+  
   providers: [BroadcasterService,DatePipe, AdsService]
 })
 export class AssignAdsAutoComponent implements OnInit {
+  @ViewChild('mdModal') public mdModal:ModalDirective;
+  @ViewChild('mdModalText') public mdModalText:ModalDirective;
+  
   assignAdForm;
   assignAdOverlayTextForm;
   targetPlatforms: string[] = ['youtube', 'facebook', 'twitter','website','android','ios'];
@@ -37,7 +41,7 @@ export class AssignAdsAutoComponent implements OnInit {
   broadcasterId: number;
   appName: string;
   logoAds: LogoAds[];
-  adTypes: string[] = ['LOGO', 'VIDEO', 'L-BAND', 'BOTTOM-BAR', 'SLIDE'];
+  adTypes: string[] = ['LOGO', 'VIDEO', 'L_BAND', 'BOTTOM_BAR', 'SLIDE'];
   adType: string;
   broadcasterChannels: BroadcasterChannel[];
   channelId: number;
@@ -119,11 +123,21 @@ export class AssignAdsAutoComponent implements OnInit {
     // });
   }
 
+  overlayPlacementShowModal()
+  {
+    this.mdModal.show();
+  }
+
+  overlayTextShowModal()
+  {
+    this.mdModalText.show();
+  }
+
   overlayTextApply()
   {
-    //var form_value=this.assignAdOverlayTextForm.value;
-    
-    let overlayText: HTMLInputElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
+        
+    let OverlayTextbox: HTMLInputElement = this.elementRef.nativeElement.querySelector('#OverlayText');
+    let overlayText: HTMLLabelElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
     let positionTop: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionTop');
     let positionBottom: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionBottom');
     let positionLeft: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionLeft');
@@ -131,6 +145,7 @@ export class AssignAdsAutoComponent implements OnInit {
     overlayText.style.position="absolute";
     overlayText.style.bottom=+positionBottom.value +"px";
     overlayText.style.left=+positionLeft.value+"px";
+    overlayText.innerHTML=OverlayTextbox.value;
     //overlayText.style.top=+positionTop.value +"px";
     //overlayText.style.right=+positionRight.value+"px";
     
