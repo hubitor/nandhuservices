@@ -151,10 +151,36 @@ export class BroadcasterService {
 
     getStreamActiveJournal(applicationName:string)
     {
-        applicationName="ka-praaja";
+        // applicationName="ka-praaja";
          return this.http.get(AppConfig.get_channel_active+applicationName+"/instances", wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
+    }
+
+    getStreamActiveChannel(applicationName:string,broadcaster_id:number,w_get_target_api:string)
+    {
+        // applicationName="ka-praaja";
+        var get_api_url=w_get_target_api+applicationName+"/instances";        
+         return this.http.get(get_api_url, wowzaHeader)
+                    .map(ResponseData.extractData)
+                    .catch(ResponseData.handleError);
+    }
+
+    getStartRecording(w_app_name:string,c_stream:string){
+        var get_api_url="http://live.haappyapp.com:8086/livestreamrecord?app="+w_app_name+
+         "&streamname="+c_stream+"&action=startRecording&outputPath= C:/Content&outputFile="+c_stream+".MP4";
+        return this.http.post(get_api_url, wowzaHeader)
+        .map(ResponseData.extractData)
+        .catch(ResponseData.handleError);
+
+    }
+
+    getStopRecording(w_app_name:string,c_stream:string){
+        var get_api_url="http://live.haappyapp.com:8086/livestreamrecord?app="+w_app_name+ "&streamname="+c_stream+"&action=stopRecording";
+        return this.http.post(get_api_url, wowzaHeader)
+        .map(ResponseData.extractData)
+        .catch(ResponseData.handleError);
+
     }
 
     getStreamTargetJournal(applicationName:string)
@@ -252,7 +278,7 @@ export class BroadcasterService {
     }
     
     getChannelLiveVideo(channelId: number): Observable<ChannelVideos> {
-        return this.http.get('http://localhost:3000/broadcaster/videos/live/'+channelId, headerObj)
+        return this.http.get(AppConfig.getLiveChannelVideos+channelId, headerObj)
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }

@@ -4,6 +4,7 @@ import {Routes, RouterModule} from "@angular/router";
 import {ChannelVideoComponent} from "./channel-video/channel-video.component";
 import {ChannelAlbumComponent} from "./channel-album/channel-album.component";
 import {ChannelStreamComponent} from "./channel-stream/channel-stream.component";
+import { ChannelRecordComponent } from './channel-record/channel-record.component';
 import {ChannelHomeComponent} from "./channel-home/channel-home.component";
 import {VideosManagerComponent} from './videos-manager/videos-manager.component';
 import {VideoManagerQComponent} from './video-manager-q/video-manager-q.component';
@@ -115,6 +116,11 @@ export const routes:Routes = [
   {
     path: 'assign-video-ads',
     component: AssignVideoAdsComponent
+  },
+  {
+    path: 'channel-live-record',
+    component: ChannelRecordComponent
+  },
   },
   {
     path: 'edit-assigned-ads',

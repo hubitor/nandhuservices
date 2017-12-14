@@ -22,6 +22,7 @@ export class BroadcasterChannel {
     ha_rank: number = 1;
     ha_is_active: boolean = true;
     deprecated: boolean = false;
+    w_application_name:string;
     fb_platform_img:string;
     yt_platform_img:string;
     ha_platform_img:string;
@@ -33,5 +34,8 @@ export class BroadcasterChannel {
     fb5_platform_img:string;
     videos: BroadcasterVideos[];
     destination: DestinationRequest[];
+    ch_stream_name:string;
+    recorded_video_api:string;
+    w_get_target_api:string;
 }
 

@@ -20,6 +20,7 @@ export class NavigationComponent implements OnInit {
   order: boolean;
   productInvetory: boolean;
   channelStream: boolean;
+  channelLiveRecord: boolean;
   channelVideos: boolean;
   channelAlbum: boolean;
   superAdmin: boolean;
@@ -51,6 +52,7 @@ export class NavigationComponent implements OnInit {
     this.order = false;
     this.productInvetory = false;
     this.channelStream = false;
+    this.channelLiveRecord=false;
     this.channelVideos = false;
     this.channelAlbum = false;
     this.superAdmin = false;
@@ -116,6 +118,7 @@ export class NavigationComponent implements OnInit {
         this.journalManager = true;
         this.platformManager=true;
         this.playlistVideojs = true;
+        this.channelLiveRecord=true;
         for (var i = 0; i < userRolesLength; i++) {
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
 
@@ -164,6 +167,7 @@ export class NavigationComponent implements OnInit {
         this.journalStream=true;
         this.adsManager = true;
         this.platformManager=true;
+        this.channelLiveRecord=true;
       }
     }
   }

@@ -37,6 +37,7 @@ import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 import { AssignVideoAdsComponent } from './ads-manager/assign-video-ads/assign-video-ads.component';
 //import { AdsPlacementComponent } from './ads-placement/ads-placement.component';
 import {SmartadminModule} from "app/shared/smartadmin.module";
+import { ChannelRecordComponent } from './channel-record/channel-record.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-assigned-ads.component';
 
@@ -61,6 +62,7 @@ import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-a
     ChannelVideoComponent,
     ChannelAlbumComponent,
     ChannelStreamComponent,
+    ChannelRecordComponent,
     ChannelHomeComponent,
     VideosManagerComponent,
     ChannelManagerComponent,
@@ -80,6 +82,7 @@ import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-a
     AssignAdsAutoComponent,
     VideoAdsComponent,
     AssignVideoAdsComponent,
+    
     EditAssignedAdsComponent,
     // AdsPlacementComponent
   ]

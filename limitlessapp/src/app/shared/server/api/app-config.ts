@@ -133,5 +133,6 @@ public static get_DestinationImages=AppSettings.API_ENDPOINT+"broadcaster/destin
 public static getPrimaryChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/pcv/";  //to pass broadcasterid
 public static createNewChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/new"; 
 public static  getChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/channel/";   //to pass channelid
+public static  getLiveChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/live/";  // to pass channel id
 
 };
