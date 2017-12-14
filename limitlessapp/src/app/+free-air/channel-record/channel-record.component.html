@@ -33,7 +33,7 @@
                                         <label class="input">
                                             <i class="icon-append fa fa-tv"></i>
 
-                                            <select class="form-control" formControlName="jbroadcasterId" name="jbroadcasterId" #jbroadcasterId (change)=" getAllBroadcastersById(jbroadcasterId.value)">
+                                            <select class="form-control" formControlName="jbroadcasterId" name="jbroadcasterId" #jbroadcasterId (change)="getAllBroadcastersById(jbroadcasterId.value)">
 
                                                 <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_name}}</option>
                                             </select>
@@ -63,13 +63,13 @@
                                             <br>
                                             <div style="padding-bottom:5px;text-align:left">
                                                 <label id="lbl1">{{channel.channel_name}}</label>
-                                                <button type="submit" class="btn btn-success" (click)="previewVideo()">Preview</button>
+                                                <button type="submit" class="btn btn-success" (click)="previewVideo(finalUrl)">Preview</button>
                                                 <br>
 
                                             </div>
                                             <video id="preview_8_html5_api" class="video-js vjs-default-skin vjs-big-play-centered" width="200" height="150" data-setup='{ "controls": true, "autoplay": true, "preload": "auto","techOrder": ["youtube","html5", "flash"] }'
                                                 poster="{{thumbnailUrl}}">
-                                                <source src="{{channel.finalUrl}}" type='application/x-mpegURL'>
+                                                <source src="{{finalUrl}}" type='application/x-mpegURL'>
                                             </video>
                                             <div style="padding-top:5px">
                                                 <button type="submit" class="btn btn-success" style="background:rgb(33, 88, 36); color:white" (click)="startRecording()">start</button>

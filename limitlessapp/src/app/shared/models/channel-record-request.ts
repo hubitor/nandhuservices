@@ -14,6 +14,7 @@ export class ChannelRecordRequest
     stop_recording_api:string;
     w_get_target_api:string;
     broadcaster_id:number;
+    finalUrl:string;
 
     
 };

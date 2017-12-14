@@ -16,7 +16,7 @@ declare var videojs: any;
 export class videoURL {
   video_url: string = ''
 }
-import videoJS from 'video.js';
+import videoJs from 'video.js';
 import * as HLS from 'videojs-contrib-hls';
 
 @Component({
@@ -58,9 +58,6 @@ export class ChannelRecordComponent {
   onlineChannels: BroadcasterChannel;
   channelList: ChannelRecordRequest[];
   public thumbnailUrl: string;
-  public hlsurl: string;
-  public rtmpurl: string;
-  public rtspurl: string;
   public displayDuration = "01:53";
 
   constructor(private fb: FormBuilder,
@@ -111,7 +108,7 @@ export class ChannelRecordComponent {
         .subscribe(
         broadcasters => {
           this.broadcasters = broadcasters;
-          this.getChannels(broadcasters = broadcasters);
+          this.getChannels(broadcaterId);
         },
         error => this.errorMessage = <any>error);
     }
@@ -120,7 +117,7 @@ export class ChannelRecordComponent {
         .subscribe(
         broadcasters => {
           this.broadcaster = broadcasters;
-          this.getChannels(broadcasters = broadcasters);
+          this.getChannels(broadcaterId);
 
         },
         error => this.errorMessage = <any>error);
@@ -129,14 +126,14 @@ export class ChannelRecordComponent {
 
   }
 
-  getChannels(broadcasters) {
-    this.broadcasterService.getChannelsByBroadcasterId(this.broadcasterId).subscribe(
+
+  getChannels(broadcasterId) {
+    this.broadcasterService.getChannelsByBroadcasterId(broadcasterId).subscribe(
       channels => {
         this.broadcasterChannels = channels;
         if (this.broadcasterChannels.length > 0) {
           this.channelRecordForm.get('jchannelId').setValue(this.broadcasterChannels[0].id);
-          // this.getJournalsVideos(+this.broadcasterChannels[0].id);
-          this.onChannelSelect(broadcasters);
+          this.onChannelSelect(this.broadcasterChannels[0].id);
         }
       },
       error => {
@@ -233,8 +230,8 @@ export class ChannelRecordComponent {
   }
 
 
-  previewVideo() {
-    var mainUrl: string = this.finalUrl;
+  previewVideo(finalUrl) {
+    var mainUrl: string = finalUrl;
     (function ($) {
       $(document).ready(function () {
         // An example of playing with the Video.js javascript API
@@ -256,17 +253,13 @@ export class ChannelRecordComponent {
     })(jQuery);
   }
 
-  onChannelSelect(broadcasters) {
+  onChannelSelect(broadcasterId) {
     var type;
     var f_broadcaster;
     var w_appl_name;
     var w_get_target_api;
     var channel_id;
     this.channelList = [];
-    this.broadcasters = broadcasters;
-    f_broadcaster = this.broadcasters.filter(
-      broadcasterId => broadcasterId.id.toString() === this.channelRecordForm.value.jbroadcasterId.toString());
-    // j_appl_name=f_broadcaster.length>0?f_broadcaster[0].broadcaster_channels.w_j_appl_name:'';
     this.broadcasterChannels.forEach(channels => {
       var channelrequest = new ChannelRecordRequest();
       channelrequest.channel_name = channels.channel_name;
@@ -292,7 +285,8 @@ export class ChannelRecordComponent {
                     this.videourl.video_url = this.formatChannelURL(w_appl_name, channelrequest.ch_stream_name, type).toString();
                     var v_url = this.formatChannelURL(w_appl_name, channelrequest.ch_stream_name, type).toString();
                     this.bind_url.push(v_url);
-                    this.finalUrl = v_url;
+                    channelrequest.finalUrl = v_url;
+                    this.finalUrl=channelrequest.finalUrl;
                     channelrequest.thumbnailUrl ="https://d3c243y8mg3na8.cloudfront.net/streaming_images/offline_thumbnailurl.jpg";
                     this.thumbnailUrl = channelrequest.thumbnailUrl;
                     this.channelList.push(channelrequest);
