@@ -121,7 +121,6 @@ export const routes:Routes = [
     path: 'channel-live-record',
     component: ChannelRecordComponent
   },
-  },
   {
     path: 'edit-assigned-ads',
     component: EditAssignedAdsComponent
