@@ -67,12 +67,16 @@ export class ChannelRecordComponent {
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
     this.w_applicationName = localStorage.getItem('w_appname');
     if (this.user.user_type === "Super Admin") {
+      this.superAdmin = true;
+      this.entertainmentUser = false;
       this.client_id = 1064;
       this.user.client_id = 1064;
       this.w_applicationName = "dev";
 
     }
     else {
+      this.superAdmin = false;
+      this.entertainmentUser = true;
       this.w_applicationName = this.user.w_appname;
       this.client_id = this.user.client_id;
     }
