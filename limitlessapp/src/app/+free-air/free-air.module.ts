@@ -38,6 +38,7 @@ import { AssignVideoAdsComponent } from './ads-manager/assign-video-ads/assign-v
 //import { AdsPlacementComponent } from './ads-placement/ads-placement.component';
 import {SmartadminModule} from "app/shared/smartadmin.module";
 import { ModalModule } from 'ngx-bootstrap';
+import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-assigned-ads.component';
 
 @NgModule({
   imports: [
@@ -79,6 +80,7 @@ import { ModalModule } from 'ngx-bootstrap';
     AssignAdsAutoComponent,
     VideoAdsComponent,
     AssignVideoAdsComponent,
+    EditAssignedAdsComponent,
     // AdsPlacementComponent
   ]
 })
