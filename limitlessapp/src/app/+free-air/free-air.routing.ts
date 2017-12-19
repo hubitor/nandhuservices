@@ -24,6 +24,7 @@ import { AssignAdsComponent } from './ads-manager/assign-ads/assign-ads.componen
 import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads-auto.component';
 import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 import { AssignVideoAdsComponent } from "app/+free-air/ads-manager/assign-video-ads/assign-video-ads.component";
+import { EditAssignedAdsComponent } from "app/+free-air/ads-manager/edit-assigned-ads/edit-assigned-ads.component";
 
 export const routes:Routes = [
   {
@@ -120,6 +121,10 @@ export const routes:Routes = [
     path: 'channel-live-record',
     component: ChannelRecordComponent
   },
+  {
+    path: 'edit-assigned-ads',
+    component: EditAssignedAdsComponent
+  }
 ];
 
 export const routing = RouterModule.forChild(routes)

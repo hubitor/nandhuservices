@@ -12,6 +12,7 @@ import { LogoAds } from "../../models/logo-ads";
 import { AdEvent } from "../../models/ad-event";
 import { VideoAd } from '../../models/video-ad';
 import { VideoAdEvent } from 'app/shared/models/video-ad-event';
+import { AssignAdEvents } from 'app/shared/models/assign-ad-events';
 
 @Injectable()
 export class AdsService {
@@ -58,6 +59,13 @@ export class AdsService {
 
   assignVideoAd(videoAdEvent: VideoAdEvent): Observable<CreateResponse> {
     return this.http.post(AppSettings.API_ENDPOINT+"ads/videoads/assign", videoAdEvent, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  }
+
+  getAssignedEventsByDate(channelId: number, eventDate: string): Observable<AdEvent[]> {
+    console.log(this.headers);
+    return this.http.get(AppSettings.API_ENDPOINT+"ads/get/event/"+channelId+"/date/"+eventDate, {headers: this.headers})
       .map(ResponseData.extractData)
       .catch(ResponseData.handleError);
   }

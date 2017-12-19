@@ -1,0 +1,127 @@
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Edit Assigned Ads</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="editAssignedAdsForm" class="smart-form">
+                <fieldset>
+                  <div id="selector">
+                    <div class="row">
+                      <section class="col col-6">
+                        <label>Select Channel</label>
+                        <select class="form-control" name="channelSelect" #channelList (change)="onChannelSelect(channelList.value)">
+                          <option></option>
+                          <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}}">{{channel.channel_name}}</option>
+                        </select>
+                      </section>
+                      <section class="col col-6">
+                        <label>Select Date</label>
+                        <input type="date" class="form-control" name="eventDate" formControlName="selectedEventDate">
+                      </section>
+                    </div>
+                    <button type="submit" class="btn btn-success" name="showEvents" (click)="getEvents()">Show Events</button>
+                  </div>
+                  <br>
+                  <div>
+                    <table class="table">
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Duration</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Window</th>
+                        <th>Edit</th>
+                        <th>Remove</th>
+                      </tr>
+                      <tr *ngFor="let event of adEvents">
+                        <td>{{event.id}}</td>
+                        <td>{{event.event_name}}</td>
+                        <td>{{event.duration}}</td>
+                        <td>{{event.start_time}}</td>
+                        <td>{{event.end_time}}</td>
+                        <td>{{event.ad_window_time_pa}}</td>
+                        <td>
+                          <button type="button" class="btn btn-primary">Edit</button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-danger">Remove</button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>
+
+<div id="content">
+  <div class="row"></div>
+  <sa-widgets-grid>
+    <div class="row">
+      <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <sa-widget>
+          <header>
+            <h2>Event Details</h2>
+          </header>
+          <div class="widget-body">
+            <div class="widget-body no-padding">
+              <form [formGroup]="editDetailsForm" class="smart-form">
+                <fieldset>
+                  <div class="row">
+                    <section class="col col-4">
+                      <label>Event Name</label>
+                      <input type="text" class="form-control" name="eventName" formControlName="eventName">
+                    </section>
+                    <section class="col col-4">
+                      <label>Duration</label>
+                      <input type="text" class="form-control" name="eventDuration" formControlName="eventDuration">
+                    </section>
+                    <section class="col col-4">
+                      <label>Date</label>
+                      <input type="date" class="form-control" name="eventDate" formControlName="eventDate">
+                    </section>
+                    <section class="col col-4">
+                      <label>Start Time</label>
+                      <input type="time" class="form-control" name="eventStartTime" formControlName="eventStartTime">
+                    </section>
+                    <section class="col col-4">
+                      <label>End Time</label>
+                      <input type="time" class="form-control" name="eventEndTime" formControlName="eventEndTime">
+                    </section>
+                    <section class="col col-4">
+                      <label>Ad Window</label>
+                      <input type="text" class="form-control" name="adWindow" formControlName="adWindow">
+                    </section>
+                  </div>
+                  <br>
+                  <div>
+                    <table class="table">
+                      <tr>
+                        <th>Ad Type</th>
+                        <th>Ad Title</th>
+                        <th>Placement</th>
+                        <th>Target</th>
+                      </tr>
+                    </table>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </sa-widget>
+      </article>
+    </div>
+  </sa-widgets-grid>
+</div>

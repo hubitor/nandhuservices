@@ -39,6 +39,7 @@ import { AssignVideoAdsComponent } from './ads-manager/assign-video-ads/assign-v
 import {SmartadminModule} from "app/shared/smartadmin.module";
 import { ChannelRecordComponent } from './channel-record/channel-record.component';
 import { ModalModule } from 'ngx-bootstrap';
+import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-assigned-ads.component';
 
 @NgModule({
   imports: [
@@ -82,6 +83,8 @@ import { ModalModule } from 'ngx-bootstrap';
     VideoAdsComponent,
     AssignVideoAdsComponent,
     
+    EditAssignedAdsComponent,
+    // AdsPlacementComponent
   ]
 })
 export class FreeAirModule { }
