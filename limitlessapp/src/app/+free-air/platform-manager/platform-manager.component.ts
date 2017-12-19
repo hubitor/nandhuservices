@@ -18,7 +18,8 @@ import { NotificationService } from '../../shared/utils/notification.service';
 import { BroadcasterVideos } from "../../shared/models/broadcasterVideos"
 import { error } from 'selenium-webdriver';
 import { DestinationRequest } from '../../shared/models/destination-request';
-import { ChannelVideos } from 'app/shared/models/channel-videos';
+import { ChannelVideos } from '../../shared/models/channel-videos';
+import { ChannelVideoKeyRequest } from '../../shared/models/channelVideoKeyRequest';
 @Component({
   selector: 'app-platform-manager',
   templateUrl: './platform-manager.component.html',
@@ -27,6 +28,7 @@ import { ChannelVideos } from 'app/shared/models/channel-videos';
 
 
 export class PlatformManagerComponent implements OnInit {
+  video_name: string;
   broadcasterVideosList: any[];
   destination_name: any;
   broadcaster_channel_id: number;
@@ -92,7 +94,8 @@ export class PlatformManagerComponent implements OnInit {
   public broadcasterchannel: string[];
   public broadcasterChannelname: string;
   channelVideosList: ChannelVideos[];
-  channelVideos: ChannelVideos;
+  channelVideos: ChannelVideos[];
+  channelVideo: ChannelVideoKeyRequest[];
 
 
 
@@ -107,7 +110,8 @@ export class PlatformManagerComponent implements OnInit {
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
-      this.w_applicationName = "dev";
+      // this.w_applicationName = "dev";
+      this.w_applicationName = this.user.w_appname;
 
     }
     else {
@@ -117,7 +121,7 @@ export class PlatformManagerComponent implements OnInit {
     this.showAll = true;
     this.showOneChannel = false;
     this.channelVideosList = new Array();
-    this.channelVideos = new ChannelVideos();
+    this.channelVideos = new Array();
 
 
   }
@@ -146,12 +150,6 @@ export class PlatformManagerComponent implements OnInit {
           this.broadcasters = broadcasters;
           this.getChannels(broadcasters);
           this.setChannelselectedValue(broadcasters = broadcasters);
-          var filterBroadcaster = broadcasters.filter(sachannel => sachannel.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
-          this.w_get_target_url = broadcasters.length > 0 ? broadcasters[0].w_get_target_url : '';
-          console.log(this.w_get_target_url);
-          this.w_applicationName = broadcasters.length > 0 ? broadcasters[0].w_application_name : '';
-          console.log(this.w_applicationName);
-
         },
         error => this.errorMessage = <any>error);
     }
@@ -166,8 +164,6 @@ export class PlatformManagerComponent implements OnInit {
 
         error => this.errorMessage = <any>error);
     }
-    // this.streamTargetKeyResponse(this.w_applicationName.trim(), this.platformManagerForm.value.broadcasterName, this.w_get_target_url));
-
   }
 
 
@@ -182,9 +178,16 @@ export class PlatformManagerComponent implements OnInit {
           for (var j = 0; j < channellength; j++) {
             console.log("!!!!!!!" + this.broadcasterChannels[j].id);
             this.platformManagerForm.get('broadcasterChannelCategoryName').setValue(this.broadcasterChannels[0].id);
+            var channelId =this.broadcasterChannels[j].id;
+            var channel_application_name = this.broadcasterChannels.length > 0 ?this.broadcasterChannels[j].w_application_name : '';
+            this.w_applicationName = channel_application_name ;
+            // console.log("this.w_applicationName "+this.w_applicationName);
+            var channel_get_target_api =this.broadcasterChannels.length > 0 ?this.broadcasterChannels[j].w_get_target_api : '';
+            this.w_get_target_url = channel_get_target_api ;
+            // console.log("this.w_get_target_url "+this.w_get_target_url);
             this.getDestinationImage(+this.broadcasterChannels[j].id);
-            // this.setChannelselected(+this.broadcasterChannels[j].id);
           }
+         
         }
 
       },
@@ -227,21 +230,25 @@ export class PlatformManagerComponent implements OnInit {
             if (this.d_id === 1) {
               destinationRequest.fb_destination_image = this.destination[0].destination_image;
               this.fb_destination_image = destinationRequest.fb_destination_image;
+              // console.log(this.fb_destination_image);
 
             }
             else if (this.d_id === 2) {
               destinationRequest.yt_destination_image = this.destination[1].destination_image;
               this.yt_destination_image = destinationRequest.yt_destination_image;
+              // console.log(this.yt_destination_image);
 
             }
             else if (this.d_id === 3) {
               destinationRequest.ha_destination_image = this.destination[2].destination_image;
               this.ha_destination_image = destinationRequest.ha_destination_image;
+              // console.log(this.ha_destination_image);
 
             }
             else if (this.d_id === 4) {
               destinationRequest.ps_destination_image = this.destination[3].destination_image;
               this.ps_destination_image = destinationRequest.ps_destination_image;
+              // console.log(this.ps_destination_image);
 
             }
             else if (this.d_id === 5) {
@@ -268,86 +275,47 @@ export class PlatformManagerComponent implements OnInit {
               this.fb5_destination_image = destinationRequest.fb5_destination_image;
             }
             this.destinationList.push(destinationRequest);
-
           }
+        }
+        else if (this.destination.length === 0) {
+          this.destinationList = [];
+          var destLength = this.destination.length;
+          var destinationRequest = new DestinationRequest();
+          destinationRequest.fb_destination_image = "";
+          this.fb_destination_image = destinationRequest.fb_destination_image;
+          console.log(this.fb_destination_image);
+          destinationRequest.yt_destination_image = "";
+          this.yt_destination_image = destinationRequest.yt_destination_image;
+          console.log(this.yt_destination_image);
+          destinationRequest.ha_destination_image = "";
+          this.ha_destination_image = destinationRequest.ha_destination_image;
+          destinationRequest.ps_destination_image = "";
+          this.ps_destination_image = destinationRequest.ps_destination_image;
+          destinationRequest.fb1_destination_image = "";
+          this.fb1_destination_image = destinationRequest.fb1_destination_image;
+          destinationRequest.fb2_destination_image = "";
+          this.fb2_destination_image = destinationRequest.fb2_destination_image;
+          destinationRequest.fb3_destination_image = "";
+          this.fb3_destination_image = destinationRequest.fb3_destination_image;
+          destinationRequest.fb4_destination_image = "";
+          this.fb4_destination_image = destinationRequest.fb4_destination_image;
+          destinationRequest.fb5_destination_image = "";
+          this.fb5_destination_image = destinationRequest.fb5_destination_image;
+          this.destinationList.push(destinationRequest);
         }
 
       },
       error => this.errorMessage = error
     );
-
-
   }
 
-  setChannelselected(channelId) {
-    for (var i: number = 0; i < channelId.length; i++) {
-      this.broadcasterService.getChannelLiveVideo(channelId[i].id).subscribe(
-        channelVideos => {
-          this.channelVideosList.push(channelVideos);
-          console.log("selescted Videos" + JSON.stringify(this.channelVideos));
-          var broadcastervideoRequest = new BroadcasterVideos();
-          this.broadcasterVideosList = [];
-          broadcastervideoRequest.fp_start_time = channelVideos.videos[0].fp_start_time;
-          console.log("Fb  starttime" + channelVideos.videos[0].fp_start_time);
-          this.fp_start_time = channelVideos.videos[0].fp_start_time;
-          broadcastervideoRequest.yt_start_time = channelVideos.videos[0].yt_start_time;
-          this.yt_start_time = channelVideos.videos[0].yt_start_time;
-          broadcastervideoRequest.ha_start_time = channelVideos.videos[0].ha_start_time;
-          this.ha_start_time = channelVideos.videos[0].ha_start_time;
-          broadcastervideoRequest.ps_start_time = channelVideos.videos[0].ps_start_time;
-          this.ps_start_time = channelVideos.videos[0].ps_start_time;
-          broadcastervideoRequest.fb1_start_time = channelVideos.videos[0].fb1_start_time;
-          this.fb1_start_time = channelVideos.videos[0].fb1_start_time;
-          broadcastervideoRequest.fb2_start_time = channelVideos.videos[0].fb2_start_time;
-          this.fb2_start_time = channelVideos.videos[0].fb2_start_time;
-          broadcastervideoRequest.fb3_start_time = channelVideos.videos[0].fb3_start_time;
-          this.fb3_start_time = channelVideos.videos[0].fb3_start_time;
-          broadcastervideoRequest.fb4_start_time = channelVideos.videos[0].fb4_start_time;
-          this.fb4_start_time = channelVideos.videos[0].fb4_start_time;
-          broadcastervideoRequest.fb5_start_time = channelVideos.videos[0].fb5_start_time;
-          this.fb5_start_time = channelVideos.videos[0].fb5_start_time;
-          this.broadcasterVideosList.push(broadcastervideoRequest);
-        }
-      );
-    }
-    this.streamTargetKeyResponse();
 
-  }
-
-  getChannelVideos(channelId: number) {
-    this.broadcasterService.getChannelLiveVideo(channelId).subscribe(
-      channelVideos => {
-        this.channelVideos = channelVideos;
-        console.log("selescted Videos" + JSON.stringify(this.channelVideos));
-        var broadcastervideoRequest = new BroadcasterVideos();
-        this.broadcasterVideosList = [];
-        broadcastervideoRequest.fp_start_time = channelVideos.videos[0].fp_start_time;
-        console.log("Fb  starttime" + channelVideos.videos[0].fp_start_time);
-        this.fp_start_time = channelVideos.videos[0].fp_start_time;
-        broadcastervideoRequest.yt_start_time = channelVideos.videos[0].yt_start_time;
-        this.yt_start_time = channelVideos.videos[0].yt_start_time;
-        broadcastervideoRequest.ha_start_time = channelVideos.videos[0].ha_start_time;
-        this.ha_start_time = channelVideos.videos[0].ha_start_time;
-        broadcastervideoRequest.ps_start_time = channelVideos.videos[0].ps_start_time;
-        this.ps_start_time = channelVideos.videos[0].ps_start_time;
-        broadcastervideoRequest.fb1_start_time = channelVideos.videos[0].fb1_start_time;
-        this.fb1_start_time = channelVideos.videos[0].fb1_start_time;
-        broadcastervideoRequest.fb2_start_time = channelVideos.videos[0].fb2_start_time;
-        this.fb2_start_time = channelVideos.videos[0].fb2_start_time;
-        broadcastervideoRequest.fb3_start_time = channelVideos.videos[0].fb3_start_time;
-        this.fb3_start_time = channelVideos.videos[0].fb3_start_time;
-        broadcastervideoRequest.fb4_start_time = channelVideos.videos[0].fb4_start_time;
-        this.fb4_start_time = channelVideos.videos[0].fb4_start_time;
-        broadcastervideoRequest.fb5_start_time = channelVideos.videos[0].fb5_start_time;
-        this.fb5_start_time = channelVideos.videos[0].fb5_start_time;
-        this.broadcasterVideosList.push(broadcastervideoRequest);
-      }
-    );
-  }
+  
 
   setChannelselectedValue(broadcasters) {
     var f_broadcaster;
     var broadcaster_videos: BroadcasterVideos
+    this.broadcasterVideosList = [];
 
     if (broadcasters.length > 0) {
 
@@ -356,79 +324,117 @@ export class PlatformManagerComponent implements OnInit {
       this.channelCategories = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
       f_broadcaster = this.broadcasters.filter(
         broadcasterId => broadcasterId.id.toString() === this.platformManagerForm.value.broadcasterName.toString());
-      this.w_get_target_url = f_broadcaster.length > 0 ? f_broadcaster[0].w_get_target_url : '';
-      this.w_applicationName = f_broadcaster.length > 0 ? f_broadcaster[0].w_application_name : '';
-
       var filterChannel = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
-
-
-      console.log("FilterChannel Length" + filterBroadcaster[0].broadcaster_channels.length);
+      // console.log("FilterChannel Length" + filterBroadcaster[0].broadcaster_channels.length);
       console.log("Filter channel Id" + filterBroadcaster[0].broadcaster_channels[0].id);
-
       var broadcastervideoRequest = new BroadcasterVideos();
-      this.broadcasterVideosList = [];
-      for (var i = 0; i < filterChannel.length; i++) {
-        console.log("Filter channel Id" + filterChannel[i].id);
+      for (var i = 0; i < filterChannel.length; i++)
+      {
         var channelId = filterChannel[i].id;
-        console.log(filterChannel[i].id + "channelId");
-        // broadcastervideoRequest.fp_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].fp_start_time : '';
-        // console.log("Fb  starttime" + filterChannel[i].broadcaster_videos[0].fp_start_time);
-        // this.fp_start_time = filterChannel[i].broadcaster_videos[0].fp_start_time;
-        // broadcastervideoRequest.yt_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].yt_start_time : '';
-        // this.yt_start_time = filterChannel[i].broadcaster_videos[0].yt_start_time;
-        // console.log("Fb  starttime" + filterChannel[i].broadcaster_videos[0].yt_start_time);
-        // broadcastervideoRequest.ps_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].ha_start_time : '';
-        // this.ha_start_time = filterChannel[i].broadcaster_videos[0].ha_start_time;
-        // broadcastervideoRequest.ha_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].ps_start_time : '';
-        // this.ps_start_time = filterChannel[i].broadcaster_videos[0].ps_start_time;
-        // broadcastervideoRequest.fb1_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].fb1_start_time : '';
-        // this.fb1_start_time = filterChannel[i].broadcaster_videos[0].fb1_start_time;
-        // broadcastervideoRequest.fb2_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].fb2_start_time : '';
-        // this.fb2_start_time = filterChannel[i].broadcaster_videos[0].fb2_start_time;
-        // broadcastervideoRequest.fb3_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].fb3_start_time : '';
-        // this.fb3_start_time = filterChannel[i].broadcaster_videos[0].fb3_start_time;
-        // broadcastervideoRequest.fb4_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].fb4_start_time : '';
-        // this.fb4_start_time = filterChannel[i].broadcaster_videos[0].fb4_start_time;
-        // broadcastervideoRequest.fb5_start_time = filterChannel.length > 0 ? filterChannel[i].broadcaster_videos[0].fb5_start_time : '';
-        // this.fb5_start_time = filterChannel[i].broadcaster_videos[0].fb5_start_time;
-        // this.broadcasterVideosList.push(broadcastervideoRequest);
-
-        this.broadcasterService.getChannelLiveVideo(channelId).subscribe(
-          channelVideos => {
-            this.channelVideos = channelVideos;
-            // this.channelId=channelId;
-            console.log("selected Videos" + JSON.stringify(this.channelVideos));
-            var broadcastervideoRequest = new BroadcasterVideos();
-            this.broadcasterVideosList = [];
-            broadcastervideoRequest.fp_start_time = channelVideos.videos[0].fp_start_time;
-            console.log("Fb  starttime" + channelVideos.videos[0].fp_start_time);
-            this.fp_start_time = channelVideos.videos[0].fp_start_time;
-            broadcastervideoRequest.yt_start_time = channelVideos.videos[0].yt_start_time;
-            this.yt_start_time = channelVideos.videos[0].yt_start_time;
-            broadcastervideoRequest.ha_start_time = channelVideos.videos[0].ha_start_time;
-            this.ha_start_time = channelVideos.videos[0].ha_start_time;
-            broadcastervideoRequest.ps_start_time = channelVideos.videos[0].ps_start_time;
-            this.ps_start_time = channelVideos.videos[0].ps_start_time;
-            broadcastervideoRequest.fb1_start_time = channelVideos.videos[0].fb1_start_time;
-            this.fb1_start_time = channelVideos.videos[0].fb1_start_time;
-            broadcastervideoRequest.fb2_start_time = channelVideos.videos[0].fb2_start_time;
-            this.fb2_start_time = channelVideos.videos[0].fb2_start_time;
-            broadcastervideoRequest.fb3_start_time = channelVideos.videos[0].fb3_start_time;
-            this.fb3_start_time = channelVideos.videos[0].fb3_start_time;
-            broadcastervideoRequest.fb4_start_time = channelVideos.videos[0].fb4_start_time;
-            this.fb4_start_time = channelVideos.videos[0].fb4_start_time;
-            broadcastervideoRequest.fb5_start_time = channelVideos.videos[0].fb5_start_time;
-            this.fb5_start_time = channelVideos.videos[0].fb5_start_time;
-            this.broadcasterVideosList.push(broadcastervideoRequest);
-          }
-        );
+        var channel_application_name = filterChannel.length > 0 ? filterChannel[i].w_application_name : '';
+        console.log("this.w_applicationName "+channel_application_name);
+        this.w_applicationName = channel_application_name ;
+        var channel_get_target_api = filterChannel.length > 0 ? filterChannel[i].w_get_target_api : '';
+        this.w_get_target_url = channel_get_target_api ;
+        console.log("this.w_get_target_url "+channel_get_target_api );
+          var broadcastervideoRequest = new BroadcasterVideos();
+          broadcastervideoRequest.fp_start_time = filterChannel[i].broadcaster_videos[0].fp_start_time;
+          console.log("Fb  start time" + broadcastervideoRequest.fp_start_time);
+          this.fp_start_time= broadcastervideoRequest.fp_start_time;
+          broadcastervideoRequest.yt_start_time = filterChannel[i].broadcaster_videos[0].yt_start_time;
+          this.yt_start_time= broadcastervideoRequest.yt_start_time;
+          broadcastervideoRequest.ha_start_time =  filterChannel[i].broadcaster_videos[0].ha_start_time;
+          this.ha_start_time = broadcastervideoRequest.ha_start_time;
+          broadcastervideoRequest.ps_start_time = filterChannel[i].broadcaster_videos[0].ps_start_time;
+          this.ps_start_time = broadcastervideoRequest.ps_start_time;
+          broadcastervideoRequest.fb1_start_time = filterChannel[i].broadcaster_videos[0].fb1_start_time;
+          this.fb1_start_time = broadcastervideoRequest.fb1_start_time;
+          broadcastervideoRequest.fb2_start_time =  filterChannel[i].broadcaster_videos[0].fb2_start_time;
+          this.fb2_start_time = broadcastervideoRequest.fb2_start_time;
+          broadcastervideoRequest.fb3_start_time =  filterChannel[i].broadcaster_videos[0].fb3_start_time;
+          this.fb3_start_time = broadcastervideoRequest.fb3_start_time;
+          broadcastervideoRequest.fb4_start_time = filterChannel[i].broadcaster_videos[0].fb4_start_time;
+          this.fb4_start_time = broadcastervideoRequest.fb4_start_time;
+          broadcastervideoRequest.fb5_start_time = filterChannel[i].broadcaster_videos[0].fb5_start_time;
+          this.fb5_start_time = broadcastervideoRequest.fb5_start_time;
+          broadcastervideoRequest.video_name=filterChannel[i].broadcaster_videos[0].video_name;
+          this.video_name=broadcastervideoRequest.video_name;
+          console.log(this.video_name);
+          this.broadcasterVideosList.push(broadcastervideoRequest);
+          broadcastervideoRequest=null;
+          console.log("@@@@@@@@@"+this.broadcasterVideosList);
+          this.streamTargetKeyResponse();
 
       }
-
-      this.streamTargetKeyResponse();
     }
-
+    
   }
+
+  getChannelVideos(channelId: number) {
+    this.broadcasterService.getChannelLiveVideo(channelId).subscribe(
+      channelVideos => {
+        this.channelVideos = channelVideos;
+        if (this.channelVideos.length > 0) {
+          this.broadcasterVideosList = [];
+          var broadcastervideoRequest = new BroadcasterVideos();
+          broadcastervideoRequest.fp_start_time= channelVideos[0].fp_start_time;
+          console.log("Fb  starttime" + broadcastervideoRequest.fp_start_time);
+          this.fp_start_time = broadcastervideoRequest.fp_start_time;
+          broadcastervideoRequest.yt_start_time = channelVideos[0].yt_start_time;
+          this.yt_start_time = broadcastervideoRequest.yt_start_time;
+          broadcastervideoRequest.ha_start_time = channelVideos[0].ha_start_time;
+          this.ha_start_time = broadcastervideoRequest.ha_start_time;
+          broadcastervideoRequest.ps_start_time = channelVideos[0].ps_start_time;
+          this.ps_start_time = broadcastervideoRequest.ps_start_time;
+          broadcastervideoRequest.fb1_start_time = channelVideos[0].fb1_start_time;
+          this.fb1_start_time = broadcastervideoRequest.fb1_start_time;
+          broadcastervideoRequest.fb2_start_time = channelVideos[0].fb2_start_time;
+          this.fb2_start_time = broadcastervideoRequest.fb2_start_time;
+          broadcastervideoRequest.fb3_start_time = channelVideos[0].fb3_start_time;
+          this.fb3_start_time = broadcastervideoRequest.fb3_start_time;
+          broadcastervideoRequest.fb4_start_time = channelVideos[0].fb4_start_time;
+          this.fb4_start_time = broadcastervideoRequest.fb4_start_time;
+          broadcastervideoRequest.fb5_start_time = channelVideos[0].fb5_start_time;
+          this.fb5_start_time = broadcastervideoRequest.fb5_start_time;
+          this.broadcasterVideosList.push(broadcastervideoRequest);
+          // console.log(this.broadcasterVideosList.push(broadcastervideoRequest));
+        }
+        else {
+          this.broadcasterVideosList = [];
+          var broadcastervideoRequest = new BroadcasterVideos();
+          broadcastervideoRequest.fp_start_time= "";
+          console.log("Fb  starttime" + broadcastervideoRequest.fp_start_time);
+          this.fp_start_time = broadcastervideoRequest.fp_start_time;
+          broadcastervideoRequest.yt_start_time = "";
+          this.yt_start_time = broadcastervideoRequest.yt_start_time;
+          broadcastervideoRequest.ha_start_time = "";
+          this.ha_start_time = broadcastervideoRequest.ha_start_time;
+          broadcastervideoRequest.ps_start_time = "";
+          this.ps_start_time = broadcastervideoRequest.ps_start_time;
+          broadcastervideoRequest.fb1_start_time = "";
+          this.fb1_start_time = broadcastervideoRequest.fb1_start_time;
+          broadcastervideoRequest.fb2_start_time = "";
+          this.fb2_start_time = broadcastervideoRequest.fb2_start_time;
+          broadcastervideoRequest.fb3_start_time = "";
+          this.fb3_start_time = broadcastervideoRequest.fb3_start_time;
+          broadcastervideoRequest.fb4_start_time = "";
+          this.fb4_start_time = broadcastervideoRequest.fb4_start_time;
+          broadcastervideoRequest.fb5_start_time = "";
+          this.fb5_start_time = broadcastervideoRequest.fb5_start_time;
+          this.broadcasterVideosList.push(broadcastervideoRequest);
+          // console.log(this.broadcasterVideosList.push(broadcastervideoRequest));
+          
+          // broadcastervideoRequest = null;
+        }
+        // this.streamTargetKeyResponse();
+        // this.getDestinationImage(channelId);
+
+      }
+    );
+  }
+
+  
+
 
   streamTargetKeyResponse() {
 
@@ -460,25 +466,26 @@ export class PlatformManagerComponent implements OnInit {
           destKey => destKey.host === "a.rtmp.youtube.com");
 
         streamTargetValPS = wowzaMapEntries.filter(
-          destKey => destKey.host.toString().endsWith(".pscp.tv"));
+          destKey => destKey.host === ".pscp.tv");
+        // destKey => destKey.host.toString().endsWith(".pscp.tv"));
 
         streamTargetValHa = wowzaMapEntries.filter(
-          destKey => destKey.host === "a.rtmp.haappyapp.com");
+          destKey => destKey.host === "live.haappyapp.com");
 
         streamTargetValFB1 = wowzaMapEntries.filter(
-          destKey => destKey.host === "a.rtmp.facebook1.com");
+          destKey => destKey.host === "rtmp-api.facebook1.com");
 
         streamTargetValFB2 = wowzaMapEntries.filter(
-          destKey => destKey.host === "a.rtmp.facebook2.com");
+          destKey => destKey.host === "rtmp-api.facebook2.com");
 
         streamTargetValFB3 = wowzaMapEntries.filter(
-          destKey => destKey.host === "a.rtmp.facebook3.com");
+          destKey => destKey.host === "rtmp-api.facebook3.com");
 
         streamTargetValFB4 = wowzaMapEntries.filter(
-          destKey => destKey.host === "a.rtmp.facebook4.com");
+          destKey => destKey.host === "rtmp-api.facebook4.com");
 
         streamTargetValFB5 = wowzaMapEntries.filter(
-          destKey => destKey.host === "a.rtmp.facebook5.com");
+          destKey => destKey.host === "rtmp-api.facebook5.com");
 
 
       }

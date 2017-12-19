@@ -33,6 +33,8 @@ export class BroadcasterVideos {
     fb3_start_time:string;
     fb4_start_time:string;
     fb5_start_time:string;
+    w_application_name:string;
+    w_get_target_api:string;
 
     
 }

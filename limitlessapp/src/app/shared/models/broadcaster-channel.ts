@@ -1,5 +1,6 @@
 import { BroadcasterVideos } from '../models/broadcasterVideos';
 import { DestinationRequest} from '../models/destination-request';
+import { ChannelVideos } from '../models/channel-videos';
 export class BroadcasterChannel {
     id: number;
     application_id: number;
@@ -37,5 +38,6 @@ export class BroadcasterChannel {
     ch_stream_name:string;
     recorded_video_api:string;
     w_get_target_api:string;
+    channelLiveVideos:ChannelVideos;
 }
 

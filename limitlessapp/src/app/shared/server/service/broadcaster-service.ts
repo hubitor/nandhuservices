@@ -151,7 +151,7 @@ export class BroadcasterService {
 
     getStreamActiveJournal(applicationName:string)
     {
-        // applicationName="ka-praaja";
+        // applicatio="ka-praaja";
          return this.http.get(AppConfig.get_channel_active+applicationName+"/instances", wowzaHeader)
                     .map(ResponseData.extractData)
                     .catch(ResponseData.handleError);
@@ -277,7 +277,7 @@ export class BroadcasterService {
         .catch(ResponseData.handleError);   
     }
     
-    getChannelLiveVideo(channelId: number): Observable<ChannelVideos> {
+    getChannelLiveVideo(channelId: number): Observable<ChannelVideos[]> {
         return this.http.get(AppConfig.getLiveChannelVideos+channelId, headerObj)
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
