@@ -466,7 +466,7 @@ export class PlatformManagerComponent implements OnInit {
           destKey => destKey.host === "a.rtmp.youtube.com");
 
         streamTargetValPS = wowzaMapEntries.filter(
-          destKey => destKey.host === ".pscp.tv");
+          destKey => destKey.host === "sg.pscp.tv");
         // destKey => destKey.host.toString().endsWith(".pscp.tv"));
 
         streamTargetValHa = wowzaMapEntries.filter(
