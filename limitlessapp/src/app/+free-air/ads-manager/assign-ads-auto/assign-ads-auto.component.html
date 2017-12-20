@@ -106,7 +106,7 @@
                         <td>
                           <select class="form-control" id="logoAdSelect-{{idx.index}}">
                             <option value="NONE" selected>NONE</option>
-                            <option *ngFor="let logoAd of logoAds" value="{{logoAd.id}},{{logoAd.img_name}},{{logoAd.ftp_path}}">{{logoAd.ad_title}}-{{logoAd.ad_type}}</option>
+                            <option *ngFor="let logoAd of logoAds" value="{{logoAd.id}},{{logoAd.img_name}},{{logoAd.ftp_path}},{{logoAd.image_url}}">{{logoAd.ad_title}}-{{logoAd.ad_type}}</option>
                           </select>
                         </td>
                         <td>
@@ -125,24 +125,25 @@
                           <input type="text" class="form-control" id="overlaytext-{{idx.index}}">
                         </td> -->
 
-                          <td>
-                            <select class="form-control" id="adTargetSelect-{{idx.index}}">
-                              <option value="NONE" selected>NONE</option>
-                              <option *ngFor="let target of targetPlatforms" value="{{target}}">{{target}}</option>
-                            </select>
-                          </td>
-                          <td *ngIf="!idx.isDuplicate">
-                            <button type="button" class="btn btn-info btn-sm" id="duplicateSlot" #duplicateSlot value="{{i}}" (click)="onDuplicateSlotClick(duplicateSlot.value)">Duplicate Slot</button>
-                          </td>
-                          <td *ngIf="idx.isDuplicate">
-                            <button type="button" class="btn btn-danger btn-sm" id="rmvDuplicate" #rmvDuplicate value="{{i}}" (click)="onRemoveDuplicateClick(rmvDuplicate.value)">Remove</button>
-                          </td>
-                          <td>
-                            <button type="button" (click)="overlayPlacementShowModal()" class="btn btn-info btn-sm" id="previewPlacement" #previewPlacement value="{{i}}">Preview Placement</button>
-                          </td>
-                          <td>
-                            <button type="button"  (click)="overlayTextShowModal()" class="btn btn-info btn-sm" id="txtonImage" #txtonImage value="{{i}}">Add Text On Image</button>
-                          </td>
+                        <td>
+                          <select class="form-control" id="adTargetSelect-{{idx.index}}">
+                            <option value="NONE" selected>NONE</option>
+                            <option *ngFor="let target of targetPlatforms" value="{{target}}">{{target}}</option>
+                          </select>
+                        </td>
+                        <td *ngIf="!idx.isDuplicate">
+                          <button type="button" class="btn btn-info btn-sm" id="duplicateSlot" #duplicateSlot value="{{i}}" (click)="onDuplicateSlotClick(duplicateSlot.value)">Duplicate Slot</button>
+                        </td>
+                        <td *ngIf="idx.isDuplicate">
+                          <button type="button" class="btn btn-danger btn-sm" id="rmvDuplicate" #rmvDuplicate value="{{i}}" (click)="onRemoveDuplicateClick(rmvDuplicate.value)">Remove</button>
+                        </td>
+                        <td>
+                          <button type="button" (click)="overlayPlacementShowModal()" class="btn btn-info btn-sm" id="previewPlacement" #previewPlacement
+                            value="{{i}}">Preview Placement</button>
+                        </td>
+                        <td>
+                          <button type="button" (click)="overlayTextShowModal(idx.index)" class="btn btn-info btn-sm" id="txtonImage" #txtonImage value="{{i}}">Add Text On Image</button>
+                        </td>
                       </tr>
                     </table>
                     <br>
@@ -207,78 +208,213 @@
       </div>
       <div class="modal-body no-padding">
 
-        <form  class="smart-form">
+        <form class="smart-form">
 
-          <fieldset>
-            <section>
-              <div class="row">
-                <section class="col col-md-4">
-                  <label class="input">
-
-                    <textarea style="margin: 0px -477px 0px 0px;width: 686px;height: 117px;" class="form-control" type="text" id="OverlayText" name="OverlayText"
-                       height="150" item-width="720" placeholder=" Overlay Text"></textarea>
-                    <b class="tooltip tooltip-bottom-right">Overlay Text</b>
-                  </label>
-
-                </section>
-
-
+            <div id="content">
+                <!-- <div class="row">
+                    <sa-big-breadcrumbs [items]="['Forms', 'Image Editor']" icon="pencil-square-o"
+                                        class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+                    <sa-stats></sa-stats>
+                  </div> -->
+              
+              
+                <!-- widget grid -->
+              
+              
+                <sa-widgets-grid>
+              
+                  <!-- row -->
+                  <div class="row">
+              
+                    <!-- NEW WIDGET START -->
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              
+                      <div class="alert alert-danger hidden-lg hidden-md hidden-sm">
+                        <b>Please note:</b>
+                        This plugin is non-responsive
+                      </div>
+              
+                      <!-- Widget ID (each widget will need unique ID)-->
+              
+                      <sa-widget [colorbutton]="false" [editbutton]="false" [togglebutton]="false" [deletebutton]="false" [fullscreenbutton]="false">
+              
+              
+                        <header role="heading">
+                          <span class="widget-icon">
+                            <i class="fa fa-file-image-o txt-color-darken"></i>
+                          </span>
+              
+                          <h2 class="hidden-xs hidden-sm">Text On Image </h2>
+              
+              
+                        </header>
+              
+                        <div role="content" class="tabbed-widget-content" style="width:94%">
+              
+                          <div class="widget-body">
+              
+                            <tabset type="tabs pull-right">
+              
+                              <tab active="true">
+                                <ng-template tabHeading>
+                                  <i class="fa fa-crop text-success"></i>
+                                  <span class="hidden-mobile hidden-tablet">Overlay Text</span>
+                                </ng-template>
+              
+                                <!-- <h4 class="margin-bottom-10">
+                                    </h4>
+                 -->
+                                <div class="alert alert-info">
+                                  <b>To Add a Text on Image</b>
+                                  <br/>
+              
+                                </div>
+              
+                                <!-- <image-editor-api-panel></image-editor-api-panel> -->
+              
+                                <div class="row">
+                                  <section class="col col-md-4">
+                                    <label class="input">
+                                      <textarea style="margin: 0px -477px 0px 0px;width: 686px;height: 117px;" class="form-control" type="text" id="OverlayText"
+                                        name="OverlayText" height="150" item-width="720" placeholder=" Overlay Text"></textarea>
+                                      <b class="tooltip tooltip-bottom-right">Overlay Text</b>
+                                    </label>
+                                  </section>
+                                </div>
+              
+                              </tab>
+                              <tab>
+                                <ng-template tabHeading>
+                                  <i class="fa fa-crop text-primary"></i>
+                                  <span class="hidden-mobile hidden-tablet">Image</span>
+                                </ng-template>
+              
+                                <!-- <h4 class="margin-bottom-10">Default Behaviour</h4> -->
+              
+                                <div class="alert alert-info">
+                                  <b>This is image will apply on text</b>
+                                  <!-- <br/>
+                                    Since no event handlers have been attached it only performs
+                                    the cropping behavior. -->
+                                </div>
+              
+                                <!-- <image-editor-default-panel></image-editor-default-panel> -->
+                                <div class="row">
+                                  <section class="col col-md-4">
+                                    <img id="overlayImage" src="https://haappy-images.s3.ap-south-1.amazonaws.com/logo_ads/Band-1511250799586.png" alt="Placement">
+                                    <h1>
+                                      <label id="overlayImageText" style="white-space: nowrap;"></label>
+                                    </h1>
+                                  </section>
+                                </div>
+                              </tab>
+              
+                              <tab>
+                                <ng-template tabHeading>
+                                  <i class="fa fa-crop txt-color-pink"></i>
+                                  <span class="hidden-mobile hidden-tablet">Styling</span>
+                                </ng-template>
+                                
+                                <h4 class="margin-bottom-10">Styling Example — style Jcrop dynamically
+                                </h4>
+                                  <!-- <summernote></summernote> -->
+              
+                                <!-- <div class="summernote" []="{height: 180}">
+                                    
+                                </div> -->
+                              </tab>
+              
+                              <tab>
+                                <ng-template tabHeading>
+                                  <i class="fa fa-crop txt-color-pink"></i>
+                                  <span class="hidden-mobile hidden-tablet">Position</span>
+                                </ng-template>
+              
+              
+                                <h4 class="margin-bottom-10">Styling Example — style Jcrop dynamically
+                                </h4>
+              
+              
+                                <div class="row">
+                                    
+                                                    <section class="col col-md-4">
+                                                      <label class="input">
+                                                        <i class="icon-prepend fa fa-user"></i>
+                                                        <input class="form-control" type="text" name="positionTop" id="positionTop" placeholder="Top Position">
+                                                        <b class="tooltip tooltip-bottom-right">Position Top</b>
+                                                      </label>
+                                    
+                                                    </section>
+                                                    <section class="col col-md-4">
+                                                      <label class="input">
+                                                        <i class="icon-prepend fa fa-user"></i>
+                                                        <input class="form-control" type="text" id="positionBottom" name="positionBottom" placeholder=" Position Bottom">
+                                                        <b class="tooltip tooltip-bottom-right">Position Bottom</b>
+                                                      </label>
+                                    
+                                                    </section>
+                                    
+                                                  </div>
+                                                  <div class="row">
+                                                    <section class="col col-md-4">
+                                                      <label class="input">
+                                                        <i class="icon-prepend fa fa-user"></i>
+                                                        <input class="form-control" type="text" id="positionLeft" name="positionLeft" placeholder=" Position Left">
+                                                        <b class="tooltip tooltip-bottom-right">Position Left</b>
+                                                      </label>
+                                    
+                                                    </section>
+                                                    <section class="col col-md-4">
+                                                      <label class="input">
+                                                        <i class="icon-prepend fa fa-user"></i>
+                                                        <input class="form-control" type="text" id="positionRight" name="positionRight" placeholder=" Position Right">
+                                                        <b class="tooltip tooltip-bottom-right">Position Right</b>
+                                                      </label>
+                                                    </section>
+                                    
+                                                  </div>
+                              </tab>
+              
+                              <tab>
+                                <ng-template tabHeading>
+                                  <i class="fa fa-crop text-warning"></i>
+                                  <span class="hidden-mobile hidden-tablet">Preview</span>
+                                </ng-template>
+              
+                                <!-- <h4 class="margin-bottom-10">Basic Handler — basic form
+                                    integration</h4> -->
+              
+                                <div class="alert alert-info">
+                                  <b>An example with a basic event handler.</b> Here we've tied several form values together with a simple
+                                  event handler invocation. The result is that the form values are updated in real-time as the selection
+                                  is changed using Jcrop's
+                                  <em>onChange</em> handler.
+                                </div>
+                                <input type="text" value="tab 5">
+                              </tab>
+                            </tabset>
+              
+                          </div>
+              
+                        </div>
+              
+                      </sa-widget>
+                      <!-- end widget -->
+              
+                    </article>
+                    <!-- WIDGET END -->
+              
+                  </div>
+              
+                  <!-- end row -->
+              
+                </sa-widgets-grid>
+              
+              
+                <!-- end widget grid -->
+              
+              
               </div>
-              <div class="row">
-
-                <section class="col col-md-4">
-                  <label class="input">
-                    <i class="icon-prepend fa fa-user"></i>
-                    <input class="form-control" type="text" name="positionTop"  id="positionTop" placeholder="Top Position">
-                    <b class="tooltip tooltip-bottom-right">Position Top</b>
-                  </label>
-
-                </section>
-                <section class="col col-md-4">
-                  <label class="input">
-                    <i class="icon-prepend fa fa-user"></i>
-                    <input class="form-control" type="text" id="positionBottom" name="positionBottom"  placeholder=" Position Bottom">
-                    <b class="tooltip tooltip-bottom-right">Position Bottom</b>
-                  </label>
-
-                </section>
-
-              </div>
-              <div class="row">
-                <section class="col col-md-4">
-                  <label class="input">
-                    <i class="icon-prepend fa fa-user"></i>
-                    <input class="form-control" type="text" id="positionLeft" name="positionLeft"  placeholder=" Position Left">
-                    <b class="tooltip tooltip-bottom-right">Position Left</b>
-                  </label>
-
-                </section>
-                <section class="col col-md-4">
-                  <label class="input">
-                    <i class="icon-prepend fa fa-user"></i>
-                    <input class="form-control" type="text" id="positionRight" name="positionRight"  placeholder=" Position Right">
-                    <b class="tooltip tooltip-bottom-right">Position Right</b>
-                  </label>
-                </section>
-
-              </div>
-              <div class="row">
-                <button type="button" class="btn btn-default" (click)="overlayTextApply()">
-                  Apply
-                </button>
-              </div>
-              <div class="row">
-                <section class="col col-md-4">
-                  <img id="overlayImage" src="https://haappy-images.s3.ap-south-1.amazonaws.com/logo_ads/Band-1511250799586.png" 
-                    alt="Placement">
-                  <h1>
-                    <label id="overlayImageText" style="white-space: nowrap;" ></label>
-                  </h1>
-                </section>
-              </div>
-            </section>
-            <!-- https://d3c243y8mg3na8.cloudfront.net/ProductImages/Social-Title1.png -->
-          </fieldset>
 
           <footer>
             <button type="button" class="btn btn-default" (click)="mdModalText.hide()">
