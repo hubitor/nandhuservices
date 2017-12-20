@@ -176,25 +176,6 @@ export class ChannelStreamComponent implements OnInit {
         this.channelCategories = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
         this.bChannelVideos = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
         this.updatingResponse(filterBroadcaster);
-        
-        // if (this.bChannelVideos.length > 0) {
-        //   for (var i = 0; i < this.bChannelVideos.length; i++) 
-        //   {
-        //     var channel_application_name = this.broadcasterChannels[i].w_application_name;
-        //     this.w_applicationName = channel_application_name ;
-        //     var channel_get_target_api =this.broadcasterChannels[i].w_get_target_api;
-        //     this.w_get_target_url = channel_get_target_api ;
-        //     this.channelCategories = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
-        //     this.bChannelVideos = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
-        //     this.channelCategories = broadcasters[0].broadcaster_channels;
-        //     this.bChannelVideos = broadcasters[0].broadcaster_channels;
-        //     this.updatingResponse(this.broadcasterChannels[i].id);
-
-            
-        //   }
-
-        // }
-
       }
       else {
         this.channelCategories = broadcasters[0].broadcaster_channels;
@@ -222,12 +203,11 @@ export class ChannelStreamComponent implements OnInit {
       var broadcasterchannels = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels : [];
 
       if (broadcasterchannels.length > 0) {
-      // for (var i = 0; i < broadcasterchannels.length; i++) {
+        // for (var i = 0; i < broadcasterchannels.length; i++) {
         console.log("Filter channel Id" + broadcasterchannels[0].id);
         var channelId = broadcasterchannels[0].id;
-        debugger;
         channelrequest.channel_name = broadcasterchannels[0].channel_name;
-        
+
         channelrequest.id = broadcasterchannels.length > 0 ? broadcasterchannels[0].id : '';
         channelrequest.w_application_name = broadcasterchannels.length > 0 ? broadcasterchannels[0].w_application_name : '';
         channelrequest.w_get_target_api = broadcasterchannels.length > 0 ? broadcasterchannels[0].w_get_target_api : '';
@@ -247,13 +227,13 @@ export class ChannelStreamComponent implements OnInit {
           broadcasterDestination: null
         });
 
-       
+
         this.channelList.push(channelrequest);
         console.log(channelrequest);
         channelrequest = new ChannelRecordRequest();
 
-      // }
-      this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName);
+        // }
+        this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName);
       }
 
     }

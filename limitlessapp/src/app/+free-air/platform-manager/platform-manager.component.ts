@@ -178,16 +178,16 @@ export class PlatformManagerComponent implements OnInit {
           for (var j = 0; j < channellength; j++) {
             console.log("!!!!!!!" + this.broadcasterChannels[j].id);
             this.platformManagerForm.get('broadcasterChannelCategoryName').setValue(this.broadcasterChannels[0].id);
-            var channelId =this.broadcasterChannels[j].id;
-            var channel_application_name = this.broadcasterChannels.length > 0 ?this.broadcasterChannels[j].w_application_name : '';
-            this.w_applicationName = channel_application_name ;
+            var channelId = this.broadcasterChannels[j].id;
+            var channel_application_name = this.broadcasterChannels.length > 0 ? this.broadcasterChannels[j].w_application_name : '';
+            this.w_applicationName = channel_application_name;
             // console.log("this.w_applicationName "+this.w_applicationName);
-            var channel_get_target_api =this.broadcasterChannels.length > 0 ?this.broadcasterChannels[j].w_get_target_api : '';
-            this.w_get_target_url = channel_get_target_api ;
+            var channel_get_target_api = this.broadcasterChannels.length > 0 ? this.broadcasterChannels[j].w_get_target_api : '';
+            this.w_get_target_url = channel_get_target_api;
             // console.log("this.w_get_target_url "+this.w_get_target_url);
             this.getDestinationImage(+this.broadcasterChannels[j].id);
           }
-         
+
         }
 
       },
@@ -310,7 +310,7 @@ export class PlatformManagerComponent implements OnInit {
   }
 
 
-  
+
 
   setChannelselectedValue(broadcasters) {
     var f_broadcaster;
@@ -328,46 +328,45 @@ export class PlatformManagerComponent implements OnInit {
       // console.log("FilterChannel Length" + filterBroadcaster[0].broadcaster_channels.length);
       console.log("Filter channel Id" + filterBroadcaster[0].broadcaster_channels[0].id);
       var broadcastervideoRequest = new BroadcasterVideos();
-      for (var i = 0; i < filterChannel.length; i++)
-      {
+      for (var i = 0; i < filterChannel.length; i++) {
         var channelId = filterChannel[i].id;
         var channel_application_name = filterChannel.length > 0 ? filterChannel[i].w_application_name : '';
-        console.log("this.w_applicationName "+channel_application_name);
-        this.w_applicationName = channel_application_name ;
+        console.log("this.w_applicationName " + channel_application_name);
+        this.w_applicationName = channel_application_name;
         var channel_get_target_api = filterChannel.length > 0 ? filterChannel[i].w_get_target_api : '';
-        this.w_get_target_url = channel_get_target_api ;
-        console.log("this.w_get_target_url "+channel_get_target_api );
-          var broadcastervideoRequest = new BroadcasterVideos();
-          broadcastervideoRequest.fp_start_time = filterChannel[i].broadcaster_videos[0].fp_start_time;
-          console.log("Fb  start time" + broadcastervideoRequest.fp_start_time);
-          this.fp_start_time= broadcastervideoRequest.fp_start_time;
-          broadcastervideoRequest.yt_start_time = filterChannel[i].broadcaster_videos[0].yt_start_time;
-          this.yt_start_time= broadcastervideoRequest.yt_start_time;
-          broadcastervideoRequest.ha_start_time =  filterChannel[i].broadcaster_videos[0].ha_start_time;
-          this.ha_start_time = broadcastervideoRequest.ha_start_time;
-          broadcastervideoRequest.ps_start_time = filterChannel[i].broadcaster_videos[0].ps_start_time;
-          this.ps_start_time = broadcastervideoRequest.ps_start_time;
-          broadcastervideoRequest.fb1_start_time = filterChannel[i].broadcaster_videos[0].fb1_start_time;
-          this.fb1_start_time = broadcastervideoRequest.fb1_start_time;
-          broadcastervideoRequest.fb2_start_time =  filterChannel[i].broadcaster_videos[0].fb2_start_time;
-          this.fb2_start_time = broadcastervideoRequest.fb2_start_time;
-          broadcastervideoRequest.fb3_start_time =  filterChannel[i].broadcaster_videos[0].fb3_start_time;
-          this.fb3_start_time = broadcastervideoRequest.fb3_start_time;
-          broadcastervideoRequest.fb4_start_time = filterChannel[i].broadcaster_videos[0].fb4_start_time;
-          this.fb4_start_time = broadcastervideoRequest.fb4_start_time;
-          broadcastervideoRequest.fb5_start_time = filterChannel[i].broadcaster_videos[0].fb5_start_time;
-          this.fb5_start_time = broadcastervideoRequest.fb5_start_time;
-          broadcastervideoRequest.video_name=filterChannel[i].broadcaster_videos[0].video_name;
-          this.video_name=broadcastervideoRequest.video_name;
-          console.log(this.video_name);
-          this.broadcasterVideosList.push(broadcastervideoRequest);
-          broadcastervideoRequest=null;
-          console.log("@@@@@@@@@"+this.broadcasterVideosList);
-          this.streamTargetKeyResponse();
+        this.w_get_target_url = channel_get_target_api;
+        console.log("this.w_get_target_url " + channel_get_target_api);
+        var broadcastervideoRequest = new BroadcasterVideos();
+        broadcastervideoRequest.fp_start_time = filterChannel[i].broadcaster_videos[0].fp_start_time;
+        console.log("Fb  start time" + broadcastervideoRequest.fp_start_time);
+        this.fp_start_time = broadcastervideoRequest.fp_start_time;
+        broadcastervideoRequest.yt_start_time = filterChannel[i].broadcaster_videos[0].yt_start_time;
+        this.yt_start_time = broadcastervideoRequest.yt_start_time;
+        broadcastervideoRequest.ha_start_time = filterChannel[i].broadcaster_videos[0].ha_start_time;
+        this.ha_start_time = broadcastervideoRequest.ha_start_time;
+        broadcastervideoRequest.ps_start_time = filterChannel[i].broadcaster_videos[0].ps_start_time;
+        this.ps_start_time = broadcastervideoRequest.ps_start_time;
+        broadcastervideoRequest.fb1_start_time = filterChannel[i].broadcaster_videos[0].fb1_start_time;
+        this.fb1_start_time = broadcastervideoRequest.fb1_start_time;
+        broadcastervideoRequest.fb2_start_time = filterChannel[i].broadcaster_videos[0].fb2_start_time;
+        this.fb2_start_time = broadcastervideoRequest.fb2_start_time;
+        broadcastervideoRequest.fb3_start_time = filterChannel[i].broadcaster_videos[0].fb3_start_time;
+        this.fb3_start_time = broadcastervideoRequest.fb3_start_time;
+        broadcastervideoRequest.fb4_start_time = filterChannel[i].broadcaster_videos[0].fb4_start_time;
+        this.fb4_start_time = broadcastervideoRequest.fb4_start_time;
+        broadcastervideoRequest.fb5_start_time = filterChannel[i].broadcaster_videos[0].fb5_start_time;
+        this.fb5_start_time = broadcastervideoRequest.fb5_start_time;
+        broadcastervideoRequest.video_name = filterChannel[i].broadcaster_videos[0].video_name;
+        this.video_name = broadcastervideoRequest.video_name;
+        console.log(this.video_name);
+        this.broadcasterVideosList.push(broadcastervideoRequest);
+        broadcastervideoRequest = null;
+        console.log("@@@@@@@@@" + this.broadcasterVideosList);
+        this.streamTargetKeyResponse();
 
       }
     }
-    
+
   }
 
   getChannelVideos(channelId: number) {
@@ -377,7 +376,7 @@ export class PlatformManagerComponent implements OnInit {
         if (this.channelVideos.length > 0) {
           this.broadcasterVideosList = [];
           var broadcastervideoRequest = new BroadcasterVideos();
-          broadcastervideoRequest.fp_start_time= channelVideos[0].fp_start_time;
+          broadcastervideoRequest.fp_start_time = channelVideos[0].fp_start_time;
           console.log("Fb  starttime" + broadcastervideoRequest.fp_start_time);
           this.fp_start_time = broadcastervideoRequest.fp_start_time;
           broadcastervideoRequest.yt_start_time = channelVideos[0].yt_start_time;
@@ -402,7 +401,7 @@ export class PlatformManagerComponent implements OnInit {
         else {
           this.broadcasterVideosList = [];
           var broadcastervideoRequest = new BroadcasterVideos();
-          broadcastervideoRequest.fp_start_time= "";
+          broadcastervideoRequest.fp_start_time = "";
           console.log("Fb  starttime" + broadcastervideoRequest.fp_start_time);
           this.fp_start_time = broadcastervideoRequest.fp_start_time;
           broadcastervideoRequest.yt_start_time = "";
@@ -423,7 +422,7 @@ export class PlatformManagerComponent implements OnInit {
           this.fb5_start_time = broadcastervideoRequest.fb5_start_time;
           this.broadcasterVideosList.push(broadcastervideoRequest);
           // console.log(this.broadcasterVideosList.push(broadcastervideoRequest));
-          
+
           // broadcastervideoRequest = null;
         }
         // this.streamTargetKeyResponse();
@@ -433,7 +432,7 @@ export class PlatformManagerComponent implements OnInit {
     );
   }
 
-  
+
 
 
   streamTargetKeyResponse() {
