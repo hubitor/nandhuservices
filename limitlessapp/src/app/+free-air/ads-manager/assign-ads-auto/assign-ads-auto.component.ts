@@ -41,7 +41,7 @@ export class AssignAdsAutoComponent implements OnInit {
   broadcasterId: number;
   appName: string;
   logoAds: LogoAds[];
-  adTypes: string[] = ['LOGO', 'VIDEO', 'L_BAND', 'BOTTOM_BAR', 'SLIDE'];
+  adTypes: string[] = ['LOGO', 'L_BAND', 'BOTTOM_BAR'];
   adType: string;
   broadcasterChannels: BroadcasterChannel[];
   channelId: number;
@@ -128,14 +128,34 @@ export class AssignAdsAutoComponent implements OnInit {
     this.mdModal.show();
   }
 
-  overlayTextShowModal()
+  overlayTextShowModal(index:number)
   {
-    this.mdModalText.show();
+    for (var i = 0; i < this.noOfLogoAdTimeSlots; i++) {
+      if(i ===index)
+      {
+        this.assignLogoAd = new AssignLogoAds();
+        let adTypeSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#adTypeSelect-' + i);
+        let logoAdSelect: HTMLSelectElement = this.elementRef.nativeElement.querySelector('#logoAdSelect-' + i);
+        console.log(+logoAdSelect.value);
+        let overlayImage: HTMLImageElement = this.elementRef.nativeElement.querySelector('#overlayImage');
+        if(logoAdSelect!=null && logoAdSelect !=null )
+        {
+          if(adTypeSelect!=null && adTypeSelect.value =="BOTTOM_BAR")
+          {
+            overlayImage.src=logoAdSelect.value.split(',')[3];
+            this.mdModalText.show();
+            return;
+          }
+          
+        }
+        
+      }
+    }
   }
 
   overlayTextApply()
   {
-        
+    
     let OverlayTextbox: HTMLInputElement = this.elementRef.nativeElement.querySelector('#OverlayText');
     let overlayText: HTMLLabelElement = this.elementRef.nativeElement.querySelector('#overlayImageText');
     let positionTop: HTMLInputElement = this.elementRef.nativeElement.querySelector('#positionTop');
@@ -426,7 +446,7 @@ export class AssignAdsAutoComponent implements OnInit {
         this.assignLogoAd.ad_target = adTargetSelect.value;
         this.assignLogoAd.created_by = this.loginResponse.user_name;
         this.assignLogoAd.updated_by = this.loginResponse.user_name;
-        this.assignLogoAd.lower_text = overlaytext.value;
+        //this.assignLogoAd.lower_text = overlaytext.value;
         this.assignLogoAd.geo_x_coordinate = 'NIL';
         this.assignLogoAd.geo_y_coordinate = 'NIL';
         this.assignLogoAd.ad_type = adTypeSelect.value;
