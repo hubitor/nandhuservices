@@ -43,4 +43,10 @@ export class BroadcasterChannelsService {
       .catch(ResponseData.handleError);
    }
 
+   updateChannelManager(broadcasterChannel:BroadcasterChannel): Observable<BroadcasterChannel> {
+    return this.http.put(AppConfig.update_channelManager,broadcasterChannel, {headers: this.headers})
+      .map(ResponseData.extractData)
+      .catch(ResponseData.handleError);
+  };
+
 }

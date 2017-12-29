@@ -135,4 +135,6 @@ public static createNewChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcaste
 public static  getChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/channel/";   //to pass channelid
 public static  getLiveChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/live/";  // to pass channel id
 
+// Update channel Manager
+public static update_channelManager=AppSettings.API_ENDPOINT+"broadcaster/channelManager/Update";
 };
