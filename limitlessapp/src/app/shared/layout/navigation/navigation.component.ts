@@ -39,6 +39,7 @@ export class NavigationComponent implements OnInit {
   adsManager: boolean;
   platformManager:boolean;
 
+
   constructor() {
     this.loginResponse = new LoginResponse();
     this.userRoles = Array();

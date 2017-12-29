@@ -17,13 +17,16 @@ import { BroadcasterDestination } from "../../shared/models/broadcaster-destinat
 import { StreamNotificationRequest } from "../../shared/models/stream-notify-request"
 import { DatePipe } from '@angular/common';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { BroadcasterChannel } from '../../shared/models/broadcaster-channel';
+import { ChannelRecordRequest } from '../../shared/models/channel-record-request';
 
 @Component({
   selector: 'app-channel-stream',
   templateUrl: './channel-stream.component.html',
-  providers: [BroadcasterService, DatePipe,NTemplateService]
+  providers: [BroadcasterService, DatePipe, NTemplateService]
 })
 export class ChannelStreamComponent implements OnInit {
+  w_applicationName: string;
   user: LoginResponse;
   url: 'https://www.youtube.com/watch?v=AXcxZXJ73ZA';
   channelStreamForm: FormGroup;
@@ -42,77 +45,75 @@ export class ChannelStreamComponent implements OnInit {
   mode: 'Observable';
   broadcasterVideos;
   g_broadcasterId;
-  w_applicationName: string;
+  w_application_name: string;
   notify_Templateid: 1;
   notify_DestinationId: 0;
-  isLoopUntil:false;
-  w_get_target_url:"";
-  isnewKeyDisabled:false;
+  isLoopUntil: false;
+  w_get_target_url: string;
+  isnewKeyDisabled: false;
+  broadcasterChannels: BroadcasterChannel[];
+  channelList: ChannelRecordRequest[];
+  broadcasterId: number;
+
   constructor(private broadcasterService: BroadcasterService
     , private fb: FormBuilder
     , private notificationService: NotificationService
     , private nTemplateService: NTemplateService
     , private datePipe: DatePipe) {
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
-    this.w_applicationName=localStorage.getItem('w_appname');
+    // this.w_applicationName=localStorage.getItem('w_appname');
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
-
-    this.w_applicationName = "dev";
-    
-
     }
-  else
-    {
-      this.w_applicationName = this.user.w_appname;
+    else {
       this.client_id = this.user.client_id;
     }
+    this.channelList = new Array();
+
     this.createForm();
 
 
   }
 
   createForm() {
+
     this.channelStreamForm = this.fb.group({
       broadcasterName: [this.user.client_id ? this.user.client_id : 1064, Validators.required],
       broadcasterChannelCategoryName: [this.user.primary_channel_id ? this.user.primary_channel_id : 140, Validators.required],
       channelCurrentStreamKey: [null, Validators.required],
       channelNewStreamKey: [null, [Validators.required, Validators.maxLength(300)]],
       channelVideoId: [null],
+      // w_application_name: [null],
       broadcasterDestination: [null, Validators.required],
     });
   }
 
   ngOnInit() {
-
-    
-    
     this.getAllBroadcastersById(this.client_id);
-//    this.getAllBroadcasterDestination();
-    this.streamNotificationRequest=new StreamNotificationRequest();
+    //    this.getAllBroadcasterDestination();
+    this.streamNotificationRequest = new StreamNotificationRequest();
   }
 
   getAllBroadcasterDestination() {
     this.broadcasterService.getAllBroadcasterDestination()
       .subscribe(
-      broadcasterDestination =>{
-       this.broadcasterDestinations = broadcasterDestination 
-      
+      broadcasterDestination => {
+        this.broadcasterDestinations = broadcasterDestination
+
       },
-      
+
       error => this.errorMessage = <any>error);
 
   }
 
 
-  getAllBroadcasterChannelDestination(channlId:number) {
+  getAllBroadcasterChannelDestination(channlId: number) {
     this.broadcasterService.getAllBroadcasterChannelDestination(channlId)
       .subscribe(
-      broadcasterDestination =>{
-       this.broadcasterDestinations = broadcasterDestination 
-       if(this.broadcasterDestinations.length>0)
-        {
+      broadcasterDestination => {
+        this.broadcasterDestinations = broadcasterDestination
+        if (this.broadcasterDestinations.length > 0) {
           this.channelStreamForm.get('broadcasterDestination').setValue(this.broadcasterDestinations[1].d_id);
         }
       },
@@ -121,7 +122,7 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updateDestinationId(destinations) {
-    
+
     if (this.user.user_type === "Super Admin") {
       this.client_id = 1064;
       this.user.client_id = 1064;
@@ -131,7 +132,7 @@ export class ChannelStreamComponent implements OnInit {
     //this.getAllBroadcastersById(this.client_id);
   }
 
-  getAllBroadcastersById(broadcaterId) {
+  getAllBroadcastersById(broadcasterId) {
     if (this.client_id === 1064) {
       this.broadcasterService.getAllBroadcasters()
         .subscribe(
@@ -139,7 +140,7 @@ export class ChannelStreamComponent implements OnInit {
         error => this.errorMessage = <any>error);
     }
     else {
-      this.broadcasterService.getAllBroadcastersById(broadcaterId)
+      this.broadcasterService.getAllBroadcastersById(broadcasterId)
         .subscribe(
         broadcasters => this.setChannelselectedValue(broadcasters = broadcasters),
         error => this.errorMessage = <any>error);
@@ -171,10 +172,28 @@ export class ChannelStreamComponent implements OnInit {
       this.broadcasters = broadcasters;
       if (this.user.user_type === "Super Admin") {
 
-        var filterChannel = broadcasters.filter(sachannel => sachannel.id.toString() === this.channelStreamForm.value.broadcasterName.toString());
-        this.channelCategories = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
-        this.bChannelVideos = filterChannel.length > 0 ? filterChannel[0].broadcaster_channels : [];
-        this.updatingResponse(filterChannel);
+        var filterBroadcaster = broadcasters.filter(sachannel => sachannel.id.toString() === this.channelStreamForm.value.broadcasterName.toString());
+        this.channelCategories = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
+        this.bChannelVideos = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
+        this.updatingResponse(filterBroadcaster);
+        
+        // if (this.bChannelVideos.length > 0) {
+        //   for (var i = 0; i < this.bChannelVideos.length; i++) 
+        //   {
+        //     var channel_application_name = this.broadcasterChannels[i].w_application_name;
+        //     this.w_applicationName = channel_application_name ;
+        //     var channel_get_target_api =this.broadcasterChannels[i].w_get_target_api;
+        //     this.w_get_target_url = channel_get_target_api ;
+        //     this.channelCategories = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
+        //     this.bChannelVideos = filterBroadcaster.length > 0 ? filterBroadcaster[0].broadcaster_channels : [];
+        //     this.channelCategories = broadcasters[0].broadcaster_channels;
+        //     this.bChannelVideos = broadcasters[0].broadcaster_channels;
+        //     this.updatingResponse(this.broadcasterChannels[i].id);
+
+            
+        //   }
+
+        // }
 
       }
       else {
@@ -182,7 +201,7 @@ export class ChannelStreamComponent implements OnInit {
         this.bChannelVideos = broadcasters[0].broadcaster_channels;
         this.updatingResponse(broadcasters);
       }
-     
+
     }
   }
 
@@ -196,26 +215,45 @@ export class ChannelStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
-
+    var channelrequest = new ChannelRecordRequest();
+    this.channelList = [];
     if (broadcasterVideos.length > 0) {
       var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos : [];
+      var broadcasterchannels = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels : [];
 
-      if (broadcasterVideo.length > 0) {
-        this.user.w_appname = broadcasterVideos[0].w_application_name;
-        this.w_applicationName=broadcasterVideos[0].w_application_name;
-        this.isLoopUntil=broadcasterVideos[0].is_loop_until;
-        this.w_get_target_url=broadcasterVideos[0].w_get_target_url;
-        this.isnewKeyDisabled=this.isLoopUntil;
+      if (broadcasterchannels.length > 0) {
+      // for (var i = 0; i < broadcasterchannels.length; i++) {
+        console.log("Filter channel Id" + broadcasterchannels[0].id);
+        var channelId = broadcasterchannels[0].id;
+        debugger;
+        channelrequest.channel_name = broadcasterchannels[0].channel_name;
+        
+        channelrequest.id = broadcasterchannels.length > 0 ? broadcasterchannels[0].id : '';
+        channelrequest.w_application_name = broadcasterchannels.length > 0 ? broadcasterchannels[0].w_application_name : '';
+        channelrequest.w_get_target_api = broadcasterchannels.length > 0 ? broadcasterchannels[0].w_get_target_api : '';
+        channelrequest.ch_stream_name = broadcasterchannels.length > 0 ? broadcasterchannels[0].ch_stream_name : '';
+        channelrequest.broadcaster_id = broadcasterchannels.length > 0 ? broadcasterchannels[0].broadcaster_id : '';
+        this.w_application_name = channelrequest.w_application_name;
+        this.isLoopUntil = broadcasterVideos[0].is_loop_until;
+        this.w_get_target_url = channelrequest.w_get_target_api;
+        this.isnewKeyDisabled = this.isLoopUntil;
         this.channelStreamForm.setValue({
           channelCurrentStreamKey: null,              // broadcasterVideo[0].yt_streamkey,
           broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
           channelNewStreamKey: null,
           broadcasterName: broadcasterVideos[0].id,
           channelVideoId: broadcasterVideo[0].id,
+          // w_application_name: channelrequest.w_application_name,
           broadcasterDestination: null
         });
 
-        this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName)
+       
+        this.channelList.push(channelrequest);
+        console.log(channelrequest);
+        channelrequest = new ChannelRecordRequest();
+
+      // }
+      this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName);
       }
 
     }
@@ -228,7 +266,7 @@ export class ChannelStreamComponent implements OnInit {
 
   stopChannelVideoKey(value: any) {
     var newKeyResponse;
-    this.streamNotificationRequest=new StreamNotificationRequest();
+    this.streamNotificationRequest = new StreamNotificationRequest();
     var destType = this.channelStreamForm.value.broadcasterDestination.toString();
     this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
     this.streamNotificationRequest.template_id = 1;
@@ -262,12 +300,12 @@ export class ChannelStreamComponent implements OnInit {
         ps_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
 
       }
-       this.streamNotificationRequest.destination_id = 3;
+      this.streamNotificationRequest.destination_id = 3;
     }
-    this.streamTargetKeyResponse(newKeyResponse, value,this.streamNotificationRequest);
+    this.streamTargetKeyResponse(newKeyResponse, value, this.streamNotificationRequest);
   }
 
-  
+
 
   showPopup(isStop: boolean) {
 
@@ -303,9 +341,11 @@ export class ChannelStreamComponent implements OnInit {
 
   updateStreamkey() {
     this.channelVideoKeyRequest = new ChannelVideoKeyRequest();
-    this.streamNotificationRequest=new StreamNotificationRequest();
+    this.streamNotificationRequest = new StreamNotificationRequest();
     const broadcasterVideoVal = this.channelStreamForm.value;
+    const channelAppName = this.channelStreamForm.value;
     this.channelVideoKeyRequest.id = broadcasterVideoVal.channelVideoId;
+    this.channelCategories.w_application_name = channelAppName.w_application_name;
     this.streamNotificationRequest.broadcaster_id = this.channelStreamForm.value.broadcasterName;
     this.streamNotificationRequest.template_id = 1;
     var type;
@@ -350,26 +390,26 @@ export class ChannelStreamComponent implements OnInit {
 
     this.broadcasterService.updateCategoryVideosKey(this.channelVideoKeyRequest, type)
       .subscribe(
-      createresponse => this.streamTargetKeyResponse(this.createResponse = createresponse, false,this.streamNotificationRequest),
+      createresponse => this.streamTargetKeyResponse(this.createResponse = createresponse, false, this.streamNotificationRequest),
       error => this.errorMessage = <any>error);
   }
 
 
-  streamTargetKeyResponse(newKeyResponse, isStop: boolean,streamNotificationRequest) {
+  streamTargetKeyResponse(newKeyResponse, isStop: boolean, streamNotificationRequest) {
 
-    this.broadcasterService.getStreamTarget(this.w_applicationName.trim(),this.channelStreamForm.value.broadcasterName,this.w_get_target_url)
+    this.broadcasterService.getStreamTarget(this.w_application_name.trim(), this.channelStreamForm.value.broadcasterName, this.w_get_target_url)
       .subscribe(
-      response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop,streamNotificationRequest,this.streamNotificationRequest.broadcaster_id),
+      response => this.streamTargetGetResponse(response = response, newKeyResponse, isStop, streamNotificationRequest, this.streamNotificationRequest.broadcaster_id),
       error => this.errorMessage = <any>error);
   }
-  streamTargetGetResponse(getresponse, newKeyResponse, isStop,streamNotificationRequest,broadcaster_id) {
+  streamTargetGetResponse(getresponse, newKeyResponse, isStop, streamNotificationRequest, broadcaster_id) {
 
     var myDate = new Date();
     var streamTargetVal;
     var wowzaMapEntries: any[];
     this.streamTargetRequest = new StreamTargetRequest();
     var newKeyDate = this.datePipe.transform(myDate, 'yyMMddhmmss');
-    var newStreamEntryName = this.w_applicationName.toString();
+    var newStreamEntryName = this.w_application_name.toString();
     //this.user.w_appname.trim();
     //+ "-" + newKeyDate;
     if (getresponse.mapEntries.length > 0) {
@@ -410,7 +450,7 @@ export class ChannelStreamComponent implements OnInit {
       //streamTargetVal = getresponse.mapEntries[0];
 
       this.streamTargetRequest.serverName = getresponse.serverName.trim();
-      this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName.trim();
+      this.streamTargetRequest.sourceStreamName = streamTargetVal.sourceStreamName;
       this.streamTargetRequest.entryName = newStreamEntryName + "-" + newKeyDate.trim();
 
       this.streamTargetRequest.appInstance = streamTargetVal.appInstance;
@@ -419,35 +459,34 @@ export class ChannelStreamComponent implements OnInit {
       this.streamTargetRequest.enabled = isStop ? false : true;
       this.streamTargetRequest.autoStartTranscoder = streamTargetVal.autoStartTranscoder;
       this.streamTargetRequest.profile = streamTargetVal.profile;
-      this.streamTargetRequest.host = streamTargetVal.host.trim();
+      this.streamTargetRequest.host = streamTargetVal.host;
       this.streamTargetRequest.application = streamTargetVal.application;
       this.streamTargetRequest.userName = streamTargetVal.userName ? streamTargetVal.userName : '';
       this.streamTargetRequest.password = streamTargetVal.password ? streamTargetVal.password : '';
 
     }
 
-    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.w_applicationName.trim(), this.streamTargetRequest.entryName,broadcaster_id,this.w_get_target_url)
-     
+    this.broadcasterService.createStreamTarget(this.streamTargetRequest, this.w_application_name.trim(), this.streamTargetRequest.entryName, broadcaster_id, this.w_get_target_url)
+
       .subscribe(
-      response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop,streamNotificationRequest,broadcaster_id),
+      response => this.streamTargetcreateResponse(response, streamTargetVal.entryName, isStop, streamNotificationRequest, broadcaster_id),
       error => this.errorMessage = <any>error)
 
   }
 
-  streamTargetcreateResponse(response, entryName: string, isStop,streamNotificationRequest,broadcaster_id) {
-    this.broadcasterService.deleteStreamTarget(this.w_applicationName, entryName,broadcaster_id,this.w_get_target_url)
+  streamTargetcreateResponse(response, entryName: string, isStop, streamNotificationRequest, broadcaster_id) {
+    this.broadcasterService.deleteStreamTarget(this.w_application_name, entryName, broadcaster_id, this.w_get_target_url)
       .subscribe(
-      response => this.hasReload(response, isStop,streamNotificationRequest),
+      response => this.hasReload(response, isStop, streamNotificationRequest),
       error => this.errorMessage = <any>error)
   }
 
   refreshStreamKey() {
-    
 
-    if(this.channelStreamForm.value.broadcasterDestination !="2")
-    {
-       this.isLoopUntil=false;
-       this.isnewKeyDisabled=false;
+
+    if (this.channelStreamForm.value.broadcasterDestination != "2") {
+      this.isLoopUntil = false;
+      this.isnewKeyDisabled = false;
     }
 
     const broadcasterVideoKeyVal = this.channelStreamForm.value;
@@ -488,14 +527,12 @@ export class ChannelStreamComponent implements OnInit {
           this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
           break;
         }
-       
+
       }
-      if(this.isLoopUntil)
-      {
+      if (this.isLoopUntil) {
         this.channelStreamForm.get('channelNewStreamKey').setValue(this.channelStreamForm.value.channelCurrentStreamKey);
       }
-      else
-      {
+      else {
         this.channelStreamForm.get('channelNewStreamKey').setValue("");
       }
     }
@@ -523,7 +560,7 @@ export class ChannelStreamComponent implements OnInit {
       error => this.errorMessage = <any>error)
   }
 
-  hasReload(response, isStop,streamNotificationRequest) {
+  hasReload(response, isStop, streamNotificationRequest) {
     if (isStop) {
       this.stopStreamNotification(streamNotificationRequest);
     }

@@ -69,18 +69,18 @@ export class EditAssignedAdsComponent implements OnInit {
     );
   }
 
-  getEvents() {
-    const getAssignedAds = this.editAssignedAdsForm.value;
-    console.log(getAssignedAds.selectedEventDate);
-    this.adsService.getAssignedEventsByDate(this.channelId, getAssignedAds.selectedEventDate).subscribe(
-      adEvents => {
-        this.adEvents = adEvents;
-      },
-      error => {
-        console.log(error);
-        alert('something went wrong');
-      }
-    );
-  }
+  // getEvents() {
+  //   const getAssignedAds = this.editAssignedAdsForm.value;
+  //   console.log(getAssignedAds.selectedEventDate);
+  //   this.adsService.getAssignedEventsByDate(this.channelId, getAssignedAds.selectedEventDate).subscribe(
+  //     adEvents => {
+  //       this.adEvents = adEvents;
+  //     },
+  //     error => {
+  //       console.log(error);
+  //       alert('something went wrong');
+  //     }
+  //   );
+  // }
 
 }
