@@ -40,6 +40,7 @@ import {SmartadminModule} from "app/shared/smartadmin.module";
 import { ChannelRecordComponent } from './channel-record/channel-record.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-assigned-ads.component';
+import {SuperUserComponent} from './super-user/super-user.component';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { EditAssignedAdsComponent } from './ads-manager/edit-assigned-ads/edit-a
     
     EditAssignedAdsComponent,
     // AdsPlacementComponent
+    SuperUserComponent
   ]
 })
 export class FreeAirModule { }

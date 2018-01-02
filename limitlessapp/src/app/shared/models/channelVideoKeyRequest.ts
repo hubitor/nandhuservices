@@ -17,5 +17,10 @@ export class ChannelVideoKeyRequest
     yt_stop_count:number;
     fb_stop_count:number;
     ps_stop_count:number;
+    fb1_streamkey:string;
+    fb2_streamkey:string;
+    fb3_streamkey:string;
+    fb4_streamkey:string;
+    fb5_streamkey:string;
 
 }

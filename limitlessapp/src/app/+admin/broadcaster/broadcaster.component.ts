@@ -307,6 +307,11 @@ showPopup() {
        bv.fb_streamkey="fb-35345-3646-244";
        bv.ha_streamkey="ha-65756-happ";
        bv.ps_streamkey="ps-3234-3435";
+       bv.fb1_streamkey="fb1-34423-23444";
+       bv.fb2_streamkey="fb2-32324-asec";
+       bv.fb3_streamkey="fb3-567332-r3r54";
+       bv.fb4_streamkey="fb4-73485-7325";
+       bv.fb5_streamkey="fb5-5345-235235-cse";
        bv.created_by=this.user.user_name;
        bv.updated_by=this.user.user_name;
        bc_onboardRequest.broadcaster_videos=bv;

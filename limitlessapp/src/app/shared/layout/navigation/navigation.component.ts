@@ -34,10 +34,11 @@ export class NavigationComponent implements OnInit {
   journalNew: boolean;
   playlistVideojs: boolean;
   fbVideoUpload: boolean;
-  destination:boolean;
-  journalStream:boolean;
+  destination: boolean;
+  journalStream: boolean;
   adsManager: boolean;
-  platformManager:boolean;
+  platformManager: boolean;
+  superUser: boolean;
 
 
   constructor() {
@@ -53,7 +54,7 @@ export class NavigationComponent implements OnInit {
     this.order = false;
     this.productInvetory = false;
     this.channelStream = false;
-    this.channelLiveRecord=false;
+    this.channelLiveRecord = false;
     this.channelVideos = false;
     this.channelAlbum = false;
     this.superAdmin = false;
@@ -69,10 +70,11 @@ export class NavigationComponent implements OnInit {
     this.journalNew = false;
     this.playlistVideojs = false;
     this.fbVideoUpload = false;
-    this.destination=false;
-    this.journalStream=false;
+    this.destination = false;
+    this.journalStream = false;
     this.adsManager = false;
     this.platformManager = false;
+    this.superUser = false;
   }
 
   ngOnInit() {
@@ -108,39 +110,50 @@ export class NavigationComponent implements OnInit {
         this.broadcaster = true;
         this.eCommerce = false;
         this.videoManager = true;
-        this.journal =false;
-        this.journalDevice =false;
-        this.journalSettings =false;
+        this.journal = false;
+        this.journalDevice = false;
+        this.journalSettings = false;
         this.journalNew = true;
-        this.fbVideoUpload =true;
+        this.fbVideoUpload = true;
         this.channelStream = true;
         this.adsManager = true;
-        this.channelVideos =false;
+        this.channelVideos = false;
         this.journalManager = true;
-        this.platformManager=true;
+        this.platformManager = true;
         this.playlistVideojs = true;
-        this.channelLiveRecord=true;
+        this.channelLiveRecord = true;
+        this.superUser = true;
+
         for (var i = 0; i < userRolesLength; i++) {
+
           this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
 
           if (this.userRoles[i].module_name === "Channel Stream") {
             this.channelStream = true;
-          } 
+          }
           else if (this.userRoles[i].module_name === "Channel Video") {
-            this.channelVideos =true;
+            this.channelVideos = true;
           }
           else
-           if (this.userRoles[i].module_name === "Channel Home") {
-            this.channelHome = true;
-          } else if (this.userRoles[i].module_name === 'Channel Manager') {
-            this.channelManager = true;
-          }
-          else if (this.userRoles[i].module_name === 'Journal Manager') {
-            this.journalManager = true;
-          }
-          else if (this.userRoles[i].module_name === 'Platform Manager') {
-            this.platformManager = true;
-          }
+            if (this.userRoles[i].module_name === "Channel Home") {
+              this.channelHome = true;
+            } else if (this.userRoles[i].module_name === 'Channel Manager') {
+              this.channelManager = true;
+            }
+            else if (this.userRoles[i].module_name === 'Journal Manager') {
+              this.journalManager = true;
+            }
+            else if (this.userRoles[i].module_name === 'Platform Manager') {
+              this.platformManager = true;
+            }
+            else if (this.userRoles[i].module_name === 'channel Live Record') {
+              this.channelLiveRecord = true;
+
+            }
+            else if (this.userRoles[i].module_name === 'Fb Video Upload') {
+              this.fbVideoUpload = true;
+
+            }
         }
       } else if (this.loginResponse.user_type === "Super Admin") {
         this.superAdmin = true;
@@ -164,11 +177,51 @@ export class NavigationComponent implements OnInit {
         this.journalNew = true;
         this.playlistVideojs = true;
         this.fbVideoUpload = true;
-        this.destination =true;
-        this.journalStream=true;
+        this.destination = true;
+        this.journalStream = true;
         this.adsManager = true;
-        this.platformManager=true;
-        this.channelLiveRecord=true;
+        this.platformManager = true;
+        this.channelLiveRecord = true;
+        this.superUser = true;
+      }
+      else if (this.loginResponse.user_type === 'eUser') {
+        this.broadcaster = true;
+        for (var i = 0; i < userRolesLength; i++) {
+          this.userRoles.push(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
+          console.log(JSON.parse(localStorage.getItem("haappyapp-role-" + i)));
+          if (this.userRoles[i].module_name === "Channel Stream") {
+            this.channelStream = true;
+          }
+          else
+            if (this.userRoles[i].module_name === "Channel Video") {
+              this.channelVideos = true;
+            }
+            else if (this.userRoles[i].module_name === "Channel Home") {
+              this.channelHome = true;
+            }
+            else if (this.userRoles[i].module_name === 'Channel Manager') {
+              this.channelManager = true;
+            }
+            else if (this.userRoles[i].module_name === 'Journal Manager') {
+              this.journalManager = true;
+            }
+            else if (this.userRoles[i].module_name === 'Platform Manager') {
+              this.platformManager = true;
+            }
+            else if (this.userRoles[i].module_name === 'channel Live Record') {
+              this.channelLiveRecord = true;
+
+            }
+            else if (this.userRoles[i].module_name === 'Fb Video Upload') {
+              this.fbVideoUpload = true;
+            }
+            else if(this.userRoles[i].module_name === 'Ads Manager'){
+              this.adsManager=true;
+            }
+            else if(this.userRoles[i].module_name === 'Website-Video'){
+              this.playlistVideojs=true;
+            }
+        }
       }
     }
   }

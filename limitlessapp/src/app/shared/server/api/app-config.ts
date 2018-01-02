@@ -89,7 +89,7 @@ public static delete_streamTarget_journal="http://journal2.haappyapp.com:8087/v2
 
    public static new_user=AppSettings.API_ENDPOINT +"user/register"; //to get all ranks
    public static user_roleAll=AppSettings.API_ENDPOINT +"applications/app/role/all"; //to get all ranks
-
+   public static user_moduleAll=AppSettings.API_ENDPOINT+"applications/modules/all"; 
    //Shop
    public static get_shop=AppSettings.API_ENDPOINT +"user/shop/all"; 
    public static new_shop=AppSettings.API_ENDPOINT +"user/shop/new"; 
@@ -134,5 +134,9 @@ public static getPrimaryChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/vid
 public static createNewChannel=AppSettings.API_ENDPOINT +"broadcaster/broadcasterchannel/new"; 
 public static  getChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/list/channel/";   //to pass channelid
 public static  getLiveChannelVideos=AppSettings.API_ENDPOINT +"broadcaster/videos/live/";  // to pass channel id
+
+// superUser 
+public static get_appUser=AppSettings.API_ENDPOINT+"user/applicationUser/users/"; //to pass client id
+public static update_roles_module=AppSettings.API_ENDPOINT+"user/update";
 
 };

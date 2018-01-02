@@ -48,7 +48,7 @@
                                                   <label class="input">
         <i class="icon-append fa fa-tv"></i>
         <!--(change)="onChannelCategorySelect(broadcasterChannelCategoryName.value)" -->
-        <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName >
+        <select class="form-control" formControlName="broadcasterChannelCategoryName" name="broadcasterChannelCategoryName" #broadcasterChannelCategoryName (change)=" onChannelCategorySelect(channel_name.value)">
           <!--<option>Choose Channel Category</option>-->
           <option *ngFor="let channelCategory of channelCategories" value="{{channelCategory.id}}">{{channelCategory.channel_name}}</option>
         </select>

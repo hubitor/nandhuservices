@@ -25,6 +25,7 @@ import { AssignAdsAutoComponent } from './ads-manager/assign-ads-auto/assign-ads
 import { VideoAdsComponent } from './ads-manager/video-ads/video-ads.component';
 import { AssignVideoAdsComponent } from "app/+free-air/ads-manager/assign-video-ads/assign-video-ads.component";
 import { EditAssignedAdsComponent } from "app/+free-air/ads-manager/edit-assigned-ads/edit-assigned-ads.component";
+import {SuperUserComponent} from "./super-user/super-user.component";
 
 export const routes:Routes = [
   {
@@ -124,6 +125,10 @@ export const routes:Routes = [
   {
     path: 'edit-assigned-ads',
     component: EditAssignedAdsComponent
+  },
+  {
+    path:'super-user',
+    component:SuperUserComponent
   }
 ];
 

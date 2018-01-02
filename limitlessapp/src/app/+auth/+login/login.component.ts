@@ -76,6 +76,15 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("primary_channel_id", "140");
           this.router.navigate(['/admin/register']);
         }
+        else if(this.loginResponse.user_type === "eUser"){
+          
+          localStorage.setItem("broadcaster_id", this.loginResponse.client_id.toString());
+          console.log( "loginbroadcasterId"+this.loginResponse.client_id.toString())
+          localStorage.setItem("w_appname", this.loginResponse.w_appname);
+          localStorage.setItem("primary_channel_id", this.loginResponse.primary_channel_id.toString());
+          this.getUserRoles(this.loginResponse.user_id);
+          
+        } 
       },
       error => {
         alert("Login failed. Check login credentials.");
@@ -101,5 +110,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
 }

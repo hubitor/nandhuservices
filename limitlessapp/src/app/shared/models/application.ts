@@ -1,5 +1,4 @@
-export class Application
-{
+export class Application {
     id: number;
     application_name: string;
     application_short_name: string;
@@ -7,4 +6,6 @@ export class Application
     is_active: boolean;
     created_by: string;
     last_updated_by: string;
+    email_id: string;
+    client_id:number;
 }

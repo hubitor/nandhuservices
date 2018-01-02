@@ -339,11 +339,15 @@
           <i class="fa fa-lg fa-fw fa-tv"></i> <span
           class="menu-item-parent">{{'Broadcaster' | i18n}}</span></a>
         <ul>
+            
            <li *ngIf="channelHome" routerLinkActive="active">
             <a routerLink="/free-air/channel-home" title="Channel Home"> {{'Channel Home' | i18n}}</a>
           </li>
           <li *ngIf="channelStream" routerLinkActive="active">
             <a routerLink="/free-air/channel-stream" title="Channel Stream"> {{'Channel Stream' | i18n}}</a>
+          </li>
+          <li *ngIf="superUser" routerLinkActive="active">
+              <a routerLink="/free-air/super-user" title="Super User"> {{'Super User' | i18n}}</a>
           </li>
           <li *ngIf="channelLiveRecord" routerLinkActive="active">
             <a routerLink="/free-air/channel-live-record" title="Channel Live Record"> {{'Channel Live Record' | i18n}}</a>
@@ -360,7 +364,7 @@
           <!--li *ngIf="videoManager" routerLinkActive="active">
             <a routerLink="/free-air/videos-manager" title="Video Manager"> {{'Video Manager' | i18n}}</a>
           </li-->
-          <li routerLinkActive="active">
+          <li *ngIf="videoq" routerLinkActive="active">
             <a routerLink="/free-air/videoq" title="Video Manager"> {{'Video Manager' | i18n}}</a>
             <ul>
               <li *ngIf="superAdmin" routerLinkActive="active">
@@ -394,7 +398,7 @@
           <li *ngIf="journalStream" routerLinkActive="active">
             <a routerLink="/free-air/journal-stream" title="Journal Stream"> {{'Journal Stream' | i18n}}</a>
           </li>
-          <li routerLinkActive="ative">
+          <li *ngIf="adsManager" routerLinkActive="ative">
             <a title="Ads Manager">{{'Ads Manager' | i18n }}</a>
             <ul>
               <li>

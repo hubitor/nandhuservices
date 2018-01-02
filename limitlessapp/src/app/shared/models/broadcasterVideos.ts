@@ -35,6 +35,10 @@ export class BroadcasterVideos {
     fb5_start_time:string;
     w_application_name:string;
     w_get_target_api:string;
-
+    fb1_streamkey: string;
+    fb2_streamkey: string;
+    fb3_streamkey: string;
+    fb4_streamkey: string;
+    fb5_streamkey: string;
     
 }

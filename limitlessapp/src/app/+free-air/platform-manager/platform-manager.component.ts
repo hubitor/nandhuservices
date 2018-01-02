@@ -177,7 +177,7 @@ export class PlatformManagerComponent implements OnInit {
 
           for (var j = 0; j < channellength; j++) {
             console.log("!!!!!!!" + this.broadcasterChannels[j].id);
-            this.platformManagerForm.get('broadcasterChannelCategoryName').setValue(this.broadcasterChannels[0].id);
+            this.platformManagerForm.get('broadcasterChannelCategoryName').setValue(this.broadcasterChannels[j].id);
             var channelId = this.broadcasterChannels[j].id;
             var channel_application_name = this.broadcasterChannels.length > 0 ? this.broadcasterChannels[j].w_application_name : '';
             this.w_applicationName = channel_application_name;

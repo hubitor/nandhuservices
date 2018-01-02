@@ -90,17 +90,17 @@ export class JournalStreamComponent implements OnInit {
     this.broadcasterUser = false;
     this.loginResponse = new LoginResponse();
     this.user = JSON.parse(localStorage.getItem('haappyapp-user'));
-    this.w_applicationName=localStorage.getItem('w_appname');
+    // this.w_applicationName=localStorage.getItem('w_appname');
     this.loginResponse = JSON.parse(this.cookieService.get("HAU"));
     if (this.loginResponse.user_type === 'Entertainment') {
       this.broadcasterId = parseInt(localStorage.getItem("broadcaster_id"));
-      this.w_applicationName = this.user.w_appname;
+      // this.w_applicationName = this.user.w_appname;
       this.broadcasterUser = true;
       this.superAdminUser = false;
     } else if (this.loginResponse.user_type === 'Super Admin') {
       this.superAdminUser = true;
       this.broadcasterUser = false;
-      this.w_applicationName = "dev";
+      // this.w_applicationName = "dev";
     }
     this.channelSelected = false;
     this.createResponse = new CreateResponse();
@@ -197,13 +197,6 @@ export class JournalStreamComponent implements OnInit {
   
   }
 
-
-//  formatLiveURL(appl_name,s_name):string
-//   {
-//     //return "http://live.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
-//     return "http://live.haappyapp.com:1935/ka-praaja/prajaa-news/prajaa-news/playlist.m3u8";
-//   }
-
   formatJournalURL(appl_name,s_name):string
   {
     return "http://journal2.haappyapp.com:1935/"+appl_name+"/"+s_name+"/playlist.m3u8";
@@ -225,33 +218,6 @@ export class JournalStreamComponent implements OnInit {
 
   }
 
-  onlineCheck()
-  {
-    let xhr = new XMLHttpRequest();
-    return new Promise((resolve, reject)=>{
-        xhr.onload = () => {
-            // Set online status
-            this.isOnline = true;
-            resolve(true);
-            console.log("user is in online "+this.isOnline);
-        };
-        xhr.onerror = () => {
-            // Set online status
-            this.isOnline = false;
-            reject(false);
-            console.log("user is in offline "+this.isOnline);
-
-        };
-        xhr.open('GET',Journal.name, true);
-        console.log("live Url "+Journal);
-        xhr.send();
-    });
-
-
-
-  }
-
-
   journalSelect(){
     this.onUrlsplit();
     var f_journalSetting;
@@ -259,7 +225,7 @@ export class JournalStreamComponent implements OnInit {
     var journal_id;
     if(this.journalSetting.length>0)
       f_journalSetting =this.journalSetting.filter(
-        journalId => journalId.id.toString() === this.journalStreamForm.value.journalId.toString()
+        journalId => journalId.id=== this.journalStreamForm.value.journalId
       );
         stream_name = f_journalSetting.length>0?f_journalSetting[0].stream_name:'';
         journal_id=f_journalSetting.length>0?f_journalSetting[0].journal_id:'';
@@ -387,7 +353,6 @@ export class JournalStreamComponent implements OnInit {
         this.updatingResponse(broadcasters);
        
       }
-     
     }
   }
 
@@ -401,30 +366,52 @@ export class JournalStreamComponent implements OnInit {
   }
 
   updatingResponse(broadcasterVideos) {
-    if (broadcasterVideos.length > 0) {
-      var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos : [];
+    for(var i=0;i<broadcasterVideos.length;i++){
+      var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[i].broadcaster_videos : [];
+      this.user.w_appname = broadcasterVideos[0].broadcaster_channels[i].w_application_name;
+      this.w_applicationName=broadcasterVideos[0].broadcaster_channels[i].w_application_name;
+      console.log(this.w_applicationName);
+      this.isLoopUntil=broadcasterVideos[0].is_loop_until;
+      this.w_get_target_url_journal2=broadcasterVideos[0].broadcaster_channels[i].w_get_target_api;
+      console.log(this.w_get_target_url_journal2);
+      this.isnewKeyDisabled=this.isLoopUntil;
+      this.journalStreamForm.setValue({
+        journalDestinationcurKey: null,           
+        broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
+        journalDestinationnewKey: null,
+        broadcasterName: broadcasterVideos[0].id,
+        channelVideoId: broadcasterVideo[0].id,
+        broadcasterDestination: null,
+        channelJournalName: broadcasterVideos[0].id
+        
+      });
 
-      if (broadcasterVideo.length > 0) {
-        this.user.w_appname = broadcasterVideos[0].w_application_name;
-        this.w_applicationName=broadcasterVideos[0].w_application_name;
-        this.isLoopUntil=broadcasterVideos[0].is_loop_until;
-        this.w_get_target_url_journal2=broadcasterVideos[0].w_get_target_url_journal2;
-        this.isnewKeyDisabled=this.isLoopUntil;
-        this.journalStreamForm.setValue({
-          journalDestinationcurKey: null,           
-          broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
-          journalDestinationnewKey: null,
-          broadcasterName: broadcasterVideos[0].id,
-          channelVideoId: broadcasterVideo[0].id,
-          broadcasterDestination: null,
-          channelJournalName: broadcasterVideos[0].id
-          
-        });
-
-        this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.broadcasterChannelCategoryName);
-      }
-
+      this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.broadcasterChannelCategoryName);
     }
+    // if (broadcasterVideos.length > 0) {
+    //   var broadcasterVideo = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels[0].broadcaster_videos : [];
+
+    //   if (broadcasterVideo.length > 0) {
+    //     this.user.w_appname = broadcasterVideos[0].broadcaster_channels[0].w_application_name;
+    //     this.w_applicationName=broadcasterVideos[0].broadcaster_channels[0].w_application_name;
+    //     this.isLoopUntil=broadcasterVideos[0].is_loop_until;
+    //     this.w_get_target_url_journal2=broadcasterVideos[0].broadcaster_channels[0].w_get_target_api;
+    //     this.isnewKeyDisabled=this.isLoopUntil;
+    //     this.journalStreamForm.setValue({
+    //       journalDestinationcurKey: null,           
+    //       broadcasterChannelCategoryName: broadcasterVideo[0].broadcaster_channel_id,
+    //       journalDestinationnewKey: null,
+    //       broadcasterName: broadcasterVideos[0].id,
+    //       channelVideoId: broadcasterVideo[0].id,
+    //       broadcasterDestination: null,
+    //       channelJournalName: broadcasterVideos[0].id
+          
+    //     });
+
+    //     this.getAllBroadcasterChannelDestination(+ this.journalStreamForm.value.broadcasterChannelCategoryName);
+    //   }
+
+    // }
 
   }
 
