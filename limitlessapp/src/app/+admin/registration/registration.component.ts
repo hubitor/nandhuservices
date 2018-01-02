@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
   stateId:number;
   countries:Country[];
   newClientForm;
-  userTypes = ['eCommerce', 'Entertainment','User'];
+  userTypes = ['eCommerce', 'Entertainment','eUser'];
   application: Application;
   applications: Application[];
   applicationId: number;
