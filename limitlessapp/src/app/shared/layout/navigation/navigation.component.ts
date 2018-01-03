@@ -122,7 +122,6 @@ export class NavigationComponent implements OnInit {
         this.platformManager = true;
         this.playlistVideojs = true;
         this.channelLiveRecord = true;
-        this.superUser = true;
 
         for (var i = 0; i < userRolesLength; i++) {
 

@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, AfterContentInit, OnInit} from '@angular/core';
+import { Component, Input, ElementRef, AfterContentInit, OnInit, Output, EventEmitter } from '@angular/core';
 
 declare var $: any;
 
@@ -6,7 +6,7 @@ declare var $: any;
 
   selector: 'sa-datatable',
   template: `
-      <table class="dataTable responsive {{tableClass}}" width="{{width}}">
+      <table (click)="selectChannelRecord()" class="dataTable responsive {{tableClass}}" width="{{width}}">
         <ng-content></ng-content>
       </table>
 `,
@@ -19,21 +19,33 @@ export class DatatableComponent implements OnInit {
   @Input() public options:any;
   @Input() public filter:any;
   @Input() public detailsFormat:any;
+  @Input() public table:any;
 
   @Input() public paginationLength: boolean;
   @Input() public columnsHide: boolean;
   @Input() public tableClass: string;
   @Input() public width: string = '100%';
 
-  constructor(private el: ElementRef) {
+  @Output() sendChannelRecord: EventEmitter<any> = new EventEmitter();
+
+  data: any;
+
+  public selectChannelRecord() {
+      this.data= localStorage.getItem('channel_emit_data');
+    this.sendChannelRecord.emit(this.data);
   }
 
+  constructor(private el: ElementRef) {
+
+  }
+
+   
   ngOnInit() {
     Promise.all([
       System.import('script-loader!smartadmin-plugins/datatables/datatables.min.js'),
     ]).then(()=>{
       this.render()
-    
+
     })
   }
 
@@ -55,16 +67,17 @@ export class DatatableComponent implements OnInit {
       options.ajax = {
         url: url,
         // complete: function (xhr) {
-       
+
         // }
       }
     }
 
+
     options = $.extend(options, {
 
       "dom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs text-right'" + toolbar + ">r>" +
-      "t" +
-      "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+        "t" +
+        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
       oLanguage: {
         "sSearch": "<span class='input-group-addon'><i class='glyphicon glyphicon-search'></i></span> ",
         "sLengthMenu": "_MENU_"
@@ -73,6 +86,13 @@ export class DatatableComponent implements OnInit {
       retrieve: true,
       responsive: true,
       initComplete: (settings, json)=> {
+
+        var tables = $('#DataTables_Table_0').DataTable();
+        $('#DataTables_Table_0 tbody').on('click', 'tr', function (router) {
+          this.data = tables.row(this).data();
+          localStorage.setItem("channel_emit_data", JSON.stringify(this.data));            
+        });
+
         element.parent().find('.input-sm', ).removeClass("input-sm").addClass('input-md');
       }
     });

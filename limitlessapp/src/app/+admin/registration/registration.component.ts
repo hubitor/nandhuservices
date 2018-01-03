@@ -8,14 +8,15 @@ import { Shop } from '../../shared/models/shop';
 import { BroadcasterService } from '../../shared/server/service/broadcaster-service';
 import { Broadcasters } from '../../shared/models/broadcasters';
 import { ApplicationUsersRole } from '../../shared/models/applicationUsersRole';
-import { UtilityService }from'../../shared/server/service/utility-service';
-import { Country }from '../../shared/models/country';
-import { State }from '../../shared/models/state';
-import { City }from '../../shared/models/city';
+import { UtilityService } from '../../shared/server/service/utility-service';
+import { Country } from '../../shared/models/country';
+import { State } from '../../shared/models/state';
+import { City } from '../../shared/models/city';
 import sha256 from 'crypto-js/sha256';
 // import { PasswordValidation } from './password-validation';
 import { NotificationService } from "../../shared/utils/notification.service";
 import { BroadcasterChannel } from 'app/shared/models/broadcaster-channel';
+import { ApplicationUsers } from "../../shared/models/application_users";
 
 var countryId;
 var stateId;
@@ -23,19 +24,30 @@ var stateId;
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  providers: [ApplicationService, ShopService, BroadcasterService,UtilityService]
+  providers: [ApplicationService, ShopService, BroadcasterService, UtilityService]
 })
 export class RegistrationComponent implements OnInit {
+  clientName: any;
+  zipcode: string;
+  state: string;
+  mobileNo: string;
+  broadcasterName: string;
+  emailId: string;
+  user_name: string;
+  user_type: string;
+  userId: number;
+  status:boolean;
   broadcasterchannelall: BroadcasterChannel;
+  users: ApplicationUsers;
   errorMessage: string;
   city: string;
   cityId: number;
   country: string;
   countryId: number;
-  stateId:number;
-  countries:Country[];
+  stateId: number;
+  countries: Country[];
   newClientForm;
-  userTypes = ['eCommerce', 'Entertainment','eUser'];
+  userTypes = ['eCommerce', 'Entertainment', 'eUser'];
   application: Application;
   applications: Application[];
   applicationId: number;
@@ -49,42 +61,36 @@ export class RegistrationComponent implements OnInit {
   broadcasterId: number;
   activateShopSelector: boolean;
   activateBroadcasterSelector: boolean;
-  states:State[];
-  cities:City[];
+  states: State[];
+  cities: City[];
+  isVisible: boolean;
+
+  hideRegistration() {
+    this.isVisible = true;
+  }
 
   constructor(private fb: FormBuilder, private applicationService: ApplicationService,
-    private utilityService:UtilityService,private notificationService: NotificationService,
+    private utilityService: UtilityService, private notificationService: NotificationService,
     private shopService: ShopService, private broadcasterService: BroadcasterService) {
     this.application = new Application();
     this.user = new User();
     this.activateShopSelector = false;
     this.activateBroadcasterSelector = false;
-  
+
   }
 
   ngOnInit() {
+    this.getUsersAllGrid();
     this.getApplicationsList();
     this.getAllRoles();
     this.getCountry();
     this.getState(countryId);
     this.getCity(stateId);
     this.initForm();
-    this.getBroadcasterAllGrid();
-  
   }
 
-  getBroadcasterAllGrid()
-  {
-      this.broadcasterService.getAllBroadcasterChannel()
-    .subscribe(
-     (journalResponse)=>{
-         
-          this.broadcasterchannelall=journalResponse;
-         
-     }),
-    error => this.errorMessage = <any>error;
-  };
-  
+
+
   initForm() {
     this.newClientForm = this.fb.group({
       userName: [null, [Validators.required]],
@@ -94,12 +100,23 @@ export class RegistrationComponent implements OnInit {
       userCity: [null, [Validators.required]],
       userMobile: [null, [Validators.required]],
       userEmail: [null, [Validators.required]],
-      user_Name : [null,[Validators.required]],
-      userPasswd:[null,[Validators.required]],
-     } ,
+      user_Name: [null, [Validators.required]],
+      userPasswd: [null, [Validators.required]],
+    },
     );
   }
 
+
+  getUsersAllGrid() {
+    this.applicationService.getAllApplicationUsers()
+      .subscribe(
+      (userResponse) => {
+
+        this.users = userResponse;
+
+      }),
+      error => this.errorMessage = <any>error;
+  };
 
   getApplicationsList() {
     this.applicationService.getApplicationList().subscribe(
@@ -134,30 +151,30 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  getState(countryId:number){
+  getState(countryId: number) {
     this.utilityService.getState(countryId).subscribe(
-      states=> {
-        this.states =states;
+      states => {
+        this.states = states;
       },
       error => {
         alert("something went wrong. Try after sometime.");
-        console.log('error'+error);
+        console.log('error' + error);
       }
     );
   }
 
-  getCity(stateId:number){
+  getCity(stateId: number) {
     this.utilityService.getCity(stateId).subscribe(
-      Cities=> {
-        this.cities =Cities;
+      Cities => {
+        this.cities = Cities;
       },
       error => {
         alert("something went wrong. Try after sometime.");
-        console.log('error'+error);
+        console.log('error' + error);
       }
     );
   }
-   onApplicationSelect(application: String) {
+  onApplicationSelect(application: String) {
     var selectedString = application.split(',');
     this.applicationId = parseInt(selectedString[0]);
     if (selectedString[1] === 'eCommerce') {
@@ -197,27 +214,58 @@ export class RegistrationComponent implements OnInit {
     this.userType = userType;
   }
 
-  onUserRoleSelect(roleId: number) {   
-     this.roleId = roleId; 
+  onUserRoleSelect(roleId: number) {
+    this.roleId = roleId;
   }
 
-  onCountrySelect(countryId:number){
-    this.countryId=countryId;
+  onCountrySelect(countryId: number) {
+    this.countryId = countryId;
     this.getState(countryId);
   }
 
   onStateSelect(stateId: number) {
-   this.stateId=stateId;
-  this.getCity(stateId);
-    
-    
+    this.stateId = stateId;
+    this.getCity(stateId);
+
+
   }
 
   onCitySelect(cityId: number) {
-    this.cityId=cityId;
+    this.cityId = cityId;
   }
-  
- 
+
+  getAddClientRecord(client_emit_data: any) {
+    let dataObj = JSON.parse(client_emit_data);
+    localStorage.removeItem('client_emit_data');
+    this.applicationId = dataObj.application_id;
+    this.user_type=dataObj.user_type;
+    this.user_name=dataObj.user_name;
+    this.emailId = dataObj.email_id;
+    this.clientName=dataObj.clientName;
+    this.status = dataObj.is_active;
+    this.broadcasterName = dataObj.broadcasterName;
+    this.broadcasterId=dataObj.broadcaster_id;
+    this.mobileNo=dataObj.mobile;
+    this.city=dataObj.city;
+    this.country=dataObj.country;
+    this.zipcode=dataObj.zip;
+    this.newClientForm = this.fb.group({
+      client_id: [dataObj.broadcaster_id],
+      application_id: [dataObj.application_id],
+      clientName:[dataObj.clientName],
+      user_type: [dataObj.user_type],
+      user_name: [dataObj.user_name],
+      email_id: [dataObj.email_id],
+      user_short_name: [dataObj.user_short_name],
+      mobile:[dataObj.mobile],
+      city:[dataObj.city],
+      state:[dataObj.state],
+      zip:[dataObj.zip],
+      status: [dataObj.is_active]
+    });
+  }
+
+
 
   registerUser() {
     const newUser = this.newClientForm.value;
@@ -243,46 +291,34 @@ export class RegistrationComponent implements OnInit {
     this.user.created_by = "SA";
     this.user.last_updated_by = "SA";
     this.user.roleId = this.roleId;
-      this.notificationService.smartMessageBox(
-        {
-      title: "New client added",
+    this.notificationService.smartMessageBox(
+      {
+        title: "New client added",
         content: "Do you want to register the client details..?<i  style='color:green'></i>",
-          buttons: '[No][Yes]'
-       }, (ButtonPressed) => {
-            if (ButtonPressed == "Yes") {
-              this.applicationService.newUserRegisteration(this.user).subscribe(
-                createResponse => {
-                //  alert("user registered successfully...");
-                 location.reload();
-                 console.log('Response'+ createResponse);
-                },
-                error => {
-                  // alert("email id or mobile number already exists");
-                  console.log('email/mobile'+error);
-                  this.notificationService.smartMessageBox({
-                    title:"Already Exists",
-                    content:"Mail id and Mobile number must be unique ",
-                    buttons:'[Ok]'
-                  },(ButtonPressed)=>{
-                    console.log('mail/email already exists');
-                  }
-                );
-               }
+        buttons: '[No][Yes]'
+      }, (ButtonPressed) => {
+        if (ButtonPressed == "Yes") {
+          this.applicationService.newUserRegisteration(this.user).subscribe(
+            createResponse => {
+              location.reload();
+              console.log('Response' + createResponse);
+            },
+            error => {
+              this.notificationService.smartMessageBox({
+                title: "Already Exists",
+                content: "Mail id or Mobile number already exists ",
+                buttons: '[Ok]'
+              }, (ButtonPressed) => {
+              }
               );
             }
-            else if(ButtonPressed == "No")
-              {
-                this.notificationService.smartMessageBox({
-                  title:"Registration Cancelled",
-                  content:"User cancel the registration ",
-                  buttons:'[Ok]'
-                },(ButtonPressed)=>{
-                  console.log('Registration Cancelled');
-                }
-              );
-              }
-           });
-  
- }
+          );
+        }
+        else if (ButtonPressed == "No") {
+
+        }
+      });
+
+  }
 
 }

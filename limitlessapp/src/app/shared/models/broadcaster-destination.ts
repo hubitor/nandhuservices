@@ -7,5 +7,6 @@ export class BroadcasterDestination
     is_active:boolean; 
     d_id:number;
     broadcaster_channel_id:number;
+    
 }
 

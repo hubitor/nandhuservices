@@ -79,6 +79,7 @@ export class JournalComponent implements OnInit {
      (journalResponse)=>{
          
           this.journalall=journalResponse;
+          console.log(this.journalall);
          
      }),
     error => this.errorMessage = <any>error;

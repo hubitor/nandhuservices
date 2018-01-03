@@ -14,6 +14,7 @@ import { ApplicationUsersRole } from "app/shared/models/applicationUsersRole";
 import { SuperUserRequest } from "../../../shared/models/superUserRequest";
 import { AssignedUserRoleModule } from  "../../../shared/models/assigned-user-role-module";
 import { ApplicationModule } from "../../../shared/models/applicationModule";
+import { ApplicationUsers } from "../../../shared/models/application_users";
 
 @Injectable()
 export class ApplicationService {
@@ -71,7 +72,14 @@ export class ApplicationService {
 
     updateRolesModule(assignedUserRoleModule:AssignedUserRoleModule): Observable<AssignedUserRoleModule[]> {
         return this.http.put(AppConfig.update_roles_module,assignedUserRoleModule, {headers: this.headers})
-                                                   .map(ResponseData.extractData)
-                                                   .catch(ResponseData.handleError);
-      };
+            .map(ResponseData.extractData)
+            .catch(ResponseData.handleError);
+    };
+
+    getAllApplicationUsers():Observable<ApplicationUsers>{
+        return this.http.get(AppConfig.get_all_users,{headers: this.headers})
+        .map(ResponseData.extractData)
+        .catch(ResponseData.handleError);
+
+    }
 }

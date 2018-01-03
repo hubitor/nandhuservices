@@ -203,7 +203,6 @@ export class ChannelStreamComponent implements OnInit {
       var broadcasterchannels = broadcasterVideos.length > 0 && broadcasterVideos[0].broadcaster_channels.length > 0 ? broadcasterVideos[0].broadcaster_channels : [];
 
       if (broadcasterchannels.length > 0) {
-        // for (var i = 0; i < broadcasterchannels.length; i++) {
         console.log("Filter channel Id" + broadcasterchannels[0].id);
         var channelId = broadcasterchannels[0].id;
         channelrequest.channel_name = broadcasterchannels[0].channel_name;
@@ -223,16 +222,12 @@ export class ChannelStreamComponent implements OnInit {
           channelNewStreamKey: null,
           broadcasterName: broadcasterVideos[0].id,
           channelVideoId: broadcasterVideo[0].id,
-          // w_application_name: channelrequest.w_application_name,
           broadcasterDestination: null
         });
-
-
         this.channelList.push(channelrequest);
         console.log(channelrequest);
         channelrequest = new ChannelRecordRequest();
 
-        // }
         this.getAllBroadcasterChannelDestination(+ this.channelStreamForm.value.broadcasterChannelCategoryName);
       }
 
@@ -282,52 +277,10 @@ export class ChannelStreamComponent implements OnInit {
       }
       this.streamNotificationRequest.destination_id = 3;
     }
-    else if (destType === "5") {
-      newKeyResponse = {
-        id: -1,
-        fb1_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
-      }
-      this.streamNotificationRequest.destination_id = 6;
-    }
-    else if (destType === "6") {
-      newKeyResponse = {
-        id: -1,
-        fb2_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
-
-      }
-      this.streamNotificationRequest.destination_id = 7;
-    }
-    else if (destType === "7") {
-      newKeyResponse = {
-        id: -1,
-        fb3_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
-
-      }
-      this.streamNotificationRequest.destination_id = 8;
-    }
-    else if (destType === "8") {
-      newKeyResponse = {
-        id: -1,
-        fb4_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
-
-      }
-      this.streamNotificationRequest.destination_id = 9;
-    }
-    else if (destType === "9") {
-      newKeyResponse = {
-        id: -1,
-        fb5_streamkey: this.channelStreamForm.value.channelCurrentStreamKey
-
-      }
-      this.streamNotificationRequest.destination_id = 10;
-    }
     this.streamTargetKeyResponse(newKeyResponse, value, this.streamNotificationRequest);
   }
 
-
-
   showPopup(isStop: boolean) {
-
     var contentValue = "";
     var selValue = this.channelStreamForm.value.broadcasterDestination.toString();
     if (selValue === "1")
@@ -338,16 +291,6 @@ export class ChannelStreamComponent implements OnInit {
       contentValue = "Haappyapp";
     else if (selValue = "4")
       contentValue = "Periscope";
-    else if (selValue = "5")
-      contentValue = "FaceBook-Page1";
-    else if (selValue = "6")
-      contentValue = "FaceBook-Page2";
-    else if (selValue = "7")
-      contentValue = "FaceBook-Page3";
-    else if (selValue = "8")
-      contentValue = "FaceBook-Page4";
-    else if (selValue = "9")
-      contentValue = "FaceBook-Page5";  
 
     this.notificationService.smartMessageBox({
       title: isStop ? "Channel Stream Stop" : "Channel Stream Key",
@@ -407,37 +350,6 @@ export class ChannelStreamComponent implements OnInit {
         this.streamNotificationRequest.destination_id = 3;
         break;
       }
-      case "5": {
-        type = "fb1";
-        this.channelVideoKeyRequest.fb1_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
-        this.streamNotificationRequest.destination_id = 6;
-        break;
-      }
-      case "6": {
-        type = "fb2";
-        this.channelVideoKeyRequest.fb2_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
-        this.streamNotificationRequest.destination_id = 7;
-        break;
-      }
-      case "7": {
-        type = "fb3";
-        this.channelVideoKeyRequest.fb3_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
-        this.streamNotificationRequest.destination_id = 8;
-        break;
-      }
-      case "8": {
-        type = "fb4";
-        this.channelVideoKeyRequest.fb4_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
-        this.streamNotificationRequest.destination_id = 9;
-        break;
-      }
-      case "9": {
-        type = "fb5";
-        this.channelVideoKeyRequest.fb5_streamkey = broadcasterVideoVal.channelNewStreamKey.trim();
-        this.streamNotificationRequest.destination_id = 10;
-        break;
-      }
-      
 
       default: {
         type = "yt";
@@ -499,44 +411,12 @@ export class ChannelStreamComponent implements OnInit {
 
       else if (destType === "4") {
         streamTargetVal = wowzaMapEntries.filter(
-          destKey => destKey.host.toString().endsWith(".pscp.tv"));
+          destKey => destKey.host === "sg.pscp.tv");
+        // destKey => destKey.host.toString().endsWith(".pscp.tv"));
 
         newStreamEntryName = newStreamEntryName + "-Periscope";
         this.streamTargetRequest.streamName = newKeyResponse.ps_streamkey ? newKeyResponse.ps_streamkey.toString().trim() : '';
       }
-
-      else if (destType === "5") {
-        streamTargetVal = wowzaMapEntries.filter(
-          destKey => destKey.host === "rtmp-api.facebook1.com");
-        newStreamEntryName = newStreamEntryName + "-facebook";
-        this.streamTargetRequest.streamName = newKeyResponse.fb1_streamkey ? newKeyResponse.fb1_streamkey.toString().trim() : '';
-      }
-      else if (destType === "6") {
-        streamTargetVal = wowzaMapEntries.filter(
-          destKey => destKey.host === "rtmp-api.facebook2.com");
-        newStreamEntryName = newStreamEntryName + "-facebook";
-        this.streamTargetRequest.streamName = newKeyResponse.fb2_streamkey ? newKeyResponse.fb2_streamkey.toString().trim() : '';
-      }
-      else if (destType === "7") {
-        streamTargetVal = wowzaMapEntries.filter(
-          destKey => destKey.host === "rtmp-api.facebook3.com");
-        newStreamEntryName = newStreamEntryName + "-facebook";
-        this.streamTargetRequest.streamName = newKeyResponse.fb3_streamkey ? newKeyResponse.fb3_streamkey.toString().trim() : '';
-      }
-      else if (destType === "8") {
-        streamTargetVal = wowzaMapEntries.filter(
-          destKey => destKey.host === "rtmp-api.facebook4.com");
-        newStreamEntryName = newStreamEntryName + "-facebook";
-        this.streamTargetRequest.streamName = newKeyResponse.fb4_streamkey ? newKeyResponse.fb4_streamkey.toString().trim() : '';
-      }
-
-      else if (destType === "9") {
-        streamTargetVal = wowzaMapEntries.filter(
-          destKey => destKey.host === "rtmp-api.facebook5.com");
-        newStreamEntryName = newStreamEntryName + "-facebook";
-        this.streamTargetRequest.streamName = newKeyResponse.fb5_streamkey ? newKeyResponse.fb5_streamkey.toString().trim() : '';
-      }
-
       if (streamTargetVal.length > 0) {
         streamTargetVal = streamTargetVal[0];
       }
@@ -614,31 +494,6 @@ export class ChannelStreamComponent implements OnInit {
           this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].ps_streamkey : '');
           break;
         }
-
-        case "5": {
-          
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb1_streamkey : '');
-          break;
-        }
-
-        case "6": {
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb2_streamkey : '');
-          break;
-        }
-        
-        case "7": {
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb3_streamkey : '');
-          break;
-        }
-
-        case "8": {
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb4_streamkey : '');
-          break;
-        }
-        case "9": {
-          this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].fb5_streamkey : '');
-          break;
-        }                  
         default: {
 
           this.channelStreamForm.get('channelCurrentStreamKey').setValue(videoKeyValue[0].broadcaster_videos.length > 0 ? videoKeyValue[0].broadcaster_videos[0].yt_streamkey : '');
