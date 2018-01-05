@@ -1,4 +1,5 @@
-export class ChannelVideos {
+import { BroadcasterVideos } from '../models/broadcasterVideos';
+export class ChannelVideos {   
     id: number;
     application_id: number;
     broadcaster_id: number;
@@ -17,5 +18,6 @@ export class ChannelVideos {
     w_application_name:string;
     w_get_target_api:string;
     video_name: string;
+    videos: BroadcasterVideos;
 
 }

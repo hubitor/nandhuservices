@@ -16,10 +16,10 @@ declare var $: any;
 })
 export class DatatableComponent implements OnInit {
 
-  @Input() public options:any;
-  @Input() public filter:any;
-  @Input() public detailsFormat:any;
-  @Input() public table:any;
+  @Input() public options: any;
+  @Input() public filter: any;
+  @Input() public detailsFormat: any;
+  @Input() public table: any;
 
   @Input() public paginationLength: boolean;
   @Input() public columnsHide: boolean;
@@ -27,11 +27,12 @@ export class DatatableComponent implements OnInit {
   @Input() public width: string = '100%';
 
   @Output() sendChannelRecord: EventEmitter<any> = new EventEmitter();
+  @Input() receiveData: EventEmitter<any> = new EventEmitter();
 
   data: any;
 
   public selectChannelRecord() {
-      this.data= localStorage.getItem('channel_emit_data');
+    this.data = localStorage.getItem('channel_emit_data');
     this.sendChannelRecord.emit(this.data);
   }
 
@@ -39,20 +40,29 @@ export class DatatableComponent implements OnInit {
 
   }
 
-   
   ngOnInit() {
+
     Promise.all([
       System.import('script-loader!smartadmin-plugins/datatables/datatables.min.js'),
-    ]).then(()=>{
+    ]).then(() => {
+
       this.render()
 
     })
   }
 
-  render() {
+  delay(ms: number) {
+    return new Promise<void>(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  async render() {
+    await this.delay(3000);
+//setTimeout(3000);
     let element = $(this.el.nativeElement.children[0]);
     let options = this.options || {}
-
+    // console.log(options);
 
     let toolbar = '';
     if (options.buttons)
@@ -72,7 +82,6 @@ export class DatatableComponent implements OnInit {
       }
     }
 
-
     options = $.extend(options, {
 
       "dom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs text-right'" + toolbar + ">r>" +
@@ -85,12 +94,13 @@ export class DatatableComponent implements OnInit {
       "autoWidth": false,
       retrieve: true,
       responsive: true,
-      initComplete: (settings, json)=> {
+      initComplete: (settings, json) => {
 
         var tables = $('#DataTables_Table_0').DataTable();
         $('#DataTables_Table_0 tbody').on('click', 'tr', function (router) {
           this.data = tables.row(this).data();
-          localStorage.setItem("channel_emit_data", JSON.stringify(this.data));            
+         // alert(JSON.stringify(this.data));
+          localStorage.setItem("channel_emit_data", JSON.stringify(this.data));
         });
 
         element.parent().find('.input-sm', ).removeClass("input-sm").addClass('input-md');
@@ -114,17 +124,17 @@ export class DatatableComponent implements OnInit {
       element.parent().find(".dt-toolbar").append('<div class="text-right"><img src="assets/img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
     }
 
-    if(this.detailsFormat){
+    if (this.detailsFormat) {
       let format = this.detailsFormat
       element.on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
-        var row = _dataTable.row( tr );
-        if ( row.child.isShown() ) {
+        var row = _dataTable.row(tr);
+        if (row.child.isShown()) {
           row.child.hide();
           tr.removeClass('shown');
         }
         else {
-          row.child( format(row.data()) ).show();
+          row.child(format(row.data())).show();
           tr.addClass('shown');
         }
       })
