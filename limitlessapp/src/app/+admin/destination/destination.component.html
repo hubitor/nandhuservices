@@ -39,7 +39,7 @@
                                             <th data-class="expand">Id</th>
                                             <th data-class="expand">Destination Id</th>
                                             <th data-class="expand">Destination Name</th>
-                                            <th data-class="expand">Broadcaster ChannelId</th>
+                                            <th data-class="expand">Channel Id</th>
                                             <th data-class="expand">Status</th>
                                         </tr>
                                     </thead>
@@ -64,7 +64,7 @@
                                         <form [formGroup]="destinationForm" class="smart-form">
                                             <fieldset>
                                                 <div class="row">
-                                                    <section *ngIf="superAdminUser" class="col col-3">
+                                                    <section *ngIf="createButton" class="col col-3">
                                                         <label>Broadcaster</label>
                                                         <label class="input">
                                                             <i class="icon-append fa fa-tv"></i>
@@ -81,7 +81,7 @@
                                                         <label>Channel</label>
                                                         <label class="input">
                                                             <i class="icon-append fa fa-tv"></i>
-                                                            <select class="form-control" name="channelList" #channelsList formControlName="channel_name" (change)="onChannelSelect(channelsList.value)">
+                                                            <select class="form-control" name="channelList" #channelsList formControlName="broadcaster_channel_id" (change)="onChannelSelect(channelsList.value)">
                                                                 <option></option>
                                                                 <option *ngFor="let channel of broadcasterChannels" value="{{channel.id}},{{channel.channel_name}}">{{channel.channel_name}}</option>
                                                             </select>
@@ -89,7 +89,7 @@
                                                         </label>
                                                     </section>
                                                 </div>
-                                                <div class="row">
+                                                <div *ngIf="createButton" class="row">
                                                     <section class="col col-3">
                                                         <label>Destination</label>
                                                         <label class="input">
@@ -102,10 +102,23 @@
                                                         </label>
                                                     </section>
                                                 </div>
+                                                <div *ngIf="updateButton" class="row">
+                                                    <section class="col col-3">
+                                                        <label>Destination</label>
+                                                        <label class="input">
+                                                            <i class="icon-append fa fa-send"></i>
+                                                            <select class="form-control" name="broadcasterDestination" #broadcasterDestination formControlName="destination_name">
+                                                                <option></option>
+                                                                <option *ngFor="let destination of bDestination" value="{{destination.id}}">{{destination.destination_name}}</option>
+                                                            </select>
+                                                            <b class="tooltip tooltip-bottom-right">Choose Destination</b>
+                                                        </label>
+                                                    </section>
+                                                </div>
                                                 <div class="row">
                                                     <section class="col col-3">
                                                         <label>Status</label>
-                                                        <select class="form-control" name="userActiveStatus" formControlName="userActiveStatus">
+                                                        <select class="form-control" name="userActiveStatus" formControlName="is_active">
                                                             <option></option>
                                                             <option value="true">Active</option>
                                                             <option value="false">Passive</option>

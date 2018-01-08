@@ -19,6 +19,7 @@ import { BroadcasterChannel } from "../../models/broadcaster-channel";
 import { ChannelCategory } from "../../models/channelCategory";
 import { DestinationRequest } from 'app/shared/models/destination-request';
 import { ChannelVideos } from 'app/shared/models/channel-videos';
+import { Destination } from 'app/+admin/destination/destination';
 
 const headerObj = {
     headers: new Headers(headerDict)
@@ -284,5 +285,17 @@ export class BroadcasterService {
             .map(ResponseData.extractData)
             .catch(ResponseData.handleError);
     }
+
+    getChannelsByChannelId(channelId: number): Observable<any> {
+        return this.http.get(AppConfig.get_ChannelsByID +channelId, headerObj)
+            .map(ResponseData.extractData)
+            .catch(ResponseData.handleError);
+    }
+
+    getdestionBydestId(Id: number): Observable<BroadcasterDestination>{
+        return this.http.get(AppConfig.get_Destination+Id,headerObj)
+         .map(ResponseData.extractData)
+         .catch(ResponseData.handleError);
+      };
 
 }

@@ -50,6 +50,13 @@ export class ApplicationService {
 
     }
 
+    updateUserRegisteration(user: User): Observable<User> {
+        return this.http.put(AppConfig.update_user, user, { headers: this.headers })
+            .map(ResponseData.extractData)
+            .catch(ResponseData.handleError);
+
+    }
+
     getAllRoles(): Observable<ApplicationUsersRole[]> {
         return this.http.get(AppConfig.user_roleAll, { headers: this.headers })
             .map(ResponseData.extractData)

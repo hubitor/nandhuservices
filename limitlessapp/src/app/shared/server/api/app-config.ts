@@ -73,6 +73,9 @@ export class AppConfig {
   public static get_BroadcasterChannel = AppSettings.API_ENDPOINT + "broadcaster/broadcasterchannel/all"; //to pass "new"" as to server
   public static get_ChannelCategory = AppSettings.API_ENDPOINT + "broadcaster/broadcastercategory/all"; //to pass "new"" as to server
   public static get_BroadcasterChannelByID = AppSettings.API_ENDPOINT + "broadcaster/broadcasterchannel/broadcaster/"; //to pass "new"" as to server
+
+  public static get_ChannelsByID = AppSettings.API_ENDPOINT + "broadcaster/channelById/"; //to pass "new"" as to server
+
   //Document Type Config
 
   public static get_DocumentType = AppSettings.API_ENDPOINT + "document/all"; //to pass "new"" as to server
@@ -91,6 +94,8 @@ export class AppConfig {
   public static new_user = AppSettings.API_ENDPOINT + "user/register"; //to get all ranks
   public static user_roleAll = AppSettings.API_ENDPOINT + "applications/app/role/all"; //to get all ranks
   public static user_moduleAll = AppSettings.API_ENDPOINT + "applications/modules/all";
+  public static update_user = AppSettings.API_ENDPOINT + "user/appuser/update";
+
   //Shop
   public static get_shop = AppSettings.API_ENDPOINT + "user/shop/all";
   public static new_shop = AppSettings.API_ENDPOINT + "user/shop/new";
@@ -130,6 +135,9 @@ export class AppConfig {
   public static get_DestinationImages = AppSettings.API_ENDPOINT + "broadcaster/destination/getImg/"; //to pass channel id and d_id
   public static getAllDestination = AppSettings.API_ENDPOINT + "broadcaster/destination/destall"; //to pass channel id and d_id
   public static update_Destination = AppSettings.API_ENDPOINT + "broadcaster/destination/Update";
+  public static get_Destination = AppSettings.API_ENDPOINT + "broadcaster/destById/";
+
+
 
 
   // Broadcaster-channel videos

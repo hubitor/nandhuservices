@@ -23,6 +23,7 @@ import { NotificationService } from "../../shared/utils/notification.service";
   providers: [BroadcasterService, CommonService]
 })
 export class DestinationComponent implements OnInit {
+  broadcaster_id: any;
   channelList: string;
   description: string;
   userActiveStatus: boolean;
@@ -31,7 +32,7 @@ export class DestinationComponent implements OnInit {
   destination_name: string;
   d_id: number;
   Id: number;
-  errorMessage:string;
+  errorMessage: string;
   id: number;
   destination: string;
   createResponse: CreateResponse;
@@ -72,12 +73,21 @@ export class DestinationComponent implements OnInit {
   public selectedDestination: Destination = this.destinations[0];
 
   cancel() {
-    this.isVisible=false;
+    this.isVisible = false;
   }
 
 
 
   hideChannelCreate() {
+    this.destinationForm = this.fb.group({
+      broadcaster_channel_id:null,
+      destination_name:null,
+      is_active:null,
+      d_id:null,
+      id:null,
+      broadcaster_id:null,
+      channel_id:null
+    });
     this.isVisible = true;
     this.createButton = true;
     this.updateButton = false;
@@ -125,10 +135,11 @@ export class DestinationComponent implements OnInit {
 
   initForm() {
     this.destinationForm = this.fb.group({
-      userActiveStatus: new FormControl("")
-      // channel_name: [null, [Validators.required]],
-      // destination_name: [null, [Validators.required]],
-      // broadcaster_id: [null, [Validators.required]],
+      is_active: new FormControl(""),
+      broadcaster_channel_id: [null, [Validators.required]],
+      destination_name: [null, [Validators.required]],
+      broadcaster_id: [null, [Validators.required]],
+      channel_id: [null, [Validators.required]]
     });
   }
 
@@ -169,6 +180,14 @@ export class DestinationComponent implements OnInit {
     );
   }
 
+  onBroadcasterSelect(broadcasterId: number) {
+    // this.broadcasterChannelId = broadcasterChannelId;
+    // console.log(this.broadcasterChannelId);
+    this.broadcaster_id = broadcasterId;
+    this.getBroadcasterChannels(broadcasterId);
+
+  }
+
   onChannelSelect(broadcasterChannelId: string) {
     // this.broadcasterChannelId = broadcasterChannelId;
     // console.log(this.broadcasterChannelId);
@@ -187,20 +206,46 @@ export class DestinationComponent implements OnInit {
 
   }
 
-  
+  onUpdateChannelSelect(channelId: number) {
+    this.broadcasterService.getChannelsByChannelId(channelId).subscribe(
+      channels => {
+        this.broadcasterChannels = channels;
+        console.log(this.broadcasterChannels);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+
+  onUpdateDestinationSelect(id: number) {
+    this.broadcasterService.getdestionBydestId(id).subscribe(
+      dest => {
+        this.bDestination= dest;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+
   getAddDestinationRecord(client_emit_data: any) {
     let dataObj = JSON.parse(client_emit_data);
     localStorage.removeItem('client_emit_data');
+    this.onUpdateChannelSelect(dataObj.broadcaster_channel_id);
+    this.onUpdateDestinationSelect(dataObj.id);
+    this.destinationId = dataObj.d_id;
+    this.destinationname = dataObj.destination_name;
     this.destinationForm = this.fb.group({
-      broadcaster_id:[dataObj.broadcaster_id],
-      channel_name: [dataObj.broadcaster_channel_id],
-      destination_name: [dataObj.destination],
-      userActiveStatus: [dataObj.is_active],
-      d_id:[dataObj.d_id],
-      description:[dataObj.description],
-      id:[dataObj.id]
-
-
+      broadcaster_channel_id: [dataObj.broadcaster_channel_id],
+      destination_name: [dataObj.destination_name],
+      is_active: [dataObj.is_active],
+      d_id: [dataObj.d_id],
+      id: [dataObj.id],
+      broadcaster_id: this.broadcasterId,
+      channel_id: [dataObj.broadcaster_channel_id]
     });
   }
 
@@ -208,11 +253,12 @@ export class DestinationComponent implements OnInit {
     this.createButton = false;
     this.updateButton = true;
     const updateBDestination = this.destinationForm.value;
+    this.broadcasterDestination.id = updateBDestination.id;
     this.broadcasterDestination.broadcaster_channel_id = this.broadcasterChannelId;
     this.broadcasterDestination.d_id = this.destinationId;
     this.broadcasterDestination.destination_name = this.destinationname;
     this.broadcasterDestination.description = this.destinationname;
-    this.broadcasterDestination.is_active =updateBDestination.userActiveStatus;
+    this.broadcasterDestination.is_active = updateBDestination.is_active;
     this.notificationService.smartMessageBox(
       {
         title: "Update BroadcasterDestination",
@@ -246,11 +292,12 @@ export class DestinationComponent implements OnInit {
     this.createButton = true;
     this.updateButton = false;
     const destination = this.destinationForm.value;
+    this.broadcasterDestination.broadcaster_id = destination.broadcaster_id;
     this.broadcasterDestination.broadcaster_channel_id = this.broadcasterChannelId;
     this.broadcasterDestination.d_id = this.destinationId;
     this.broadcasterDestination.destination_name = this.destinationname;
     this.broadcasterDestination.description = this.destinationname;
-    this.broadcasterDestination.is_active =destination.userActiveStatus;
+    this.broadcasterDestination.is_active = destination.is_active;
     this.broadcasterService.createBroadcasterDestination(this.broadcasterDestination).subscribe(
       createResponse => {
         console.log('output' + createResponse);

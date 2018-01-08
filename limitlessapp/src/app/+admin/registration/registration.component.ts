@@ -27,6 +27,7 @@ var stateId;
   providers: [ApplicationService, ShopService, BroadcasterService, UtilityService]
 })
 export class RegistrationComponent implements OnInit {
+  shop_id: number;
   clientName: any;
   zipcode: string;
   state: string;
@@ -47,7 +48,7 @@ export class RegistrationComponent implements OnInit {
   stateId: number;
   countries: Country[];
   newClientForm;
-  userTypes = ['eCommerce', 'Entertainment', 'eUser'];
+  userTypes = ['eCommerce', 'Entertainment', 'eUser','User'];
   application: Application;
   applications: Application[];
   applicationId: number;
@@ -64,9 +65,22 @@ export class RegistrationComponent implements OnInit {
   states: State[];
   cities: City[];
   isVisible: boolean;
+  createButton: boolean;
+  updateButton: boolean;
 
-  hideRegistration() {
-    this.isVisible = true;
+  cancelRegister() {
+    this.isVisible =false;
+  }
+
+  hideCreateRegister(){
+    this.isVisible=true;
+    this.createButton=true;
+    this.updateButton=false;
+  }
+  hideUpdateRegister(){
+    this.isVisible=true;
+    this.createButton=false;
+    this.updateButton=true;
   }
 
   constructor(private fb: FormBuilder, private applicationService: ApplicationService,
@@ -94,7 +108,7 @@ export class RegistrationComponent implements OnInit {
   initForm() {
     this.newClientForm = this.fb.group({
       userName: [null, [Validators.required]],
-      userClientName: [null, [Validators.required]],
+      // userClientName: [null, [Validators.required]],
       userShortName: [null, [Validators.required]],
       userZip: [null, [Validators.required]],
       userCity: [null, [Validators.required]],
@@ -102,6 +116,14 @@ export class RegistrationComponent implements OnInit {
       userEmail: [null, [Validators.required]],
       user_Name: [null, [Validators.required]],
       userPasswd: [null, [Validators.required]],
+      userApplication:[null,[Validators.required]],
+      user_type:[null, [Validators.required]],
+      country_id:[null, [Validators.required]],
+      state_id:[null, [Validators.required]],
+      status: [null, [Validators.required]],
+      role_id:[null, [Validators.required]],
+      shop_id:[null, [Validators.required]],
+      broadcaster_id:[null, [Validators.required]],
     },
     );
   }
@@ -124,7 +146,7 @@ export class RegistrationComponent implements OnInit {
         this.applications = applications;
       },
       error => {
-        alert("something went wrong. Try after sometime.");
+        console.log(error);
       }
     );
   }
@@ -135,7 +157,7 @@ export class RegistrationComponent implements OnInit {
         this.applicationUsersRoles = applicationUsersRole;
       },
       error => {
-        alert("something went wrong. Try after sometime.");
+        console.log(error);
       }
     );
   }
@@ -146,7 +168,7 @@ export class RegistrationComponent implements OnInit {
         this.countries = countries;
       },
       error => {
-        alert("something went wrong. Try after sometime.");
+        console.log(error);
       }
     );
   }
@@ -157,7 +179,6 @@ export class RegistrationComponent implements OnInit {
         this.states = states;
       },
       error => {
-        alert("something went wrong. Try after sometime.");
         console.log('error' + error);
       }
     );
@@ -169,7 +190,6 @@ export class RegistrationComponent implements OnInit {
         this.cities = Cities;
       },
       error => {
-        alert("something went wrong. Try after sometime.");
         console.log('error' + error);
       }
     );
@@ -185,7 +205,7 @@ export class RegistrationComponent implements OnInit {
           this.shops = shops;
         },
         error => {
-          alert("something went wrong. Try after sometime.");
+          console.log(error);
         }
       );
     } else if (selectedString[1] === 'Entertainment') {
@@ -196,7 +216,7 @@ export class RegistrationComponent implements OnInit {
           this.broadcasters = broadcasters;
         },
         error => {
-          alert("something went wrong. Try after sometime.");
+          console.log(error);
         }
       );
     }
@@ -237,37 +257,70 @@ export class RegistrationComponent implements OnInit {
   getAddClientRecord(client_emit_data: any) {
     let dataObj = JSON.parse(client_emit_data);
     localStorage.removeItem('client_emit_data');
-    this.applicationId = dataObj.application_id;
-    this.user_type=dataObj.user_type;
-    this.user_name=dataObj.user_name;
-    this.emailId = dataObj.email_id;
-    this.clientName=dataObj.clientName;
-    this.status = dataObj.is_active;
-    this.broadcasterName = dataObj.broadcasterName;
-    this.broadcasterId=dataObj.broadcaster_id;
-    this.mobileNo=dataObj.mobile;
-    this.city=dataObj.city;
-    this.country=dataObj.country;
-    this.zipcode=dataObj.zip;
     this.newClientForm = this.fb.group({
-      client_id: [dataObj.broadcaster_id],
-      application_id: [dataObj.application_id],
-      clientName:[dataObj.clientName],
+      userApplication: [dataObj.application_id],
       user_type: [dataObj.user_type],
-      user_name: [dataObj.user_name],
-      email_id: [dataObj.email_id],
-      user_short_name: [dataObj.user_short_name],
-      mobile:[dataObj.mobile],
-      city:[dataObj.city],
-      state:[dataObj.state],
-      zip:[dataObj.zip],
-      status: [dataObj.is_active]
+      user_Name: [dataObj.user_name],
+      userEmail: [dataObj.email_id],
+      userPasswd:[dataObj.passwd],
+      userShortName: [dataObj.user_short_name],
+      userMobile:[dataObj.mobile],
+      country_id:[dataObj.country],
+      // userClientName:[dataObj.clientName],
+      userCity:[dataObj.city],
+      state_id:[dataObj.state],
+      userZip:[dataObj.zip],
+      status: [dataObj.is_active],
+      role_id:[dataObj.role_id],
+      shop_id:[dataObj.client_id],
+      id:[dataObj.id],
+      broadcaster_id:[dataObj.client_id],
     });
+  }
+
+  updateUser(){
+    this.createButton=false;
+    this.updateButton=true;
+    const newUser = this.newClientForm.value;
+    this.user.id=newUser.id;
+    this.user.mobile = newUser.userMobile;
+    this.user.email_id = newUser.userEmail;
+    this.user.passwd = sha256(newUser.userPasswd).toString();
+    this.user.last_updated_by = "SA";
+    this.notificationService.smartMessageBox(
+      {
+        title: "Update Client details",
+        content: "Do you want to update the client details..?<i  style='color:green'></i>",
+        buttons: '[No][Yes]'
+      }, (ButtonPressed) => {
+        if (ButtonPressed == "Yes") {
+          this.applicationService.updateUserRegisteration(this.user).subscribe(
+            createResponse => {
+              location.reload();
+              console.log('Response' + createResponse);
+            },
+            error => {
+              this.notificationService.smartMessageBox({
+                title: "User Not Found",
+                content: "NO user found for this details",
+                buttons: '[Ok]'
+              }, (ButtonPressed) => {
+              }
+              );
+            }
+          );
+        }
+        else if (ButtonPressed == "No") {
+
+        }
+      });
   }
 
 
 
   registerUser() {
+    this.createButton=true;
+    this.updateButton=false;
     const newUser = this.newClientForm.value;
     this.user.application_id = this.applicationId;
     if (this.activateShopSelector) {

@@ -1,7 +1,5 @@
 export class User{    
     showPopup: any;
-
-
     id: number;
     application_id: number;
     client_id: number;

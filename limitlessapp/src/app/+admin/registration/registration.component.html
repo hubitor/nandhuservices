@@ -10,7 +10,7 @@
             <!-- <span class="widget-icon"></span> -->
             <h2>Add Client </h2>
             <div class="widget-toolbar">
-              <button class="btn" (click)="hideRegistration()">
+              <button class="btn" (click)="hideCreateRegister()">
                 <span class="">
                   <i class="fa fa-plus-square"></i>
                 </span>
@@ -21,7 +21,7 @@
           <div>
             <div class="widget-body">
               <div class="widget-body no-padding">
-                <sa-datatable (click)="hideRegistration()" [options]="{
+                <sa-datatable (click)="hideUpdateRegister()" [options]="{
                           data:users,
                columns: [
                {data:'id'},
@@ -64,47 +64,47 @@
                     <form [formGroup]="newClientForm" class="smart-form">
                       <fieldset>
                         <div class="row">
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label>Select Application</label>
-                            <select class="form-control" name="userApplication" #userApplication (change)="onApplicationSelect(userApplication.value)">
+                            <select class="form-control" name="userApplication" #userApplication formControlName="userApplication" (change)="onApplicationSelect(userApplication.value)">
                               <option></option>
                               <option *ngFor="let application of applications" value="{{application.id}},{{application.application_name}}">{{application.application_name}}</option>
                             </select>
                           </section>
                           <section *ngIf="activateShopSelector" class="col col-6">
                             <label>Select Shop</label>
-                            <select class="form-control" name="userShops" #userShop (change)="onShopSelect(userShop.value)">
+                            <select class="form-control" name="userShops" #userShop formControlName="shop_id" (change)="onShopSelect(userShop.value)">
                               <option></option>
                               <option *ngFor="let shop of shops" value="{{shop.id}}">{{shop.seller_shop_name}}</option>
                             </select>
                           </section>
                           <section *ngIf="activateBroadcasterSelector" class="col col-6">
                             <label>Select Broadcaster</label>
-                            <select class="form-control" name="userBroadcasters" #userBroadcaster (change)="onBroadcasterSelect(userBroadcaster.value)">
+                            <select class="form-control" name="userBroadcasters" #userBroadcaster  formControlName="broadcaster_id" (change)="onBroadcasterSelect(userBroadcaster.value)">
                               <option></option>
                               <option *ngFor="let broadcaster of broadcasters" value="{{broadcaster.id}}">{{broadcaster.broadcaster_channel_name}}</option>
                             </select>
                           </section>
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label>Select User Type</label>
-                            <select class="form-control" name="usertypes" #usertypes (change)="onUserTypeSelect(usertypes.value)">
+                            <select class="form-control" name="usertypes" #usertypes formControlName="user_type" (change)="onUserTypeSelect(usertypes.value)">
                               <option></option>
                               <option *ngFor="let userType of userTypes" value="{{userType}}">{{userType}}</option>
                             </select>
                           </section>
-                          <section class="col col-6">
+                          <!-- <section class="col col-6">
                             <label class="input">
                               <i class="icon-prepend fa fa-user"></i>
                               <input type="text" placeholder="Client Name" class="form-control" required name="userClientName" formControlName="userClientName">
                             </label>
-                          </section>
-                          <section class="col col-6">
+                          </section> -->
+                          <section  *ngIf="createButton" class="col col-6">
                             <label class="input">
                               <i class="icon-prepend fa fa-user"></i>
                               <input type="text" placeholder="Client Short Name" class="form-control" required name="userShortName" formControlName="userShortName">
                             </label>
                           </section>
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label class="input">
                               <i class="icon-prepend fa fa-user"></i>
                               <input type="text" placeholder="User Name" class="form-control" required minlength="5" maxlength="20" required name="user_Name"
@@ -129,43 +129,50 @@
                               <input type="text" placeholder="Mobile" class="form-control" required name="userMobile" formControlName="userMobile">
                             </label>
                           </section>
-                          <section class="col col-6">
+                          <section  *ngIf="createButton" class="col col-6">
                             <label>Select Country</label>
-                            <select class="form-control" name="userCountry" #userCountry (change)="onCountrySelect(userCountry.value)">
+                            <select class="form-control" name="userCountry" #userCountry  formControlName="country_id"(change)="onCountrySelect(userCountry.value)">
                               <option></option>
                               <option *ngFor="let country of countries" value="{{country.id}}">{{country.country_name}}</option>
                             </select>
                           </section>
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label>Select State</label>
-                            <select class="form-control" name="userState" #userState (change)="onStateSelect(userState.value)">
+                            <select class="form-control" name="userState" #userState formControlName="state_id" (change)="onStateSelect(userState.value)">
                               <option></option>
                               <option *ngFor="let state of states" value="{{state.id}}">{{state.state_name}}</option>
                             </select>
                           </section>
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label>Select City</label>
                             <select class="form-control" name="userCity" #userCity (change)="onCitySelect(userCity.value)" formControlName="userCity">
                               <option></option>
                               <option *ngFor="let city of cities" value="{{city.city_name}}">{{city.city_name}}</option>
                             </select>
                           </section>
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label class="input">
                               <i class="icon-prepend fa fa-map-marker"></i>
                               <input type="text" placeholder="ZIP" class="form-control" required name="zip" formControlName="userZip">
                             </label>
                           </section>
-                          <section class="col col-6">
+                          <section *ngIf="createButton" class="col col-6">
                             <label>Select Role</label>
-                            <select class="form-control" name="userRoles" #userRole (change)="onUserRoleSelect(userRole.value)">
+                            <select class="form-control" name="userRoles" #userRole formControlName="role_id" (change)="onUserRoleSelect(userRole.value)">
                               <option></option>
                               <option *ngFor="let role of applicationUsersRoles" value="{{role.id}}">{{role.role_name}}</option>
                             </select>
                           </section>
                         </div>
-                        <button type="submit" class="btn btn-success" (click)="registerUser()">Register User</button>
+                        <!-- <button type="submit" class="btn btn-success" (click)="registerUser()">Register User</button> -->
                       </fieldset>
+                      <footer>
+                      <div class="form-group">
+                       <button  class="btn btn-success"  type="submit" name="createRegister" *ngIf="createButton" (click)="registerUser()">Save</button>
+                       <button  class="btn btn-success"  type="submit" name="updateRegister" *ngIf="updateButton" (click)="updateUser()">Save</button>                                               
+                       <button class="btn btn-danger" type="submit" name="cancelRegister" (click)="cancelRegister()">Cancel</button>                                 
+                      </div>
+                    </footer>   
                     </form>
                   </div>
                 </div>
